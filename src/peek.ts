@@ -14,7 +14,7 @@
 import { type Options } from "./ts/type";
 
 
-class Peek {
+class peek {
     options: Options;
    
     constructor( options: Options ) {
