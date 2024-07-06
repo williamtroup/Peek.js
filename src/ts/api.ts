@@ -1,0 +1,91 @@
+/**
+ * Peek.js
+ * 
+ * A lightweight JavaScript.
+ * 
+ * @file        api.ts
+ * @version     v1.0.0
+ * @author      Bunoon
+ * @license     MIT License
+ * @copyright   Bunoon 2024
+ */
+
+
+import { Options } from "./type";
+
+
+export type PublicApi = {
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Public API Functions:  Destroying
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    /**
+     * destroy().
+     * 
+     * Destroys the dialog and removes all events from the DOM.
+     * 
+     * @public
+     * @fires       onDestroy
+     * 
+     * @returns     {Object}                                                The Peek.js class instance.
+     */
+    destroy: () => PublicApi;
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Public API Functions:  Running
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    /**
+     * start().
+     * 
+     * Starts the peek process using the options passed.
+     * 
+     * @public
+     * @fires       onStart
+     * 
+     * @param       {Object}    options                                     All the options to use.
+     * 
+     * @returns     {Object}                                                The Peek.js class instance.
+     */
+    start: ( options: Options ) => PublicApi;
+
+    /**
+     * stop().
+     * 
+     * Stops the peek process.
+     * 
+     * @public
+     * @fires       onStop
+     * 
+     * @returns     {Object}                                                The Peek.js class instance.
+     */
+    stop: () => PublicApi;
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Public API Functions:  Additional Data
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    /**
+     * getVersion().
+     * 
+     * Returns the version of Heat.js.
+     * 
+     * @public
+     * 
+     * @returns     {string}                                                The version number.
+     */
+    getVersion: () => string;
+};
+
+declare global {
+	interface Window {
+		$peek: PublicApi;
+	}
+}
