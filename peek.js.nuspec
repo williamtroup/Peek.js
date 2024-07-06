@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>jPeek.js</id>
+        <version>1.0.0</version>
+        <title>Peek.js</title>
+        <description>A lightweight JavaScript library</description>
+        <authors>William Troup</authors>
+        <projectUrl>https://www.william-troup.com/peek-js/</projectUrl>
+        <repository type="git" url="https://github.com/williamtroup/Peek.js" branch="main" />
+        <readme>README_NUGET.md</readme>
+        <license type="expression">MIT</license>
+        <tags>typescript javascript css peek.js html</tags>
+        <icon>docs\images\icon.png</icon>
+        <copyright>William Troup</copyright>
+    </metadata>
+    <files>
+        <file src="**" target="/" exclude=".git\**;.github\**;.vscode\**;.github\**;node_modules\**;build\**;*.nuspec**;.npmignore**;.gitignore**;*.sh**;*.json**\**;CODE_OF_CONDUCT.md**;CONTRIBUTING.md**;SECURITY.md**;tsup.build.config.ts**;tsup.build.esm.config.ts**;tsup.build.min.config.ts**;BUILD_INSTRUCTIONS.md**;*.nupkg**" />
+    </files>
+</package>

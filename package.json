@@ -1,0 +1,43 @@
+{
+  "name": "jpeek.js",
+  "title": "Peek.js",
+  "description": "A lightweight JavaScript library",
+  "version": "1.0.0",
+  "homepage": "https://www.william-troup.com/peek-js/",
+  "author": {
+    "name": "Bunoon"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/williamtroup/Peek.js"
+  },
+  "keywords": [
+    "typescript",
+    "javascript",
+    "css",
+    "peek.js",
+    "html"
+  ],
+  "bugs": {
+    "url": "https://github.com/williamtroup/Peek.js/issues"
+  },
+  "main": "dist/peek.js",
+  "types": "dist/peek.d.ts",
+  "scripts": {
+    "build": "tsup --config tsup.build.config.ts && tsup --config tsup.build.esm.config.ts && sass src/peek.js.scss dist/peek.js.css",
+    "build-minimized": "tsup --config tsup.build.min.config.ts && sass src/peek.js.scss dist/peek.js.min.css --style=compressed --no-source-map",
+    "build-typescript": "tsup --config tsup.build.config.ts",
+    "build-typescript-esm": "tsup --config tsup.build.esm.config.ts",
+    "build-typescript-minimized": "tsup --config tsup.build.min.config.ts",
+    "build-sass": "sass src/peek.js.scss dist/peek.js.css",
+    "build-sass-minimized": "sass src/peek.js.scss dist/peek.js.min.css --style=compressed --no-source-map"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.6.12",
+    "sass": "^1.77.6",
+    "terser": "^5.31.1",
+    "tsup": "^8.1.0",
+    "typescript": "^5.5.2"
+  }
+}
