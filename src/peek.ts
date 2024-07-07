@@ -28,6 +28,7 @@ import { Char, Mode } from "./ts/enum";
     let _dialog_Title: HTMLElement = null!;
     let _dialog_Contents: HTMLElement = null!;
     let _dialog_Buttons: HTMLElement = null!;
+    let _dialog_Timer: number = 0;
 
     // Variables: Current Process:
     let _current_Process_Options: Options = null!;
@@ -105,7 +106,6 @@ import { Char, Mode } from "./ts/enum";
 
     function buildAttributeProperties( element: HTMLElement ) : void {
         if ( element.hasAttributes() ) {
-
             for ( let attribute of element.attributes ) {
                 const property: HTMLElement = DomElement.create( _dialog_Contents, "div", "property-row" );
     
@@ -117,7 +117,10 @@ import { Char, Mode } from "./ts/enum";
                 propertyValueInput.type = "text";
                 propertyValueInput.value = attribute.value;
             }
-          }
+            
+        } else {
+            _dialog_Contents.innerHTML = "No attributes are available."
+        }
     }
 
 
@@ -191,7 +194,7 @@ import { Char, Mode } from "./ts/enum";
         
         if ( !Is.definedString( options.titleText ) ) {
             if ( options.mode === Mode.css ) {
-                options.titleText = "CSS";
+                options.titleText = "CSS Properties";
             } else if ( options.mode === Mode.attributes ) {
                 options.titleText = "Attributes";
             } else if ( options.mode === Mode.size ) {

@@ -25,16 +25,16 @@ var e;
         return t(e) && typeof e === "number";
     }
     e.definedNumber = l;
-    function c(e) {
+    function u(e) {
         return n(e) && e instanceof Array;
     }
-    e.definedArray = c;
-    function u(e) {
+    e.definedArray = u;
+    function c(e) {
         return n(e) && e instanceof Date;
     }
-    e.definedDate = u;
+    e.definedDate = c;
     function f(e, t = 1) {
-        return !c(e) || e.length < t;
+        return !u(e) || e.length < t;
     }
     e.invalidOptionArray = f;
 })(e || (e = {}));
@@ -82,12 +82,12 @@ var t;
         e.className = e.className.trim();
     }
     t.removeClass = l;
-    function c(e) {
+    function u(e) {
         e.preventDefault();
         e.cancelBubble = true;
     }
-    t.cancelBubble = c;
-    function u() {
+    t.cancelBubble = u;
+    function c() {
         const e = document.documentElement;
         const t = {
             left: e.scrollLeft - (e.clientLeft || 0),
@@ -95,12 +95,12 @@ var t;
         };
         return t;
     }
-    t.getScrollPosition = u;
+    t.getScrollPosition = c;
     function f(e, t) {
         if (t.style.display !== "block") {
             let n = e.pageX;
             let o = e.pageY;
-            const i = u();
+            const i = c();
             t.style.display = "block";
             if (n + t.offsetWidth > window.innerWidth) {
                 n -= t.offsetWidth;
@@ -148,14 +148,14 @@ var n;
         return e.definedFunction(t) ? t : n;
     }
     t.getDefaultFunction = l;
-    function c(t, n) {
+    function u(t, n) {
         return e.definedArray(t) ? t : n;
     }
-    t.getDefaultArray = c;
-    function u(t, n) {
+    t.getDefaultArray = u;
+    function c(t, n) {
         return e.definedObject(t) ? t : n;
     }
-    t.getDefaultObject = u;
+    t.getDefaultObject = c;
     function f(t, n) {
         let o = n;
         if (e.definedString(t)) {
@@ -166,7 +166,7 @@ var n;
                 o = e;
             }
         } else {
-            o = c(t, n);
+            o = u(t, n);
         }
         return o;
     }
@@ -178,38 +178,39 @@ var n;
     let i = null;
     let r = null;
     let l = null;
-    let c = null;
     let u = null;
-    let f = [];
-    function a() {
+    let c = 0;
+    let f = null;
+    let a = [];
+    function s() {
         i = t.create(document.body, "div", "peek-js");
         i.onmousemove = t.cancelBubble;
         r = t.create(i, "div", "dialog-title-bar");
         l = t.create(i, "div", "dialog-contents");
-        c = t.create(i, "div", "dialog-buttons");
-        const e = t.createWithHTML(c, "button", "copy", "Copy");
-        const n = t.createWithHTML(c, "button", "close", "Close");
+        u = t.create(i, "div", "dialog-buttons");
+        const e = t.createWithHTML(u, "button", "copy", "Copy");
+        const n = t.createWithHTML(u, "button", "close", "Close");
         e.onclick = () => {};
         n.onclick = () => {
-            d();
+            p();
         };
     }
-    function s() {
-        r.innerHTML = u.titleText;
-    }
     function d() {
+        r.innerHTML = f.titleText;
+    }
+    function p() {
         i.style.display = "none";
     }
     function m(e) {
         l.innerHTML = "";
         l.scrollTop = 0;
-        if (u.mode === 1) {
-            p(e);
-        } else if (u.mode === 2) {
+        if (f.mode === 1) {
             g(e);
+        } else if (f.mode === 2) {
+            y(e);
         }
     }
-    function p(e) {
+    function g(e) {
         const n = getComputedStyle(e);
         const o = n.length;
         for (let e = 0; e < o; e++) {
@@ -217,12 +218,12 @@ var n;
             const i = n[e];
             t.createWithHTML(o, "div", "property-name", i);
             const r = t.create(o, "div", "property-value");
-            const c = t.create(r, "input");
-            c.type = "text";
-            c.value = n.getPropertyValue(i);
+            const u = t.create(r, "input");
+            u.type = "text";
+            u.value = n.getPropertyValue(i);
         }
     }
-    function g(e) {
+    function y(e) {
         if (e.hasAttributes()) {
             for (let n of e.attributes) {
                 const e = t.create(l, "div", "property-row");
@@ -232,51 +233,53 @@ var n;
                 i.type = "text";
                 i.value = n.value;
             }
+        } else {
+            l.innerHTML = "No attributes are available.";
         }
     }
-    function y() {
-        const e = u.nodeType;
+    function v() {
+        const e = f.nodeType;
         const t = e.length;
         for (let n = 0; n < t; n++) {
             const t = document.getElementsByTagName(e[n]);
             const o = [].slice.call(t);
             const i = o.length;
             for (let e = 0; e < i; e++) {
-                v(o[e]);
+                b(o[e]);
             }
         }
-        window.addEventListener("mousemove", d);
+        window.addEventListener("mousemove", p);
     }
-    function v(e) {
+    function b(e) {
         e.addEventListener("mousemove", (t => {
-            h(t, e);
+            w(t, e);
         }));
-        f.push(e);
+        a.push(e);
     }
-    function b() {
-        const e = f.length;
+    function h() {
+        const e = a.length;
         for (let n = 0; n < e; n++) {
-            var t = f[n];
+            var t = a[n];
             t.removeEventListener("mousemove", (e => {
-                h(e, t);
+                w(e, t);
             }));
         }
-        f = [];
-        window.removeEventListener("mousemove", d);
-        d();
+        a = [];
+        window.removeEventListener("mousemove", p);
+        p();
     }
-    function h(e, n) {
+    function w(e, n) {
         m(n);
         t.cancelBubble(e);
         t.showElementAtMousePosition(e, i);
     }
-    function w(t) {
+    function T(t) {
         let o = n.getDefaultObject(t, {});
         o.nodeType = n.getDefaultStringOrArray(o.nodeType, []);
         o.mode = n.getDefaultNumber(o.mode, 1);
         if (!e.definedString(o.titleText)) {
             if (o.mode === 1) {
-                o.titleText = "CSS";
+                o.titleText = "CSS Properties";
             } else if (o.mode === 2) {
                 o.titleText = "Attributes";
             } else if (o.mode === 3) {
@@ -285,24 +288,24 @@ var n;
         }
         return o;
     }
-    const T = {
+    const S = {
         destroy: function() {
             throw new Error("Function not implemented.");
         },
         start: function(t) {
-            if (!e.definedObject(u)) {
-                u = w(t);
-                s();
-                y();
+            if (!e.definedObject(f)) {
+                f = T(t);
+                d();
+                v();
             }
-            return T;
+            return S;
         },
         stop: function() {
-            if (e.definedObject(u)) {
-                u = null;
-                b();
+            if (e.definedObject(f)) {
+                f = null;
+                h();
             }
-            return T;
+            return S;
         },
         setConfiguration: function(e) {
             throw new Error("Function not implemented.");
@@ -313,10 +316,10 @@ var n;
     };
     (() => {
         document.addEventListener("DOMContentLoaded", (() => {
-            a();
+            s();
         }));
         if (!e.defined(window.$peek)) {
-            window.$peek = T;
+            window.$peek = S;
         }
     })();
 })();//# sourceMappingURL=peek.esm.js.map
