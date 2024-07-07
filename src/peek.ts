@@ -31,6 +31,7 @@ import { Mode } from "./ts/enum";
 
     // Variables: Current Process:
     let _current_Process_Options: Options = null!;
+    let _current_Process_Elements: HTMLElement[] = [];
 
 
     /*
@@ -39,15 +40,68 @@ import { Mode } from "./ts/enum";
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function buildDialog() {
+    function buildDialog() : void {
         _dialog = DomElement.create( document.body, "div", "peek-js" );
+        _dialog.onmousemove = DomElement.cancelBubble;
+
         _dialog_Title = DomElement.create( _dialog, "div", "dialog-title-bar" );
         _dialog_Contents = DomElement.create( _dialog, "div", "dialog-contents" );
         _dialog_Buttons = DomElement.create( _dialog, "div", "dialog-buttons" );
     }
 
-    function setDialogText() {
+    function setDialogText() : void {
         _dialog_Title.innerHTML = _current_Process_Options.titleText!;
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Render:  Node Events
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function buildNodeEvents() : void {
+        const tagTypes: string[] = _current_Process_Options.nodeType as string[];
+        const tagTypesLength: number = tagTypes.length;
+
+        for ( let tagTypeIndex: number = 0; tagTypeIndex < tagTypesLength; tagTypeIndex++ ) {
+            const domElements: HTMLCollectionOf<Element> = document.getElementsByTagName( tagTypes[ tagTypeIndex ] );
+            const elements: HTMLElement[] = [].slice.call( domElements );
+            const elementsLength: number = elements.length;
+
+            for ( let elementIndex: number = 0; elementIndex < elementsLength; elementIndex++ ) {
+                buildNodeEvent( elements[ elementIndex ] );
+            }
+        }
+
+        window.addEventListener( "mousemove", onWindowMouseOver );
+    }
+
+    function buildNodeEvent( element: HTMLElement ) : void {
+        element.addEventListener( "mousemove", onNodeMouseOver );
+
+        _current_Process_Elements.push( element );
+    }
+
+    function removeNodeEvents() : void {
+        const currentProcessElementsLength: number = _current_Process_Elements.length;
+
+        for ( let elementIndex: number = 0; elementIndex < currentProcessElementsLength; elementIndex++ ) {
+            _current_Process_Elements[ elementIndex ].removeEventListener( "mousemove", onNodeMouseOver );
+        }
+
+        _current_Process_Elements = [] as HTMLElement[];
+
+        window.removeEventListener( "mousemove", onWindowMouseOver );
+    }
+
+    function onNodeMouseOver( e: MouseEvent ) {
+        DomElement.cancelBubble( e );
+        DomElement.showElementAtMousePosition( e, _dialog );
+    }
+
+    function onWindowMouseOver() {
+        _dialog.style.display = "none";
     }
 
 
@@ -101,15 +155,22 @@ import { Mode } from "./ts/enum";
          */
 
         start: function ( options: Options ): PublicApi {
-            _current_Process_Options = buildOptions( options );
+            if ( !Is.definedObject( _current_Process_Options ) ) {
+                _current_Process_Options = buildOptions( options );
 
-            setDialogText();
+                setDialogText();
+                buildNodeEvents();
+            }
 
             return _public;
         },
 
         stop: function (): PublicApi {
-            _current_Process_Options = null!;
+            if ( Is.definedObject( _current_Process_Options ) ) {
+                _current_Process_Options = null!;
+
+                removeNodeEvents();
+            }
 
             return _public;
         },

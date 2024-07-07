@@ -82,33 +82,35 @@ export namespace DomElement {
     }
 
     export function showElementAtMousePosition( e: any, element: HTMLElement ) {
-        let left: number = e.pageX;
-        let top: number = e.pageY;
-        const scrollPosition: Position = getScrollPosition();
-
-        element.style.display = "block";
-
-        if ( left + element.offsetWidth > window.innerWidth ) {
-            left -= element.offsetWidth;
-        } else {
-            left++;
+        if ( element.style.display !== "block" ) {
+            let left: number = e.pageX;
+            let top: number = e.pageY;
+            const scrollPosition: Position = getScrollPosition();
+    
+            element.style.display = "block";
+    
+            if ( left + element.offsetWidth > window.innerWidth ) {
+                left -= element.offsetWidth;
+            } else {
+                left++;
+            }
+    
+            if ( top + element.offsetHeight > window.innerHeight ) {
+                top -= element.offsetHeight;
+            } else {
+                top++;
+            }
+    
+            if ( left < scrollPosition.left ) {
+                left = e.pageX + 1;
+            }
+    
+            if ( top < scrollPosition.top ) {
+                top = e.pageY + 1;
+            }
+            
+            element.style.left = left + "px";
+            element.style.top = top + "px";
         }
-
-        if ( top + element.offsetHeight > window.innerHeight ) {
-            top -= element.offsetHeight;
-        } else {
-            top++;
-        }
-
-        if ( left < scrollPosition.left ) {
-            left = e.pageX + 1;
-        }
-
-        if ( top < scrollPosition.top ) {
-            top = e.pageY + 1;
-        }
-        
-        element.style.left = left + "px";
-        element.style.top = top + "px";
     }
 }

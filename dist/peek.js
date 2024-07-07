@@ -11,14 +11,14 @@ var e;
         return t(e) && typeof e === "object";
     }
     e.definedObject = n;
-    function i(e) {
+    function o(e) {
         return t(e) && typeof e === "boolean";
     }
-    e.definedBoolean = i;
-    function o(e) {
+    e.definedBoolean = o;
+    function i(e) {
         return t(e) && typeof e === "string";
     }
-    e.definedString = o;
+    e.definedString = i;
     function r(e) {
         return t(e) && typeof e === "function";
     }
@@ -44,36 +44,36 @@ var e;
 var t;
 
 (t => {
-    function n(t, n, i = "") {
-        const o = n.toLowerCase();
-        const r = o === "text";
-        let l = r ? document.createTextNode("") : document.createElement(o);
-        if (e.defined(i)) {
-            l.className = i;
+    function n(t, n, o = "") {
+        const i = n.toLowerCase();
+        const r = i === "text";
+        let l = r ? document.createTextNode("") : document.createElement(i);
+        if (e.defined(o)) {
+            l.className = o;
         }
         t.appendChild(l);
         return l;
     }
     t.create = n;
-    function i(e, t, i, o) {
-        const r = n(e, t, i);
-        r.innerHTML = o;
+    function o(e, t, o, i) {
+        const r = n(e, t, o);
+        r.innerHTML = i;
         return r;
     }
-    t.createWithHTML = i;
-    function o(e, t, n = false) {
-        let i = null;
+    t.createWithHTML = o;
+    function i(e, t, n = false) {
+        let o = null;
         if (document.defaultView.getComputedStyle) {
-            i = document.defaultView.getComputedStyle(e, null).getPropertyValue(t);
+            o = document.defaultView.getComputedStyle(e, null).getPropertyValue(t);
         } else if (e.currentStyle) {
-            i = e.currentStyle[t];
+            o = e.currentStyle[t];
         }
         if (n) {
-            i = parseFloat(i);
+            o = parseFloat(o);
         }
-        return i;
+        return o;
     }
-    t.getStyleValueByName = o;
+    t.getStyleValueByName = i;
     function r(e, t) {
         e.className += " " + t;
         e.className = e.className.trim();
@@ -99,28 +99,30 @@ var t;
     }
     t.getScrollPosition = f;
     function c(e, t) {
-        let n = e.pageX;
-        let i = e.pageY;
-        const o = f();
-        t.style.display = "block";
-        if (n + t.offsetWidth > window.innerWidth) {
-            n -= t.offsetWidth;
-        } else {
-            n++;
+        if (t.style.display !== "block") {
+            let n = e.pageX;
+            let o = e.pageY;
+            const i = f();
+            t.style.display = "block";
+            if (n + t.offsetWidth > window.innerWidth) {
+                n -= t.offsetWidth;
+            } else {
+                n++;
+            }
+            if (o + t.offsetHeight > window.innerHeight) {
+                o -= t.offsetHeight;
+            } else {
+                o++;
+            }
+            if (n < i.left) {
+                n = e.pageX + 1;
+            }
+            if (o < i.top) {
+                o = e.pageY + 1;
+            }
+            t.style.left = n + "px";
+            t.style.top = o + "px";
         }
-        if (i + t.offsetHeight > window.innerHeight) {
-            i -= t.offsetHeight;
-        } else {
-            i++;
-        }
-        if (n < o.left) {
-            n = e.pageX + 1;
-        }
-        if (i < o.top) {
-            i = e.pageY + 1;
-        }
-        t.style.left = n + "px";
-        t.style.top = i + "px";
     }
     t.showElementAtMousePosition = c;
 })(t || (t = {}));
@@ -132,14 +134,14 @@ var n;
         return typeof e === "string" ? e : t;
     }
     t.getDefaultAnyString = n;
-    function i(t, n) {
+    function o(t, n) {
         return e.definedString(t) ? t : n;
     }
-    t.getDefaultString = i;
-    function o(t, n) {
+    t.getDefaultString = o;
+    function i(t, n) {
         return e.definedBoolean(t) ? t : n;
     }
-    t.getDefaultBoolean = o;
+    t.getDefaultBoolean = i;
     function r(t, n) {
         return e.definedNumber(t) ? t : n;
     }
@@ -157,65 +159,105 @@ var n;
     }
     t.getDefaultObject = f;
     function c(t, n) {
-        let i = n;
+        let o = n;
         if (e.definedString(t)) {
             const e = t.toString().split(" ");
             if (e.length === 0) {
                 t = n;
             } else {
-                i = e;
+                o = e;
             }
         } else {
-            i = u(t, n);
+            o = u(t, n);
         }
-        return i;
+        return o;
     }
     t.getDefaultStringOrArray = c;
 })(n || (n = {}));
 
 (() => {
-    let i = {};
-    let o = null;
+    let o = {};
+    let i = null;
     let r = null;
     let l = null;
     let u = null;
     let f = null;
-    function c() {
-        o = t.create(document.body, "div", "peek-js");
-        r = t.create(o, "div", "dialog-title-bar");
-        l = t.create(o, "div", "dialog-contents");
-        u = t.create(o, "div", "dialog-buttons");
-    }
+    let c = [];
     function d() {
+        i = t.create(document.body, "div", "peek-js");
+        i.onmousemove = t.cancelBubble;
+        r = t.create(i, "div", "dialog-title-bar");
+        l = t.create(i, "div", "dialog-contents");
+        u = t.create(i, "div", "dialog-buttons");
+    }
+    function s() {
         r.innerHTML = f.titleText;
     }
-    function a(t) {
-        let i = n.getDefaultObject(t, {});
-        i.nodeType = n.getDefaultStringOrArray(i.nodeType, []);
-        i.mode = n.getDefaultNumber(i.mode, 1);
-        if (!e.definedString(i.titleText)) {
-            if (i.mode === 1) {
-                i.titleText = "CSS";
-            } else if (i.mode === 2) {
-                i.titleText = "Attributes";
-            } else if (i.mode === 3) {
-                i.titleText = "Size";
+    function a() {
+        const e = f.nodeType;
+        const t = e.length;
+        for (let n = 0; n < t; n++) {
+            const t = document.getElementsByTagName(e[n]);
+            const o = [].slice.call(t);
+            const i = o.length;
+            for (let e = 0; e < i; e++) {
+                m(o[e]);
             }
         }
-        return i;
+        window.addEventListener("mousemove", y);
     }
-    const s = {
+    function m(e) {
+        e.addEventListener("mousemove", p);
+        c.push(e);
+    }
+    function g() {
+        const e = c.length;
+        for (let t = 0; t < e; t++) {
+            c[t].removeEventListener("mousemove", p);
+        }
+        c = [];
+        window.removeEventListener("mousemove", y);
+    }
+    function p(e) {
+        t.cancelBubble(e);
+        t.showElementAtMousePosition(e, i);
+    }
+    function y() {
+        i.style.display = "none";
+    }
+    function b(t) {
+        let o = n.getDefaultObject(t, {});
+        o.nodeType = n.getDefaultStringOrArray(o.nodeType, []);
+        o.mode = n.getDefaultNumber(o.mode, 1);
+        if (!e.definedString(o.titleText)) {
+            if (o.mode === 1) {
+                o.titleText = "CSS";
+            } else if (o.mode === 2) {
+                o.titleText = "Attributes";
+            } else if (o.mode === 3) {
+                o.titleText = "Size";
+            }
+        }
+        return o;
+    }
+    const v = {
         destroy: function() {
             throw new Error("Function not implemented.");
         },
-        start: function(e) {
-            f = a(e);
-            d();
-            return s;
+        start: function(t) {
+            if (!e.definedObject(f)) {
+                f = b(t);
+                s();
+                a();
+            }
+            return v;
         },
         stop: function() {
-            f = null;
-            return s;
+            if (e.definedObject(f)) {
+                f = null;
+                g();
+            }
+            return v;
         },
         setConfiguration: function(e) {
             throw new Error("Function not implemented.");
@@ -226,10 +268,10 @@ var n;
     };
     (() => {
         document.addEventListener("DOMContentLoaded", (() => {
-            c();
+            d();
         }));
         if (!e.defined(window.$peek)) {
-            window.$peek = s;
+            window.$peek = v;
         }
     })();
 })();//# sourceMappingURL=peek.js.map
