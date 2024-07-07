@@ -15,3 +15,9 @@ export const enum Char {
     empty = "",
     space = " ",
 }
+
+export const enum Mode {
+    css = 1,
+    attributes = 2,
+    size = 3,
+}
