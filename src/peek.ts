@@ -93,6 +93,8 @@ import { Mode } from "./ts/enum";
         _current_Process_Elements = [] as HTMLElement[];
 
         window.removeEventListener( "mousemove", onWindowMouseOver );
+
+        _dialog.style.display = "none";
     }
 
     function onNodeMouseOver( e: MouseEvent ) {

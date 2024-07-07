@@ -217,6 +217,7 @@ var n;
         }
         c = [];
         window.removeEventListener("mousemove", y);
+        i.style.display = "none";
     }
     function p(e) {
         t.cancelBubble(e);
