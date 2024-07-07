@@ -124,11 +124,23 @@ div.peek-js {
 
             div.property-name {
                 width: 200px;
+                font-weight: var(--peek-js-title-bold-weight);
             }
 
             div.property-value {
                 flex-grow: 1;
-                margin-left: calc( var( --peek-js-spacing ) * 2 );
+                margin-left: calc( var(--peek-js-spacing) * 2 );
+
+                input[type="text"] {
+                    width: 100%;
+                    padding: calc( var(--peek-js-spacing) / 2 ) !important;
+                    border-radius: var(--peek-js-border-radius);
+                    border: var(--peek-js-border-size) solid var(--peek-js-dialog-border-color) !important;
+                    color: var(--peek-js-color-snow-white) !important;
+                    background-color: var(--peek-js-dialog-background-color);
+                    outline: none !important;
+                    box-shadow: none !important;
+                }
             }
 
             &:last-child {
@@ -147,6 +159,7 @@ div.peek-js {
 
 div.peek-js {
     div.dialog-buttons {
+        margin-top: calc( var(--peek-js-spacing) + var(--peek-js-spacing) / 2 );
         text-align: right;
 
         @include buttons;

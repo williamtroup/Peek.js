@@ -181,7 +181,7 @@ var n;
     let u = null;
     let c = null;
     let f = [];
-    function d() {
+    function a() {
         i = t.create(document.body, "div", "peek-js");
         i.onmousemove = t.cancelBubble;
         r = t.create(i, "div", "dialog-title-bar");
@@ -192,7 +192,7 @@ var n;
         e.onclick = () => {};
         n.onclick = () => {};
     }
-    function a() {
+    function d() {
         r.innerHTML = c.titleText;
     }
     function s(e) {
@@ -202,7 +202,10 @@ var n;
         for (let e = 0; e < o; e++) {
             const o = t.create(l, "div", "property-row");
             t.createWithHTML(o, "div", "property-name", n[e]);
-            t.createWithHTML(o, "div", "property-value", n.getPropertyValue(n[e]));
+            const i = t.create(o, "div", "property-value");
+            const r = t.create(i, "input");
+            r.type = "text";
+            r.value = n.getPropertyValue(n[e]);
         }
     }
     function m() {
@@ -266,7 +269,7 @@ var n;
         start: function(t) {
             if (!e.definedObject(c)) {
                 c = v(t);
-                a();
+                d();
                 m();
             }
             return h;
@@ -287,7 +290,7 @@ var n;
     };
     (() => {
         document.addEventListener("DOMContentLoaded", (() => {
-            d();
+            a();
         }));
         if (!e.defined(window.$peek)) {
             window.$peek = h;

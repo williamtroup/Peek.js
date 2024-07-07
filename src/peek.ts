@@ -79,7 +79,12 @@ import { Char, Mode } from "./ts/enum";
             const property: HTMLElement = DomElement.create( _dialog_Contents, "div", "property-row" );
 
             DomElement.createWithHTML( property, "div", "property-name", computedStyles[ styleIndex ] );
-            DomElement.createWithHTML( property, "div", "property-value", computedStyles.getPropertyValue( computedStyles[ styleIndex ] ) );
+            
+            const propertyValue: HTMLElement = DomElement.create( property, "div", "property-value" );
+            const propertyValueInput: HTMLInputElement = DomElement.create( propertyValue, "input" ) as HTMLInputElement;
+
+            propertyValueInput.type = "text";
+            propertyValueInput.value = computedStyles.getPropertyValue( computedStyles[ styleIndex ] );
         }
     }
 
