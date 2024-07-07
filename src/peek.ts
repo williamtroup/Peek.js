@@ -145,6 +145,7 @@ import { Char, Mode } from "./ts/enum";
         const propertyValueInput: HTMLInputElement = DomElement.create( propertyValue, "input" ) as HTMLInputElement;
 
         propertyValueInput.type = "text";
+        propertyValueInput.readOnly = true;
         propertyValueInput.value = propertyValueText;
     }
 

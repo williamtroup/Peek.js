@@ -21,20 +21,20 @@ var e;
         return t(e) && typeof e === "function";
     }
     e.definedFunction = r;
-    function f(e) {
+    function l(e) {
         return t(e) && typeof e === "number";
     }
-    e.definedNumber = f;
-    function l(e) {
+    e.definedNumber = l;
+    function f(e) {
         return n(e) && e instanceof Array;
     }
-    e.definedArray = l;
+    e.definedArray = f;
     function u(e) {
         return n(e) && e instanceof Date;
     }
     e.definedDate = u;
     function c(e, t = 1) {
-        return !l(e) || e.length < t;
+        return !f(e) || e.length < t;
     }
     e.invalidOptionArray = c;
 })(e || (e = {}));
@@ -45,12 +45,12 @@ var t;
     function n(t, n, o = "") {
         const i = n.toLowerCase();
         const r = i === "text";
-        let f = r ? document.createTextNode("") : document.createElement(i);
+        let l = r ? document.createTextNode("") : document.createElement(i);
         if (e.defined(o)) {
-            f.className = o;
+            l.className = o;
         }
-        t.appendChild(f);
-        return f;
+        t.appendChild(l);
+        return l;
     }
     t.create = n;
     function o(e, t, o, i) {
@@ -73,7 +73,7 @@ var t;
         return t;
     }
     t.getScrollPosition = r;
-    function f(e, t) {
+    function l(e, t) {
         if (t.style.display !== "block") {
             let n = e.pageX;
             let o = e.pageY;
@@ -99,8 +99,8 @@ var t;
             t.style.top = o + "px";
         }
     }
-    t.showElementAtMousePosition = f;
-    function l(e) {
+    t.showElementAtMousePosition = l;
+    function f(e) {
         const t = {
             left: 0,
             top: 0
@@ -112,7 +112,7 @@ var t;
         }
         return t;
     }
-    t.getOffset = l;
+    t.getOffset = f;
 })(t || (t = {}));
 
 var n;
@@ -134,14 +134,14 @@ var n;
         return e.definedNumber(t) ? t : n;
     }
     t.getDefaultNumber = r;
-    function f(t, n) {
+    function l(t, n) {
         return e.definedFunction(t) ? t : n;
     }
-    t.getDefaultFunction = f;
-    function l(t, n) {
+    t.getDefaultFunction = l;
+    function f(t, n) {
         return e.definedArray(t) ? t : n;
     }
-    t.getDefaultArray = l;
+    t.getDefaultArray = f;
     function u(t, n) {
         return e.definedObject(t) ? t : n;
     }
@@ -156,7 +156,7 @@ var n;
                 o = e;
             }
         } else {
-            o = l(t, n);
+            o = f(t, n);
         }
         return o;
     }
@@ -167,8 +167,8 @@ var n;
     let o = {};
     let i = null;
     let r = null;
-    let f = null;
     let l = null;
+    let f = null;
     let u = 0;
     let c = null;
     let s = [];
@@ -181,10 +181,10 @@ var n;
         i = t.create(document.body, "div", "peek-js");
         i.onmousemove = t.cancelBubble;
         r = t.create(i, "div", "dialog-title-bar");
-        f = t.create(i, "div", "dialog-contents");
-        l = t.create(i, "div", "dialog-buttons");
-        const n = t.createWithHTML(l, "button", "copy", "Copy");
-        const o = t.createWithHTML(l, "button", "close", "Close");
+        l = t.create(i, "div", "dialog-contents");
+        f = t.create(i, "div", "dialog-buttons");
+        const n = t.createWithHTML(f, "button", "copy", "Copy");
+        const o = t.createWithHTML(f, "button", "close", "Close");
         n.onclick = () => {};
         o.onclick = () => {
             g();
@@ -207,30 +207,30 @@ var n;
         i.style.display = "none";
     }
     function p(e) {
-        f.innerHTML = "";
-        f.scrollTop = 0;
+        l.innerHTML = "";
+        l.scrollTop = 0;
         if (c.mode === 1) {
-            b(e);
-        } else if (c.mode === 2) {
             y(e);
+        } else if (c.mode === 2) {
+            b(e);
         } else if (c.mode === 3) {
             m(e);
         }
     }
-    function b(e) {
+    function y(e) {
         const t = getComputedStyle(e);
         const n = t.length;
         for (let e = 0; e < n; e++) {
             T(t[e], t.getPropertyValue(t[e]));
         }
     }
-    function y(e) {
+    function b(e) {
         if (e.hasAttributes()) {
             for (let t of e.attributes) {
                 T(t.name, t.value);
             }
         } else {
-            f.innerHTML = o.noAttributesAvailableText;
+            l.innerHTML = o.noAttributesAvailableText;
         }
     }
     function m(e) {
@@ -241,11 +241,12 @@ var n;
         T("height", e.offsetHeight.toString() + "px");
     }
     function T(e, n) {
-        const o = t.create(f, "div", "property-row");
+        const o = t.create(l, "div", "property-row");
         t.createWithHTML(o, "div", "property-name", e);
         const i = t.create(o, "div", "property-value");
         const r = t.create(i, "input");
         r.type = "text";
+        r.readOnly = true;
         r.value = n;
     }
     function v() {
