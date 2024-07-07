@@ -47,7 +47,8 @@ var n;
     let o = null;
     let r = null;
     let i = null;
-    const u = {
+    function u() {}
+    const f = {
         destroy: function() {
             throw new Error("Function not implemented.");
         },
@@ -65,8 +66,11 @@ var n;
         }
     };
     (() => {
+        document.addEventListener("DOMContentLoaded", (() => {
+            u();
+        }));
         if (!n.defined(window.$peek)) {
-            window.$peek = u;
+            window.$peek = f;
         }
     })();
 })();//# sourceMappingURL=peek.js.map
