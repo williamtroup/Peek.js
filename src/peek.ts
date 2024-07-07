@@ -47,6 +47,15 @@ import { Char, Mode } from "./ts/enum";
         _dialog_Title = DomElement.create( _dialog, "div", "dialog-title-bar" );
         _dialog_Contents = DomElement.create( _dialog, "div", "dialog-contents" );
         _dialog_Buttons = DomElement.create( _dialog, "div", "dialog-buttons" );
+
+        const copyButton: HTMLElement = DomElement.createWithHTML( _dialog_Buttons, "button", "copy", "Copy" );
+        const closeButton: HTMLElement = DomElement.createWithHTML( _dialog_Buttons, "button", "close", "Close" );
+
+        copyButton.onclick = () => {
+        };
+
+        closeButton.onclick = () => {
+        };
     }
 
     function setDialogText() : void {

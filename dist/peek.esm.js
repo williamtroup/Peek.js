@@ -29,14 +29,14 @@ var e;
         return n(e) && e instanceof Array;
     }
     e.definedArray = u;
-    function f(e) {
+    function c(e) {
         return n(e) && e instanceof Date;
     }
-    e.definedDate = f;
-    function c(e, t = 1) {
+    e.definedDate = c;
+    function f(e, t = 1) {
         return !u(e) || e.length < t;
     }
-    e.invalidOptionArray = c;
+    e.invalidOptionArray = f;
 })(e || (e = {}));
 
 var t;
@@ -87,7 +87,7 @@ var t;
         e.cancelBubble = true;
     }
     t.cancelBubble = u;
-    function f() {
+    function c() {
         const e = document.documentElement;
         const t = {
             left: e.scrollLeft - (e.clientLeft || 0),
@@ -95,12 +95,12 @@ var t;
         };
         return t;
     }
-    t.getScrollPosition = f;
-    function c(e, t) {
+    t.getScrollPosition = c;
+    function f(e, t) {
         if (t.style.display !== "block") {
             let n = e.pageX;
             let o = e.pageY;
-            const i = f();
+            const i = c();
             t.style.display = "block";
             if (n + t.offsetWidth > window.innerWidth) {
                 n -= t.offsetWidth;
@@ -122,7 +122,7 @@ var t;
             t.style.top = o + "px";
         }
     }
-    t.showElementAtMousePosition = c;
+    t.showElementAtMousePosition = f;
 })(t || (t = {}));
 
 var n;
@@ -152,11 +152,11 @@ var n;
         return e.definedArray(t) ? t : n;
     }
     t.getDefaultArray = u;
-    function f(t, n) {
+    function c(t, n) {
         return e.definedObject(t) ? t : n;
     }
-    t.getDefaultObject = f;
-    function c(t, n) {
+    t.getDefaultObject = c;
+    function f(t, n) {
         let o = n;
         if (e.definedString(t)) {
             const e = t.toString().split(" ");
@@ -170,7 +170,7 @@ var n;
         }
         return o;
     }
-    t.getDefaultStringOrArray = c;
+    t.getDefaultStringOrArray = f;
 })(n || (n = {}));
 
 (() => {
@@ -179,23 +179,27 @@ var n;
     let r = null;
     let l = null;
     let u = null;
-    let f = null;
-    let c = [];
+    let c = null;
+    let f = [];
     function d() {
         i = t.create(document.body, "div", "peek-js");
         i.onmousemove = t.cancelBubble;
         r = t.create(i, "div", "dialog-title-bar");
         l = t.create(i, "div", "dialog-contents");
         u = t.create(i, "div", "dialog-buttons");
+        const e = t.createWithHTML(u, "button", "copy", "Copy");
+        const n = t.createWithHTML(u, "button", "close", "Close");
+        e.onclick = () => {};
+        n.onclick = () => {};
     }
-    function a() {
-        r.innerHTML = f.titleText;
+    function s() {
+        r.innerHTML = c.titleText;
     }
-    function s(e) {
+    function a(e) {
         l.innerHTML = "";
     }
     function m() {
-        const e = f.nodeType;
+        const e = c.nodeType;
         const t = e.length;
         for (let n = 0; n < t; n++) {
             const t = document.getElementsByTagName(e[n]);
@@ -211,22 +215,22 @@ var n;
         e.addEventListener("mousemove", (t => {
             y(t, e);
         }));
-        c.push(e);
+        f.push(e);
     }
     function p() {
-        const e = c.length;
+        const e = f.length;
         for (let n = 0; n < e; n++) {
-            var t = c[n];
+            var t = f[n];
             t.removeEventListener("mousemove", (e => {
                 y(e, t);
             }));
         }
-        c = [];
+        f = [];
         window.removeEventListener("mousemove", b);
         i.style.display = "none";
     }
     function y(e, n) {
-        s(n);
+        a(n);
         t.cancelBubble(e);
         t.showElementAtMousePosition(e, i);
     }
@@ -253,16 +257,16 @@ var n;
             throw new Error("Function not implemented.");
         },
         start: function(t) {
-            if (!e.definedObject(f)) {
-                f = v(t);
-                a();
+            if (!e.definedObject(c)) {
+                c = v(t);
+                s();
                 m();
             }
             return w;
         },
         stop: function() {
-            if (e.definedObject(f)) {
-                f = null;
+            if (e.definedObject(c)) {
+                c = null;
                 p();
             }
             return w;

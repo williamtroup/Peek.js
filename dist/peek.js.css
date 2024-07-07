@@ -81,9 +81,52 @@ div.peek-js *::before, div.peek-js *::after {
     -------------------------------------------------------------------------
 */
 div.peek-js div.dialog-title-bar {
-  margin-bottom: calc(var(--heat-js-spacing) + var(--heat-js-spacing) / 2);
+  margin-bottom: calc(var(--peek-js-spacing) + var(--peek-js-spacing) / 2);
   font-size: 1.2rem;
   font-weight: var(--peek-js-title-bold-weight);
+}
+
+/*
+    -------------------------------------------------------------------------
+    Peek.js - Dialog - Buttons
+    -------------------------------------------------------------------------
+*/
+div.peek-js div.dialog-buttons {
+  text-align: right;
+}
+div.peek-js div.dialog-buttons button {
+  background-color: var(--peek-js-button-background-color);
+  border: var(--peek-js-border-size) solid var(--peek-js-button-border-color);
+  color: var(--peek-js-button-text-color);
+  border-radius: var(--peek-js-border-radius);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 9px;
+  padding-right: 9px;
+  outline: none;
+  transition: var(--peek-js-transition);
+}
+div.peek-js div.dialog-buttons button:disabled {
+  color: var(--peek-js-button-border-color);
+}
+div.peek-js div.dialog-buttons button:not(.active):not(:disabled):active {
+  background: var(--peek-js-button-background-color-active) !important;
+  color: var(--peek-js-button-text-color-active) !important;
+}
+div.peek-js div.dialog-buttons button:not(.active):not(:disabled):hover {
+  cursor: pointer;
+  background: var(--peek-js-button-background-color-hover);
+  color: var(--peek-js-button-text-color-hover);
+}
+div.peek-js div.dialog-buttons button.active {
+  cursor: default;
+  background: var(--peek-js-button-background-color-hover);
+  color: var(--peek-js-button-text-color-hover);
+  transition: var(--peek-js-transition);
+  font-weight: var(--peek-js-text-bold-weight-active);
+}
+div.peek-js div.dialog-buttons button {
+  margin-left: var(--peek-js-spacing) !important;
 }
 
 /*# sourceMappingURL=peek.js.css.map */

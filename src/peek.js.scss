@@ -99,8 +99,28 @@ div.peek-js {
 
 div.peek-js {
     div.dialog-title-bar {
-        margin-bottom: calc( var(--heat-js-spacing) + var(--heat-js-spacing) / 2 );
+        margin-bottom: calc( var(--peek-js-spacing) + var(--peek-js-spacing) / 2 );
         font-size: 1.2rem;
         font-weight: var(--peek-js-title-bold-weight);
     }
 }
+
+
+/*
+    -------------------------------------------------------------------------
+    Peek.js - Dialog - Buttons
+    -------------------------------------------------------------------------
+*/
+
+div.peek-js {
+    div.dialog-buttons {
+        text-align: right;
+
+        @include buttons;
+
+        button {
+            margin-left: var(--peek-js-spacing) !important;
+        }
+    }
+}
+
