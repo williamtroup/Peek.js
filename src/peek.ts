@@ -78,6 +78,14 @@ import { Char, Mode } from "./ts/enum";
         _dialog_Contents.innerHTML = Char.empty;
         _dialog_Contents.scrollTop = 0;
 
+        if ( _current_Process_Options.mode === Mode.css ) {
+            buildCssProperties( element );
+        } else if ( _current_Process_Options.mode === Mode.attributes ) {
+            buildAttributeProperties( element );
+        }
+    }
+
+    function buildCssProperties( element: HTMLElement ) : void {
         const computedStyles: CSSStyleDeclaration = getComputedStyle( element );
         const computedStylesLength: number = computedStyles.length;
 
@@ -93,6 +101,23 @@ import { Char, Mode } from "./ts/enum";
             propertyValueInput.type = "text";
             propertyValueInput.value = computedStyles.getPropertyValue( propertyName );
         }
+    }
+
+    function buildAttributeProperties( element: HTMLElement ) : void {
+        if ( element.hasAttributes() ) {
+
+            for ( let attribute of element.attributes ) {
+                const property: HTMLElement = DomElement.create( _dialog_Contents, "div", "property-row" );
+    
+                DomElement.createWithHTML( property, "div", "property-name", attribute.name );
+                
+                const propertyValue: HTMLElement = DomElement.create( property, "div", "property-value" );
+                const propertyValueInput: HTMLInputElement = DomElement.create( propertyValue, "input" ) as HTMLInputElement;
+    
+                propertyValueInput.type = "text";
+                propertyValueInput.value = attribute.value;
+            }
+          }
     }
 
 
