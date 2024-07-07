@@ -56,8 +56,8 @@ import { Char, Mode } from "./ts/enum";
         _dialog_Contents = DomElement.create( _dialog, "div", "dialog-contents" );
         _dialog_Buttons = DomElement.create( _dialog, "div", "dialog-buttons" );
 
-        const copyButton: HTMLElement = DomElement.createWithHTML( _dialog_Buttons, "button", "copy", "Copy" );
-        const closeButton: HTMLElement = DomElement.createWithHTML( _dialog_Buttons, "button", "close", "Close" );
+        const copyButton: HTMLElement = DomElement.createWithHTML( _dialog_Buttons, "button", "copy", _configuration.copyText! );
+        const closeButton: HTMLElement = DomElement.createWithHTML( _dialog_Buttons, "button", "close", _configuration.closeText! );
 
         copyButton.onclick = () => {
         };
@@ -249,6 +249,8 @@ import { Char, Mode } from "./ts/enum";
         _configuration.attributesText = Data.getDefaultAnyString( _configuration.attributesText, "Attributes" );
         _configuration.sizeText = Data.getDefaultAnyString( _configuration.sizeText, "Size" );
         _configuration.noAttributesAvailableText = Data.getDefaultAnyString( _configuration.noAttributesAvailableText, "No attributes are available." );
+        _configuration.closeText = Data.getDefaultAnyString( _configuration.closeText, "Close" );
+        _configuration.copyText = Data.getDefaultAnyString( _configuration.copyText, "Copy" );
     }
 
 

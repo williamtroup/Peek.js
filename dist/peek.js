@@ -181,10 +181,10 @@ var n;
         r = t.create(i, "div", "dialog-title-bar");
         l = t.create(i, "div", "dialog-contents");
         f = t.create(i, "div", "dialog-buttons");
-        const n = t.createWithHTML(f, "button", "copy", "Copy");
-        const o = t.createWithHTML(f, "button", "close", "Close");
+        const n = t.createWithHTML(f, "button", "copy", o.copyText);
+        const u = t.createWithHTML(f, "button", "close", o.closeText);
         n.onclick = () => {};
-        o.onclick = () => {
+        u.onclick = () => {
             g();
         };
     }
@@ -262,23 +262,23 @@ var n;
     }
     function h(e) {
         e.addEventListener("mousemove", (t => {
-            x(t, e);
+            D(t, e);
         }));
         s.push(e);
     }
-    function D() {
+    function x() {
         const e = s.length;
         for (let n = 0; n < e; n++) {
             var t = s[n];
             t.removeEventListener("mousemove", (e => {
-                x(e, t);
+                D(e, t);
             }));
         }
         s = [];
         window.removeEventListener("mousemove", g);
         g();
     }
-    function x(e, n) {
+    function D(e, n) {
         t.cancelBubble(e);
         if (u !== 0) {
             clearTimeout(u);
@@ -306,6 +306,8 @@ var n;
         o.attributesText = n.getDefaultAnyString(o.attributesText, "Attributes");
         o.sizeText = n.getDefaultAnyString(o.sizeText, "Size");
         o.noAttributesAvailableText = n.getDefaultAnyString(o.noAttributesAvailableText, "No attributes are available.");
+        o.closeText = n.getDefaultAnyString(o.closeText, "Close");
+        o.copyText = n.getDefaultAnyString(o.copyText, "Copy");
     }
     const L = {
         start: function(t) {
@@ -319,7 +321,7 @@ var n;
         stop: function() {
             if (e.definedObject(c)) {
                 c = null;
-                D();
+                x();
             }
             return L;
         },
