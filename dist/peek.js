@@ -35,10 +35,10 @@ var e;
         return n(e) && e instanceof Date;
     }
     e.definedDate = c;
-    function a(e, t = 1) {
+    function f(e, t = 1) {
         return !u(e) || e.length < t;
     }
-    e.invalidOptionArray = a;
+    e.invalidOptionArray = f;
 })(e || (e = {}));
 
 var t;
@@ -61,35 +61,12 @@ var t;
         return r;
     }
     t.createWithHTML = i;
-    function o(e, t, n = false) {
-        let i = null;
-        if (document.defaultView.getComputedStyle) {
-            i = document.defaultView.getComputedStyle(e, null).getPropertyValue(t);
-        } else if (e.currentStyle) {
-            i = e.currentStyle[t];
-        }
-        if (n) {
-            i = parseFloat(i);
-        }
-        return i;
-    }
-    t.getStyleValueByName = o;
-    function r(e, t) {
-        e.className += " " + t;
-        e.className = e.className.trim();
-    }
-    t.addClass = r;
-    function l(e, t) {
-        e.className = e.className.replace(t, "");
-        e.className = e.className.trim();
-    }
-    t.removeClass = l;
-    function u(e) {
+    function o(e) {
         e.preventDefault();
         e.cancelBubble = true;
     }
-    t.cancelBubble = u;
-    function c() {
+    t.cancelBubble = o;
+    function r() {
         const e = document.documentElement;
         const t = {
             left: e.scrollLeft - (e.clientLeft || 0),
@@ -97,12 +74,12 @@ var t;
         };
         return t;
     }
-    t.getScrollPosition = c;
-    function a(e, t) {
+    t.getScrollPosition = r;
+    function l(e, t) {
         if (t.style.display !== "block") {
             let n = e.pageX;
             let i = e.pageY;
-            const o = c();
+            const o = r();
             t.style.display = "block";
             if (n + t.offsetWidth > window.innerWidth) {
                 n -= t.offsetWidth;
@@ -124,7 +101,7 @@ var t;
             t.style.top = i + "px";
         }
     }
-    t.showElementAtMousePosition = a;
+    t.showElementAtMousePosition = l;
 })(t || (t = {}));
 
 var n;
@@ -158,7 +135,7 @@ var n;
         return e.definedObject(t) ? t : n;
     }
     t.getDefaultObject = c;
-    function a(t, n) {
+    function f(t, n) {
         let i = n;
         if (e.definedString(t)) {
             const e = t.toString().split(" ");
@@ -172,7 +149,7 @@ var n;
         }
         return i;
     }
-    t.getDefaultStringOrArray = a;
+    t.getDefaultStringOrArray = f;
 })(n || (n = {}));
 
 (() => {
@@ -182,8 +159,8 @@ var n;
     let l = null;
     let u = null;
     let c = 0;
-    let a = null;
-    let f = [];
+    let f = null;
+    let a = [];
     function s() {
         if (e.definedObject(o)) {
             p();
@@ -203,13 +180,13 @@ var n;
         };
     }
     function d() {
-        let t = a.titleText;
+        let t = f.titleText;
         if (!e.definedString(t)) {
-            if (a.mode === 1) {
+            if (f.mode === 1) {
                 t = i.cssPropertiesText;
-            } else if (a.mode === 2) {
+            } else if (f.mode === 2) {
                 t = i.attributesText;
-            } else if (a.mode === 3) {
+            } else if (f.mode === 3) {
                 t = i.sizeText;
             }
         }
@@ -221,13 +198,13 @@ var n;
     function g(e) {
         l.innerHTML = "";
         l.scrollTop = 0;
-        if (a.mode === 1) {
-            m(e);
-        } else if (a.mode === 2) {
+        if (f.mode === 1) {
             y(e);
+        } else if (f.mode === 2) {
+            b(e);
         }
     }
-    function m(e) {
+    function y(e) {
         const n = getComputedStyle(e);
         const i = n.length;
         for (let e = 0; e < i; e++) {
@@ -240,7 +217,7 @@ var n;
             u.value = n.getPropertyValue(o);
         }
     }
-    function y(e) {
+    function b(e) {
         if (e.hasAttributes()) {
             for (let n of e.attributes) {
                 const e = t.create(l, "div", "property-row");
@@ -254,8 +231,8 @@ var n;
             l.innerHTML = i.noAttributesAvailableText;
         }
     }
-    function b() {
-        const e = a.nodeType;
+    function m() {
+        const e = f.nodeType;
         const t = e.length;
         for (let n = 0; n < t; n++) {
             const t = document.getElementsByTagName(e[n]);
@@ -271,17 +248,17 @@ var n;
         e.addEventListener("mousemove", (t => {
             D(t, e);
         }));
-        f.push(e);
+        a.push(e);
     }
     function T() {
-        const e = f.length;
+        const e = a.length;
         for (let n = 0; n < e; n++) {
-            var t = f[n];
+            var t = a[n];
             t.removeEventListener("mousemove", (e => {
                 D(e, t);
             }));
         }
-        f = [];
+        a = [];
         window.removeEventListener("mousemove", p);
         p();
     }
@@ -303,32 +280,32 @@ var n;
         t.titleText = n.getDefaultString(t.titleText, "");
         return t;
     }
-    function S(e = null) {
+    function A(e = null) {
         i = n.getDefaultObject(e, {});
         i.dialogDisplayDelay = n.getDefaultNumber(i.dialogDisplayDelay, 1e3);
-        A();
+        x();
     }
-    function A() {
+    function x() {
         i.cssPropertiesText = n.getDefaultAnyString(i.cssPropertiesText, "CSS Properties");
         i.attributesText = n.getDefaultAnyString(i.attributesText, "Attributes");
         i.sizeText = n.getDefaultAnyString(i.sizeText, "Size");
         i.noAttributesAvailableText = n.getDefaultAnyString(i.noAttributesAvailableText, "No attributes are available.");
     }
-    const w = {
+    const S = {
         start: function(t) {
-            if (!e.definedObject(a)) {
-                a = h(t);
+            if (!e.definedObject(f)) {
+                f = h(t);
                 d();
-                b();
+                m();
             }
-            return w;
+            return S;
         },
         stop: function() {
-            if (e.definedObject(a)) {
-                a = null;
+            if (e.definedObject(f)) {
+                f = null;
                 T();
             }
-            return w;
+            return S;
         },
         setConfiguration: function(t) {
             if (e.definedObject(t)) {
@@ -341,26 +318,26 @@ var n;
                     }
                 }
                 if (n) {
-                    S(o);
+                    A(o);
                     s();
-                    if (e.definedObject(a)) {
+                    if (e.definedObject(f)) {
                         d();
                     }
                 }
             }
-            return w;
+            return S;
         },
         getVersion: function() {
             return "1.0.0";
         }
     };
     (() => {
-        S();
+        A();
         document.addEventListener("DOMContentLoaded", (() => {
             s();
         }));
         if (!e.defined(window.$peek)) {
-            window.$peek = w;
+            window.$peek = S;
         }
     })();
 })();//# sourceMappingURL=peek.js.map

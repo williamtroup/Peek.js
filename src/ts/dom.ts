@@ -39,32 +39,6 @@ export namespace DomElement {
         return element;
     }
 
-    export function getStyleValueByName( element: any, stylePropertyName: string, toNumber: boolean = false ) : any {
-        let value: any = null;
-        
-        if ( document.defaultView!.getComputedStyle! ) {
-            value = document.defaultView!.getComputedStyle( element, null ).getPropertyValue( stylePropertyName ); 
-        } else if ( element.currentStyle ) {
-            value = element.currentStyle[ stylePropertyName ];
-        }   
-        
-        if ( toNumber ) {
-            value = parseFloat( value );
-        }
-
-        return value;
-    }
-
-    export function addClass( element: HTMLElement, className: string ) {
-        element.className += Char.space + className;
-        element.className = element.className.trim();
-    }
-
-    export function removeClass( element: HTMLElement, className: string ) {
-        element.className = element.className.replace( className, Char.empty );
-        element.className = element.className.trim();
-    }
-
     export function cancelBubble( e: Event ) {
         e.preventDefault();
         e.cancelBubble = true;
