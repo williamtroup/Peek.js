@@ -24,7 +24,7 @@ export type PublicApi = {
     /**
      * start().
      * 
-     * Starts the peek process using the options passed.
+     * Starts the peek process using the options passed and attaches the viewed to the DOM elements.
      * 
      * @public
      * @fires       onStart
