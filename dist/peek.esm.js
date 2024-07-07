@@ -13,53 +13,53 @@ var e;
         return t(e) && typeof e === "boolean";
     }
     e.definedBoolean = o;
-    function i(e) {
+    function r(e) {
         return t(e) && typeof e === "string";
     }
-    e.definedString = i;
-    function r(e) {
+    e.definedString = r;
+    function i(e) {
         return t(e) && typeof e === "function";
     }
-    e.definedFunction = r;
-    function l(e) {
+    e.definedFunction = i;
+    function u(e) {
         return t(e) && typeof e === "number";
     }
-    e.definedNumber = l;
-    function c(e) {
+    e.definedNumber = u;
+    function l(e) {
         return n(e) && e instanceof Array;
     }
-    e.definedArray = c;
-    function u(e) {
+    e.definedArray = l;
+    function f(e) {
         return n(e) && e instanceof Date;
     }
-    e.definedDate = u;
-    function f(e, t = 1) {
-        return !c(e) || e.length < t;
+    e.definedDate = f;
+    function c(e, t = 1) {
+        return !l(e) || e.length < t;
     }
-    e.invalidOptionArray = f;
+    e.invalidOptionArray = c;
 })(e || (e = {}));
 
 var t;
 
 (t => {
     function n(t, n, o = "") {
-        const i = n.toLowerCase();
-        const r = i === "text";
-        let l = r ? document.createTextNode("") : document.createElement(i);
+        const r = n.toLowerCase();
+        const i = r === "text";
+        let u = i ? document.createTextNode("") : document.createElement(r);
         if (e.defined(o)) {
-            l.className = o;
+            u.className = o;
         }
-        t.appendChild(l);
-        return l;
+        t.appendChild(u);
+        return u;
     }
     t.create = n;
-    function o(e, t, o, i) {
-        const r = n(e, t, o);
-        r.innerHTML = i;
-        return r;
+    function o(e, t, o, r) {
+        const i = n(e, t, o);
+        i.innerHTML = r;
+        return i;
     }
     t.createWithHTML = o;
-    function i(e, t, n = false) {
+    function r(e, t, n = false) {
         let o = null;
         if (document.defaultView.getComputedStyle) {
             o = document.defaultView.getComputedStyle(e, null).getPropertyValue(t);
@@ -71,23 +71,23 @@ var t;
         }
         return o;
     }
-    t.getStyleValueByName = i;
-    function r(e, t) {
+    t.getStyleValueByName = r;
+    function i(e, t) {
         e.className += " " + t;
         e.className = e.className.trim();
     }
-    t.addClass = r;
-    function l(e, t) {
+    t.addClass = i;
+    function u(e, t) {
         e.className = e.className.replace(t, "");
         e.className = e.className.trim();
     }
-    t.removeClass = l;
-    function c(e) {
+    t.removeClass = u;
+    function l(e) {
         e.preventDefault();
         e.cancelBubble = true;
     }
-    t.cancelBubble = c;
-    function u() {
+    t.cancelBubble = l;
+    function f() {
         const e = document.documentElement;
         const t = {
             left: e.scrollLeft - (e.clientLeft || 0),
@@ -95,11 +95,11 @@ var t;
         };
         return t;
     }
-    t.getScrollPosition = u;
-    function f(e, t) {
+    t.getScrollPosition = f;
+    function c(e, t) {
         let n = e.pageX;
         let o = e.pageY;
-        const i = u();
+        const r = f();
         t.style.display = "block";
         if (n + t.offsetWidth > window.innerWidth) {
             n -= t.offsetWidth;
@@ -111,33 +111,89 @@ var t;
         } else {
             o++;
         }
-        if (n < i.left) {
+        if (n < r.left) {
             n = e.pageX + 1;
         }
-        if (o < i.top) {
+        if (o < r.top) {
             o = e.pageY + 1;
         }
         t.style.left = n + "px";
         t.style.top = o + "px";
     }
-    t.showElementAtMousePosition = f;
+    t.showElementAtMousePosition = c;
 })(t || (t = {}));
 
-(() => {
-    let n = {};
-    let o = null;
-    let i = null;
-    let r = null;
-    let l = null;
-    function c() {
-        o = t.create(document.body, "div", "peek-js");
+var n;
+
+(t => {
+    function n(e, t) {
+        return typeof e === "string" ? e : t;
     }
-    const u = {
+    t.getDefaultAnyString = n;
+    function o(t, n) {
+        return e.definedString(t) ? t : n;
+    }
+    t.getDefaultString = o;
+    function r(t, n) {
+        return e.definedBoolean(t) ? t : n;
+    }
+    t.getDefaultBoolean = r;
+    function i(t, n) {
+        return e.definedNumber(t) ? t : n;
+    }
+    t.getDefaultNumber = i;
+    function u(t, n) {
+        return e.definedFunction(t) ? t : n;
+    }
+    t.getDefaultFunction = u;
+    function l(t, n) {
+        return e.definedArray(t) ? t : n;
+    }
+    t.getDefaultArray = l;
+    function f(t, n) {
+        return e.definedObject(t) ? t : n;
+    }
+    t.getDefaultObject = f;
+    function c(t, n) {
+        let o = n;
+        if (e.definedString(t)) {
+            const e = t.toString().split(" ");
+            if (e.length === 0) {
+                t = n;
+            } else {
+                o = e;
+            }
+        } else {
+            o = l(t, n);
+        }
+        return o;
+    }
+    t.getDefaultStringOrArray = c;
+})(n || (n = {}));
+
+(() => {
+    let o = {};
+    let r = null;
+    let i = null;
+    let u = null;
+    let l = null;
+    let f = null;
+    function c() {
+        r = t.create(document.body, "div", "peek-js");
+    }
+    function a(e) {
+        let t = n.getDefaultObject(e, {});
+        t.nodeType = n.getDefaultStringOrArray(t.nodeType, []);
+        t.mode = n.getDefaultNumber(t.mode, 1);
+        return t;
+    }
+    const d = {
         destroy: function() {
             throw new Error("Function not implemented.");
         },
         start: function(e) {
-            throw new Error("Function not implemented.");
+            f = a(e);
+            return d;
         },
         stop: function() {
             throw new Error("Function not implemented.");
@@ -154,7 +210,7 @@ var t;
             c();
         }));
         if (!e.defined(window.$peek)) {
-            window.$peek = u;
+            window.$peek = d;
         }
     })();
 })();//# sourceMappingURL=peek.esm.js.map

@@ -15,6 +15,8 @@ import { type Configuration, type Options } from "./ts/type";
 import { PublicApi } from "./ts/api";
 import { Is } from "./ts/is";
 import { DomElement } from "./ts/dom";
+import { Data } from "./ts/data";
+import { Mode } from "./ts/enum";
 
 
 ( () => {
@@ -27,6 +29,9 @@ import { DomElement } from "./ts/dom";
     let _dialog_Contents: HTMLElement = null!;
     let _dialog_Buttons: HTMLElement = null!;
 
+    // Variables: Current Process:
+    let _current_Process_Options: Options = null!;
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -36,6 +41,21 @@ import { DomElement } from "./ts/dom";
 
     function buildDialog() {
         _dialog = DomElement.create( document.body, "div", "peek-js" );
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Options
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function buildOptions( newOptions: any ) : Options {
+        let options: Options = Data.getDefaultObject( newOptions, {} as Options );
+        options.nodeType = Data.getDefaultStringOrArray( options.nodeType, [] );
+        options.mode = Data.getDefaultNumber( options.mode, Mode.css );
+        
+        return options;
     }
 
 
@@ -64,7 +84,9 @@ import { DomElement } from "./ts/dom";
          */
 
         start: function ( options: Options ): PublicApi {
-            throw new Error("Function not implemented.");
+            _current_Process_Options = buildOptions( options );
+
+            return _public;
         },
 
         stop: function (): PublicApi {
