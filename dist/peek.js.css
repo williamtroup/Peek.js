@@ -1,3 +1,20 @@
-
+/*
+ * Peek.js Library v1.0.0
+ *
+ * Copyright 2024 Bunoon
+ * Released under the MIT License
+ */
+:root {
+  --peek-js-default-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --peek-js-color-black: #3b3a3a;
+  --peek-js-color-white: #adbac7;
+  --peek-js-color-snow-white: #F5F5F5;
+  --peek-js-border-radius: 0.5rem;
+  --peek-js-border-size: 0.5px;
+  --peek-js-spacing: 10px;
+  --peek-js-spacing-font-size: 0.85rem;
+  --peek-js-transition: all .3s;
+  --peek-js-animation-length: 0.5s;
+}
 
 /*# sourceMappingURL=peek.js.css.map */
