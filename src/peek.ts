@@ -16,7 +16,7 @@ import { PublicApi } from "./ts/api";
 import { Is } from "./ts/is";
 import { DomElement } from "./ts/dom";
 import { Data } from "./ts/data";
-import { Mode } from "./ts/enum";
+import { Char, Mode } from "./ts/enum";
 
 
 ( () => {
@@ -56,6 +56,17 @@ import { Mode } from "./ts/enum";
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Render:  Build Dialog Content
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function buildDialogContent( element: HTMLElement ) : void {
+        _dialog_Contents.innerHTML = Char.empty;
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Render:  Node Events
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
@@ -78,7 +89,9 @@ import { Mode } from "./ts/enum";
     }
 
     function buildNodeEvent( element: HTMLElement ) : void {
-        element.addEventListener( "mousemove", onNodeMouseOver );
+        element.addEventListener( "mousemove", ( e ) => {
+            onNodeMouseOver( e, element );
+        } );
 
         _current_Process_Elements.push( element );
     }
@@ -87,7 +100,11 @@ import { Mode } from "./ts/enum";
         const currentProcessElementsLength: number = _current_Process_Elements.length;
 
         for ( let elementIndex: number = 0; elementIndex < currentProcessElementsLength; elementIndex++ ) {
-            _current_Process_Elements[ elementIndex ].removeEventListener( "mousemove", onNodeMouseOver );
+            var element: HTMLElement = _current_Process_Elements[ elementIndex ];
+
+            element.removeEventListener( "mousemove", ( e ) => {
+                onNodeMouseOver( e, element );
+            } );
         }
 
         _current_Process_Elements = [] as HTMLElement[];
@@ -97,7 +114,9 @@ import { Mode } from "./ts/enum";
         _dialog.style.display = "none";
     }
 
-    function onNodeMouseOver( e: MouseEvent ) {
+    function onNodeMouseOver( e: MouseEvent, element: HTMLElement ) {
+        buildDialogContent( element );
+
         DomElement.cancelBubble( e );
         DomElement.showElementAtMousePosition( e, _dialog );
     }

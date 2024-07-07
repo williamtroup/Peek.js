@@ -193,7 +193,10 @@ var n;
     function s() {
         r.innerHTML = f.titleText;
     }
-    function a() {
+    function a(e) {
+        l.innerHTML = "";
+    }
+    function m() {
         const e = f.nodeType;
         const t = e.length;
         for (let n = 0; n < t; n++) {
@@ -201,32 +204,38 @@ var n;
             const o = [].slice.call(t);
             const i = o.length;
             for (let e = 0; e < i; e++) {
-                m(o[e]);
+                g(o[e]);
             }
         }
-        window.addEventListener("mousemove", y);
+        window.addEventListener("mousemove", b);
     }
-    function m(e) {
-        e.addEventListener("mousemove", p);
+    function g(e) {
+        e.addEventListener("mousemove", (t => {
+            y(t, e);
+        }));
         c.push(e);
     }
-    function g() {
+    function p() {
         const e = c.length;
-        for (let t = 0; t < e; t++) {
-            c[t].removeEventListener("mousemove", p);
+        for (let n = 0; n < e; n++) {
+            var t = c[n];
+            t.removeEventListener("mousemove", (e => {
+                y(e, t);
+            }));
         }
         c = [];
-        window.removeEventListener("mousemove", y);
+        window.removeEventListener("mousemove", b);
         i.style.display = "none";
     }
-    function p(e) {
+    function y(e, n) {
+        a(n);
         t.cancelBubble(e);
         t.showElementAtMousePosition(e, i);
     }
-    function y() {
+    function b() {
         i.style.display = "none";
     }
-    function b(t) {
+    function v(t) {
         let o = n.getDefaultObject(t, {});
         o.nodeType = n.getDefaultStringOrArray(o.nodeType, []);
         o.mode = n.getDefaultNumber(o.mode, 1);
@@ -241,24 +250,24 @@ var n;
         }
         return o;
     }
-    const v = {
+    const w = {
         destroy: function() {
             throw new Error("Function not implemented.");
         },
         start: function(t) {
             if (!e.definedObject(f)) {
-                f = b(t);
+                f = v(t);
                 s();
-                a();
+                m();
             }
-            return v;
+            return w;
         },
         stop: function() {
             if (e.definedObject(f)) {
                 f = null;
-                g();
+                p();
             }
-            return v;
+            return w;
         },
         setConfiguration: function(e) {
             throw new Error("Function not implemented.");
@@ -272,7 +281,7 @@ var n;
             d();
         }));
         if (!e.defined(window.$peek)) {
-            window.$peek = v;
+            window.$peek = w;
         }
     })();
 })();//# sourceMappingURL=peek.js.map
