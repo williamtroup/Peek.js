@@ -11,7 +11,7 @@
  */
 
 
-import { type Configuration, type Options } from "./ts/type";
+import { Position, type Configuration, type Options } from "./ts/type";
 import { PublicApi } from "./ts/api";
 import { Is } from "./ts/is";
 import { DomElement } from "./ts/dom";
@@ -102,6 +102,8 @@ import { Char, Mode } from "./ts/enum";
             buildCssProperties( element );
         } else if ( _current_Process_Options.mode === Mode.attributes ) {
             buildAttributeProperties( element );
+        } else if ( _current_Process_Options.mode === Mode.size ) {
+            buildSizeProperties( element );
         }
     }
 
@@ -110,36 +112,40 @@ import { Char, Mode } from "./ts/enum";
         const computedStylesLength: number = computedStyles.length;
 
         for( let styleIndex: number = 0; styleIndex < computedStylesLength; styleIndex++ ) {
-            const property: HTMLElement = DomElement.create( _dialog_Contents, "div", "property-row" );
-            const propertyName: string = computedStyles[ styleIndex ];
-
-            DomElement.createWithHTML( property, "div", "property-name", propertyName );
-            
-            const propertyValue: HTMLElement = DomElement.create( property, "div", "property-value" );
-            const propertyValueInput: HTMLInputElement = DomElement.create( propertyValue, "input" ) as HTMLInputElement;
-
-            propertyValueInput.type = "text";
-            propertyValueInput.value = computedStyles.getPropertyValue( propertyName );
+            buildPropertyRow( computedStyles[ styleIndex ], computedStyles.getPropertyValue( computedStyles[ styleIndex ] ) );
         }
     }
 
     function buildAttributeProperties( element: HTMLElement ) : void {
         if ( element.hasAttributes() ) {
             for ( let attribute of element.attributes ) {
-                const property: HTMLElement = DomElement.create( _dialog_Contents, "div", "property-row" );
-    
-                DomElement.createWithHTML( property, "div", "property-name", attribute.name );
-                
-                const propertyValue: HTMLElement = DomElement.create( property, "div", "property-value" );
-                const propertyValueInput: HTMLInputElement = DomElement.create( propertyValue, "input" ) as HTMLInputElement;
-    
-                propertyValueInput.type = "text";
-                propertyValueInput.value = attribute.value;
+                buildPropertyRow( attribute.name, attribute.value );
             }
 
         } else {
             _dialog_Contents.innerHTML = _configuration.noAttributesAvailableText!;
         }
+    }
+
+    function buildSizeProperties( element: HTMLElement ) : void {
+        const offset: Position = DomElement.getOffset( element );
+
+        buildPropertyRow( "left", offset.left.toString() + "px" );
+        buildPropertyRow( "top", offset.top.toString() + "px" );
+        buildPropertyRow( "width", element.offsetWidth.toString() + "px" );
+        buildPropertyRow( "height", element.offsetHeight.toString() + "px" );
+    }
+
+    function buildPropertyRow( propertyNameText: string, propertyValueText: string ) : void {
+        const property: HTMLElement = DomElement.create( _dialog_Contents, "div", "property-row" );
+
+        DomElement.createWithHTML( property, "div", "property-name", propertyNameText );
+        
+        const propertyValue: HTMLElement = DomElement.create( property, "div", "property-value" );
+        const propertyValueInput: HTMLInputElement = DomElement.create( propertyValue, "input" ) as HTMLInputElement;
+
+        propertyValueInput.type = "text";
+        propertyValueInput.value = propertyValueText;
     }
 
 

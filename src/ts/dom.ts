@@ -87,4 +87,20 @@ export namespace DomElement {
             element.style.top = top + "px";
         }
     }
+
+    export function getOffset( element: HTMLElement ) : Position {
+        const result: Position = {
+            left: 0,
+            top: 0
+        } as Position;
+
+        while ( element && !isNaN( element.offsetLeft ) && !isNaN( element.offsetTop ) ) {
+            result.left += element.offsetLeft - element.scrollLeft;
+            result.top += element.offsetTop - element.scrollTop;
+
+            element = element.offsetParent as HTMLElement;
+        }
+
+        return result;
+    }
 }
