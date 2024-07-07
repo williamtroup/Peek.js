@@ -86,7 +86,7 @@ export type PublicApi = {
      * 
      * @returns     {Object}                                                The Peek.js class instance.
      */
-    setConfiguration: ( newConfiguration: Configuration ) => PublicApi;
+    setConfiguration: ( newConfiguration: any ) => PublicApi;
 
 
     /*

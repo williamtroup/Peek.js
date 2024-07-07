@@ -17,7 +17,10 @@ export type Position = {
 };
 
 export type Configuration = {
-	safeMode?: boolean;
+	cssPropertiesText?: string;
+    attributesText?: string;
+    sizeText?: string;
+    noAttributesAvailableText?: string;
 };
 
 export type Options = {

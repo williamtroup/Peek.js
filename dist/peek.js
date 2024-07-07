@@ -194,16 +194,16 @@ var n;
         const n = t.createWithHTML(u, "button", "close", "Close");
         e.onclick = () => {};
         n.onclick = () => {
-            m();
+            p();
         };
     }
     function d() {
         r.innerHTML = f.titleText;
     }
-    function m() {
+    function p() {
         i.style.display = "none";
     }
-    function p(e) {
+    function m(e) {
         l.innerHTML = "";
         l.scrollTop = 0;
         if (f.mode === 1) {
@@ -236,10 +236,10 @@ var n;
                 i.value = n.value;
             }
         } else {
-            l.innerHTML = "No attributes are available.";
+            l.innerHTML = o.noAttributesAvailableText;
         }
     }
-    function v() {
+    function b() {
         const e = f.nodeType;
         const t = e.length;
         for (let n = 0; n < t; n++) {
@@ -247,87 +247,108 @@ var n;
             const o = [].slice.call(t);
             const i = o.length;
             for (let e = 0; e < i; e++) {
-                b(o[e]);
+                v(o[e]);
             }
         }
-        window.addEventListener("mousemove", m);
+        window.addEventListener("mousemove", p);
     }
-    function b(e) {
+    function v(e) {
         e.addEventListener("mousemove", (t => {
-            T(t, e);
+            h(t, e);
         }));
         a.push(e);
     }
-    function h() {
+    function T() {
         const e = a.length;
         for (let n = 0; n < e; n++) {
             var t = a[n];
             t.removeEventListener("mousemove", (e => {
-                T(e, t);
+                h(e, t);
             }));
         }
         a = [];
-        window.removeEventListener("mousemove", m);
-        m();
+        window.removeEventListener("mousemove", p);
+        p();
     }
-    function T(e, n) {
+    function h(e, n) {
         t.cancelBubble(e);
         if (c !== 0) {
             clearTimeout(c);
             c = 0;
         }
         c = setTimeout((() => {
-            p(n);
+            m(n);
             t.showElementAtMousePosition(e, i);
         }), 1e3);
     }
-    function w(t) {
-        let o = n.getDefaultObject(t, {});
-        o.nodeType = n.getDefaultStringOrArray(o.nodeType, []);
-        o.mode = n.getDefaultNumber(o.mode, 1);
-        if (!e.definedString(o.titleText)) {
-            if (o.mode === 1) {
-                o.titleText = "CSS Properties";
-            } else if (o.mode === 2) {
-                o.titleText = "Attributes";
-            } else if (o.mode === 3) {
-                o.titleText = "Size";
+    function S(t) {
+        let i = n.getDefaultObject(t, {});
+        i.nodeType = n.getDefaultStringOrArray(i.nodeType, []);
+        i.mode = n.getDefaultNumber(i.mode, 1);
+        if (!e.definedString(i.titleText)) {
+            if (i.mode === 1) {
+                i.titleText = o.cssPropertiesText;
+            } else if (i.mode === 2) {
+                i.titleText = o.attributesText;
+            } else if (i.mode === 3) {
+                i.titleText = o.sizeText;
             }
         }
-        return o;
+        return i;
     }
-    const S = {
+    function w(e = null) {
+        o = n.getDefaultObject(e, {});
+        o.cssPropertiesText = n.getDefaultAnyString(o.cssPropertiesText, "CSS Properties");
+        o.attributesText = n.getDefaultAnyString(o.attributesText, "Attributes");
+        o.sizeText = n.getDefaultAnyString(o.sizeText, "Size");
+        o.noAttributesAvailableText = n.getDefaultAnyString(o.noAttributesAvailableText, "No attributes are available.");
+    }
+    const x = {
         destroy: function() {
             throw new Error("Function not implemented.");
         },
         start: function(t) {
             if (!e.definedObject(f)) {
-                f = w(t);
+                f = S(t);
                 d();
-                v();
+                b();
             }
-            return S;
+            return x;
         },
         stop: function() {
             if (e.definedObject(f)) {
                 f = null;
-                h();
+                T();
             }
-            return S;
+            return x;
         },
-        setConfiguration: function(e) {
-            throw new Error("Function not implemented.");
+        setConfiguration: function(t) {
+            if (e.definedObject(t)) {
+                let e = false;
+                const n = o;
+                for (let i in t) {
+                    if (t.hasOwnProperty(i) && o.hasOwnProperty(i) && n[i] !== t[i]) {
+                        n[i] = t[i];
+                        e = true;
+                    }
+                }
+                if (e) {
+                    w(n);
+                }
+            }
+            return x;
         },
         getVersion: function() {
             return "1.0.0";
         }
     };
     (() => {
+        w();
         document.addEventListener("DOMContentLoaded", (() => {
             s();
         }));
         if (!e.defined(window.$peek)) {
-            window.$peek = S;
+            window.$peek = x;
         }
     })();
 })();//# sourceMappingURL=peek.js.map

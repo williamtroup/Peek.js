@@ -119,7 +119,7 @@ import { Char, Mode } from "./ts/enum";
             }
 
         } else {
-            _dialog_Contents.innerHTML = "No attributes are available."
+            _dialog_Contents.innerHTML = _configuration.noAttributesAvailableText!;
         }
     }
 
@@ -202,15 +202,30 @@ import { Char, Mode } from "./ts/enum";
         
         if ( !Is.definedString( options.titleText ) ) {
             if ( options.mode === Mode.css ) {
-                options.titleText = "CSS Properties";
+                options.titleText = _configuration.cssPropertiesText;
             } else if ( options.mode === Mode.attributes ) {
-                options.titleText = "Attributes";
+                options.titleText = _configuration.attributesText;
             } else if ( options.mode === Mode.size ) {
-                options.titleText = "Size";
+                options.titleText = _configuration.sizeText;
             }
         }
 
         return options;
+    }
+
+
+	/*
+	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 * Public API Functions:  Helpers:  Configuration
+	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 */
+
+    function buildDefaultConfiguration( newConfiguration: Configuration = null! ) : void {
+        _configuration = Data.getDefaultObject( newConfiguration, {} as Configuration );
+        _configuration.cssPropertiesText = Data.getDefaultAnyString( _configuration.cssPropertiesText, "CSS Properties" );
+        _configuration.attributesText = Data.getDefaultAnyString( _configuration.attributesText, "Attributes" );
+        _configuration.sizeText = Data.getDefaultAnyString( _configuration.sizeText, "Size" );
+        _configuration.noAttributesAvailableText = Data.getDefaultAnyString( _configuration.noAttributesAvailableText, "No attributes are available." );
     }
 
 
@@ -266,8 +281,24 @@ import { Char, Mode } from "./ts/enum";
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        setConfiguration: function ( newConfiguration: Configuration ): PublicApi {
-            throw new Error("Function not implemented.");
+        setConfiguration: function ( newConfiguration: any ): PublicApi {
+            if ( Is.definedObject( newConfiguration ) ) {
+                let configurationHasChanged: boolean = false;
+                const newInternalConfiguration: any = _configuration;
+            
+                for ( let propertyName in newConfiguration ) {
+                    if ( newConfiguration.hasOwnProperty( propertyName ) && _configuration.hasOwnProperty( propertyName ) && newInternalConfiguration[ propertyName ] !== newConfiguration[ propertyName ] ) {
+                        newInternalConfiguration[ propertyName ] = newConfiguration[ propertyName ];
+                        configurationHasChanged = true;
+                    }
+                }
+        
+                if ( configurationHasChanged ) {
+                    buildDefaultConfiguration( newInternalConfiguration );
+                }
+            }
+    
+            return _public;
         },
 
 
@@ -290,6 +321,8 @@ import { Char, Mode } from "./ts/enum";
      */
 
     ( () => {
+        buildDefaultConfiguration();
+
         document.addEventListener( "DOMContentLoaded", () => {
             buildDialog();
         } );
