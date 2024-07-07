@@ -14,6 +14,7 @@
 import { type Configuration, type Options } from "./ts/type";
 import { PublicApi } from "./ts/api";
 import { Is } from "./ts/is";
+import { DomElement } from "./ts/dom";
 
 
 ( () => {
@@ -34,7 +35,7 @@ import { Is } from "./ts/is";
      */
 
     function buildDialog() {
-
+        _dialog = DomElement.create( document.body, "div", "peek-js" );
     }
 
 
