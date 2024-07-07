@@ -22,7 +22,6 @@ export type Configuration = {
     sizeText?: string;
     noAttributesAvailableText?: string;
     closeText?: string;
-    copyText?: string;
     dialogDisplayDelay?: number;
 };
 

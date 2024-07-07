@@ -181,10 +181,8 @@ var n;
         r = t.create(i, "div", "dialog-title-bar");
         l = t.create(i, "div", "dialog-contents");
         f = t.create(i, "div", "dialog-buttons");
-        const n = t.createWithHTML(f, "button", "copy", o.copyText);
-        const u = t.createWithHTML(f, "button", "close", o.closeText);
-        n.onclick = () => {};
-        u.onclick = () => {
+        const n = t.createWithHTML(f, "button", "close", o.closeText);
+        n.onclick = () => {
             g();
         };
     }
@@ -262,23 +260,23 @@ var n;
     }
     function h(e) {
         e.addEventListener("mousemove", (t => {
-            D(t, e);
+            x(t, e);
         }));
         s.push(e);
     }
-    function x() {
+    function D() {
         const e = s.length;
         for (let n = 0; n < e; n++) {
             var t = s[n];
             t.removeEventListener("mousemove", (e => {
-                D(e, t);
+                x(e, t);
             }));
         }
         s = [];
         window.removeEventListener("mousemove", g);
         g();
     }
-    function D(e, n) {
+    function x(e, n) {
         t.cancelBubble(e);
         if (u !== 0) {
             clearTimeout(u);
@@ -307,7 +305,6 @@ var n;
         o.sizeText = n.getDefaultAnyString(o.sizeText, "Size");
         o.noAttributesAvailableText = n.getDefaultAnyString(o.noAttributesAvailableText, "No attributes are available.");
         o.closeText = n.getDefaultAnyString(o.closeText, "Close");
-        o.copyText = n.getDefaultAnyString(o.copyText, "Copy");
     }
     const L = {
         start: function(t) {
@@ -321,7 +318,7 @@ var n;
         stop: function() {
             if (e.definedObject(c)) {
                 c = null;
-                x();
+                D();
             }
             return L;
         },
