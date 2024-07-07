@@ -17,7 +17,13 @@
     "javascript",
     "css",
     "peek.js",
-    "html"
+    "html",
+    "property",
+    "size",
+    "attribute",
+    "viewer",
+    "hover",
+    "mouseover"
   ],
   "bugs": {
     "url": "https://github.com/williamtroup/Peek.js/issues"
