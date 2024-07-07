@@ -41,6 +41,13 @@ import { Mode } from "./ts/enum";
 
     function buildDialog() {
         _dialog = DomElement.create( document.body, "div", "peek-js" );
+        _dialog_Title = DomElement.create( _dialog, "div", "dialog-title-bar" );
+        _dialog_Contents = DomElement.create( _dialog, "div", "dialog-contents" );
+        _dialog_Buttons = DomElement.create( _dialog, "div", "dialog-buttons" );
+    }
+
+    function setDialogText() {
+        _dialog_Title.innerHTML = _current_Process_Options.titleText!;
     }
 
 
@@ -55,6 +62,16 @@ import { Mode } from "./ts/enum";
         options.nodeType = Data.getDefaultStringOrArray( options.nodeType, [] );
         options.mode = Data.getDefaultNumber( options.mode, Mode.css );
         
+        if ( !Is.definedString( options.titleText ) ) {
+            if ( options.mode === Mode.css ) {
+                options.titleText = "CSS";
+            } else if ( options.mode === Mode.attributes ) {
+                options.titleText = "Attributes";
+            } else if ( options.mode === Mode.size ) {
+                options.titleText = "Size";
+            }
+        }
+
         return options;
     }
 
@@ -86,11 +103,15 @@ import { Mode } from "./ts/enum";
         start: function ( options: Options ): PublicApi {
             _current_Process_Options = buildOptions( options );
 
+            setDialogText();
+
             return _public;
         },
 
         stop: function (): PublicApi {
-            throw new Error("Function not implemented.");
+            _current_Process_Options = null!;
+
+            return _public;
         },
 
 

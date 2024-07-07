@@ -9,32 +9,32 @@ var e;
         return t(e) && typeof e === "object";
     }
     e.definedObject = n;
-    function o(e) {
+    function i(e) {
         return t(e) && typeof e === "boolean";
     }
-    e.definedBoolean = o;
-    function r(e) {
+    e.definedBoolean = i;
+    function o(e) {
         return t(e) && typeof e === "string";
     }
-    e.definedString = r;
-    function i(e) {
+    e.definedString = o;
+    function r(e) {
         return t(e) && typeof e === "function";
     }
-    e.definedFunction = i;
-    function u(e) {
+    e.definedFunction = r;
+    function l(e) {
         return t(e) && typeof e === "number";
     }
-    e.definedNumber = u;
-    function l(e) {
+    e.definedNumber = l;
+    function u(e) {
         return n(e) && e instanceof Array;
     }
-    e.definedArray = l;
+    e.definedArray = u;
     function f(e) {
         return n(e) && e instanceof Date;
     }
     e.definedDate = f;
     function c(e, t = 1) {
-        return !l(e) || e.length < t;
+        return !u(e) || e.length < t;
     }
     e.invalidOptionArray = c;
 })(e || (e = {}));
@@ -42,51 +42,51 @@ var e;
 var t;
 
 (t => {
-    function n(t, n, o = "") {
-        const r = n.toLowerCase();
-        const i = r === "text";
-        let u = i ? document.createTextNode("") : document.createElement(r);
-        if (e.defined(o)) {
-            u.className = o;
+    function n(t, n, i = "") {
+        const o = n.toLowerCase();
+        const r = o === "text";
+        let l = r ? document.createTextNode("") : document.createElement(o);
+        if (e.defined(i)) {
+            l.className = i;
         }
-        t.appendChild(u);
-        return u;
+        t.appendChild(l);
+        return l;
     }
     t.create = n;
-    function o(e, t, o, r) {
-        const i = n(e, t, o);
-        i.innerHTML = r;
-        return i;
+    function i(e, t, i, o) {
+        const r = n(e, t, i);
+        r.innerHTML = o;
+        return r;
     }
-    t.createWithHTML = o;
-    function r(e, t, n = false) {
-        let o = null;
+    t.createWithHTML = i;
+    function o(e, t, n = false) {
+        let i = null;
         if (document.defaultView.getComputedStyle) {
-            o = document.defaultView.getComputedStyle(e, null).getPropertyValue(t);
+            i = document.defaultView.getComputedStyle(e, null).getPropertyValue(t);
         } else if (e.currentStyle) {
-            o = e.currentStyle[t];
+            i = e.currentStyle[t];
         }
         if (n) {
-            o = parseFloat(o);
+            i = parseFloat(i);
         }
-        return o;
+        return i;
     }
-    t.getStyleValueByName = r;
-    function i(e, t) {
+    t.getStyleValueByName = o;
+    function r(e, t) {
         e.className += " " + t;
         e.className = e.className.trim();
     }
-    t.addClass = i;
-    function u(e, t) {
+    t.addClass = r;
+    function l(e, t) {
         e.className = e.className.replace(t, "");
         e.className = e.className.trim();
     }
-    t.removeClass = u;
-    function l(e) {
+    t.removeClass = l;
+    function u(e) {
         e.preventDefault();
         e.cancelBubble = true;
     }
-    t.cancelBubble = l;
+    t.cancelBubble = u;
     function f() {
         const e = document.documentElement;
         const t = {
@@ -98,27 +98,27 @@ var t;
     t.getScrollPosition = f;
     function c(e, t) {
         let n = e.pageX;
-        let o = e.pageY;
-        const r = f();
+        let i = e.pageY;
+        const o = f();
         t.style.display = "block";
         if (n + t.offsetWidth > window.innerWidth) {
             n -= t.offsetWidth;
         } else {
             n++;
         }
-        if (o + t.offsetHeight > window.innerHeight) {
-            o -= t.offsetHeight;
+        if (i + t.offsetHeight > window.innerHeight) {
+            i -= t.offsetHeight;
         } else {
-            o++;
+            i++;
         }
-        if (n < r.left) {
+        if (n < o.left) {
             n = e.pageX + 1;
         }
-        if (o < r.top) {
-            o = e.pageY + 1;
+        if (i < o.top) {
+            i = e.pageY + 1;
         }
         t.style.left = n + "px";
-        t.style.top = o + "px";
+        t.style.top = i + "px";
     }
     t.showElementAtMousePosition = c;
 })(t || (t = {}));
@@ -130,73 +130,90 @@ var n;
         return typeof e === "string" ? e : t;
     }
     t.getDefaultAnyString = n;
-    function o(t, n) {
+    function i(t, n) {
         return e.definedString(t) ? t : n;
     }
-    t.getDefaultString = o;
-    function r(t, n) {
+    t.getDefaultString = i;
+    function o(t, n) {
         return e.definedBoolean(t) ? t : n;
     }
-    t.getDefaultBoolean = r;
-    function i(t, n) {
+    t.getDefaultBoolean = o;
+    function r(t, n) {
         return e.definedNumber(t) ? t : n;
     }
-    t.getDefaultNumber = i;
-    function u(t, n) {
+    t.getDefaultNumber = r;
+    function l(t, n) {
         return e.definedFunction(t) ? t : n;
     }
-    t.getDefaultFunction = u;
-    function l(t, n) {
+    t.getDefaultFunction = l;
+    function u(t, n) {
         return e.definedArray(t) ? t : n;
     }
-    t.getDefaultArray = l;
+    t.getDefaultArray = u;
     function f(t, n) {
         return e.definedObject(t) ? t : n;
     }
     t.getDefaultObject = f;
     function c(t, n) {
-        let o = n;
+        let i = n;
         if (e.definedString(t)) {
             const e = t.toString().split(" ");
             if (e.length === 0) {
                 t = n;
             } else {
-                o = e;
+                i = e;
             }
         } else {
-            o = l(t, n);
+            i = u(t, n);
         }
-        return o;
+        return i;
     }
     t.getDefaultStringOrArray = c;
 })(n || (n = {}));
 
 (() => {
-    let o = {};
+    let i = {};
+    let o = null;
     let r = null;
-    let i = null;
-    let u = null;
     let l = null;
+    let u = null;
     let f = null;
     function c() {
-        r = t.create(document.body, "div", "peek-js");
+        o = t.create(document.body, "div", "peek-js");
+        r = t.create(o, "div", "dialog-title-bar");
+        l = t.create(o, "div", "dialog-contents");
+        u = t.create(o, "div", "dialog-buttons");
     }
-    function a(e) {
-        let t = n.getDefaultObject(e, {});
-        t.nodeType = n.getDefaultStringOrArray(t.nodeType, []);
-        t.mode = n.getDefaultNumber(t.mode, 1);
-        return t;
+    function d() {
+        r.innerHTML = f.titleText;
     }
-    const d = {
+    function a(t) {
+        let i = n.getDefaultObject(t, {});
+        i.nodeType = n.getDefaultStringOrArray(i.nodeType, []);
+        i.mode = n.getDefaultNumber(i.mode, 1);
+        if (!e.definedString(i.titleText)) {
+            if (i.mode === 1) {
+                i.titleText = "CSS";
+            } else if (i.mode === 2) {
+                i.titleText = "Attributes";
+            } else if (i.mode === 3) {
+                i.titleText = "Size";
+            }
+        }
+        return i;
+    }
+    const s = {
         destroy: function() {
             throw new Error("Function not implemented.");
         },
         start: function(e) {
             f = a(e);
-            return d;
+            d();
+            return s;
         },
         stop: function() {
-            throw new Error("Function not implemented.");
+            f = null;
+            return s;
         },
         setConfiguration: function(e) {
             throw new Error("Function not implemented.");
@@ -210,7 +227,7 @@ var n;
             c();
         }));
         if (!e.defined(window.$peek)) {
-            window.$peek = d;
+            window.$peek = s;
         }
     })();
 })();//# sourceMappingURL=peek.esm.js.map

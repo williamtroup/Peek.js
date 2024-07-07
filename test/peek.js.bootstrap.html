@@ -24,6 +24,11 @@
             <button class="btn btn-primary" onclick="setupConfiguration();">Set Configuration</button>
             <br />
 
+            <h3>Running:</h3>
+            <button class="btn btn-primary" onclick="$peek.start( { nodeType: 'button' } );">Start</button>
+            <button class="btn btn-primary" onclick="$peek.stop();">Stop</button>
+            <br />
+
             <h3>Additional Data:</h3>
             <button class="btn btn-primary" onclick="console.log( $peek.getVersion() );">Get Version</button>
         </div>

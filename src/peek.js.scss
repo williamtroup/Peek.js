@@ -12,6 +12,7 @@
 :root {
     // Fonts
     --peek-js-text-bold-weight-active: 900;
+    --peek-js-title-bold-weight: 900;
     --peek-js-default-font: system-ui,
                             -apple-system,
                             "Segoe UI",
@@ -67,7 +68,6 @@ div.peek-js {
     @include no-selection-allowed;
     @include box-sizing;
     font-family: var(--peek-js-default-font);
-    display: none;
     position: absolute;
     border-radius: var(--peek-js-border-radius);
     background-color: var(--peek-js-dialog-background-color);
@@ -76,7 +76,7 @@ div.peek-js {
     padding: var(--peek-js-spacing);
     font-size: var(--peek-js-spacing-font-size);
     width: 100%;
-    max-width: 700px;
+    max-width: 400px;
     margin: 0 !important;
 
     * {
@@ -86,5 +86,20 @@ div.peek-js {
         &::after {
             @include box-sizing;
         }
+    }
+}
+
+
+/*
+    -------------------------------------------------------------------------
+    Peek.js - Dialog - Title Bar
+    -------------------------------------------------------------------------
+*/
+
+div.peek-js {
+    div.dialog-title-bar {
+        margin-bottom: calc( var(--heat-js-spacing) + var(--heat-js-spacing) / 2 );
+        font-size: 1.2rem;
+        font-weight: var(--peek-js-title-bold-weight);
     }
 }
