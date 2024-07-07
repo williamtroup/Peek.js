@@ -35,8 +35,12 @@
     --peek-js-dialog-background-color: #22272e;
     --peek-js-dialog-border-color: #454c56;
 
+    // Dialog - Contents
+    --peek-js-dialog-contents-background-color: #2d333b;
+    --peek-js-dialog-contents-border-color: var(--peek-js-dialog-border-color);
+
     // Dialog - Button
-    --peek-js-button-background-color: #2d333b;
+    --peek-js-button-background-color: var(--peek-js-dialog-contents-background-color);
     --peek-js-button-border-color: var(--peek-js-dialog-border-color);
     --peek-js-button-text-color: var(--peek-js-color-white);
     --peek-js-button-background-color-hover: var(--peek-js-dialog-border-color);
@@ -116,6 +120,10 @@ div.peek-js {
     div.dialog-contents {
         max-height: 300px;
         overflow-y: scroll;
+        background-color: var(--peek-js-dialog-contents-background-color);
+        border: var(--peek-js-border-size) solid var(--peek-js-dialog-contents-border-color);
+        border-radius: var(--peek-js-border-radius);
+        padding: var(--peek-js-spacing);
 
         div.property-row {
             display: flex;
@@ -125,6 +133,8 @@ div.peek-js {
             div.property-name {
                 width: 220px;
                 font-weight: var(--peek-js-title-bold-weight);
+                padding-top: calc( var(--peek-js-spacing) / 2 ) !important;
+                padding-bottom: calc( var(--peek-js-spacing) / 2 ) !important;
             }
 
             div.property-value {
@@ -137,7 +147,7 @@ div.peek-js {
                     border-radius: var(--peek-js-border-radius);
                     border: var(--peek-js-border-size) solid var(--peek-js-dialog-border-color) !important;
                     color: var(--peek-js-color-snow-white) !important;
-                    background-color: #403f3f !important;
+                    background-color: var(--peek-js-dialog-background-color) !important;
                     outline: none !important;
                     box-shadow: none !important;
                 }
