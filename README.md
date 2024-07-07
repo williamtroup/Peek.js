@@ -12,7 +12,12 @@ Peek.js
 > <p align="center">🐛 A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.</p>
 > <p align="center">v1.0.0</p>
 <br />
-<br />
+
+![Peek.js - CSS Mode](docs/images/css-mode.png)
+![Peek.js - Attribute Mode](docs/images/attribute-mode.png)
+![Peek.js - Size Mode](docs/images/size-mode.png)
+<br>
+<br>
 
 
 <h1>What features does Peek.js have?</h1>
