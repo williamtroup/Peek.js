@@ -88,6 +88,31 @@ div.peek-js div.dialog-title-bar {
 
 /*
     -------------------------------------------------------------------------
+    Peek.js - Dialog - Contents
+    -------------------------------------------------------------------------
+*/
+div.peek-js div.dialog-contents {
+  max-height: 300px;
+  overflow-y: scroll;
+}
+div.peek-js div.dialog-contents div.property-row {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: var(--peek-js-spacing);
+}
+div.peek-js div.dialog-contents div.property-row div.property-name {
+  width: 200px;
+}
+div.peek-js div.dialog-contents div.property-row div.property-value {
+  flex-grow: 1;
+  margin-left: calc(var(--peek-js-spacing) * 2);
+}
+div.peek-js div.dialog-contents div.property-row:last-child {
+  margin-bottom: 0;
+}
+
+/*
+    -------------------------------------------------------------------------
     Peek.js - Dialog - Buttons
     -------------------------------------------------------------------------
 */

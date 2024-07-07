@@ -71,6 +71,16 @@ import { Char, Mode } from "./ts/enum";
 
     function buildDialogContent( element: HTMLElement ) : void {
         _dialog_Contents.innerHTML = Char.empty;
+
+        const computedStyles: CSSStyleDeclaration = getComputedStyle( element );
+        const computedStylesLength: number = computedStyles.length;
+
+        for( let styleIndex: number = 0; styleIndex < computedStylesLength; styleIndex++ ) {
+            const property: HTMLElement = DomElement.create( _dialog_Contents, "div", "property-row" );
+
+            DomElement.createWithHTML( property, "div", "property-name", computedStyles[ styleIndex ] );
+            DomElement.createWithHTML( property, "div", "property-value", computedStyles.getPropertyValue( computedStyles[ styleIndex ] ) );
+        }
     }
 
 

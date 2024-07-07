@@ -194,11 +194,18 @@ var n;
         e.onclick = () => {};
         n.onclick = () => {};
     }
-    function s() {
+    function a() {
         r.innerHTML = c.titleText;
     }
-    function a(e) {
+    function s(e) {
         l.innerHTML = "";
+        const n = getComputedStyle(e);
+        const o = n.length;
+        for (let e = 0; e < o; e++) {
+            const o = t.create(l, "div", "property-row");
+            t.createWithHTML(o, "div", "property-name", n[e]);
+            t.createWithHTML(o, "div", "property-value", n.getPropertyValue(n[e]));
+        }
     }
     function m() {
         const e = c.nodeType;
@@ -208,18 +215,18 @@ var n;
             const o = [].slice.call(t);
             const i = o.length;
             for (let e = 0; e < i; e++) {
-                g(o[e]);
+                p(o[e]);
             }
         }
         window.addEventListener("mousemove", b);
     }
-    function g(e) {
+    function p(e) {
         e.addEventListener("mousemove", (t => {
             y(t, e);
         }));
         f.push(e);
     }
-    function p() {
+    function g() {
         const e = f.length;
         for (let n = 0; n < e; n++) {
             var t = f[n];
@@ -232,7 +239,7 @@ var n;
         i.style.display = "none";
     }
     function y(e, n) {
-        a(n);
+        s(n);
         t.cancelBubble(e);
         t.showElementAtMousePosition(e, i);
     }
@@ -254,24 +261,24 @@ var n;
         }
         return o;
     }
-    const w = {
+    const h = {
         destroy: function() {
             throw new Error("Function not implemented.");
         },
         start: function(t) {
             if (!e.definedObject(c)) {
                 c = v(t);
-                s();
+                a();
                 m();
             }
-            return w;
+            return h;
         },
         stop: function() {
             if (e.definedObject(c)) {
                 c = null;
-                p();
+                g();
             }
-            return w;
+            return h;
         },
         setConfiguration: function(e) {
             throw new Error("Function not implemented.");
@@ -285,7 +292,7 @@ var n;
             d();
         }));
         if (!e.defined(window.$peek)) {
-            window.$peek = w;
+            window.$peek = h;
         }
     })();
 })();//# sourceMappingURL=peek.js.map
