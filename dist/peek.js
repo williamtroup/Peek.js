@@ -137,18 +137,14 @@ var n;
     }
     t.getDefaultNumber = r;
     function l(t, n) {
-        return e.definedFunction(t) ? t : n;
-    }
-    t.getDefaultFunction = l;
-    function f(t, n) {
         return e.definedArray(t) ? t : n;
     }
-    t.getDefaultArray = f;
-    function u(t, n) {
+    t.getDefaultArray = l;
+    function f(t, n) {
         return e.definedObject(t) ? t : n;
     }
-    t.getDefaultObject = u;
-    function c(t, n) {
+    t.getDefaultObject = f;
+    function u(t, n) {
         let o = n;
         if (e.definedString(t)) {
             const e = t.toString().split(" ");
@@ -158,11 +154,11 @@ var n;
                 o = e;
             }
         } else {
-            o = f(t, n);
+            o = l(t, n);
         }
         return o;
     }
-    t.getDefaultStringOrArray = c;
+    t.getDefaultStringOrArray = u;
 })(n || (n = {}));
 
 (() => {

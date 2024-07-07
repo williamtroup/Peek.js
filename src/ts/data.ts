@@ -32,10 +32,6 @@ export namespace Data {
         return Is.definedNumber( value ) ? value : defaultValue;
     }
 
-    export function getDefaultFunction( value: any, defaultValue: object ) : any {
-        return Is.definedFunction( value ) ? value : defaultValue;
-    }
-
     export function getDefaultArray( value: any, defaultValue: any[] ) : any[] {
         return Is.definedArray( value ) ? value : defaultValue;
     }
