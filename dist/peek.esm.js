@@ -40,7 +40,12 @@ var n;
 })(n || (n = {}));
 
 (() => {
-    const e = {
+    let e = {};
+    let t = null;
+    let o = null;
+    let r = null;
+    let i = null;
+    const u = {
         destroy: function() {
             throw new Error("Function not implemented.");
         },
@@ -59,7 +64,7 @@ var n;
     };
     (() => {
         if (!n.defined(window.$peek)) {
-            window.$peek = e;
+            window.$peek = u;
         }
     })();
 })();//# sourceMappingURL=peek.esm.js.map

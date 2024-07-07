@@ -17,6 +17,15 @@ import { Is } from "./ts/is";
 
 
 ( () => {
+    // Variables: Configuration
+    let _configuration: Configuration = {} as Configuration;
+
+    // Variables: Dialog
+    let _dialog: HTMLElement = null!;
+    let _dialog_Title: HTMLElement = null!;
+    let _dialog_Contents: HTMLElement = null!;
+    let _dialog_Buttons: HTMLElement = null!;
+    
 
 	/*
 	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
