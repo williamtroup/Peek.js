@@ -62,7 +62,7 @@ import { Is } from "./ts/is";
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        start: function (options: Options): PublicApi {
+        start: function ( options: Options ): PublicApi {
             throw new Error("Function not implemented.");
         },
 
