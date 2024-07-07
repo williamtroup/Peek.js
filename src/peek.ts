@@ -117,7 +117,7 @@ import { Char, Mode } from "./ts/enum";
                 propertyValueInput.type = "text";
                 propertyValueInput.value = attribute.value;
             }
-            
+
         } else {
             _dialog_Contents.innerHTML = "No attributes are available."
         }
@@ -174,10 +174,18 @@ import { Char, Mode } from "./ts/enum";
     }
 
     function onNodeMouseOver( e: MouseEvent, element: HTMLElement ) {
-        buildDialogContent( element );
-
         DomElement.cancelBubble( e );
-        DomElement.showElementAtMousePosition( e, _dialog );
+        
+        if ( _dialog_Timer !== 0 ) {
+            clearTimeout( _dialog_Timer );
+            _dialog_Timer = 0;
+        }
+
+        _dialog_Timer = setTimeout( () => {
+            buildDialogContent( element );
+
+            DomElement.showElementAtMousePosition( e, _dialog );
+        }, 1000 );
     }
 
 

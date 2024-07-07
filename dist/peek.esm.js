@@ -192,16 +192,16 @@ var n;
         const n = t.createWithHTML(u, "button", "close", "Close");
         e.onclick = () => {};
         n.onclick = () => {
-            p();
+            m();
         };
     }
     function d() {
         r.innerHTML = f.titleText;
     }
-    function p() {
+    function m() {
         i.style.display = "none";
     }
-    function m(e) {
+    function p(e) {
         l.innerHTML = "";
         l.scrollTop = 0;
         if (f.mode === 1) {
@@ -248,11 +248,11 @@ var n;
                 b(o[e]);
             }
         }
-        window.addEventListener("mousemove", p);
+        window.addEventListener("mousemove", m);
     }
     function b(e) {
         e.addEventListener("mousemove", (t => {
-            w(t, e);
+            T(t, e);
         }));
         a.push(e);
     }
@@ -261,19 +261,25 @@ var n;
         for (let n = 0; n < e; n++) {
             var t = a[n];
             t.removeEventListener("mousemove", (e => {
-                w(e, t);
+                T(e, t);
             }));
         }
         a = [];
-        window.removeEventListener("mousemove", p);
-        p();
+        window.removeEventListener("mousemove", m);
+        m();
     }
-    function w(e, n) {
-        m(n);
+    function T(e, n) {
         t.cancelBubble(e);
-        t.showElementAtMousePosition(e, i);
+        if (c !== 0) {
+            clearTimeout(c);
+            c = 0;
+        }
+        c = setTimeout((() => {
+            p(n);
+            t.showElementAtMousePosition(e, i);
+        }), 1e3);
     }
-    function T(t) {
+    function w(t) {
         let o = n.getDefaultObject(t, {});
         o.nodeType = n.getDefaultStringOrArray(o.nodeType, []);
         o.mode = n.getDefaultNumber(o.mode, 1);
@@ -294,7 +300,7 @@ var n;
         },
         start: function(t) {
             if (!e.definedObject(f)) {
-                f = T(t);
+                f = w(t);
                 d();
                 v();
             }

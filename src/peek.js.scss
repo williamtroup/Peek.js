@@ -71,6 +71,7 @@
 div.peek-js {
     @include no-selection-allowed;
     @include box-sizing;
+    @include fade-in-effect-animation( 1s );
     font-family: var(--peek-js-default-font);
     position: absolute;
     border-radius: var(--peek-js-border-radius);
@@ -180,3 +181,18 @@ div.peek-js {
     }
 }
 
+
+/*
+    -------------------------------------------------------------------------
+    Peek.js - Effects
+    -------------------------------------------------------------------------
+*/
+
+@keyframes fade-in-effect {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

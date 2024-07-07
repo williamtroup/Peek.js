@@ -49,3 +49,11 @@
     box-sizing: border-box;
     line-height: normal;
 }
+
+@mixin fade-in-effect-animation( $seconds ) {
+    animation: fade-in-effect ease $seconds;
+    -webkit-animation: fade-in-effect ease $seconds;
+    -moz-animation: fade-in-effect ease $seconds;
+    -o-animation: fade-in-effect ease $seconds;
+    -ms-animation: fade-in-effect ease $seconds;
+}
