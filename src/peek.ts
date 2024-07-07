@@ -55,11 +55,16 @@ import { Char, Mode } from "./ts/enum";
         };
 
         closeButton.onclick = () => {
+            closeDialog();
         };
     }
 
     function setDialogText() : void {
         _dialog_Title.innerHTML = _current_Process_Options.titleText!;
+    }
+
+    function closeDialog() {
+        _dialog.style.display = "none";
     }
 
 
@@ -71,20 +76,22 @@ import { Char, Mode } from "./ts/enum";
 
     function buildDialogContent( element: HTMLElement ) : void {
         _dialog_Contents.innerHTML = Char.empty;
+        _dialog_Contents.scrollTop = 0;
 
         const computedStyles: CSSStyleDeclaration = getComputedStyle( element );
         const computedStylesLength: number = computedStyles.length;
 
         for( let styleIndex: number = 0; styleIndex < computedStylesLength; styleIndex++ ) {
             const property: HTMLElement = DomElement.create( _dialog_Contents, "div", "property-row" );
+            const propertyName: string = computedStyles[ styleIndex ];
 
-            DomElement.createWithHTML( property, "div", "property-name", computedStyles[ styleIndex ] );
+            DomElement.createWithHTML( property, "div", "property-name", propertyName );
             
             const propertyValue: HTMLElement = DomElement.create( property, "div", "property-value" );
             const propertyValueInput: HTMLInputElement = DomElement.create( propertyValue, "input" ) as HTMLInputElement;
 
             propertyValueInput.type = "text";
-            propertyValueInput.value = computedStyles.getPropertyValue( computedStyles[ styleIndex ] );
+            propertyValueInput.value = computedStyles.getPropertyValue( propertyName );
         }
     }
 
@@ -109,7 +116,7 @@ import { Char, Mode } from "./ts/enum";
             }
         }
 
-        window.addEventListener( "mousemove", onWindowMouseOver );
+        window.addEventListener( "mousemove", closeDialog );
     }
 
     function buildNodeEvent( element: HTMLElement ) : void {
@@ -133,9 +140,9 @@ import { Char, Mode } from "./ts/enum";
 
         _current_Process_Elements = [] as HTMLElement[];
 
-        window.removeEventListener( "mousemove", onWindowMouseOver );
+        window.removeEventListener( "mousemove", closeDialog );
 
-        _dialog.style.display = "none";
+        closeDialog();
     }
 
     function onNodeMouseOver( e: MouseEvent, element: HTMLElement ) {
@@ -143,10 +150,6 @@ import { Char, Mode } from "./ts/enum";
 
         DomElement.cancelBubble( e );
         DomElement.showElementAtMousePosition( e, _dialog );
-    }
-
-    function onWindowMouseOver() {
-        _dialog.style.display = "none";
     }
 
 

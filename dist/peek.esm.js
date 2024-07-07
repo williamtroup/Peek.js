@@ -190,25 +190,32 @@ var n;
         const e = t.createWithHTML(u, "button", "copy", "Copy");
         const n = t.createWithHTML(u, "button", "close", "Close");
         e.onclick = () => {};
-        n.onclick = () => {};
+        n.onclick = () => {
+            s();
+        };
     }
     function d() {
         r.innerHTML = c.titleText;
     }
-    function s(e) {
+    function s() {
+        i.style.display = "none";
+    }
+    function m(e) {
         l.innerHTML = "";
+        l.scrollTop = 0;
         const n = getComputedStyle(e);
         const o = n.length;
         for (let e = 0; e < o; e++) {
             const o = t.create(l, "div", "property-row");
-            t.createWithHTML(o, "div", "property-name", n[e]);
-            const i = t.create(o, "div", "property-value");
-            const r = t.create(i, "input");
-            r.type = "text";
-            r.value = n.getPropertyValue(n[e]);
+            const i = n[e];
+            t.createWithHTML(o, "div", "property-name", i);
+            const r = t.create(o, "div", "property-value");
+            const u = t.create(r, "input");
+            u.type = "text";
+            u.value = n.getPropertyValue(i);
         }
     }
-    function m() {
+    function p() {
         const e = c.nodeType;
         const t = e.length;
         for (let n = 0; n < t; n++) {
@@ -216,36 +223,33 @@ var n;
             const o = [].slice.call(t);
             const i = o.length;
             for (let e = 0; e < i; e++) {
-                p(o[e]);
+                g(o[e]);
             }
         }
-        window.addEventListener("mousemove", b);
+        window.addEventListener("mousemove", s);
     }
-    function p(e) {
+    function g(e) {
         e.addEventListener("mousemove", (t => {
-            y(t, e);
+            b(t, e);
         }));
         f.push(e);
     }
-    function g() {
+    function y() {
         const e = f.length;
         for (let n = 0; n < e; n++) {
             var t = f[n];
             t.removeEventListener("mousemove", (e => {
-                y(e, t);
+                b(e, t);
             }));
         }
         f = [];
-        window.removeEventListener("mousemove", b);
-        i.style.display = "none";
+        window.removeEventListener("mousemove", s);
+        s();
     }
-    function y(e, n) {
-        s(n);
+    function b(e, n) {
+        m(n);
         t.cancelBubble(e);
         t.showElementAtMousePosition(e, i);
-    }
-    function b() {
-        i.style.display = "none";
     }
     function v(t) {
         let o = n.getDefaultObject(t, {});
@@ -270,14 +274,14 @@ var n;
             if (!e.definedObject(c)) {
                 c = v(t);
                 d();
-                m();
+                p();
             }
             return h;
         },
         stop: function() {
             if (e.definedObject(c)) {
                 c = null;
-                g();
+                y();
             }
             return h;
         },
