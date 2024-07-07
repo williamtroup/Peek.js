@@ -11,9 +11,9 @@
  */
 
 
+import { type Configuration, type Options } from "./ts/type";
 import { PublicApi } from "./ts/api";
 import { Is } from "./ts/is";
-import { type Options } from "./ts/type";
 
 
 ( () => {
@@ -47,6 +47,17 @@ import { type Options } from "./ts/type";
         },
 
         stop: function (): PublicApi {
+            throw new Error("Function not implemented.");
+        },
+
+
+        /*
+         * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         * Public API Functions:  Configuration
+         * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         */
+
+        setConfiguration: function ( newConfiguration: Configuration ): PublicApi {
             throw new Error("Function not implemented.");
         },
 

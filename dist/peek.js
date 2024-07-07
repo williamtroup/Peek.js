@@ -52,6 +52,9 @@ var n;
         stop: function() {
             throw new Error("Function not implemented.");
         },
+        setConfiguration: function(n) {
+            throw new Error("Function not implemented.");
+        },
         getVersion: function() {
             return "1.0.0";
         }

@@ -21,20 +21,20 @@ var n;
         return e(n) && typeof n === "function";
     }
     n.definedFunction = i;
-    function f(n) {
+    function u(n) {
         return e(n) && typeof n === "number";
     }
-    n.definedNumber = f;
-    function u(n) {
+    n.definedNumber = u;
+    function f(n) {
         return t(n) && n instanceof Array;
     }
-    n.definedArray = u;
+    n.definedArray = f;
     function d(n) {
         return t(n) && n instanceof Date;
     }
     n.definedDate = d;
     function c(n, e = 1) {
-        return !u(n) || n.length < e;
+        return !f(n) || n.length < e;
     }
     n.invalidOptionArray = c;
 })(n || (n = {}));
@@ -48,6 +48,9 @@ var n;
             throw new Error("Function not implemented.");
         },
         stop: function() {
+            throw new Error("Function not implemented.");
+        },
+        setConfiguration: function(n) {
             throw new Error("Function not implemented.");
         },
         getVersion: function() {

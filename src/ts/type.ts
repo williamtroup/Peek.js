@@ -11,6 +11,10 @@
  */
 
 
+export type Configuration = {
+	safeMode?: boolean;
+};
+
 export type Options = {
     nodeType: string[] | string;
 };

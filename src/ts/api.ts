@@ -11,7 +11,7 @@
  */
 
 
-import { Options } from "./type";
+import { type Configuration, type Options } from "./type";
 
 
 export type PublicApi = {
@@ -54,6 +54,7 @@ export type PublicApi = {
      */
     start: ( options: Options ) => PublicApi;
 
+
     /**
      * stop().
      * 
@@ -65,6 +66,28 @@ export type PublicApi = {
      * @returns     {Object}                                                The Peek.js class instance.
      */
     stop: () => PublicApi;
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Public API Functions:  Configuration
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    /**
+     * setConfiguration().
+     * 
+     * Sets the specific configuration options that should be used.
+     * 
+     * @public
+     * @fires       onRefresh
+     * 
+     * @param       {Object}    newConfiguration                            All the configuration options that should be set (refer to "Configuration Options" documentation for properties).
+     * 
+     * @returns     {Object}                                                The Peek.js class instance.
+     */
+    setConfiguration: ( newConfiguration: Configuration ) => PublicApi;
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
