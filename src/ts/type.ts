@@ -21,6 +21,7 @@ export type Configuration = {
     attributesText?: string;
     sizeText?: string;
     noAttributesAvailableText?: string;
+    dialogDisplayDelay?: number;
 };
 
 export type Options = {

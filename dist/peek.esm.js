@@ -33,10 +33,10 @@ var e;
         return n(e) && e instanceof Date;
     }
     e.definedDate = c;
-    function f(e, t = 1) {
+    function a(e, t = 1) {
         return !u(e) || e.length < t;
     }
-    e.invalidOptionArray = f;
+    e.invalidOptionArray = a;
 })(e || (e = {}));
 
 var t;
@@ -96,7 +96,7 @@ var t;
         return t;
     }
     t.getScrollPosition = c;
-    function f(e, t) {
+    function a(e, t) {
         if (t.style.display !== "block") {
             let n = e.pageX;
             let o = e.pageY;
@@ -122,7 +122,7 @@ var t;
             t.style.top = o + "px";
         }
     }
-    t.showElementAtMousePosition = f;
+    t.showElementAtMousePosition = a;
 })(t || (t = {}));
 
 var n;
@@ -156,7 +156,7 @@ var n;
         return e.definedObject(t) ? t : n;
     }
     t.getDefaultObject = c;
-    function f(t, n) {
+    function a(t, n) {
         let o = n;
         if (e.definedString(t)) {
             const e = t.toString().split(" ");
@@ -170,7 +170,7 @@ var n;
         }
         return o;
     }
-    t.getDefaultStringOrArray = f;
+    t.getDefaultStringOrArray = a;
 })(n || (n = {}));
 
 (() => {
@@ -180,37 +180,52 @@ var n;
     let l = null;
     let u = null;
     let c = 0;
-    let f = null;
-    let a = [];
+    let a = null;
+    let f = [];
     function s() {
+        if (e.definedObject(i)) {
+            p();
+            document.body.removeChild(i);
+            i = null;
+        }
         i = t.create(document.body, "div", "peek-js");
         i.onmousemove = t.cancelBubble;
         r = t.create(i, "div", "dialog-title-bar");
         l = t.create(i, "div", "dialog-contents");
         u = t.create(i, "div", "dialog-buttons");
-        const e = t.createWithHTML(u, "button", "copy", "Copy");
-        const n = t.createWithHTML(u, "button", "close", "Close");
-        e.onclick = () => {};
-        n.onclick = () => {
+        const n = t.createWithHTML(u, "button", "copy", "Copy");
+        const o = t.createWithHTML(u, "button", "close", "Close");
+        n.onclick = () => {};
+        o.onclick = () => {
             p();
         };
     }
     function d() {
-        r.innerHTML = f.titleText;
+        let t = a.titleText;
+        if (!e.definedString(t)) {
+            if (a.mode === 1) {
+                t = o.cssPropertiesText;
+            } else if (a.mode === 2) {
+                t = o.attributesText;
+            } else if (a.mode === 3) {
+                t = o.sizeText;
+            }
+        }
+        r.innerHTML = t;
     }
     function p() {
         i.style.display = "none";
     }
-    function m(e) {
+    function g(e) {
         l.innerHTML = "";
         l.scrollTop = 0;
-        if (f.mode === 1) {
-            g(e);
-        } else if (f.mode === 2) {
+        if (a.mode === 1) {
+            m(e);
+        } else if (a.mode === 2) {
             y(e);
         }
     }
-    function g(e) {
+    function m(e) {
         const n = getComputedStyle(e);
         const o = n.length;
         for (let e = 0; e < o; e++) {
@@ -238,7 +253,7 @@ var n;
         }
     }
     function b() {
-        const e = f.nodeType;
+        const e = a.nodeType;
         const t = e.length;
         for (let n = 0; n < t; n++) {
             const t = document.getElementsByTagName(e[n]);
@@ -252,101 +267,101 @@ var n;
     }
     function v(e) {
         e.addEventListener("mousemove", (t => {
-            h(t, e);
+            D(t, e);
         }));
-        a.push(e);
+        f.push(e);
     }
     function T() {
-        const e = a.length;
+        const e = f.length;
         for (let n = 0; n < e; n++) {
-            var t = a[n];
+            var t = f[n];
             t.removeEventListener("mousemove", (e => {
-                h(e, t);
+                D(e, t);
             }));
         }
-        a = [];
+        f = [];
         window.removeEventListener("mousemove", p);
         p();
     }
-    function h(e, n) {
+    function D(e, n) {
         t.cancelBubble(e);
         if (c !== 0) {
             clearTimeout(c);
             c = 0;
         }
         c = setTimeout((() => {
-            m(n);
+            g(n);
             t.showElementAtMousePosition(e, i);
-        }), 1e3);
+        }), o.dialogDisplayDelay);
     }
-    function S(t) {
-        let i = n.getDefaultObject(t, {});
-        i.nodeType = n.getDefaultStringOrArray(i.nodeType, []);
-        i.mode = n.getDefaultNumber(i.mode, 1);
-        if (!e.definedString(i.titleText)) {
-            if (i.mode === 1) {
-                i.titleText = o.cssPropertiesText;
-            } else if (i.mode === 2) {
-                i.titleText = o.attributesText;
-            } else if (i.mode === 3) {
-                i.titleText = o.sizeText;
-            }
-        }
-        return i;
+    function h(e) {
+        let t = n.getDefaultObject(e, {});
+        t.nodeType = n.getDefaultStringOrArray(t.nodeType, []);
+        t.mode = n.getDefaultNumber(t.mode, 1);
+        t.titleText = n.getDefaultString(t.titleText, "");
+        return t;
     }
-    function w(e = null) {
+    function S(e = null) {
         o = n.getDefaultObject(e, {});
+        o.dialogDisplayDelay = n.getDefaultNumber(o.dialogDisplayDelay, 1e3);
+        w();
+    }
+    function w() {
         o.cssPropertiesText = n.getDefaultAnyString(o.cssPropertiesText, "CSS Properties");
         o.attributesText = n.getDefaultAnyString(o.attributesText, "Attributes");
         o.sizeText = n.getDefaultAnyString(o.sizeText, "Size");
         o.noAttributesAvailableText = n.getDefaultAnyString(o.noAttributesAvailableText, "No attributes are available.");
     }
-    const x = {
+    const A = {
         destroy: function() {
             throw new Error("Function not implemented.");
         },
         start: function(t) {
-            if (!e.definedObject(f)) {
-                f = S(t);
+            if (!e.definedObject(a)) {
+                a = h(t);
                 d();
                 b();
             }
-            return x;
+            return A;
         },
         stop: function() {
-            if (e.definedObject(f)) {
-                f = null;
+            if (e.definedObject(a)) {
+                a = null;
                 T();
             }
-            return x;
+            return A;
         },
         setConfiguration: function(t) {
             if (e.definedObject(t)) {
-                let e = false;
-                const n = o;
-                for (let i in t) {
-                    if (t.hasOwnProperty(i) && o.hasOwnProperty(i) && n[i] !== t[i]) {
-                        n[i] = t[i];
-                        e = true;
+                let n = false;
+                const i = o;
+                for (let e in t) {
+                    if (t.hasOwnProperty(e) && o.hasOwnProperty(e) && i[e] !== t[e]) {
+                        i[e] = t[e];
+                        n = true;
                     }
                 }
-                if (e) {
-                    w(n);
+                if (n) {
+                    S(i);
+                    s();
+                    if (e.definedObject(a)) {
+                        d();
+                    }
                 }
             }
-            return x;
+            return A;
         },
         getVersion: function() {
             return "1.0.0";
         }
     };
     (() => {
-        w();
+        S();
         document.addEventListener("DOMContentLoaded", (() => {
             s();
         }));
         if (!e.defined(window.$peek)) {
-            window.$peek = x;
+            window.$peek = A;
         }
     })();
 })();//# sourceMappingURL=peek.esm.js.map

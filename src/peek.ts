@@ -42,6 +42,13 @@ import { Char, Mode } from "./ts/enum";
      */
 
     function buildDialog() : void {
+        if ( Is.definedObject( _dialog ) ) {
+            closeDialog();
+
+            document.body.removeChild( _dialog );
+            _dialog = null!;
+        }
+
         _dialog = DomElement.create( document.body, "div", "peek-js" );
         _dialog.onmousemove = DomElement.cancelBubble;
 
@@ -61,7 +68,19 @@ import { Char, Mode } from "./ts/enum";
     }
 
     function setDialogText() : void {
-        _dialog_Title.innerHTML = _current_Process_Options.titleText!;
+        let title: string = _current_Process_Options.titleText!;
+
+        if ( !Is.definedString( title ) ) {
+            if ( _current_Process_Options.mode === Mode.css ) {
+                title = _configuration.cssPropertiesText!;
+            } else if ( _current_Process_Options.mode === Mode.attributes ) {
+                title = _configuration.attributesText!;
+            } else if ( _current_Process_Options.mode === Mode.size ) {
+                title = _configuration.sizeText!;
+            }
+        }
+
+        _dialog_Title.innerHTML = title;
     }
 
     function closeDialog() {
@@ -185,7 +204,7 @@ import { Char, Mode } from "./ts/enum";
             buildDialogContent( element );
 
             DomElement.showElementAtMousePosition( e, _dialog );
-        }, 1000 );
+        }, _configuration.dialogDisplayDelay );
     }
 
 
@@ -199,16 +218,7 @@ import { Char, Mode } from "./ts/enum";
         let options: Options = Data.getDefaultObject( newOptions, {} as Options );
         options.nodeType = Data.getDefaultStringOrArray( options.nodeType, [] );
         options.mode = Data.getDefaultNumber( options.mode, Mode.css );
-        
-        if ( !Is.definedString( options.titleText ) ) {
-            if ( options.mode === Mode.css ) {
-                options.titleText = _configuration.cssPropertiesText;
-            } else if ( options.mode === Mode.attributes ) {
-                options.titleText = _configuration.attributesText;
-            } else if ( options.mode === Mode.size ) {
-                options.titleText = _configuration.sizeText;
-            }
-        }
+        options.titleText = Data.getDefaultString( options.titleText, Char.empty );
 
         return options;
     }
@@ -222,6 +232,12 @@ import { Char, Mode } from "./ts/enum";
 
     function buildDefaultConfiguration( newConfiguration: Configuration = null! ) : void {
         _configuration = Data.getDefaultObject( newConfiguration, {} as Configuration );
+        _configuration.dialogDisplayDelay = Data.getDefaultNumber( _configuration.dialogDisplayDelay, 1000 );
+
+        buildDefaultStringConfiguration();
+    }
+
+    function buildDefaultStringConfiguration() : void {
         _configuration.cssPropertiesText = Data.getDefaultAnyString( _configuration.cssPropertiesText, "CSS Properties" );
         _configuration.attributesText = Data.getDefaultAnyString( _configuration.attributesText, "Attributes" );
         _configuration.sizeText = Data.getDefaultAnyString( _configuration.sizeText, "Size" );
@@ -295,6 +311,11 @@ import { Char, Mode } from "./ts/enum";
         
                 if ( configurationHasChanged ) {
                     buildDefaultConfiguration( newInternalConfiguration );
+                    buildDialog();
+
+                    if ( Is.definedObject( _current_Process_Options ) ) {
+                        setDialogText();
+                    }
                 }
             }
     
