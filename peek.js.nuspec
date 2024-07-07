@@ -4,7 +4,7 @@
         <id>jPeek.js</id>
         <version>1.0.0</version>
         <title>Peek.js</title>
-        <description>A lightweight JavaScript library</description>
+        <description>A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.</description>
         <authors>William Troup</authors>
         <projectUrl>https://www.william-troup.com/peek-js/</projectUrl>
         <repository type="git" url="https://github.com/williamtroup/Peek.js" branch="main" />
