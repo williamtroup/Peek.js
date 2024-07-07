@@ -10,7 +10,7 @@
         <repository type="git" url="https://github.com/williamtroup/Peek.js" branch="main" />
         <readme>README_NUGET.md</readme>
         <license type="expression">MIT</license>
-        <tags>typescript javascript css peek.js html property size attribute viewer hover mouseover</tags>
+        <tags>typescript javascript css peek.js html property size attribute viewer hover mouseover debug debugger</tags>
         <icon>docs\images\icon.png</icon>
         <copyright>William Troup</copyright>
     </metadata>

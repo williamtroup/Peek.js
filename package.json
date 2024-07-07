@@ -23,7 +23,9 @@
     "attribute",
     "viewer",
     "hover",
-    "mouseover"
+    "mouseover",
+    "debug",
+    "debugger"
   ],
   "bugs": {
     "url": "https://github.com/williamtroup/Peek.js/issues"
