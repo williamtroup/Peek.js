@@ -27,6 +27,9 @@ Peek.js
 - Full API available via public functions.
 - 3 modes supported:  CSS, Attributes, and Size/Position
 - Fully configurable.
+- Edit CSS / Attribute values on the fly!
+- Exclude specific DOM elements by using the ignore attribute!
+- Show only the data your interested in!
 <br />
 <br />
 
