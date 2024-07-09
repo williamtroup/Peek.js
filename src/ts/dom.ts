@@ -4,14 +4,15 @@
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
  * @file        dom.ts
- * @version     v1.0.0
+ * @version     v1.1.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
  */
 
 
-import { Char } from "./enum";
+import { Constant } from "./constant";
+import { Char, IgnoreState } from "./enum";
 import { Is } from "./is";
 import { type Position } from "./type";
 
@@ -22,6 +23,8 @@ export namespace DomElement {
         const isText: boolean = nodeType === "text";
 
         let result: any = isText ? document.createTextNode( Char.empty ) : document.createElement( nodeType );
+
+        result.setAttribute( Constant.PEEK_JS_IGNORE_STATE_ATTRIBUTE, IgnoreState.ignore );
 
         if ( Is.defined( className ) ) {
             result.className = className;
@@ -35,6 +38,7 @@ export namespace DomElement {
     export function createWithHTML( container: HTMLElement, type: string, className: string, html: string ) : HTMLElement {
         const element: HTMLElement = create( container, type, className );
         element.innerHTML = html;
+        element.setAttribute( Constant.PEEK_JS_IGNORE_STATE_ATTRIBUTE, IgnoreState.ignore );
 
         return element;
     }
