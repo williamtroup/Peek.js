@@ -29,4 +29,5 @@ export type Options = {
     nodeType: string[] | string;
     mode: number;
     titleText?: string;
+    showOnly: string[] | string;
 };

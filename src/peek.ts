@@ -16,7 +16,7 @@ import { PublicApi } from "./ts/api";
 import { Is } from "./ts/is";
 import { DomElement } from "./ts/dom";
 import { Data } from "./ts/data";
-import { Char, Mode } from "./ts/enum";
+import { Char, Mode, Value } from "./ts/enum";
 
 
 ( () => {
@@ -133,16 +133,18 @@ import { Char, Mode } from "./ts/enum";
     }
 
     function buildPropertyRow( propertyNameText: string, propertyValueText: string ) : void {
-        const property: HTMLElement = DomElement.create( _dialog_Contents, "div", "property-row" );
+        if ( _current_Process_Options.showOnly.length === 0 || _current_Process_Options.showOnly.indexOf( propertyNameText ) > Value.notFound ) {
+            const property: HTMLElement = DomElement.create( _dialog_Contents, "div", "property-row" );
 
-        DomElement.createWithHTML( property, "div", "property-name", propertyNameText );
-        
-        const propertyValue: HTMLElement = DomElement.create( property, "div", "property-value" );
-        const propertyValueInput: HTMLInputElement = DomElement.create( propertyValue, "input" ) as HTMLInputElement;
-
-        propertyValueInput.type = "text";
-        propertyValueInput.readOnly = true;
-        propertyValueInput.value = propertyValueText;
+            DomElement.createWithHTML( property, "div", "property-name", propertyNameText );
+            
+            const propertyValue: HTMLElement = DomElement.create( property, "div", "property-value" );
+            const propertyValueInput: HTMLInputElement = DomElement.create( propertyValue, "input" ) as HTMLInputElement;
+    
+            propertyValueInput.type = "text";
+            propertyValueInput.readOnly = true;
+            propertyValueInput.value = propertyValueText;
+        }
     }
 
 
@@ -222,6 +224,7 @@ import { Char, Mode } from "./ts/enum";
         options.nodeType = Data.getDefaultStringOrArray( options.nodeType, [] );
         options.mode = Data.getDefaultNumber( options.mode, Mode.css );
         options.titleText = Data.getDefaultString( options.titleText, Char.empty );
+        options.showOnly = Data.getDefaultStringOrArray( options.showOnly, [] );
 
         return options;
     }

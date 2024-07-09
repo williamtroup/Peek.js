@@ -21,3 +21,7 @@ export const enum Mode {
     attributes = 2,
     size = 3,
 }
+
+export const enum Value {
+    notFound = -1,
+}

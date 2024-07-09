@@ -33,10 +33,10 @@ var e;
         return n(e) && e instanceof Date;
     }
     e.definedDate = u;
-    function c(e, t = 1) {
+    function s(e, t = 1) {
         return !f(e) || e.length < t;
     }
-    e.invalidOptionArray = c;
+    e.invalidOptionArray = s;
 })(e || (e = {}));
 
 var t;
@@ -166,8 +166,8 @@ var n;
     let l = null;
     let f = null;
     let u = 0;
-    let c = null;
-    let s = [];
+    let s = null;
+    let c = [];
     function a() {
         if (e.definedObject(i)) {
             g();
@@ -185,13 +185,13 @@ var n;
         };
     }
     function d() {
-        let t = c.titleText;
+        let t = s.titleText;
         if (!e.definedString(t)) {
-            if (c.mode === 1) {
+            if (s.mode === 1) {
                 t = o.cssPropertiesText;
-            } else if (c.mode === 2) {
+            } else if (s.mode === 2) {
                 t = o.attributesText;
-            } else if (c.mode === 3) {
+            } else if (s.mode === 3) {
                 t = o.sizeText;
             }
         }
@@ -203,11 +203,11 @@ var n;
     function p(e) {
         l.innerHTML = "";
         l.scrollTop = 0;
-        if (c.mode === 1) {
+        if (s.mode === 1) {
             y(e);
-        } else if (c.mode === 2) {
+        } else if (s.mode === 2) {
             b(e);
-        } else if (c.mode === 3) {
+        } else if (s.mode === 3) {
             m(e);
         }
     }
@@ -235,42 +235,44 @@ var n;
         T("height", e.offsetHeight.toString() + "px");
     }
     function T(e, n) {
-        const o = t.create(l, "div", "property-row");
-        t.createWithHTML(o, "div", "property-name", e);
-        const i = t.create(o, "div", "property-value");
-        const r = t.create(i, "input");
-        r.type = "text";
-        r.readOnly = true;
-        r.value = n;
+        if (s.showOnly.length === 0 || s.showOnly.indexOf(e) > -1) {
+            const o = t.create(l, "div", "property-row");
+            t.createWithHTML(o, "div", "property-name", e);
+            const i = t.create(o, "div", "property-value");
+            const r = t.create(i, "input");
+            r.type = "text";
+            r.readOnly = true;
+            r.value = n;
+        }
     }
-    function v() {
-        const e = c.nodeType;
+    function h() {
+        const e = s.nodeType;
         const t = e.length;
         for (let n = 0; n < t; n++) {
             const t = document.getElementsByTagName(e[n]);
             const o = [].slice.call(t);
             const i = o.length;
             for (let e = 0; e < i; e++) {
-                h(o[e]);
+                v(o[e]);
             }
         }
         window.addEventListener("mousemove", g);
     }
-    function h(e) {
+    function v(e) {
         e.addEventListener("mousemove", (t => {
             x(t, e);
         }));
-        s.push(e);
+        c.push(e);
     }
     function D() {
-        const e = s.length;
+        const e = c.length;
         for (let n = 0; n < e; n++) {
-            var t = s[n];
+            var t = c[n];
             t.removeEventListener("mousemove", (e => {
                 x(e, t);
             }));
         }
-        s = [];
+        c = [];
         window.removeEventListener("mousemove", g);
         g();
     }
@@ -290,9 +292,10 @@ var n;
         t.nodeType = n.getDefaultStringOrArray(t.nodeType, []);
         t.mode = n.getDefaultNumber(t.mode, 1);
         t.titleText = n.getDefaultString(t.titleText, "");
+        t.showOnly = n.getDefaultStringOrArray(t.showOnly, []);
         return t;
     }
-    function A(e = null) {
+    function O(e = null) {
         o = n.getDefaultObject(e, {});
         o.dialogDisplayDelay = n.getDefaultNumber(o.dialogDisplayDelay, 1e3);
         w();
@@ -304,21 +307,21 @@ var n;
         o.noAttributesAvailableText = n.getDefaultAnyString(o.noAttributesAvailableText, "No attributes are available.");
         o.closeText = n.getDefaultAnyString(o.closeText, "Close");
     }
-    const L = {
+    const A = {
         start: function(t) {
-            if (!e.definedObject(c)) {
-                c = S(t);
+            if (!e.definedObject(s)) {
+                s = S(t);
                 d();
-                v();
+                h();
             }
-            return L;
+            return A;
         },
         stop: function() {
-            if (e.definedObject(c)) {
-                c = null;
+            if (e.definedObject(s)) {
+                s = null;
                 D();
             }
-            return L;
+            return A;
         },
         setConfiguration: function(t) {
             if (e.definedObject(t)) {
@@ -331,26 +334,26 @@ var n;
                     }
                 }
                 if (n) {
-                    A(i);
+                    O(i);
                     a();
-                    if (e.definedObject(c)) {
+                    if (e.definedObject(s)) {
                         d();
                     }
                 }
             }
-            return L;
+            return A;
         },
         getVersion: function() {
             return "1.1.0";
         }
     };
     (() => {
-        A();
+        O();
         document.addEventListener("DOMContentLoaded", (() => {
             a();
         }));
         if (!e.defined(window.$peek)) {
-            window.$peek = L;
+            window.$peek = A;
         }
     })();
 })();//# sourceMappingURL=peek.esm.js.map
