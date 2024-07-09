@@ -29,3 +29,7 @@ export const enum Value {
 export const enum KeyCode {
     enter = "Enter",
 }
+
+export const enum IgnoreState {
+    ignore = "ignore",
+}

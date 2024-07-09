@@ -16,7 +16,8 @@ import { PublicApi } from "./ts/api";
 import { Is } from "./ts/is";
 import { DomElement } from "./ts/dom";
 import { Data } from "./ts/data";
-import { Char, KeyCode, Mode, Value } from "./ts/enum";
+import { Char, IgnoreState, KeyCode, Mode, Value } from "./ts/enum";
+import { Constant } from "./ts/constant";
 
 
 ( () => {
@@ -184,11 +185,15 @@ import { Char, KeyCode, Mode, Value } from "./ts/enum";
     }
 
     function buildNodeEvent( element: HTMLElement ) : void {
-        element.addEventListener( "mousemove", ( e ) => {
-            onNodeMouseOver( e, element );
-        } );
+        const attributeValue: string = element.getAttribute( Constant.PEEK_JS_IGNORE_STATE_ATTRIBUTE )!;
 
-        _current_Process_Elements.push( element );
+        if ( !Is.definedString( attributeValue ) ?? attributeValue !== IgnoreState.ignore ) {
+            element.addEventListener( "mousemove", ( e ) => {
+                onNodeMouseOver( e, element );
+            } );
+    
+            _current_Process_Elements.push( element );
+        }
     }
 
     function removeNodeEvents() : void {
