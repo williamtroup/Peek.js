@@ -341,7 +341,7 @@ var n;
             return L;
         },
         getVersion: function() {
-            return "1.0.0";
+            return "1.1.0";
         }
     };
     (() => {
