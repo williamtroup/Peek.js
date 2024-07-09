@@ -17,14 +17,14 @@ var e;
         return t(e) && typeof e === "string";
     }
     e.definedString = i;
-    function r(e) {
+    function l(e) {
         return t(e) && typeof e === "function";
     }
-    e.definedFunction = r;
-    function l(e) {
+    e.definedFunction = l;
+    function r(e) {
         return t(e) && typeof e === "number";
     }
-    e.definedNumber = l;
+    e.definedNumber = r;
     function f(e) {
         return n(e) && e instanceof Array;
     }
@@ -44,19 +44,19 @@ var t;
 (t => {
     function n(t, n, o = "") {
         const i = n.toLowerCase();
-        const r = i === "text";
-        let l = r ? document.createTextNode("") : document.createElement(i);
+        const l = i === "text";
+        let r = l ? document.createTextNode("") : document.createElement(i);
         if (e.defined(o)) {
-            l.className = o;
+            r.className = o;
         }
-        t.appendChild(l);
-        return l;
+        t.appendChild(r);
+        return r;
     }
     t.create = n;
     function o(e, t, o, i) {
-        const r = n(e, t, o);
-        r.innerHTML = i;
-        return r;
+        const l = n(e, t, o);
+        l.innerHTML = i;
+        return l;
     }
     t.createWithHTML = o;
     function i(e) {
@@ -64,7 +64,7 @@ var t;
         e.cancelBubble = true;
     }
     t.cancelBubble = i;
-    function r() {
+    function l() {
         const e = document.documentElement;
         const t = {
             left: e.scrollLeft - (e.clientLeft || 0),
@@ -72,12 +72,12 @@ var t;
         };
         return t;
     }
-    t.getScrollPosition = r;
-    function l(e, t) {
+    t.getScrollPosition = l;
+    function r(e, t) {
         if (t.style.display !== "block") {
             let n = e.pageX;
             let o = e.pageY;
-            const i = r();
+            const i = l();
             t.style.display = "block";
             if (n + t.offsetWidth > window.innerWidth) {
                 n -= t.offsetWidth;
@@ -99,7 +99,7 @@ var t;
             t.style.top = o + "px";
         }
     }
-    t.showElementAtMousePosition = l;
+    t.showElementAtMousePosition = r;
     function f(e) {
         const t = {
             left: 0,
@@ -130,14 +130,14 @@ var n;
         return e.definedBoolean(t) ? t : n;
     }
     t.getDefaultBoolean = i;
-    function r(t, n) {
+    function l(t, n) {
         return e.definedNumber(t) ? t : n;
     }
-    t.getDefaultNumber = r;
-    function l(t, n) {
+    t.getDefaultNumber = l;
+    function r(t, n) {
         return e.definedArray(t) ? t : n;
     }
-    t.getDefaultArray = l;
+    t.getDefaultArray = r;
     function f(t, n) {
         return e.definedObject(t) ? t : n;
     }
@@ -152,7 +152,7 @@ var n;
                 o = e;
             }
         } else {
-            o = l(t, n);
+            o = r(t, n);
         }
         return o;
     }
@@ -162,8 +162,8 @@ var n;
 (() => {
     let o = {};
     let i = null;
-    let r = null;
     let l = null;
+    let r = null;
     let f = null;
     let u = 0;
     let s = null;
@@ -176,8 +176,8 @@ var n;
         }
         i = t.create(document.body, "div", "peek-js");
         i.onmousemove = t.cancelBubble;
-        r = t.create(i, "div", "dialog-title-bar");
-        l = t.create(i, "div", "dialog-contents");
+        l = t.create(i, "div", "dialog-title-bar");
+        r = t.create(i, "div", "dialog-contents");
         f = t.create(i, "div", "dialog-buttons");
         const n = t.createWithHTML(f, "button", "close", o.closeText);
         n.onclick = () => {
@@ -195,14 +195,14 @@ var n;
                 t = o.sizeText;
             }
         }
-        r.innerHTML = t;
+        l.innerHTML = t;
     }
     function g() {
         i.style.display = "none";
     }
     function p(e) {
-        l.innerHTML = "";
-        l.scrollTop = 0;
+        r.innerHTML = "";
+        r.scrollTop = 0;
         if (s.mode === 1) {
             y(e);
         } else if (s.mode === 2) {
@@ -214,35 +214,46 @@ var n;
     function y(e) {
         const t = getComputedStyle(e);
         const n = t.length;
-        for (let e = 0; e < n; e++) {
-            T(t[e], t.getPropertyValue(t[e]));
+        for (let o = 0; o < n; o++) {
+            T(e, t[o], t.getPropertyValue(t[o]));
         }
     }
     function b(e) {
         if (e.hasAttributes()) {
             for (let t of e.attributes) {
-                T(t.name, t.value);
+                T(e, t.name, t.value);
             }
         } else {
-            l.innerHTML = o.noAttributesAvailableText;
+            r.innerHTML = o.noAttributesAvailableText;
         }
     }
     function m(e) {
         const n = t.getOffset(e);
-        T("left", n.left.toString() + "px");
-        T("top", n.top.toString() + "px");
-        T("width", e.offsetWidth.toString() + "px");
-        T("height", e.offsetHeight.toString() + "px");
+        T(e, "left", n.left.toString() + "px", false);
+        T(e, "top", n.top.toString() + "px", false);
+        T(e, "width", e.offsetWidth.toString() + "px", false);
+        T(e, "height", e.offsetHeight.toString() + "px", false);
     }
-    function T(e, n) {
-        if (s.showOnly.length === 0 || s.showOnly.indexOf(e) > -1) {
-            const o = t.create(l, "div", "property-row");
-            t.createWithHTML(o, "div", "property-name", e);
-            const i = t.create(o, "div", "property-value");
-            const r = t.create(i, "input");
-            r.type = "text";
-            r.readOnly = true;
-            r.value = n;
+    function T(e, n, o, i = true) {
+        if (s.showOnly.length === 0 || s.showOnly.indexOf(n) > -1) {
+            const l = t.create(r, "div", "property-row");
+            t.createWithHTML(l, "div", "property-name", n);
+            const f = t.create(l, "div", "property-value");
+            const u = t.create(f, "input");
+            u.type = "text";
+            u.value = o;
+            if (!s.allowEditing || !i) {
+                u.readOnly = true;
+            } else {
+                u.onkeyup = t => {
+                    v(t, n, u, e);
+                };
+            }
+        }
+    }
+    function v(e, t, n, o) {
+        if (e.code === "Enter") {
+            o.style.setProperty(t, n.value);
         }
     }
     function h() {
@@ -253,30 +264,30 @@ var n;
             const o = [].slice.call(t);
             const i = o.length;
             for (let e = 0; e < i; e++) {
-                v(o[e]);
+                D(o[e]);
             }
         }
         window.addEventListener("mousemove", g);
     }
-    function v(e) {
+    function D(e) {
         e.addEventListener("mousemove", (t => {
-            x(t, e);
+            w(t, e);
         }));
         c.push(e);
     }
-    function D() {
+    function x() {
         const e = c.length;
         for (let n = 0; n < e; n++) {
             var t = c[n];
             t.removeEventListener("mousemove", (e => {
-                x(e, t);
+                w(e, t);
             }));
         }
         c = [];
         window.removeEventListener("mousemove", g);
         g();
     }
-    function x(e, n) {
+    function w(e, n) {
         t.cancelBubble(e);
         if (u !== 0) {
             clearTimeout(u);
@@ -293,35 +304,36 @@ var n;
         t.mode = n.getDefaultNumber(t.mode, 1);
         t.titleText = n.getDefaultString(t.titleText, "");
         t.showOnly = n.getDefaultStringOrArray(t.showOnly, []);
+        t.allowEditing = n.getDefaultBoolean(t.allowEditing, false);
         return t;
     }
     function O(e = null) {
         o = n.getDefaultObject(e, {});
         o.dialogDisplayDelay = n.getDefaultNumber(o.dialogDisplayDelay, 1e3);
-        w();
+        A();
     }
-    function w() {
+    function A() {
         o.cssPropertiesText = n.getDefaultAnyString(o.cssPropertiesText, "CSS Properties");
         o.attributesText = n.getDefaultAnyString(o.attributesText, "Attributes");
         o.sizeText = n.getDefaultAnyString(o.sizeText, "Size");
         o.noAttributesAvailableText = n.getDefaultAnyString(o.noAttributesAvailableText, "No attributes are available.");
         o.closeText = n.getDefaultAnyString(o.closeText, "Close");
     }
-    const A = {
+    const L = {
         start: function(t) {
             if (!e.definedObject(s)) {
                 s = S(t);
                 d();
                 h();
             }
-            return A;
+            return L;
         },
         stop: function() {
             if (e.definedObject(s)) {
                 s = null;
-                D();
+                x();
             }
-            return A;
+            return L;
         },
         setConfiguration: function(t) {
             if (e.definedObject(t)) {
@@ -341,7 +353,7 @@ var n;
                     }
                 }
             }
-            return A;
+            return L;
         },
         getVersion: function() {
             return "1.1.0";
@@ -353,7 +365,7 @@ var n;
             a();
         }));
         if (!e.defined(window.$peek)) {
-            window.$peek = A;
+            window.$peek = L;
         }
     })();
 })();//# sourceMappingURL=peek.esm.js.map

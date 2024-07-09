@@ -29,5 +29,6 @@ export type Options = {
     nodeType: string[] | string;
     mode: number;
     titleText?: string;
-    showOnly: string[] | string;
+    showOnly?: string[] | string;
+    allowEditing?: boolean;
 };

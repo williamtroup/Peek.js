@@ -16,7 +16,7 @@ import { PublicApi } from "./ts/api";
 import { Is } from "./ts/is";
 import { DomElement } from "./ts/dom";
 import { Data } from "./ts/data";
-import { Char, Mode, Value } from "./ts/enum";
+import { Char, KeyCode, Mode, Value } from "./ts/enum";
 
 
 ( () => {
@@ -33,7 +33,6 @@ import { Char, Mode, Value } from "./ts/enum";
     // Variables: Current Process:
     let _current_Process_Options: Options = null!;
     let _current_Process_Elements: HTMLElement[] = [];
-
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -108,14 +107,14 @@ import { Char, Mode, Value } from "./ts/enum";
         const computedStylesLength: number = computedStyles.length;
 
         for( let styleIndex: number = 0; styleIndex < computedStylesLength; styleIndex++ ) {
-            buildPropertyRow( computedStyles[ styleIndex ], computedStyles.getPropertyValue( computedStyles[ styleIndex ] ) );
+            buildPropertyRow( element, computedStyles[ styleIndex ], computedStyles.getPropertyValue( computedStyles[ styleIndex ] ) );
         }
     }
 
     function buildAttributeProperties( element: HTMLElement ) : void {
         if ( element.hasAttributes() ) {
             for ( let attribute of element.attributes ) {
-                buildPropertyRow( attribute.name, attribute.value );
+                buildPropertyRow( element, attribute.name, attribute.value );
             }
 
         } else {
@@ -126,14 +125,14 @@ import { Char, Mode, Value } from "./ts/enum";
     function buildSizeProperties( element: HTMLElement ) : void {
         const offset: Position = DomElement.getOffset( element );
 
-        buildPropertyRow( "left", offset.left.toString() + "px" );
-        buildPropertyRow( "top", offset.top.toString() + "px" );
-        buildPropertyRow( "width", element.offsetWidth.toString() + "px" );
-        buildPropertyRow( "height", element.offsetHeight.toString() + "px" );
+        buildPropertyRow( element, "left", offset.left.toString() + "px", false );
+        buildPropertyRow( element, "top", offset.top.toString() + "px", false );
+        buildPropertyRow( element, "width", element.offsetWidth.toString() + "px", false );
+        buildPropertyRow( element, "height", element.offsetHeight.toString() + "px", false );
     }
 
-    function buildPropertyRow( propertyNameText: string, propertyValueText: string ) : void {
-        if ( _current_Process_Options.showOnly.length === 0 || _current_Process_Options.showOnly.indexOf( propertyNameText ) > Value.notFound ) {
+    function buildPropertyRow( element: HTMLElement, propertyNameText: string, propertyValueText: string, allowEditing: boolean = true ) : void {
+        if ( _current_Process_Options.showOnly!.length === 0 || _current_Process_Options.showOnly!.indexOf( propertyNameText ) > Value.notFound ) {
             const property: HTMLElement = DomElement.create( _dialog_Contents, "div", "property-row" );
 
             DomElement.createWithHTML( property, "div", "property-name", propertyNameText );
@@ -142,8 +141,21 @@ import { Char, Mode, Value } from "./ts/enum";
             const propertyValueInput: HTMLInputElement = DomElement.create( propertyValue, "input" ) as HTMLInputElement;
     
             propertyValueInput.type = "text";
-            propertyValueInput.readOnly = true;
             propertyValueInput.value = propertyValueText;
+
+            if ( !_current_Process_Options.allowEditing || !allowEditing ) {
+                propertyValueInput.readOnly = true;
+            } else {
+                propertyValueInput.onkeyup = ( e: KeyboardEvent ) => {
+                    onPropertyValueKeyUp( e, propertyNameText, propertyValueInput, element );
+                }
+            }
+        }
+    }
+
+    function onPropertyValueKeyUp( e: KeyboardEvent, propertyName: string, input: HTMLInputElement, element: HTMLElement ) {
+        if ( e.code === KeyCode.enter ) {
+            element.style.setProperty( propertyName, input.value );
         }
     }
 
@@ -225,6 +237,7 @@ import { Char, Mode, Value } from "./ts/enum";
         options.mode = Data.getDefaultNumber( options.mode, Mode.css );
         options.titleText = Data.getDefaultString( options.titleText, Char.empty );
         options.showOnly = Data.getDefaultStringOrArray( options.showOnly, [] );
+        options.allowEditing = Data.getDefaultBoolean( options.allowEditing, false );
 
         return options;
     }

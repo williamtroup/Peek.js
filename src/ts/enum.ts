@@ -25,3 +25,7 @@ export const enum Mode {
 export const enum Value {
     notFound = -1,
 }
+
+export const enum KeyCode {
+    enter = "Enter",
+}
