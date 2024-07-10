@@ -390,7 +390,7 @@ var o;
         i.copyText = o.getDefaultAnyString(i.copyText, "Copy");
         i.copySymbolText = o.getDefaultAnyString(i.copySymbolText, "❐");
         i.pasteText = o.getDefaultAnyString(i.pasteText, "Paste");
-        i.pasteSymbolText = o.getDefaultAnyString(i.pasteSymbolText, "+");
+        i.pasteSymbolText = o.getDefaultAnyString(i.pasteSymbolText, "☐");
         i.removeText = o.getDefaultAnyString(i.removeText, "Remove");
         i.removeSymbolText = o.getDefaultAnyString(i.removeSymbolText, "✕");
     }
