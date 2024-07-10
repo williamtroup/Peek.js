@@ -342,7 +342,7 @@ type DialogProperties = Record<string, string>;
         _configuration.pasteText = Data.getDefaultAnyString( _configuration.pasteText, "Paste" );
         _configuration.pasteSymbolText = Data.getDefaultAnyString( _configuration.pasteSymbolText, "+" );
         _configuration.removeText = Data.getDefaultAnyString( _configuration.removeText, "Remove" );
-        _configuration.removeSymbolText = Data.getDefaultAnyString( _configuration.removeSymbolText, "⌫" );
+        _configuration.removeSymbolText = Data.getDefaultAnyString( _configuration.removeSymbolText, "✕" );
     }
 
 

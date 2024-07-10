@@ -390,7 +390,7 @@ var o;
         i.pasteText = o.getDefaultAnyString(i.pasteText, "Paste");
         i.pasteSymbolText = o.getDefaultAnyString(i.pasteSymbolText, "+");
         i.removeText = o.getDefaultAnyString(i.removeText, "Remove");
-        i.removeSymbolText = o.getDefaultAnyString(i.removeSymbolText, "⌫");
+        i.removeSymbolText = o.getDefaultAnyString(i.removeSymbolText, "✕");
     }
     const j = {
         start: function(t) {

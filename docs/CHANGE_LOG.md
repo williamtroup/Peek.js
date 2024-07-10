@@ -12,7 +12,7 @@
 - Added configuration option "pasteText" (defaults to "Paste"), which states the text to use for the "Paste" button.
 - Added configuration option "pasteSymbolText" (defaults to "+"), which states the symbol text to use for the "Paste" button.
 - Added configuration option "removeText" (defaults to "Remove"), which states the text to use for the "Remove" button.
-- Added configuration option "removeSymbolText" (defaults to "⌫"), which states the symbol text to use for the "Remove" button.
+- Added configuration option "removeSymbolText" (defaults to "✖"), which states the symbol text to use for the "Remove" button.
 
 <br>
 
