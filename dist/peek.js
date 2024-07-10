@@ -19,14 +19,14 @@ var e;
         return t(e) && typeof e === "string";
     }
     e.definedString = i;
-    function l(e) {
+    function r(e) {
         return t(e) && typeof e === "function";
     }
-    e.definedFunction = l;
-    function r(e) {
+    e.definedFunction = r;
+    function l(e) {
         return t(e) && typeof e === "number";
     }
-    e.definedNumber = r;
+    e.definedNumber = l;
     function f(e) {
         return n(e) && e instanceof Array;
     }
@@ -35,10 +35,10 @@ var e;
         return n(e) && e instanceof Date;
     }
     e.definedDate = s;
-    function a(e, t = 1) {
+    function u(e, t = 1) {
         return !f(e) || e.length < t;
     }
-    e.invalidOptionArray = a;
+    e.invalidOptionArray = u;
 })(e || (e = {}));
 
 var t;
@@ -51,9 +51,9 @@ var n;
 
 (n => {
     function o(n, o, i = "") {
-        const l = o.toLowerCase();
-        const r = l === "text";
-        let f = r ? document.createTextNode("") : document.createElement(l);
+        const r = o.toLowerCase();
+        const l = r === "text";
+        let f = l ? document.createTextNode("") : document.createElement(r);
         f.setAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE, "ignore");
         if (e.defined(i)) {
             f.className = i;
@@ -62,19 +62,19 @@ var n;
         return f;
     }
     n.create = o;
-    function i(e, n, i, l) {
-        const r = o(e, n, i);
-        r.innerHTML = l;
-        r.setAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE, "ignore");
-        return r;
+    function i(e, n, i, r) {
+        const l = o(e, n, i);
+        l.innerHTML = r;
+        l.setAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE, "ignore");
+        return l;
     }
     n.createWithHTML = i;
-    function l(e) {
+    function r(e) {
         e.preventDefault();
         e.cancelBubble = true;
     }
-    n.cancelBubble = l;
-    function r() {
+    n.cancelBubble = r;
+    function l() {
         const e = document.documentElement;
         const t = {
             left: e.scrollLeft - (e.clientLeft || 0),
@@ -82,12 +82,12 @@ var n;
         };
         return t;
     }
-    n.getScrollPosition = r;
+    n.getScrollPosition = l;
     function f(e, t) {
         if (t.style.display !== "block") {
             let n = e.pageX;
             let o = e.pageY;
-            const i = r();
+            const i = l();
             t.style.display = "block";
             if (n + t.offsetWidth > window.innerWidth) {
                 n -= t.offsetWidth;
@@ -140,14 +140,14 @@ var o;
         return e.definedBoolean(t) ? t : n;
     }
     t.getDefaultBoolean = i;
-    function l(t, n) {
+    function r(t, n) {
         return e.definedNumber(t) ? t : n;
     }
-    t.getDefaultNumber = l;
-    function r(t, n) {
+    t.getDefaultNumber = r;
+    function l(t, n) {
         return e.definedArray(t) ? t : n;
     }
-    t.getDefaultArray = r;
+    t.getDefaultArray = l;
     function f(t, n) {
         return e.definedObject(t) ? t : n;
     }
@@ -162,7 +162,7 @@ var o;
                 o = e;
             }
         } else {
-            o = r(t, n);
+            o = l(t, n);
         }
         return o;
     }
@@ -171,31 +171,31 @@ var o;
 
 (() => {
     let i = {};
-    let l = null;
     let r = null;
+    let l = null;
     let f = null;
     let s = null;
-    let a = null;
-    let u = 0;
+    let u = null;
+    let a = 0;
     let c = null;
     let d = [];
     let g = {};
     let p = null;
     function y() {
-        if (e.definedObject(l)) {
-            b();
-            document.body.removeChild(l);
-            l = null;
+        if (e.definedObject(r)) {
+            m();
+            document.body.removeChild(r);
+            r = null;
         }
-        l = n.create(document.body, "div", "peek-js");
-        l.onmousemove = n.cancelBubble;
-        r = n.create(l, "div", "dialog-title-bar");
-        f = n.create(l, "div", "dialog-contents");
-        s = n.create(l, "div", "dialog-buttons");
-        a = n.createWithHTML(s, "button", "copy", i.copyText);
-        a.onclick = m;
+        r = n.create(document.body, "div", "peek-js");
+        r.onmousemove = n.cancelBubble;
+        l = n.create(r, "div", "dialog-title-bar");
+        f = n.create(r, "div", "dialog-contents");
+        s = n.create(r, "div", "dialog-buttons");
+        u = n.createWithHTML(s, "button", "copy", i.copyText);
+        u.onclick = b;
         const t = n.createWithHTML(s, "button", "close", i.closeText);
-        t.onclick = b;
+        t.onclick = m;
     }
     function T() {
         let t = c.titleText;
@@ -208,12 +208,12 @@ var o;
                 t = i.sizeText;
             }
         }
-        r.innerHTML = t;
-    }
-    function b() {
-        l.style.display = "none";
+        l.innerHTML = t;
     }
     function m() {
+        r.style.display = "none";
+    }
+    function b() {
         const e = [];
         for (let t in g) {
             if (g.hasOwnProperty(t)) {
@@ -230,32 +230,32 @@ var o;
             navigator.clipboard.writeText(e.join(" "));
         }
     }
-    function x(e) {
+    function v(e) {
         f.innerHTML = "";
         f.scrollTop = 0;
         g = {};
         p = e;
         if (c.mode === 3) {
-            a.style.display = "none";
+            u.style.display = "none";
         } else {
-            a.style.removeProperty("display");
+            u.style.removeProperty("display");
         }
         if (c.mode === 1) {
-            S(e);
+            x(e);
         } else if (c.mode === 2) {
-            v(e);
+            S(e);
         } else if (c.mode === 3) {
             h(e);
         }
     }
-    function S(e) {
+    function x(e) {
         const t = getComputedStyle(e);
         const n = t.length;
         for (let o = 0; o < n; o++) {
             A(e, t[o], t.getPropertyValue(t[o]));
         }
     }
-    function v(e) {
+    function S(e) {
         if (e.hasAttributes()) {
             for (let t of e.attributes) {
                 A(e, t.name, t.value);
@@ -271,34 +271,44 @@ var o;
         A(e, "width", e.offsetWidth.toString() + "px", false);
         A(e, "height", e.offsetHeight.toString() + "px", false);
     }
-    function A(e, t, o, l = true) {
+    function A(e, t, o, r = true) {
         if (c.showOnly.length === 0 || c.showOnly.indexOf(t) > -1) {
-            const r = n.create(f, "div", "property-row");
-            n.createWithHTML(r, "div", "property-name", t);
-            const s = n.create(r, "div", "property-value");
-            const a = n.create(s, "input");
+            const l = n.create(f, "div", "property-row");
+            n.createWithHTML(l, "div", "property-name", t);
+            const s = n.create(l, "div", "property-value");
+            const u = n.create(s, "input");
             if (c.mode !== 3) {
-                const e = n.createWithHTML(r, "button", "copy", i.copySymbolText);
-                const t = n.createWithHTML(r, "button", "paste", i.pasteSymbolText);
-                e.title = i.copyText;
-                t.title = i.pasteText;
-                e.onclick = () => {
+                const r = n.createWithHTML(l, "button", "copy", i.copySymbolText);
+                const s = n.createWithHTML(l, "button", "paste", i.pasteSymbolText);
+                const a = n.createWithHTML(l, "button", "remove", i.removeSymbolText);
+                r.title = i.copyText;
+                s.title = i.pasteText;
+                a.title = i.removeText;
+                r.onclick = () => {
                     navigator.clipboard.writeText(o);
                 };
-                t.onclick = () => {
+                s.onclick = () => {
                     navigator.clipboard.readText().then((e => {
-                        a.value = e;
+                        u.value = e;
                     }));
                 };
+                a.onclick = () => {
+                    if (c.mode === 1) {
+                        e.style.removeProperty(t);
+                    } else if (c.mode === 2) {
+                        e.removeAttribute(t);
+                    }
+                    f.removeChild(l);
+                };
             }
-            a.type = "text";
-            a.value = o;
+            u.type = "text";
+            u.value = o;
             g[t] = o;
-            if (!c.allowEditing || !l) {
-                a.readOnly = true;
+            if (!c.allowEditing || !r) {
+                u.readOnly = true;
             } else {
-                a.onkeyup = n => {
-                    D(n, t, a, e);
+                u.onkeyup = n => {
+                    D(n, t, u, e);
                 };
             }
         }
@@ -323,7 +333,7 @@ var o;
                 w(o[e]);
             }
         }
-        window.addEventListener("mousemove", b);
+        window.addEventListener("mousemove", m);
     }
     function w(n) {
         const o = n.getAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE);
@@ -343,18 +353,18 @@ var o;
             }));
         }
         d = [];
-        window.removeEventListener("mousemove", b);
-        b();
+        window.removeEventListener("mousemove", m);
+        m();
     }
     function L(e, t) {
         n.cancelBubble(e);
-        if (u !== 0) {
-            clearTimeout(u);
-            u = 0;
+        if (a !== 0) {
+            clearTimeout(a);
+            a = 0;
         }
-        u = setTimeout((() => {
-            x(t);
-            n.showElementAtMousePosition(e, l);
+        a = setTimeout((() => {
+            v(t);
+            n.showElementAtMousePosition(e, r);
         }), i.dialogDisplayDelay);
     }
     function P(e) {
@@ -381,6 +391,8 @@ var o;
         i.copySymbolText = o.getDefaultAnyString(i.copySymbolText, "❐");
         i.pasteText = o.getDefaultAnyString(i.pasteText, "Paste");
         i.pasteSymbolText = o.getDefaultAnyString(i.pasteSymbolText, "+");
+        i.removeText = o.getDefaultAnyString(i.removeText, "Remove");
+        i.removeSymbolText = o.getDefaultAnyString(i.removeSymbolText, "⌫");
     }
     const j = {
         start: function(t) {

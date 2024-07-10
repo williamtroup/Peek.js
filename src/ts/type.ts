@@ -27,6 +27,8 @@ export type Configuration = {
     copySymbolText?: string;
     pasteText?: string;
     pasteSymbolText?: string;
+    removeText?: string;
+    removeSymbolText?: string;
 };
 
 export type Options = {

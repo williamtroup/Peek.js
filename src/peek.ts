@@ -178,10 +178,12 @@ type DialogProperties = Record<string, string>;
             if ( _current_Process_Options.mode !== Mode.size ) {
                 const copyButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "copy", _configuration.copySymbolText! ) as HTMLButtonElement;
                 const pasteButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "paste", _configuration.pasteSymbolText! ) as HTMLButtonElement;
-    
+                const removeButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "remove", _configuration.removeSymbolText! ) as HTMLButtonElement;
+
                 copyButton.title = _configuration.copyText!;
                 pasteButton.title = _configuration.pasteText!;
-    
+                removeButton.title = _configuration.removeText!;
+
                 copyButton.onclick = () => {
                     navigator.clipboard.writeText( propertyValueText );
                 };
@@ -190,6 +192,16 @@ type DialogProperties = Record<string, string>;
                     navigator.clipboard.readText().then( data => {
                         propertyValueInput.value = data;
                     } );
+                };
+
+                removeButton.onclick = () => {
+                    if ( _current_Process_Options.mode === Mode.css ) {
+                        element.style.removeProperty( propertyNameText );
+                    } else if ( _current_Process_Options.mode === Mode.attributes ) {
+                        element.removeAttribute( propertyNameText );
+                    }
+
+                    _dialog_Contents.removeChild( property );
                 };
             }
 
@@ -329,6 +341,8 @@ type DialogProperties = Record<string, string>;
         _configuration.copySymbolText = Data.getDefaultAnyString( _configuration.copySymbolText, "❐" );
         _configuration.pasteText = Data.getDefaultAnyString( _configuration.pasteText, "Paste" );
         _configuration.pasteSymbolText = Data.getDefaultAnyString( _configuration.pasteSymbolText, "+" );
+        _configuration.removeText = Data.getDefaultAnyString( _configuration.removeText, "Remove" );
+        _configuration.removeSymbolText = Data.getDefaultAnyString( _configuration.removeSymbolText, "⌫" );
     }
 
 
