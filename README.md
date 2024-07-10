@@ -2,15 +2,15 @@
 Peek.js
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Peek.js%2C%20a%20free%20JavaScript%json%20converter&url=https://github.com/williamtroup/Peek.js&hashtags=javascript,element,property,viewer)
-[![npm](https://img.shields.io/badge/npmjs-v1.2.0-blue)](https://www.npmjs.com/package/jpeek.js)
-[![nuget](https://img.shields.io/badge/nuget-v1.2.0-purple)](https://www.nuget.org/packages/Peek.js/)
+[![npm](https://img.shields.io/badge/npmjs-v1.2.1-blue)](https://www.npmjs.com/package/jpeek.js)
+[![nuget](https://img.shields.io/badge/nuget-v1.2.1-purple)](https://www.nuget.org/packages/Peek.js/)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://github.com/williamtroup/Peek.js/blob/main/LICENSE.txt)
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/Peek.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://william-troup.com/)
 </h1>
 
 > <p align="center">🐛 A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.</p>
-> <p align="center">v1.2.0</p>
+> <p align="center">v1.2.1</p>
 <br />
 
 ![Peek.js - CSS Mode](docs/images/css-mode.png)
@@ -59,8 +59,8 @@ npm install jpeek.js
 You can also use the following CDN links:
 
 ```markdown
-https://cdn.jsdelivr.net/gh/williamtroup/Peek.js@1.2.0/dist/peek.min.js
-https://cdn.jsdelivr.net/gh/williamtroup/Peek.js@1.2.0/dist/peek.js.min.css
+https://cdn.jsdelivr.net/gh/williamtroup/Peek.js@1.2.1/dist/peek.min.js
+https://cdn.jsdelivr.net/gh/williamtroup/Peek.js@1.2.1/dist/peek.js.min.css
 ```
 <br>
 <br>
