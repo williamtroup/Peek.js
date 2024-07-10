@@ -14,6 +14,9 @@
 - Added configuration option "removeText" (defaults to "Remove"), which states the text to use for the "Remove" button.
 - Added configuration option "removeSymbolText" (defaults to "✖"), which states the symbol text to use for the "Remove" button.
 
+#### **UI Improvements:**
+- The property name label now uses a ellipsis effect when the property name is long.
+
 <br>
 
 

@@ -147,6 +147,9 @@ div.peek-js div.dialog-contents div.property-row div.property-name {
   font-weight: var(--peek-js-title-bold-weight);
   padding-top: calc(var(--peek-js-spacing) / 2) !important;
   padding-bottom: calc(var(--peek-js-spacing) / 2) !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 div.peek-js div.dialog-contents div.property-row div.property-value {
   flex-grow: 1;

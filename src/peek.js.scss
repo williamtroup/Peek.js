@@ -138,6 +138,9 @@ div.peek-js {
                 font-weight: var(--peek-js-title-bold-weight);
                 padding-top: calc( var(--peek-js-spacing) / 2 ) !important;
                 padding-bottom: calc( var(--peek-js-spacing) / 2 ) !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             div.property-value {
