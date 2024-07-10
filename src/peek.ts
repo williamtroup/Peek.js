@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
  * @file        peek.ts
- * @version     v1.1.0
+ * @version     v1.1.1
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -156,7 +156,11 @@ import { Constant } from "./ts/constant";
 
     function onPropertyValueKeyUp( e: KeyboardEvent, propertyName: string, input: HTMLInputElement, element: HTMLElement ) {
         if ( e.code === KeyCode.enter ) {
-            element.style.setProperty( propertyName, input.value );
+            if ( _current_Process_Options.mode === Mode.css ) {
+                element.style.setProperty( propertyName, input.value );
+            } else if ( _current_Process_Options.mode === Mode.attributes ) {
+                element.setAttribute( propertyName, input.value );
+            }
         }
     }
 
@@ -344,7 +348,7 @@ import { Constant } from "./ts/constant";
          */
 
         getVersion: function (): string {
-            return "1.1.0";
+            return "1.1.1";
         }
     };
 

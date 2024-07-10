@@ -263,7 +263,11 @@ var o;
     }
     function A(e, t, n, o) {
         if (e.code === "Enter") {
-            o.style.setProperty(t, n.value);
+            if (a.mode === 1) {
+                o.style.setProperty(t, n.value);
+            } else if (a.mode === 2) {
+                o.setAttribute(t, n.value);
+            }
         }
     }
     function S() {
@@ -369,7 +373,7 @@ var o;
             return L;
         },
         getVersion: function() {
-            return "1.1.0";
+            return "1.1.1";
         }
     };
     (() => {
