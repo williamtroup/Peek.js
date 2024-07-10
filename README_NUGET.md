@@ -20,6 +20,7 @@
 - Edit CSS / Attribute values on the fly!
 - Exclude specific DOM elements by using the ignore attribute!
 - Show only the data your interested in!
+- Copy, Paste, and Remove CSS/Attributes!
 
 
 ## What browsers are supported?
