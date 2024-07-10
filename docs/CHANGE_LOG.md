@@ -15,8 +15,8 @@
 - Added configuration option "removeSymbolText" (defaults to "✕"), which states the symbol text to use for the "Remove" button.
 
 #### **UI Improvements:**
-- The property name label now uses a ellipsis effect when the property name is long.
-- Added a 2000 z-index to the dialog, to make sure its on top of most elements.
+- The property name label now uses an ellipsis effect when the property name is long.
+- Added a 2000 z-index to the dialog, to make sure it's on top of most elements.
 
 <br>
 
