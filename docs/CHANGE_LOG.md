@@ -1,6 +1,8 @@
 # Peek.js - Change Log:
 
 ## Version 1.2.0:
+- Added "Copy" button support (for CSS and Attribute modes), which will copy all the properties values (in the right format) to the clipboard.
+- Added configuration option "copyText" (defaults to "Copy"), which states the next to use for the "Copy" button.
 - 
 
 <br>

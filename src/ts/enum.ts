@@ -14,6 +14,7 @@
 export const enum Char {
     empty = "",
     space = " ",
+    newLine = "\n",
 }
 
 export const enum Mode {

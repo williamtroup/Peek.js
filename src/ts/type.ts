@@ -23,6 +23,7 @@ export type Configuration = {
     noAttributesAvailableText?: string;
     closeText?: string;
     dialogDisplayDelay?: number;
+    copyText?: string;
 };
 
 export type Options = {
