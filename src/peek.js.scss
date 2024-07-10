@@ -84,6 +84,7 @@ div.peek-js {
     max-width: 530px;
     margin: 0 !important;
     display: none;
+    z-index: 2000;
 
     * {
         @include box-sizing;

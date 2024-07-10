@@ -72,6 +72,7 @@ div.peek-js {
   max-width: 530px;
   margin: 0 !important;
   display: none;
+  z-index: 2000;
 }
 div.peek-js * {
   box-sizing: border-box;
