@@ -1,5 +1,11 @@
 # Peek.js - Change Log:
 
+## Version 1.2.0:
+- 
+
+<br>
+
+
 ## Version 1.1.1:
 - Updated NPM packages to the latest versions.
 - Fixed a fault that caused attribute values to assign their values to CSS properties when "allowEditing" is enabled.
