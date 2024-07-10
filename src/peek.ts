@@ -156,7 +156,11 @@ import { Constant } from "./ts/constant";
 
     function onPropertyValueKeyUp( e: KeyboardEvent, propertyName: string, input: HTMLInputElement, element: HTMLElement ) {
         if ( e.code === KeyCode.enter ) {
-            element.style.setProperty( propertyName, input.value );
+            if ( _current_Process_Options.mode === Mode.css ) {
+                element.style.setProperty( propertyName, input.value );
+            } else if ( _current_Process_Options.mode === Mode.attributes ) {
+                element.setAttribute( propertyName, input.value );
+            }
         }
     }
 
