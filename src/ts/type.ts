@@ -24,6 +24,9 @@ export type Configuration = {
     closeText?: string;
     dialogDisplayDelay?: number;
     copyText?: string;
+    copySymbolText?: string;
+    pasteText?: string;
+    pasteSymbolText?: string;
 };
 
 export type Options = {

@@ -111,6 +111,37 @@ div.peek-js div.dialog-contents div.property-row {
   align-items: flex-end;
   margin-bottom: var(--peek-js-spacing);
 }
+div.peek-js div.dialog-contents div.property-row button {
+  background-color: var(--peek-js-button-background-color);
+  border: var(--peek-js-border-size) solid var(--peek-js-button-border-color);
+  color: var(--peek-js-button-text-color);
+  border-radius: var(--peek-js-border-radius);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 9px;
+  padding-right: 9px;
+  outline: none;
+  transition: var(--peek-js-transition);
+}
+div.peek-js div.dialog-contents div.property-row button:disabled {
+  color: var(--peek-js-button-border-color);
+}
+div.peek-js div.dialog-contents div.property-row button:not(.active):not(:disabled):active {
+  background: var(--peek-js-button-background-color-active) !important;
+  color: var(--peek-js-button-text-color-active) !important;
+}
+div.peek-js div.dialog-contents div.property-row button:not(.active):not(:disabled):hover {
+  cursor: pointer;
+  background: var(--peek-js-button-background-color-hover);
+  color: var(--peek-js-button-text-color-hover);
+}
+div.peek-js div.dialog-contents div.property-row button.active {
+  cursor: default;
+  background: var(--peek-js-button-background-color-hover);
+  color: var(--peek-js-button-text-color-hover);
+  transition: var(--peek-js-transition);
+  font-weight: var(--peek-js-text-bold-weight-active);
+}
 div.peek-js div.dialog-contents div.property-row div.property-name {
   width: 220px;
   font-weight: var(--peek-js-title-bold-weight);
@@ -130,6 +161,12 @@ div.peek-js div.dialog-contents div.property-row div.property-value input[type=t
   background-color: var(--peek-js-dialog-background-color) !important;
   outline: none !important;
   box-shadow: none !important;
+}
+div.peek-js div.dialog-contents div.property-row button {
+  margin-left: var(--peek-js-spacing);
+}
+div.peek-js div.dialog-contents div.property-row button:last-of-type {
+  margin-left: calc(var(--peek-js-spacing) / 2);
 }
 div.peek-js div.dialog-contents div.property-row:last-child {
   margin-bottom: 0;

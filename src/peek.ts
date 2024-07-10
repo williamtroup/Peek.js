@@ -174,7 +174,25 @@ type DialogProperties = Record<string, string>;
             
             const propertyValue: HTMLElement = DomElement.create( property, "div", "property-value" );
             const propertyValueInput: HTMLInputElement = DomElement.create( propertyValue, "input" ) as HTMLInputElement;
+
+            if ( _current_Process_Options.mode !== Mode.size ) {
+                const copyButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "copy", _configuration.copySymbolText! ) as HTMLButtonElement;
+                const pasteButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "paste", _configuration.pasteSymbolText! ) as HTMLButtonElement;
     
+                copyButton.title = _configuration.copyText!;
+                pasteButton.title = _configuration.pasteText!;
+    
+                copyButton.onclick = () => {
+                    navigator.clipboard.writeText( propertyValueText );
+                };
+    
+                pasteButton.onclick = () => {
+                    navigator.clipboard.readText().then( data => {
+                        propertyValueInput.value = data;
+                    } );
+                };
+            }
+
             propertyValueInput.type = "text";
             propertyValueInput.value = propertyValueText;
 
@@ -308,6 +326,9 @@ type DialogProperties = Record<string, string>;
         _configuration.noAttributesAvailableText = Data.getDefaultAnyString( _configuration.noAttributesAvailableText, "No attributes are available." );
         _configuration.closeText = Data.getDefaultAnyString( _configuration.closeText, "Close" );
         _configuration.copyText = Data.getDefaultAnyString( _configuration.copyText, "Copy" );
+        _configuration.copySymbolText = Data.getDefaultAnyString( _configuration.copySymbolText, "❐" );
+        _configuration.pasteText = Data.getDefaultAnyString( _configuration.pasteText, "Paste" );
+        _configuration.pasteSymbolText = Data.getDefaultAnyString( _configuration.pasteSymbolText, "+" );
     }
 
 

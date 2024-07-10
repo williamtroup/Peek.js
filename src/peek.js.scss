@@ -131,6 +131,8 @@ div.peek-js {
             align-items: flex-end;
             margin-bottom: var(--peek-js-spacing);
 
+            @include buttons;
+
             div.property-name {
                 width: 220px;
                 font-weight: var(--peek-js-title-bold-weight);
@@ -151,6 +153,14 @@ div.peek-js {
                     background-color: var(--peek-js-dialog-background-color) !important;
                     outline: none !important;
                     box-shadow: none !important;
+                }
+            }
+
+            button {
+                margin-left: var(--peek-js-spacing);
+
+                &:last-of-type {
+                    margin-left: calc( var(--peek-js-spacing) / 2 );
                 }
             }
 
