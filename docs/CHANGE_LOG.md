@@ -1,5 +1,26 @@
 # Peek.js - Change Log:
 
+## Version 1.2.0:
+
+#### **New Features:**
+- Added "Copy" button support (for CSS and Attribute modes), which will copy all the properties values (in the right format) to the clipboard.
+- Added "Copy", "Paste", and "Remove" support for individual properties (for CSS and Attribute modes).
+
+#### **Configuration:**
+- Added configuration option "copyText" (defaults to "Copy"), which states the text to use for the "Copy" button.
+- Added configuration option "copySymbolText" (defaults to "❐"), which states the symbol text to use for the "Copy" button.
+- Added configuration option "pasteText" (defaults to "Paste"), which states the text to use for the "Paste" button.
+- Added configuration option "pasteSymbolText" (defaults to "☐"), which states the symbol text to use for the "Paste" button.
+- Added configuration option "removeText" (defaults to "Remove"), which states the text to use for the "Remove" button.
+- Added configuration option "removeSymbolText" (defaults to "✕"), which states the symbol text to use for the "Remove" button.
+
+#### **UI Improvements:**
+- The property name label now uses an ellipsis effect when the property name is long.
+- Added a 2000 z-index to the dialog, to make sure it's on top of most elements.
+
+<br>
+
+
 ## Version 1.1.1:
 - Updated NPM packages to the latest versions.
 - Fixed a fault that caused attribute values to assign their values to CSS properties when "allowEditing" is enabled.

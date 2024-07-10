@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
  * @file        peek.ts
- * @version     v1.1.1
+ * @version     v1.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -20,6 +20,9 @@ import { Char, IgnoreState, KeyCode, Mode, Value } from "./ts/enum";
 import { Constant } from "./ts/constant";
 
 
+type DialogProperties = Record<string, string>;
+
+
 ( () => {
     // Variables: Configuration
     let _configuration: Configuration = {} as Configuration;
@@ -29,11 +32,14 @@ import { Constant } from "./ts/constant";
     let _dialog_Title: HTMLElement = null!;
     let _dialog_Contents: HTMLElement = null!;
     let _dialog_Buttons: HTMLElement = null!;
+    let _dialog_Buttons_Copy: HTMLButtonElement = null!;
     let _dialog_Timer: number = 0;
 
     // Variables: Current Process:
     let _current_Process_Options: Options = null!;
     let _current_Process_Elements: HTMLElement[] = [];
+    let _current_Process_Properties: DialogProperties = {} as DialogProperties;
+    let _current_Process_Element: HTMLElement = null!;
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -56,11 +62,11 @@ import { Constant } from "./ts/constant";
         _dialog_Contents = DomElement.create( _dialog, "div", "dialog-contents" );
         _dialog_Buttons = DomElement.create( _dialog, "div", "dialog-buttons" );
 
+        _dialog_Buttons_Copy = DomElement.createWithHTML( _dialog_Buttons, "button", "copy", _configuration.copyText! ) as HTMLButtonElement;
+        _dialog_Buttons_Copy.onclick = onCopy;
+        
         const closeButton: HTMLElement = DomElement.createWithHTML( _dialog_Buttons, "button", "close", _configuration.closeText! );
-
-        closeButton.onclick = () => {
-            closeDialog();
-        };
+        closeButton.onclick = closeDialog;   
     }
 
     function setDialogText() : void {
@@ -83,6 +89,26 @@ import { Constant } from "./ts/constant";
         _dialog.style.display = "none";
     }
 
+    function onCopy() {
+        const lines: string[] = [];
+
+        for ( let propertyName in _current_Process_Properties ) {
+            if ( _current_Process_Properties.hasOwnProperty( propertyName ) ) {
+                if ( _current_Process_Options.mode === Mode.css ) {
+                    lines.push( `${ propertyName }: ${ _current_Process_Properties[ propertyName ] };` )
+                } else if ( _current_Process_Options.mode === Mode.attributes ) {
+                    lines.push( `${ propertyName }="${ _current_Process_Properties[ propertyName ] }"` )
+                }
+            }
+        }
+
+        if ( _current_Process_Options.mode === Mode.css ) {
+            navigator.clipboard.writeText( `${ _current_Process_Element.nodeName.toLowerCase() } { ${ Char.newLine } ${ lines.join( Char.newLine )} ${ Char.newLine } }` );
+        } else if ( _current_Process_Options.mode === Mode.attributes ) {
+            navigator.clipboard.writeText( lines.join( Char.space ) );
+        }
+    }
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -93,6 +119,14 @@ import { Constant } from "./ts/constant";
     function buildDialogContent( element: HTMLElement ) : void {
         _dialog_Contents.innerHTML = Char.empty;
         _dialog_Contents.scrollTop = 0;
+        _current_Process_Properties = {} as DialogProperties;
+        _current_Process_Element = element;
+
+        if ( _current_Process_Options.mode === Mode.size ) {
+            _dialog_Buttons_Copy.style.display = "none";
+        } else {
+            _dialog_Buttons_Copy.style.removeProperty( "display" );
+        }
 
         if ( _current_Process_Options.mode === Mode.css ) {
             buildCssProperties( element );
@@ -140,9 +174,41 @@ import { Constant } from "./ts/constant";
             
             const propertyValue: HTMLElement = DomElement.create( property, "div", "property-value" );
             const propertyValueInput: HTMLInputElement = DomElement.create( propertyValue, "input" ) as HTMLInputElement;
+
+            if ( _current_Process_Options.mode !== Mode.size ) {
+                const copyButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "copy", _configuration.copySymbolText! ) as HTMLButtonElement;
+                const pasteButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "paste", _configuration.pasteSymbolText! ) as HTMLButtonElement;
+                const removeButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "remove", _configuration.removeSymbolText! ) as HTMLButtonElement;
+
+                copyButton.title = _configuration.copyText!;
+                pasteButton.title = _configuration.pasteText!;
+                removeButton.title = _configuration.removeText!;
+
+                copyButton.onclick = () => {
+                    navigator.clipboard.writeText( propertyValueText );
+                };
     
+                pasteButton.onclick = () => {
+                    navigator.clipboard.readText().then( data => {
+                        propertyValueInput.value = data;
+                    } );
+                };
+
+                removeButton.onclick = () => {
+                    if ( _current_Process_Options.mode === Mode.css ) {
+                        element.style.removeProperty( propertyNameText );
+                    } else if ( _current_Process_Options.mode === Mode.attributes ) {
+                        element.removeAttribute( propertyNameText );
+                    }
+
+                    _dialog_Contents.removeChild( property );
+                };
+            }
+
             propertyValueInput.type = "text";
             propertyValueInput.value = propertyValueText;
+
+            _current_Process_Properties[ propertyNameText ] = propertyValueText;
 
             if ( !_current_Process_Options.allowEditing || !allowEditing ) {
                 propertyValueInput.readOnly = true;
@@ -271,6 +337,12 @@ import { Constant } from "./ts/constant";
         _configuration.sizeText = Data.getDefaultAnyString( _configuration.sizeText, "Size" );
         _configuration.noAttributesAvailableText = Data.getDefaultAnyString( _configuration.noAttributesAvailableText, "No attributes are available." );
         _configuration.closeText = Data.getDefaultAnyString( _configuration.closeText, "Close" );
+        _configuration.copyText = Data.getDefaultAnyString( _configuration.copyText, "Copy" );
+        _configuration.copySymbolText = Data.getDefaultAnyString( _configuration.copySymbolText, "❐" );
+        _configuration.pasteText = Data.getDefaultAnyString( _configuration.pasteText, "Paste" );
+        _configuration.pasteSymbolText = Data.getDefaultAnyString( _configuration.pasteSymbolText, "☐" );
+        _configuration.removeText = Data.getDefaultAnyString( _configuration.removeText, "Remove" );
+        _configuration.removeSymbolText = Data.getDefaultAnyString( _configuration.removeSymbolText, "✕" );
     }
 
 
@@ -348,7 +420,7 @@ import { Constant } from "./ts/constant";
          */
 
         getVersion: function (): string {
-            return "1.1.1";
+            return "1.2.0";
         }
     };
 

@@ -23,6 +23,11 @@ Below are all the configuration options that can be passed to the "setConfigurat
 | *string* | sizeText | The text that should be used for the "Size" title. |
 | *string* | noAttributesAvailableText | The text that should be used for the "No attributes are available." warning. |
 | *string* | closeText | The text that should be used for the "Close" button. |
+| *string* | copySymbolText | The text that should be used for the "❐" symbol button. |
+| *string* | pasteText | The text that should be used for the "Paste" button. |
+| *string* | pasteSymbolText | The text that should be used for the "☐" symbol button. |
+| *string* | removeText | The text that should be used for the "Remove" button. |
+| *string* | removeSymbolText | The text that should be used for the "✕" symbol button. |
 
 <br/>
 
