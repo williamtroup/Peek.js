@@ -2,7 +2,7 @@
 
 ## Version 1.1.1:
 - Updated NPM packages to the latest versions.
-- Fixed a fault that prevented attribute values assigning their values to CSS properties when "allowEditing" is enabled.
+- Fixed a fault that caused attribute values to assign their values to CSS properties when "allowEditing" is enabled.
 
 <br>
 
