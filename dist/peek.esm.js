@@ -69,7 +69,7 @@ var n;
     n.createWithHTML = i;
     function l(e) {
         e.preventDefault();
-        e.cancelBubble = true;
+        e.stopPropagation();
     }
     n.cancelBubble = l;
     function r() {

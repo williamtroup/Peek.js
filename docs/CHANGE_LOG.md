@@ -17,6 +17,7 @@
 
 #### **Adjustments:**
 - Renamed the small Copy, Paste, and Remove button CSS classes to "copy-small", "paste-small", and "remove-small".
+- Removed deprecated "cancelBubble" usages and replaced them with "stopPropagation()".
 
 #### **Fixes:**
 - Fixed an issue with checking ignore states for elements.

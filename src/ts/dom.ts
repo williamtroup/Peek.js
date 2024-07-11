@@ -45,7 +45,7 @@ export namespace DomElement {
 
     export function cancelBubble( e: Event ) {
         e.preventDefault();
-        e.cancelBubble = true;
+        e.stopPropagation();
     }
 
     export function getScrollPosition() : Position {
@@ -59,7 +59,7 @@ export namespace DomElement {
         return result;
     }
 
-    export function showElementAtMousePosition( e: any, element: HTMLElement ) {
+    export function showElementAtMousePosition( e: MouseEvent, element: HTMLElement ) {
         if ( element.style.display !== "block" ) {
             let left: number = e.pageX;
             let top: number = e.pageY;
