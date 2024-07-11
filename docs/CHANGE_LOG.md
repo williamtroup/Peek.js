@@ -9,6 +9,12 @@
 - Added configuration option "classesText" (defaults to "Classes"), which states the text to use for the "Classes" title.
 - Added configuration option "noClassesAvailableText" (defaults to "No classes are available."), which states the text to show when now classes are available.
 
+#### **Adjustments:**
+- Renamed the small Copy, Paste, and Remove button CSS classes to "copy-small", "paste-small", and "remove-small".
+
+#### **Fixes:**
+- Fixed an issue with checking ignore states for elements.
+
 <br>
 
 

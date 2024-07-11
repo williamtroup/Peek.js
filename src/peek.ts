@@ -196,9 +196,9 @@ type DialogProperties = Record<string, string>;
             const propertyValueInput: HTMLInputElement = DomElement.create( propertyValue, "input" ) as HTMLInputElement;
 
             if ( _current_Process_Options.mode !== Mode.size ) {
-                const copyButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "copy", _configuration.copySymbolText! ) as HTMLButtonElement;
-                const pasteButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "paste", _configuration.pasteSymbolText! ) as HTMLButtonElement;
-                const removeButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "remove", _configuration.removeSymbolText! ) as HTMLButtonElement;
+                const copyButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "copy-small", _configuration.copySymbolText! ) as HTMLButtonElement;
+                const pasteButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "paste-small", _configuration.pasteSymbolText! ) as HTMLButtonElement;
+                const removeButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "remove-small", _configuration.removeSymbolText! ) as HTMLButtonElement;
 
                 copyButton.title = _configuration.copyText!;
                 pasteButton.title = _configuration.pasteText!;
@@ -287,7 +287,7 @@ type DialogProperties = Record<string, string>;
     function buildNodeEvent( element: HTMLElement ) : void {
         const attributeValue: string = element.getAttribute( Constant.PEEK_JS_IGNORE_STATE_ATTRIBUTE )!;
 
-        if ( !Is.definedString( attributeValue ) ?? attributeValue !== IgnoreState.ignore ) {
+        if ( !Is.definedString( attributeValue ) && attributeValue !== IgnoreState.ignore ) {
             element.addEventListener( "mousemove", ( e ) => {
                 onNodeMouseOver( e, element );
             } );

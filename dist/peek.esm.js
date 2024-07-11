@@ -293,9 +293,9 @@ var o;
             const f = n.create(r, "div", "property-value");
             const a = n.create(f, "input");
             if (c.mode !== 3) {
-                const l = n.createWithHTML(r, "button", "copy", i.copySymbolText);
-                const f = n.createWithHTML(r, "button", "paste", i.pasteSymbolText);
-                const u = n.createWithHTML(r, "button", "remove", i.removeSymbolText);
+                const l = n.createWithHTML(r, "button", "copy-small", i.copySymbolText);
+                const f = n.createWithHTML(r, "button", "paste-small", i.pasteSymbolText);
+                const u = n.createWithHTML(r, "button", "remove-small", i.removeSymbolText);
                 l.title = i.copyText;
                 f.title = i.pasteText;
                 u.title = i.removeText;
@@ -360,7 +360,7 @@ var o;
     }
     function O(n) {
         const o = n.getAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE);
-        if (!e.definedString(o)) {
+        if (!e.definedString(o) && o !== "ignore") {
             n.addEventListener("mousemove", (e => {
                 N(e, n);
             }));
