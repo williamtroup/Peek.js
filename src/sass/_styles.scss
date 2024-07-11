@@ -57,3 +57,9 @@
     -o-animation: fade-in-effect ease $seconds;
     -ms-animation: fade-in-effect ease $seconds;
 }
+
+@mixin no-text-wrap {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

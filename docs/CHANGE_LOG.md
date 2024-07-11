@@ -4,6 +4,11 @@
 
 #### **New Features:**
 - Added a new "class" mode, which will list all the CSS classes assigned to an element (editing is also available).
+- Added copy support to "Size" mode values.
+- Added title bar Name/ID support.
+
+#### **Start() > Options:**
+- Added option "showIdOrNameInTitle" (defaults to false), which states if showing the Name/ID of element in the title of the dialog is enabled.
 
 #### **Configuration:**
 - Added configuration option "classesText" (defaults to "Classes"), which states the text to use for the "Classes" title.
@@ -14,6 +19,7 @@
 
 #### **Fixes:**
 - Fixed an issue with checking ignore states for elements.
+- Fixed a fault that caused the "Paste" and "Remove" buttons being visible when "allowEditing" is set to false.
 
 <br>
 

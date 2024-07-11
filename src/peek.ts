@@ -69,7 +69,7 @@ type DialogProperties = Record<string, string>;
         closeButton.onclick = closeDialog;   
     }
 
-    function setDialogText() : void {
+    function setDialogText( element: HTMLElement = null! ) : void {
         let title: string = _current_Process_Options.titleText!;
 
         if ( !Is.definedString( title ) ) {
@@ -81,6 +81,17 @@ type DialogProperties = Record<string, string>;
                 title = _configuration.sizeText!;
             } else if ( _current_Process_Options.mode === Mode.class ) {
                 title = _configuration.classesText!;
+            }
+        }
+
+        if ( _current_Process_Options.showIdOrNameInTitle && Is.defined( element ) ) {
+            let id: string = element.getAttribute( "id" )!;
+            let name: string = element.getAttribute( "name" )!;
+
+            if ( Is.definedString( id ) ) {
+                title = `${title} - ${id}`;
+            } else if ( Is.definedString( name ) ) {
+                title = `${title} - ${name}`;
             }
         }
 
@@ -125,6 +136,8 @@ type DialogProperties = Record<string, string>;
         _dialog_Contents.scrollTop = 0;
         _current_Process_Properties = {} as DialogProperties;
         _current_Process_Element = element;
+
+        setDialogText( element );
 
         if ( _current_Process_Options.mode === Mode.size ) {
             _dialog_Buttons_Copy.style.display = "none";
@@ -195,18 +208,19 @@ type DialogProperties = Record<string, string>;
             const propertyValue: HTMLElement = DomElement.create( property, "div", "property-value" );
             const propertyValueInput: HTMLInputElement = DomElement.create( propertyValue, "input" ) as HTMLInputElement;
 
-            if ( _current_Process_Options.mode !== Mode.size ) {
-                const copyButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "copy-small", _configuration.copySymbolText! ) as HTMLButtonElement;
+            const copyButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "copy-small", _configuration.copySymbolText! ) as HTMLButtonElement;
+            copyButton.title = _configuration.copyText!;
+
+            copyButton.onclick = () => {
+                navigator.clipboard.writeText( propertyValueText );
+            };
+
+            if ( _current_Process_Options.allowEditing && allowEditing ) {
                 const pasteButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "paste-small", _configuration.pasteSymbolText! ) as HTMLButtonElement;
                 const removeButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "remove-small", _configuration.removeSymbolText! ) as HTMLButtonElement;
 
-                copyButton.title = _configuration.copyText!;
                 pasteButton.title = _configuration.pasteText!;
                 removeButton.title = _configuration.removeText!;
-
-                copyButton.onclick = () => {
-                    navigator.clipboard.writeText( propertyValueText );
-                };
     
                 pasteButton.onclick = () => {
                     navigator.clipboard.readText().then( data => {
@@ -343,6 +357,7 @@ type DialogProperties = Record<string, string>;
         options.titleText = Data.getDefaultString( options.titleText, Char.empty );
         options.showOnly = Data.getDefaultStringOrArray( options.showOnly, [] );
         options.allowEditing = Data.getDefaultBoolean( options.allowEditing, false );
+        options.showIdOrNameInTitle = Data.getDefaultBoolean( options.showIdOrNameInTitle, false );
 
         return options;
     }

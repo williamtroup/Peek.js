@@ -183,7 +183,7 @@ var o;
     let p = null;
     function T() {
         if (e.definedObject(l)) {
-            m();
+            y();
             document.body.removeChild(l);
             l = null;
         }
@@ -195,24 +195,33 @@ var o;
         a = n.createWithHTML(f, "button", "copy", i.copyText);
         a.onclick = b;
         const t = n.createWithHTML(f, "button", "close", i.closeText);
-        t.onclick = m;
+        t.onclick = y;
     }
-    function y() {
-        let t = c.titleText;
-        if (!e.definedString(t)) {
+    function m(t = null) {
+        let n = c.titleText;
+        if (!e.definedString(n)) {
             if (c.mode === 1) {
-                t = i.cssPropertiesText;
+                n = i.cssPropertiesText;
             } else if (c.mode === 2) {
-                t = i.attributesText;
+                n = i.attributesText;
             } else if (c.mode === 3) {
-                t = i.sizeText;
+                n = i.sizeText;
             } else if (c.mode === 4) {
-                t = i.classesText;
+                n = i.classesText;
             }
         }
-        r.innerHTML = t;
+        if (c.showIdOrNameInTitle && e.defined(t)) {
+            let o = t.getAttribute("id");
+            let i = t.getAttribute("name");
+            if (e.definedString(o)) {
+                n = `${n} - ${o}`;
+            } else if (e.definedString(i)) {
+                n = `${n} - ${i}`;
+            }
+        }
+        r.innerHTML = n;
     }
-    function m() {
+    function y() {
         l.style.display = "none";
     }
     function b() {
@@ -239,6 +248,7 @@ var o;
         s.scrollTop = 0;
         g = {};
         p = e;
+        m(e);
         if (c.mode === 3) {
             a.style.display = "none";
         } else {
@@ -294,23 +304,23 @@ var o;
             n.createWithHTML(r, "div", "property-name", t);
             const f = n.create(r, "div", "property-value");
             const a = n.create(f, "input");
-            if (c.mode !== 3) {
-                const l = n.createWithHTML(r, "button", "copy-small", i.copySymbolText);
-                const f = n.createWithHTML(r, "button", "paste-small", i.pasteSymbolText);
-                const u = n.createWithHTML(r, "button", "remove-small", i.removeSymbolText);
-                l.title = i.copyText;
-                f.title = i.pasteText;
-                u.title = i.removeText;
+            const u = n.createWithHTML(r, "button", "copy-small", i.copySymbolText);
+            u.title = i.copyText;
+            u.onclick = () => {
+                navigator.clipboard.writeText(o);
+            };
+            if (c.allowEditing && l) {
+                const l = n.createWithHTML(r, "button", "paste-small", i.pasteSymbolText);
+                const f = n.createWithHTML(r, "button", "remove-small", i.removeSymbolText);
+                l.title = i.pasteText;
+                f.title = i.removeText;
                 l.onclick = () => {
-                    navigator.clipboard.writeText(o);
-                };
-                f.onclick = () => {
                     navigator.clipboard.readText().then((n => {
                         a.value = n;
-                        w(e, t, a);
+                        E(e, t, a);
                     }));
                 };
-                u.onclick = () => {
+                f.onclick = () => {
                     if (c.mode === 1) {
                         e.style.removeProperty(t);
                     } else if (c.mode === 2) {
@@ -328,17 +338,17 @@ var o;
                 a.readOnly = true;
             } else {
                 a.onkeyup = n => {
-                    E(n, t, a, e);
+                    w(n, t, a, e);
                 };
             }
         }
     }
-    function E(e, t, n, o) {
+    function w(e, t, n, o) {
         if (e.code === "Enter") {
-            w(o, t, n);
+            E(o, t, n);
         }
     }
-    function w(e, t, n) {
+    function E(e, t, n) {
         if (c.mode === 1) {
             e.style.setProperty(t, n.value);
         } else if (c.mode === 2) {
@@ -347,7 +357,7 @@ var o;
             e.classList.replace(e.classList[parseInt(t) - 1], n.value);
         }
     }
-    function L() {
+    function O() {
         const e = c.nodeType;
         const t = e.length;
         for (let n = 0; n < t; n++) {
@@ -355,33 +365,33 @@ var o;
             const o = [].slice.call(t);
             const i = o.length;
             for (let e = 0; e < i; e++) {
-                O(o[e]);
+                L(o[e]);
             }
         }
-        window.addEventListener("mousemove", m);
+        window.addEventListener("mousemove", y);
     }
-    function O(n) {
+    function L(n) {
         const o = n.getAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE);
         if (!e.definedString(o) && o !== "ignore") {
             n.addEventListener("mousemove", (e => {
-                N(e, n);
+                P(e, n);
             }));
             d.push(n);
         }
     }
-    function P() {
+    function N() {
         const e = d.length;
         for (let n = 0; n < e; n++) {
             var t = d[n];
             t.removeEventListener("mousemove", (e => {
-                N(e, t);
+                P(e, t);
             }));
         }
         d = [];
-        window.removeEventListener("mousemove", m);
-        m();
+        window.removeEventListener("mousemove", y);
+        y();
     }
-    function N(e, t) {
+    function P(e, t) {
         n.cancelBubble(e);
         if (u !== 0) {
             clearTimeout(u);
@@ -399,6 +409,7 @@ var o;
         t.titleText = o.getDefaultString(t.titleText, "");
         t.showOnly = o.getDefaultStringOrArray(t.showOnly, []);
         t.allowEditing = o.getDefaultBoolean(t.allowEditing, false);
+        t.showIdOrNameInTitle = o.getDefaultBoolean(t.showIdOrNameInTitle, false);
         return t;
     }
     function _(e = null) {
@@ -425,15 +436,15 @@ var o;
         start: function(t) {
             if (!e.definedObject(c)) {
                 c = H(t);
-                y();
-                L();
+                m();
+                O();
             }
             return C;
         },
         stop: function() {
             if (e.definedObject(c)) {
                 c = null;
-                P();
+                N();
             }
             return C;
         },
@@ -451,7 +462,7 @@ var o;
                     _(o);
                     T();
                     if (e.definedObject(c)) {
-                        y();
+                        m();
                     }
                 }
             }

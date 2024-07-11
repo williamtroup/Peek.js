@@ -39,4 +39,5 @@ export type Options = {
     titleText?: string;
     showOnly?: string[] | string;
     allowEditing?: boolean;
+    showIdOrNameInTitle?: boolean;
 };

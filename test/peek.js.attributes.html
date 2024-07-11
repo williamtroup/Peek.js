@@ -21,11 +21,11 @@
 
         <div class="contents" style="margin-bottom: 500px">
             <h3>Configuration:</h3>
-            <button class="btn btn-primary" onclick="setupConfiguration();">Set Configuration</button>
+            <button class="btn btn-primary" id="configuration-button" onclick="setupConfiguration();">Set Configuration</button>
             <br />
 
             <h3>Running:</h3>
-            <button class="btn btn-primary" onclick="$peek.start( { nodeType: 'button', mode: 2, allowEditing: true } );">Start</button>
+            <button class="btn btn-primary" onclick="$peek.start( { nodeType: 'button', mode: 2, allowEditing: true, showIdOrNameInTitle: true } );">Start</button>
             <button class="btn btn-primary" onclick="$peek.stop();">Stop</button>
             <br />
 
