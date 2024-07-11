@@ -31,6 +31,7 @@ Peek.js
 - Exclude specific DOM elements by using the ignore attribute!
 - Show only the data your interested in!
 - Copy, Paste, and Remove CSS, Attributes, and Classes!
+- Move the dialog away from the element to lock it!
 <br />
 <br />
 

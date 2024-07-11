@@ -40,8 +40,17 @@ type DialogProperties = Record<string, string>;
     let _current_Process_Elements: HTMLElement[] = [];
     let _current_Process_Properties: DialogProperties = {} as DialogProperties;
     let _current_Process_Element: HTMLElement = null!;
+    let _current_Process_Locked: boolean = false;
 
-    
+    // Variables: Dialog Moving
+    let _element_Dialog_Move: HTMLElement = null!;
+    let _element_Dialog_Move_Original_X: number = 0;
+    let _element_Dialog_Move_Original_Y: number = 0;
+    let _element_Dialog_Move_IsMoving: boolean = false;
+    let _element_Dialog_Move_X: number = 0;
+    let _element_Dialog_Move_Y: number = 0;
+
+
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Render:  Build Dialog
@@ -67,7 +76,9 @@ type DialogProperties = Record<string, string>;
         _dialog_Buttons_Copy.onclick = onCopy;
         
         const closeButton: HTMLElement = DomElement.createWithHTML( _dialog_Buttons, "button", "close", _configuration.closeText! );
-        closeButton.onclick = closeDialog;   
+        closeButton.onclick = closeDialog;
+
+        makeDialogMovable( _dialog_Title, _dialog );
     }
 
     function setDialogText( element: HTMLElement = null! ) : void {
@@ -101,6 +112,7 @@ type DialogProperties = Record<string, string>;
 
     function closeDialog() {
         _dialog.style.display = "none";
+        _current_Process_Locked = false;
     }
 
     function onCopy() {
@@ -180,10 +192,10 @@ type DialogProperties = Record<string, string>;
     function buildSizeProperties( element: HTMLElement ) : void {
         const offset: Position = DomElement.getOffset( element );
 
-        buildPropertyRow( element, "left", offset.left.toString() + "px", false );
-        buildPropertyRow( element, "top", offset.top.toString() + "px", false );
-        buildPropertyRow( element, "width", element.offsetWidth.toString() + "px", false );
-        buildPropertyRow( element, "height", element.offsetHeight.toString() + "px", false );
+        buildPropertyRow( element, "left", `${offset.left.toString()}px`, false );
+        buildPropertyRow( element, "top", `${offset.top.toString()}px`, false );
+        buildPropertyRow( element, "width", `${element.offsetWidth.toString()}px`, false );
+        buildPropertyRow( element, "height", `${element.offsetHeight.toString()}px`, false );
     }
 
     function buildClassProperties( element: HTMLElement ) : void {
@@ -296,7 +308,7 @@ type DialogProperties = Record<string, string>;
             }
         }
 
-        window.addEventListener( "mousemove", closeDialog );
+        window.addEventListener( "mousemove", onWindowMove );
     }
 
     function buildNodeEvent( element: HTMLElement ) : void {
@@ -324,24 +336,101 @@ type DialogProperties = Record<string, string>;
 
         _current_Process_Elements = [] as HTMLElement[];
 
-        window.removeEventListener( "mousemove", closeDialog );
+        window.removeEventListener( "mousemove", onWindowMove );
 
         closeDialog();
     }
 
     function onNodeMouseOver( e: MouseEvent, element: HTMLElement ) {
-        DomElement.cancelBubble( e );
+        if ( !_current_Process_Locked ) {
+            DomElement.cancelBubble( e );
         
-        if ( _dialog_Timer !== 0 ) {
-            clearTimeout( _dialog_Timer );
-            _dialog_Timer = 0;
+            if ( _dialog_Timer !== 0 ) {
+                clearTimeout( _dialog_Timer );
+                _dialog_Timer = 0;
+            }
+    
+            _dialog_Timer = setTimeout( () => {
+                buildDialogContent( element );
+    
+                DomElement.showElementAtMousePosition( e, _dialog );
+            }, _configuration.dialogDisplayDelay );
         }
+    }
 
-        _dialog_Timer = setTimeout( () => {
-            buildDialogContent( element );
+    function onWindowMove() {
+        if ( !_current_Process_Locked ) {
+            closeDialog();
+        }
+    }
 
-            DomElement.showElementAtMousePosition( e, _dialog );
-        }, _configuration.dialogDisplayDelay );
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Move Dialog
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function makeDialogMovable( titleBar: HTMLElement, dialog: HTMLElement ) {
+        titleBar.onmousedown = ( e: MouseEvent ) => {
+            onMoveTitleBarMouseDown( e, dialog );
+        };
+
+        titleBar.onmousemove = ( e: MouseEvent ) => {
+            onMoveDocumentMouseMove( e );
+        };
+
+        titleBar.onmouseup = () => {
+            onMoveTitleBarMouseUp();
+        };
+
+        titleBar.oncontextmenu = () => {
+            onMoveTitleBarMouseUp();
+        };
+
+        document.addEventListener( "mousemove", onMoveDocumentMouseMove );
+        document.addEventListener( "mouseleave", onMoveDocumentMouseLeave );
+    }
+
+    function onMoveTitleBarMouseDown( e: MouseEvent, dialog: HTMLElement ) {
+        if ( !_element_Dialog_Move_IsMoving ) {
+            _current_Process_Locked = true;
+
+            _element_Dialog_Move = dialog;
+            _element_Dialog_Move_IsMoving = true;
+            _element_Dialog_Move_X = e.pageX - _element_Dialog_Move.offsetLeft;
+            _element_Dialog_Move_Y = e.pageY - _element_Dialog_Move.offsetTop;
+            _element_Dialog_Move_Original_X = _element_Dialog_Move.offsetLeft;
+            _element_Dialog_Move_Original_Y = _element_Dialog_Move.offsetTop;
+        }
+    }
+
+    function onMoveTitleBarMouseUp() {
+        if ( _element_Dialog_Move_IsMoving ) {
+            _element_Dialog_Move_IsMoving = false;
+            _element_Dialog_Move = null!;
+            _element_Dialog_Move_Original_X = 0;
+            _element_Dialog_Move_Original_Y = 0;
+        }
+    }
+
+    function onMoveDocumentMouseMove( e: MouseEvent ) {
+        if ( _element_Dialog_Move_IsMoving ) {
+            _element_Dialog_Move.style.left = `${e.pageX - _element_Dialog_Move_X}px`;
+            _element_Dialog_Move.style.top = `${e.pageY - _element_Dialog_Move_Y}px`;
+        }
+    }
+
+    function onMoveDocumentMouseLeave() {
+        if ( _element_Dialog_Move_IsMoving ) {
+            _element_Dialog_Move.style.left = `${_element_Dialog_Move_Original_X}px`;
+            _element_Dialog_Move.style.top = `${_element_Dialog_Move_Original_Y}px`;
+
+            _element_Dialog_Move_IsMoving = false;
+            _element_Dialog_Move = null!;
+            _element_Dialog_Move_Original_X = 0;
+            _element_Dialog_Move_Original_Y = 0;
+        }
     }
 
 

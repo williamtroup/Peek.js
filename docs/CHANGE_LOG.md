@@ -6,6 +6,7 @@
 - Added a new "class" mode, which will list all the CSS classes assigned to an element (editing is also available).
 - Added copy support to "Size" mode values.
 - Added title bar Name/ID support.
+- Added dialog moving support via the title bar.  When the dialog is moved, it is locked until closed (no over elements will open/update the dialog).
 
 #### **Start() > Options:**
 - Added option "showIdOrNameInTitle" (defaults to false), which states if showing the Name/ID of element in the title of the dialog is enabled.

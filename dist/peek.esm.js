@@ -179,9 +179,16 @@ var o;
     let d = [];
     let g = {};
     let p = null;
-    function T() {
+    let m = false;
+    let T = null;
+    let y = 0;
+    let b = 0;
+    let v = false;
+    let x = 0;
+    let S = 0;
+    function A() {
         if (e.definedObject(l)) {
-            y();
+            D();
             document.body.removeChild(l);
             l = null;
         }
@@ -191,11 +198,12 @@ var o;
         s = n.create(l, "div", "dialog-contents");
         f = n.create(l, "div", "dialog-buttons");
         a = n.createWithHTML(f, "button", "copy", i.copyText);
-        a.onclick = b;
+        a.onclick = w;
         const t = n.createWithHTML(f, "button", "close", i.closeText);
-        t.onclick = y;
+        t.onclick = D;
+        k(r, l);
     }
-    function m(t = null) {
+    function h(t = null) {
         let n = c.titleText;
         if (!e.definedString(n)) {
             if (c.mode === 1) {
@@ -219,10 +227,11 @@ var o;
         }
         r.innerHTML = n;
     }
-    function y() {
+    function D() {
         l.style.display = "none";
+        m = false;
     }
-    function b() {
+    function w() {
         const e = [];
         for (let t in g) {
             if (g.hasOwnProperty(t)) {
@@ -241,62 +250,62 @@ var o;
             navigator.clipboard.writeText(e.join(" "));
         }
     }
-    function v(e) {
+    function E(e) {
         s.innerHTML = "";
         s.scrollTop = 0;
         g = {};
         p = e;
-        m(e);
+        h(e);
         if (c.mode === 3) {
             a.style.display = "none";
         } else {
             a.style.removeProperty("display");
         }
         if (c.mode === 1) {
-            x(e);
+            L(e);
         } else if (c.mode === 2) {
-            S(e);
+            O(e);
         } else if (c.mode === 3) {
-            A(e);
+            N(e);
         } else if (c.mode === 4) {
-            h(e);
+            $(e);
         }
     }
-    function x(e) {
+    function L(e) {
         const t = getComputedStyle(e);
         const n = t.length;
         for (let o = 0; o < n; o++) {
-            D(e, t[o], t.getPropertyValue(t[o]));
+            P(e, t[o], t.getPropertyValue(t[o]));
         }
     }
-    function S(e) {
+    function O(e) {
         if (e.hasAttributes()) {
             for (let t of e.attributes) {
-                D(e, t.name, t.value);
+                P(e, t.name, t.value);
             }
         } else {
             s.innerHTML = i.noAttributesAvailableText;
         }
     }
-    function A(e) {
+    function N(e) {
         const t = n.getOffset(e);
-        D(e, "left", t.left.toString() + "px", false);
-        D(e, "top", t.top.toString() + "px", false);
-        D(e, "width", e.offsetWidth.toString() + "px", false);
-        D(e, "height", e.offsetHeight.toString() + "px", false);
+        P(e, "left", `${t.left.toString()}px`, false);
+        P(e, "top", `${t.top.toString()}px`, false);
+        P(e, "width", `${e.offsetWidth.toString()}px`, false);
+        P(e, "height", `${e.offsetHeight.toString()}px`, false);
     }
-    function h(e) {
+    function $(e) {
         if (e.classList.length > 0) {
             let t = 1;
             for (let n of e.classList) {
-                D(e, t.toString(), n);
+                P(e, t.toString(), n);
                 t++;
             }
         } else {
             s.innerHTML = i.noClassesAvailableText;
         }
     }
-    function D(e, t, o, l = true) {
+    function P(e, t, o, l = true) {
         if (c.showOnly.length === 0 || c.showOnly.indexOf(t) > -1) {
             const r = n.create(s, "div", "property-row");
             n.createWithHTML(r, "div", "property-name", t);
@@ -315,7 +324,7 @@ var o;
                 l.onclick = () => {
                     navigator.clipboard.readText().then((n => {
                         a.value = n;
-                        E(e, t, a);
+                        _(e, t, a);
                     }));
                 };
                 f.onclick = () => {
@@ -336,17 +345,17 @@ var o;
                 a.readOnly = true;
             } else {
                 a.onkeyup = n => {
-                    w(n, t, a, e);
+                    H(n, t, a, e);
                 };
             }
         }
     }
-    function w(e, t, n, o) {
+    function H(e, t, n, o) {
         if (e.code === "Enter") {
-            E(o, t, n);
+            _(o, t, n);
         }
     }
-    function E(e, t, n) {
+    function _(e, t, n) {
         if (c.mode === 1) {
             e.style.setProperty(t, n.value);
         } else if (c.mode === 2) {
@@ -355,7 +364,7 @@ var o;
             e.classList.replace(e.classList[parseInt(t) - 1], n.value);
         }
     }
-    function O() {
+    function j() {
         const e = c.nodeType;
         const t = e.length;
         for (let n = 0; n < t; n++) {
@@ -363,44 +372,102 @@ var o;
             const o = [].slice.call(t);
             const i = o.length;
             for (let e = 0; e < i; e++) {
-                L(o[e]);
+                C(o[e]);
             }
         }
-        window.addEventListener("mousemove", y);
+        window.addEventListener("mousemove", B);
     }
-    function L(n) {
+    function C(n) {
         const o = n.getAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE);
         if (!e.definedString(o) && o !== "ignore") {
             n.addEventListener("mousemove", (e => {
-                P(e, n);
+                M(e, n);
             }));
             d.push(n);
         }
     }
-    function N() {
+    function I() {
         const e = d.length;
         for (let n = 0; n < e; n++) {
             var t = d[n];
             t.removeEventListener("mousemove", (e => {
-                P(e, t);
+                M(e, t);
             }));
         }
         d = [];
-        window.removeEventListener("mousemove", y);
-        y();
+        window.removeEventListener("mousemove", B);
+        D();
     }
-    function P(e, t) {
-        n.cancelBubble(e);
-        if (u !== 0) {
-            clearTimeout(u);
-            u = 0;
+    function M(e, t) {
+        if (!m) {
+            n.cancelBubble(e);
+            if (u !== 0) {
+                clearTimeout(u);
+                u = 0;
+            }
+            u = setTimeout((() => {
+                E(t);
+                n.showElementAtMousePosition(e, l);
+            }), i.dialogDisplayDelay);
         }
-        u = setTimeout((() => {
-            v(t);
-            n.showElementAtMousePosition(e, l);
-        }), i.dialogDisplayDelay);
     }
-    function H(e) {
+    function B() {
+        if (!m) {
+            D();
+        }
+    }
+    function k(e, t) {
+        e.onmousedown = e => {
+            W(e, t);
+        };
+        e.onmousemove = e => {
+            z(e);
+        };
+        e.onmouseup = () => {
+            R();
+        };
+        e.oncontextmenu = () => {
+            R();
+        };
+        document.addEventListener("mousemove", z);
+        document.addEventListener("mouseleave", G);
+    }
+    function W(e, t) {
+        if (!v) {
+            m = true;
+            T = t;
+            v = true;
+            x = e.pageX - T.offsetLeft;
+            S = e.pageY - T.offsetTop;
+            y = T.offsetLeft;
+            b = T.offsetTop;
+        }
+    }
+    function R() {
+        if (v) {
+            v = false;
+            T = null;
+            y = 0;
+            b = 0;
+        }
+    }
+    function z(e) {
+        if (v) {
+            T.style.left = `${e.pageX - x}px`;
+            T.style.top = `${e.pageY - S}px`;
+        }
+    }
+    function G() {
+        if (v) {
+            T.style.left = `${y}px`;
+            T.style.top = `${b}px`;
+            v = false;
+            T = null;
+            y = 0;
+            b = 0;
+        }
+    }
+    function J(e) {
         let t = o.getDefaultObject(e, {});
         t.nodeType = o.getDefaultStringOrArray(t.nodeType, []);
         t.mode = o.getDefaultNumber(t.mode, 1);
@@ -410,12 +477,12 @@ var o;
         t.showIdOrNameInTitle = o.getDefaultBoolean(t.showIdOrNameInTitle, false);
         return t;
     }
-    function _(e = null) {
+    function K(e = null) {
         i = o.getDefaultObject(e, {});
         i.dialogDisplayDelay = o.getDefaultNumber(i.dialogDisplayDelay, 1e3);
-        j();
+        U();
     }
-    function j() {
+    function U() {
         i.cssPropertiesText = o.getDefaultAnyString(i.cssPropertiesText, "CSS Properties");
         i.attributesText = o.getDefaultAnyString(i.attributesText, "Attributes");
         i.sizeText = o.getDefaultAnyString(i.sizeText, "Size");
@@ -430,21 +497,21 @@ var o;
         i.removeSymbolText = o.getDefaultAnyString(i.removeSymbolText, "✕");
         i.noClassesAvailableText = o.getDefaultAnyString(i.noClassesAvailableText, "No classes are available.");
     }
-    const C = {
+    const X = {
         start: function(t) {
             if (!e.definedObject(c)) {
-                c = H(t);
-                m();
-                O();
+                c = J(t);
+                h();
+                j();
             }
-            return C;
+            return X;
         },
         stop: function() {
             if (e.definedObject(c)) {
                 c = null;
-                N();
+                I();
             }
-            return C;
+            return X;
         },
         setConfiguration: function(t) {
             if (e.definedObject(t)) {
@@ -457,26 +524,26 @@ var o;
                     }
                 }
                 if (n) {
-                    _(o);
-                    T();
+                    K(o);
+                    A();
                     if (e.definedObject(c)) {
-                        m();
+                        h();
                     }
                 }
             }
-            return C;
+            return X;
         },
         getVersion: function() {
             return "1.3.0";
         }
     };
     (() => {
-        _();
+        K();
         document.addEventListener("DOMContentLoaded", (() => {
-            T();
+            A();
         }));
         if (!e.defined(window.$peek)) {
-            window.$peek = C;
+            window.$peek = X;
         }
     })();
 })();//# sourceMappingURL=peek.esm.js.map
