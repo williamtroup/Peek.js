@@ -26,7 +26,7 @@ export namespace DomElement {
 
         result.setAttribute( Constant.PEEK_JS_IGNORE_STATE_ATTRIBUTE, IgnoreState.ignore );
 
-        if ( Is.defined( className ) ) {
+        if ( Is.definedString( className ) ) {
             result.className = className;
         }
 

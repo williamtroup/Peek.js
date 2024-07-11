@@ -53,7 +53,7 @@ var n;
         const r = l === "text";
         let s = r ? document.createTextNode("") : document.createElement(l);
         s.setAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE, "ignore");
-        if (e.defined(i)) {
+        if (e.definedString(i)) {
             s.className = i;
         }
         n.appendChild(s);
@@ -186,7 +186,7 @@ var o;
     let v = false;
     let x = 0;
     let S = 0;
-    function A() {
+    function h() {
         if (e.definedObject(l)) {
             D();
             document.body.removeChild(l);
@@ -201,31 +201,31 @@ var o;
         a.onclick = w;
         const t = n.createWithHTML(f, "button", "close", i.closeText);
         t.onclick = D;
-        k(r, l);
+        W(r, l);
     }
-    function h(t = null) {
-        let n = c.titleText;
-        if (!e.definedString(n)) {
+    function A(t = null) {
+        let o = c.titleText;
+        if (!e.definedString(o)) {
             if (c.mode === 1) {
-                n = i.cssPropertiesText;
+                o = i.cssPropertiesText;
             } else if (c.mode === 2) {
-                n = i.attributesText;
+                o = i.attributesText;
             } else if (c.mode === 3) {
-                n = i.sizeText;
+                o = i.sizeText;
             } else if (c.mode === 4) {
-                n = i.classesText;
+                o = i.classesText;
             }
         }
+        r.innerHTML = o;
         if (c.showIdOrNameInTitle && e.defined(t)) {
             let o = t.getAttribute("id");
             let i = t.getAttribute("name");
             if (e.definedString(o)) {
-                n = `${n} - ${o}`;
+                n.createWithHTML(r, "span", "", ` - ${o}`);
             } else if (e.definedString(i)) {
-                n = `${n} - ${i}`;
+                n.createWithHTML(r, "span", "", ` - ${i}`);
             }
         }
-        r.innerHTML = n;
     }
     function D() {
         l.style.display = "none";
@@ -255,7 +255,7 @@ var o;
         s.scrollTop = 0;
         g = {};
         p = e;
-        h(e);
+        A(e);
         if (c.mode === 3) {
             a.style.display = "none";
         } else {
@@ -268,20 +268,20 @@ var o;
         } else if (c.mode === 3) {
             N(e);
         } else if (c.mode === 4) {
-            $(e);
+            P(e);
         }
     }
     function L(e) {
         const t = getComputedStyle(e);
         const n = t.length;
         for (let o = 0; o < n; o++) {
-            P(e, t[o], t.getPropertyValue(t[o]));
+            $(e, t[o], t.getPropertyValue(t[o]));
         }
     }
     function O(e) {
         if (e.hasAttributes()) {
             for (let t of e.attributes) {
-                P(e, t.name, t.value);
+                $(e, t.name, t.value);
             }
         } else {
             s.innerHTML = i.noAttributesAvailableText;
@@ -289,23 +289,23 @@ var o;
     }
     function N(e) {
         const t = n.getOffset(e);
-        P(e, "left", `${t.left.toString()}px`, false);
-        P(e, "top", `${t.top.toString()}px`, false);
-        P(e, "width", `${e.offsetWidth.toString()}px`, false);
-        P(e, "height", `${e.offsetHeight.toString()}px`, false);
+        $(e, "left", `${t.left.toString()}px`, false);
+        $(e, "top", `${t.top.toString()}px`, false);
+        $(e, "width", `${e.offsetWidth.toString()}px`, false);
+        $(e, "height", `${e.offsetHeight.toString()}px`, false);
     }
-    function $(e) {
+    function P(e) {
         if (e.classList.length > 0) {
             let t = 1;
             for (let n of e.classList) {
-                P(e, t.toString(), n);
+                $(e, t.toString(), n);
                 t++;
             }
         } else {
             s.innerHTML = i.noClassesAvailableText;
         }
     }
-    function P(e, t, o, l = true) {
+    function $(e, t, o, l = true) {
         if (c.showOnly.length === 0 || c.showOnly.indexOf(t) > -1) {
             const r = n.create(s, "div", "property-row");
             n.createWithHTML(r, "div", "property-name", t);
@@ -324,7 +324,7 @@ var o;
                 l.onclick = () => {
                     navigator.clipboard.readText().then((n => {
                         a.value = n;
-                        _(e, t, a);
+                        M(e, t, a);
                     }));
                 };
                 f.onclick = () => {
@@ -352,10 +352,10 @@ var o;
     }
     function H(e, t, n, o) {
         if (e.code === "Enter") {
-            _(o, t, n);
+            M(o, t, n);
         }
     }
-    function _(e, t, n) {
+    function M(e, t, n) {
         if (c.mode === 1) {
             e.style.setProperty(t, n.value);
         } else if (c.mode === 2) {
@@ -364,7 +364,7 @@ var o;
             e.classList.replace(e.classList[parseInt(t) - 1], n.value);
         }
     }
-    function j() {
+    function _() {
         const e = c.nodeType;
         const t = e.length;
         for (let n = 0; n < t; n++) {
@@ -372,33 +372,33 @@ var o;
             const o = [].slice.call(t);
             const i = o.length;
             for (let e = 0; e < i; e++) {
-                C(o[e]);
+                j(o[e]);
             }
         }
         window.addEventListener("mousemove", B);
     }
-    function C(n) {
+    function j(n) {
         const o = n.getAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE);
         if (!e.definedString(o) && o !== "ignore") {
             n.addEventListener("mousemove", (e => {
-                M(e, n);
+                I(e, n);
             }));
             d.push(n);
         }
     }
-    function I() {
+    function C() {
         const e = d.length;
         for (let n = 0; n < e; n++) {
             var t = d[n];
             t.removeEventListener("mousemove", (e => {
-                M(e, t);
+                I(e, t);
             }));
         }
         d = [];
         window.removeEventListener("mousemove", B);
         D();
     }
-    function M(e, t) {
+    function I(e, t) {
         if (!m) {
             n.cancelBubble(e);
             if (u !== 0) {
@@ -416,9 +416,9 @@ var o;
             D();
         }
     }
-    function k(e, t) {
+    function W(e, t) {
         e.onmousedown = e => {
-            W(e, t);
+            k(e, t);
         };
         e.onmousemove = e => {
             z(e);
@@ -432,7 +432,7 @@ var o;
         document.addEventListener("mousemove", z);
         document.addEventListener("mouseleave", G);
     }
-    function W(e, t) {
+    function k(e, t) {
         if (!v) {
             m = true;
             T = t;
@@ -501,15 +501,15 @@ var o;
         start: function(t) {
             if (!e.definedObject(c)) {
                 c = J(t);
-                h();
-                j();
+                A();
+                _();
             }
             return X;
         },
         stop: function() {
             if (e.definedObject(c)) {
                 c = null;
-                I();
+                C();
             }
             return X;
         },
@@ -525,9 +525,9 @@ var o;
                 }
                 if (n) {
                     K(o);
-                    A();
+                    h();
                     if (e.definedObject(c)) {
-                        h();
+                        A();
                     }
                 }
             }
@@ -540,7 +540,7 @@ var o;
     (() => {
         K();
         document.addEventListener("DOMContentLoaded", (() => {
-            A();
+            h();
         }));
         if (!e.defined(window.$peek)) {
             window.$peek = X;

@@ -96,18 +96,18 @@ type DialogProperties = Record<string, string>;
             }
         }
 
+        _dialog_Title.innerHTML = title;
+
         if ( _current_Process_Options.showIdOrNameInTitle && Is.defined( element ) ) {
             let id: string = element.getAttribute( "id" )!;
             let name: string = element.getAttribute( "name" )!;
 
             if ( Is.definedString( id ) ) {
-                title = `${title} - ${id}`;
+                DomElement.createWithHTML( _dialog_Title, "span", Char.empty, ` - ${id}` );
             } else if ( Is.definedString( name ) ) {
-                title = `${title} - ${name}`;
+                DomElement.createWithHTML( _dialog_Title, "span", Char.empty, ` - ${name}` );
             }
         }
-
-        _dialog_Title.innerHTML = title;
     }
 
     function closeDialog() {

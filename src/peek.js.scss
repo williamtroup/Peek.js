@@ -13,6 +13,7 @@
     // Fonts
     --peek-js-text-bold-weight-active: 900;
     --peek-js-title-bold-weight: 900;
+    --peek-js-title-span-bold-weight: 500;
     --peek-js-default-font: system-ui,
                             -apple-system,
                             "Segoe UI",
@@ -110,6 +111,11 @@ div.peek-js {
         font-weight: var(--peek-js-title-bold-weight);
 
         @include no-text-wrap;
+
+        span {
+            font-weight: var(--peek-js-title-span-bold-weight);
+            font-style: italic;
+        }
     }
 }
 
