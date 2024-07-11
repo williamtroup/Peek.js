@@ -1,7 +1,13 @@
 # Peek.js - Change Log:
 
 ## Version 1.3.0:
-- 
+
+#### **New Features:**
+- Added a new "class" mode, which will list all the CSS classes assigned to an element (editing is also available).
+
+#### **Configuration:**
+- Added configuration option "classesText" (defaults to "Classes"), which states the text to use for the "Classes" title.
+- Added configuration option "noClassesAvailableText" (defaults to "No classes are available."), which states the text to show when now classes are available.
 
 <br>
 

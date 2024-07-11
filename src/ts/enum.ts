@@ -21,6 +21,7 @@ export const enum Mode {
     css = 1,
     attributes = 2,
     size = 3,
+    class = 4,
 }
 
 export const enum Value {

@@ -79,6 +79,8 @@ type DialogProperties = Record<string, string>;
                 title = _configuration.attributesText!;
             } else if ( _current_Process_Options.mode === Mode.size ) {
                 title = _configuration.sizeText!;
+            } else if ( _current_Process_Options.mode === Mode.class ) {
+                title = _configuration.classesText!;
             }
         }
 
@@ -95,16 +97,18 @@ type DialogProperties = Record<string, string>;
         for ( let propertyName in _current_Process_Properties ) {
             if ( _current_Process_Properties.hasOwnProperty( propertyName ) ) {
                 if ( _current_Process_Options.mode === Mode.css ) {
-                    lines.push( `${ propertyName }: ${ _current_Process_Properties[ propertyName ] };` )
+                    lines.push( `${ propertyName }: ${ _current_Process_Properties[ propertyName ] };` );
                 } else if ( _current_Process_Options.mode === Mode.attributes ) {
-                    lines.push( `${ propertyName }="${ _current_Process_Properties[ propertyName ] }"` )
+                    lines.push( `${ propertyName }="${ _current_Process_Properties[ propertyName ] }"` );
+                } else if ( _current_Process_Options.mode === Mode.class ) {
+                    lines.push( _current_Process_Properties[ propertyName ] );
                 }
             }
         }
 
         if ( _current_Process_Options.mode === Mode.css ) {
             navigator.clipboard.writeText( `${ _current_Process_Element.nodeName.toLowerCase() } { ${ Char.newLine } ${ lines.join( Char.newLine )} ${ Char.newLine } }` );
-        } else if ( _current_Process_Options.mode === Mode.attributes ) {
+        } else if ( _current_Process_Options.mode === Mode.attributes || _current_Process_Options.mode === Mode.class ) {
             navigator.clipboard.writeText( lines.join( Char.space ) );
         }
     }
@@ -134,6 +138,8 @@ type DialogProperties = Record<string, string>;
             buildAttributeProperties( element );
         } else if ( _current_Process_Options.mode === Mode.size ) {
             buildSizeProperties( element );
+        } else if ( _current_Process_Options.mode === Mode.class ) {
+            buildClassProperties( element );
         }
     }
 
@@ -166,6 +172,20 @@ type DialogProperties = Record<string, string>;
         buildPropertyRow( element, "height", element.offsetHeight.toString() + "px", false );
     }
 
+    function buildClassProperties( element: HTMLElement ) : void {
+        if ( element.classList.length > 0 ) {
+            let index: number = 1;
+
+            for ( let className of element.classList ) {
+                buildPropertyRow( element, index.toString(), className );
+                index++;
+            }
+
+        } else {
+            _dialog_Contents.innerHTML = _configuration.noClassesAvailableText!;
+        }
+    }
+
     function buildPropertyRow( element: HTMLElement, propertyNameText: string, propertyValueText: string, allowEditing: boolean = true ) : void {
         if ( _current_Process_Options.showOnly!.length === 0 || _current_Process_Options.showOnly!.indexOf( propertyNameText ) > Value.notFound ) {
             const property: HTMLElement = DomElement.create( _dialog_Contents, "div", "property-row" );
@@ -191,6 +211,8 @@ type DialogProperties = Record<string, string>;
                 pasteButton.onclick = () => {
                     navigator.clipboard.readText().then( data => {
                         propertyValueInput.value = data;
+
+                        updatePropertyValue( element, propertyNameText, propertyValueInput );
                     } );
                 };
 
@@ -199,6 +221,8 @@ type DialogProperties = Record<string, string>;
                         element.style.removeProperty( propertyNameText );
                     } else if ( _current_Process_Options.mode === Mode.attributes ) {
                         element.removeAttribute( propertyNameText );
+                    } else if ( _current_Process_Options.mode === Mode.class ) {
+                        element.classList.remove( propertyValueText );
                     }
 
                     _dialog_Contents.removeChild( property );
@@ -222,11 +246,17 @@ type DialogProperties = Record<string, string>;
 
     function onPropertyValueKeyUp( e: KeyboardEvent, propertyName: string, input: HTMLInputElement, element: HTMLElement ) {
         if ( e.code === KeyCode.enter ) {
-            if ( _current_Process_Options.mode === Mode.css ) {
-                element.style.setProperty( propertyName, input.value );
-            } else if ( _current_Process_Options.mode === Mode.attributes ) {
-                element.setAttribute( propertyName, input.value );
-            }
+            updatePropertyValue( element, propertyName, input );
+        }
+    }
+
+    function updatePropertyValue( element: HTMLElement, propertyName: string, input: HTMLInputElement ) {
+        if ( _current_Process_Options.mode === Mode.css ) {
+            element.style.setProperty( propertyName, input.value );
+        } else if ( _current_Process_Options.mode === Mode.attributes ) {
+            element.setAttribute( propertyName, input.value );
+        } else if ( _current_Process_Options.mode === Mode.class ) {
+            element.classList.replace( element.classList[ parseInt( propertyName ) - 1 ], input.value );
         }
     }
 
@@ -335,6 +365,7 @@ type DialogProperties = Record<string, string>;
         _configuration.cssPropertiesText = Data.getDefaultAnyString( _configuration.cssPropertiesText, "CSS Properties" );
         _configuration.attributesText = Data.getDefaultAnyString( _configuration.attributesText, "Attributes" );
         _configuration.sizeText = Data.getDefaultAnyString( _configuration.sizeText, "Size" );
+        _configuration.classesText = Data.getDefaultAnyString( _configuration.classesText, "Classes" );
         _configuration.noAttributesAvailableText = Data.getDefaultAnyString( _configuration.noAttributesAvailableText, "No attributes are available." );
         _configuration.closeText = Data.getDefaultAnyString( _configuration.closeText, "Close" );
         _configuration.copyText = Data.getDefaultAnyString( _configuration.copyText, "Copy" );
@@ -343,6 +374,7 @@ type DialogProperties = Record<string, string>;
         _configuration.pasteSymbolText = Data.getDefaultAnyString( _configuration.pasteSymbolText, "☐" );
         _configuration.removeText = Data.getDefaultAnyString( _configuration.removeText, "Remove" );
         _configuration.removeSymbolText = Data.getDefaultAnyString( _configuration.removeSymbolText, "✕" );
+        _configuration.noClassesAvailableText = Data.getDefaultAnyString( _configuration.noClassesAvailableText, "No classes are available." );
     }
 
 

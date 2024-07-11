@@ -15,12 +15,12 @@
 - Zero-dependencies and extremely lightweight!
 - Written in TypeScript, allowing greater support for React, Angular, and other libraries!
 - Full API available via public functions.
-- 3 modes supported:  CSS, Attributes, and Size/Position
+- 4 modes supported:  CSS, Attributes, Size/Position, and Classes.
 - Fully configurable.
-- Edit CSS / Attribute values on the fly!
+- Edit CSS, Attribute, and Class values on the fly!
 - Exclude specific DOM elements by using the ignore attribute!
 - Show only the data your interested in!
-- Copy, Paste, and Remove CSS/Attributes!
+- Copy, Paste, and Remove CSS, Attributes, and Classes!
 
 
 ## What browsers are supported?

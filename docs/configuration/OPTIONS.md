@@ -21,6 +21,7 @@ Below are all the configuration options that can be passed to the "setConfigurat
 | *string* | cssPropertiesText | The text that should be used for the "CSS Properties" title. |
 | *string* | attributesText | The text that should be used for the "Attributes" title. |
 | *string* | sizeText | The text that should be used for the "Size" title. |
+| *string* | classesText | The text that should be used for the "Classes" title. |
 | *string* | noAttributesAvailableText | The text that should be used for the "No attributes are available." warning. |
 | *string* | closeText | The text that should be used for the "Close" button. |
 | *string* | copySymbolText | The text that should be used for the "❐" symbol button. |
@@ -28,6 +29,7 @@ Below are all the configuration options that can be passed to the "setConfigurat
 | *string* | pasteSymbolText | The text that should be used for the "☐" symbol button. |
 | *string* | removeText | The text that should be used for the "Remove" button. |
 | *string* | removeSymbolText | The text that should be used for the "✕" symbol button. |
+| *string* | noClassesAvailableText | The text that should be used for the "No classes are available." warning. |
 
 <br/>
 

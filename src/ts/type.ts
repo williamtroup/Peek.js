@@ -20,6 +20,7 @@ export type Configuration = {
 	cssPropertiesText?: string;
     attributesText?: string;
     sizeText?: string;
+    classesText?: string;
     noAttributesAvailableText?: string;
     closeText?: string;
     dialogDisplayDelay?: number;
@@ -29,6 +30,7 @@ export type Configuration = {
     pasteSymbolText?: string;
     removeText?: string;
     removeSymbolText?: string;
+    noClassesAvailableText?: string;
 };
 
 export type Options = {
