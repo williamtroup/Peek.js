@@ -99,8 +99,8 @@ type DialogProperties = Record<string, string>;
         _dialog_Title.innerHTML = title;
 
         if ( _current_Process_Options.showIdOrNameInTitle && Is.defined( element ) ) {
-            let id: string = element.getAttribute( "id" )!;
-            let name: string = element.getAttribute( "name" )!;
+            const id: string = element.getAttribute( "id" )!;
+            const name: string = element.getAttribute( "name" )!;
 
             if ( Is.definedString( id ) ) {
                 DomElement.createWithHTML( _dialog_Title, "span", Char.empty, ` - ${id}` );
@@ -110,12 +110,12 @@ type DialogProperties = Record<string, string>;
         }
     }
 
-    function closeDialog() {
+    function closeDialog() : void {
         _dialog.style.display = "none";
         _current_Process_Locked = false;
     }
 
-    function onCopy() {
+    function onCopy() : void {
         const lines: string[] = [];
 
         for ( let propertyName in _current_Process_Properties ) {
@@ -271,13 +271,13 @@ type DialogProperties = Record<string, string>;
         }
     }
 
-    function onPropertyValueKeyUp( e: KeyboardEvent, propertyName: string, input: HTMLInputElement, element: HTMLElement ) {
+    function onPropertyValueKeyUp( e: KeyboardEvent, propertyName: string, input: HTMLInputElement, element: HTMLElement ) : void {
         if ( e.code === KeyCode.enter ) {
             updatePropertyValue( element, propertyName, input );
         }
     }
 
-    function updatePropertyValue( element: HTMLElement, propertyName: string, input: HTMLInputElement ) {
+    function updatePropertyValue( element: HTMLElement, propertyName: string, input: HTMLInputElement ) : void {
         if ( _current_Process_Options.mode === Mode.css ) {
             element.style.setProperty( propertyName, input.value );
         } else if ( _current_Process_Options.mode === Mode.attributes ) {
@@ -341,7 +341,7 @@ type DialogProperties = Record<string, string>;
         closeDialog();
     }
 
-    function onNodeMouseOver( e: MouseEvent, element: HTMLElement ) {
+    function onNodeMouseOver( e: MouseEvent, element: HTMLElement ) : void {
         if ( !_current_Process_Locked ) {
             DomElement.cancelBubble( e );
         
@@ -358,7 +358,7 @@ type DialogProperties = Record<string, string>;
         }
     }
 
-    function onWindowMove() {
+    function onWindowMove() : void {
         if ( !_current_Process_Locked ) {
             closeDialog();
         }
@@ -371,7 +371,7 @@ type DialogProperties = Record<string, string>;
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function makeDialogMovable( titleBar: HTMLElement, dialog: HTMLElement ) {
+    function makeDialogMovable( titleBar: HTMLElement, dialog: HTMLElement ) : void {
         titleBar.onmousedown = ( e: MouseEvent ) => {
             onMoveTitleBarMouseDown( e, dialog );
         };
@@ -392,7 +392,7 @@ type DialogProperties = Record<string, string>;
         document.addEventListener( "mouseleave", onMoveDocumentMouseLeave );
     }
 
-    function onMoveTitleBarMouseDown( e: MouseEvent, dialog: HTMLElement ) {
+    function onMoveTitleBarMouseDown( e: MouseEvent, dialog: HTMLElement ) : void {
         if ( !_element_Dialog_Move_IsMoving ) {
             _current_Process_Locked = true;
 
@@ -405,7 +405,7 @@ type DialogProperties = Record<string, string>;
         }
     }
 
-    function onMoveTitleBarMouseUp() {
+    function onMoveTitleBarMouseUp() : void {
         if ( _element_Dialog_Move_IsMoving ) {
             _element_Dialog_Move_IsMoving = false;
             _element_Dialog_Move = null!;
@@ -414,14 +414,14 @@ type DialogProperties = Record<string, string>;
         }
     }
 
-    function onMoveDocumentMouseMove( e: MouseEvent ) {
+    function onMoveDocumentMouseMove( e: MouseEvent ) : void {
         if ( _element_Dialog_Move_IsMoving ) {
             _element_Dialog_Move.style.left = `${e.pageX - _element_Dialog_Move_X}px`;
             _element_Dialog_Move.style.top = `${e.pageY - _element_Dialog_Move_Y}px`;
         }
     }
 
-    function onMoveDocumentMouseLeave() {
+    function onMoveDocumentMouseLeave() : void {
         if ( _element_Dialog_Move_IsMoving ) {
             _element_Dialog_Move.style.left = `${_element_Dialog_Move_Original_X}px`;
             _element_Dialog_Move.style.top = `${_element_Dialog_Move_Original_Y}px`;

@@ -218,8 +218,8 @@ var o;
         }
         r.innerHTML = o;
         if (c.showIdOrNameInTitle && e.defined(t)) {
-            let o = t.getAttribute("id");
-            let i = t.getAttribute("name");
+            const o = t.getAttribute("id");
+            const i = t.getAttribute("name");
             if (e.definedString(o)) {
                 n.createWithHTML(r, "span", "", ` - ${o}`);
             } else if (e.definedString(i)) {
