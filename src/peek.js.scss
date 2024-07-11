@@ -1,5 +1,5 @@
 /*
- * Peek.js Library v1.2.0
+ * Peek.js Library v1.3.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -13,6 +13,7 @@
     // Fonts
     --peek-js-text-bold-weight-active: 900;
     --peek-js-title-bold-weight: 900;
+    --peek-js-title-span-bold-weight: 500;
     --peek-js-default-font: system-ui,
                             -apple-system,
                             "Segoe UI",
@@ -108,6 +109,13 @@ div.peek-js {
         margin-bottom: calc( var(--peek-js-spacing) + var(--peek-js-spacing) / 2 );
         font-size: 1.2rem;
         font-weight: var(--peek-js-title-bold-weight);
+
+        @include no-text-wrap;
+
+        span {
+            font-weight: var(--peek-js-title-span-bold-weight);
+            font-style: italic;
+        }
     }
 }
 
@@ -139,9 +147,8 @@ div.peek-js {
                 font-weight: var(--peek-js-title-bold-weight);
                 padding-top: calc( var(--peek-js-spacing) / 2 ) !important;
                 padding-bottom: calc( var(--peek-js-spacing) / 2 ) !important;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                
+                @include no-text-wrap;
             }
 
             div.property-value {

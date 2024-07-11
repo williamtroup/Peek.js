@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
  * @file        peek.ts
- * @version     v1.2.0
+ * @version     v1.3.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -40,6 +40,16 @@ type DialogProperties = Record<string, string>;
     let _current_Process_Elements: HTMLElement[] = [];
     let _current_Process_Properties: DialogProperties = {} as DialogProperties;
     let _current_Process_Element: HTMLElement = null!;
+    let _current_Process_Locked: boolean = false;
+
+    // Variables: Dialog Moving
+    let _element_Dialog_Move: HTMLElement = null!;
+    let _element_Dialog_Move_Original_X: number = 0;
+    let _element_Dialog_Move_Original_Y: number = 0;
+    let _element_Dialog_Move_IsMoving: boolean = false;
+    let _element_Dialog_Move_X: number = 0;
+    let _element_Dialog_Move_Y: number = 0;
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -66,10 +76,12 @@ type DialogProperties = Record<string, string>;
         _dialog_Buttons_Copy.onclick = onCopy;
         
         const closeButton: HTMLElement = DomElement.createWithHTML( _dialog_Buttons, "button", "close", _configuration.closeText! );
-        closeButton.onclick = closeDialog;   
+        closeButton.onclick = closeDialog;
+
+        makeDialogMovable( _dialog_Title, _dialog );
     }
 
-    function setDialogText() : void {
+    function setDialogText( element: HTMLElement = null! ) : void {
         let title: string = _current_Process_Options.titleText!;
 
         if ( !Is.definedString( title ) ) {
@@ -79,32 +91,48 @@ type DialogProperties = Record<string, string>;
                 title = _configuration.attributesText!;
             } else if ( _current_Process_Options.mode === Mode.size ) {
                 title = _configuration.sizeText!;
+            } else if ( _current_Process_Options.mode === Mode.class ) {
+                title = _configuration.classesText!;
             }
         }
 
         _dialog_Title.innerHTML = title;
+
+        if ( _current_Process_Options.showIdOrNameInTitle && Is.defined( element ) ) {
+            const id: string = element.getAttribute( "id" )!;
+            const name: string = element.getAttribute( "name" )!;
+
+            if ( Is.definedString( id ) ) {
+                DomElement.createWithHTML( _dialog_Title, "span", Char.empty, ` - ${ id }` );
+            } else if ( Is.definedString( name ) ) {
+                DomElement.createWithHTML( _dialog_Title, "span", Char.empty, ` - ${ name }` );
+            }
+        }
     }
 
-    function closeDialog() {
+    function closeDialog() : void {
         _dialog.style.display = "none";
+        _current_Process_Locked = false;
     }
 
-    function onCopy() {
+    function onCopy() : void {
         const lines: string[] = [];
 
         for ( let propertyName in _current_Process_Properties ) {
             if ( _current_Process_Properties.hasOwnProperty( propertyName ) ) {
                 if ( _current_Process_Options.mode === Mode.css ) {
-                    lines.push( `${ propertyName }: ${ _current_Process_Properties[ propertyName ] };` )
+                    lines.push( `${ propertyName }: ${ _current_Process_Properties[ propertyName ] };` );
                 } else if ( _current_Process_Options.mode === Mode.attributes ) {
-                    lines.push( `${ propertyName }="${ _current_Process_Properties[ propertyName ] }"` )
+                    lines.push( `${ propertyName }="${ _current_Process_Properties[ propertyName ] }"` );
+                } else if ( _current_Process_Options.mode === Mode.class ) {
+                    lines.push( _current_Process_Properties[ propertyName ] );
                 }
             }
         }
 
         if ( _current_Process_Options.mode === Mode.css ) {
             navigator.clipboard.writeText( `${ _current_Process_Element.nodeName.toLowerCase() } { ${ Char.newLine } ${ lines.join( Char.newLine )} ${ Char.newLine } }` );
-        } else if ( _current_Process_Options.mode === Mode.attributes ) {
+        } else if ( _current_Process_Options.mode === Mode.attributes || _current_Process_Options.mode === Mode.class ) {
             navigator.clipboard.writeText( lines.join( Char.space ) );
         }
     }
@@ -122,6 +150,8 @@ type DialogProperties = Record<string, string>;
         _current_Process_Properties = {} as DialogProperties;
         _current_Process_Element = element;
 
+        setDialogText( element );
+
         if ( _current_Process_Options.mode === Mode.size ) {
             _dialog_Buttons_Copy.style.display = "none";
         } else {
@@ -134,6 +164,8 @@ type DialogProperties = Record<string, string>;
             buildAttributeProperties( element );
         } else if ( _current_Process_Options.mode === Mode.size ) {
             buildSizeProperties( element );
+        } else if ( _current_Process_Options.mode === Mode.class ) {
+            buildClassProperties( element );
         }
     }
 
@@ -160,10 +192,24 @@ type DialogProperties = Record<string, string>;
     function buildSizeProperties( element: HTMLElement ) : void {
         const offset: Position = DomElement.getOffset( element );
 
-        buildPropertyRow( element, "left", offset.left.toString() + "px", false );
-        buildPropertyRow( element, "top", offset.top.toString() + "px", false );
-        buildPropertyRow( element, "width", element.offsetWidth.toString() + "px", false );
-        buildPropertyRow( element, "height", element.offsetHeight.toString() + "px", false );
+        buildPropertyRow( element, "left", `${ offset.left.toString() }px`, false );
+        buildPropertyRow( element, "top", `${ offset.top.toString() }px`, false );
+        buildPropertyRow( element, "width", `${ element.offsetWidth.toString() }px`, false );
+        buildPropertyRow( element, "height", `${ element.offsetHeight.toString() }px`, false );
+    }
+
+    function buildClassProperties( element: HTMLElement ) : void {
+        if ( element.classList.length > 0 ) {
+            let index: number = 1;
+
+            for ( let className of element.classList ) {
+                buildPropertyRow( element, index.toString(), className );
+                index++;
+            }
+
+        } else {
+            _dialog_Contents.innerHTML = _configuration.noClassesAvailableText!;
+        }
     }
 
     function buildPropertyRow( element: HTMLElement, propertyNameText: string, propertyValueText: string, allowEditing: boolean = true ) : void {
@@ -175,22 +221,25 @@ type DialogProperties = Record<string, string>;
             const propertyValue: HTMLElement = DomElement.create( property, "div", "property-value" );
             const propertyValueInput: HTMLInputElement = DomElement.create( propertyValue, "input" ) as HTMLInputElement;
 
-            if ( _current_Process_Options.mode !== Mode.size ) {
-                const copyButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "copy", _configuration.copySymbolText! ) as HTMLButtonElement;
-                const pasteButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "paste", _configuration.pasteSymbolText! ) as HTMLButtonElement;
-                const removeButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "remove", _configuration.removeSymbolText! ) as HTMLButtonElement;
+            const copyButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "copy-small", _configuration.copySymbolText! ) as HTMLButtonElement;
+            copyButton.title = _configuration.copyText!;
 
-                copyButton.title = _configuration.copyText!;
+            copyButton.onclick = () => {
+                navigator.clipboard.writeText( propertyValueText );
+            };
+
+            if ( _current_Process_Options.allowEditing && allowEditing ) {
+                const pasteButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "paste-small", _configuration.pasteSymbolText! ) as HTMLButtonElement;
+                const removeButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "remove-small", _configuration.removeSymbolText! ) as HTMLButtonElement;
+
                 pasteButton.title = _configuration.pasteText!;
                 removeButton.title = _configuration.removeText!;
-
-                copyButton.onclick = () => {
-                    navigator.clipboard.writeText( propertyValueText );
-                };
     
                 pasteButton.onclick = () => {
                     navigator.clipboard.readText().then( data => {
                         propertyValueInput.value = data;
+
+                        updatePropertyValue( element, propertyNameText, propertyValueInput );
                     } );
                 };
 
@@ -199,6 +248,8 @@ type DialogProperties = Record<string, string>;
                         element.style.removeProperty( propertyNameText );
                     } else if ( _current_Process_Options.mode === Mode.attributes ) {
                         element.removeAttribute( propertyNameText );
+                    } else if ( _current_Process_Options.mode === Mode.class ) {
+                        element.classList.remove( propertyValueText );
                     }
 
                     _dialog_Contents.removeChild( property );
@@ -220,13 +271,19 @@ type DialogProperties = Record<string, string>;
         }
     }
 
-    function onPropertyValueKeyUp( e: KeyboardEvent, propertyName: string, input: HTMLInputElement, element: HTMLElement ) {
+    function onPropertyValueKeyUp( e: KeyboardEvent, propertyName: string, input: HTMLInputElement, element: HTMLElement ) : void {
         if ( e.code === KeyCode.enter ) {
-            if ( _current_Process_Options.mode === Mode.css ) {
-                element.style.setProperty( propertyName, input.value );
-            } else if ( _current_Process_Options.mode === Mode.attributes ) {
-                element.setAttribute( propertyName, input.value );
-            }
+            updatePropertyValue( element, propertyName, input );
+        }
+    }
+
+    function updatePropertyValue( element: HTMLElement, propertyName: string, input: HTMLInputElement ) : void {
+        if ( _current_Process_Options.mode === Mode.css ) {
+            element.style.setProperty( propertyName, input.value );
+        } else if ( _current_Process_Options.mode === Mode.attributes ) {
+            element.setAttribute( propertyName, input.value );
+        } else if ( _current_Process_Options.mode === Mode.class ) {
+            element.classList.replace( element.classList[ parseInt( propertyName ) - 1 ], input.value );
         }
     }
 
@@ -251,14 +308,14 @@ type DialogProperties = Record<string, string>;
             }
         }
 
-        window.addEventListener( "mousemove", closeDialog );
+        window.addEventListener( "mousemove", onWindowMove );
     }
 
     function buildNodeEvent( element: HTMLElement ) : void {
         const attributeValue: string = element.getAttribute( Constant.PEEK_JS_IGNORE_STATE_ATTRIBUTE )!;
 
-        if ( !Is.definedString( attributeValue ) ?? attributeValue !== IgnoreState.ignore ) {
-            element.addEventListener( "mousemove", ( e ) => {
+        if ( !Is.definedString( attributeValue ) && attributeValue !== IgnoreState.ignore ) {
+            element.addEventListener( "mousemove", ( e: MouseEvent ) => {
                 onNodeMouseOver( e, element );
             } );
     
@@ -272,31 +329,108 @@ type DialogProperties = Record<string, string>;
         for ( let elementIndex: number = 0; elementIndex < currentProcessElementsLength; elementIndex++ ) {
             var element: HTMLElement = _current_Process_Elements[ elementIndex ];
 
-            element.removeEventListener( "mousemove", ( e ) => {
+            element.removeEventListener( "mousemove", ( e: MouseEvent ) => {
                 onNodeMouseOver( e, element );
             } );
         }
 
         _current_Process_Elements = [] as HTMLElement[];
 
-        window.removeEventListener( "mousemove", closeDialog );
+        window.removeEventListener( "mousemove", onWindowMove );
 
         closeDialog();
     }
 
-    function onNodeMouseOver( e: MouseEvent, element: HTMLElement ) {
-        DomElement.cancelBubble( e );
+    function onNodeMouseOver( e: MouseEvent, element: HTMLElement ) : void {
+        if ( !_current_Process_Locked ) {
+            DomElement.cancelBubble( e );
         
-        if ( _dialog_Timer !== 0 ) {
-            clearTimeout( _dialog_Timer );
-            _dialog_Timer = 0;
+            if ( _dialog_Timer !== 0 ) {
+                clearTimeout( _dialog_Timer );
+                _dialog_Timer = 0;
+            }
+    
+            _dialog_Timer = setTimeout( () => {
+                buildDialogContent( element );
+    
+                DomElement.showElementAtMousePosition( e, _dialog );
+            }, _configuration.dialogDisplayDelay );
         }
+    }
 
-        _dialog_Timer = setTimeout( () => {
-            buildDialogContent( element );
+    function onWindowMove() : void {
+        if ( !_current_Process_Locked ) {
+            closeDialog();
+        }
+    }
 
-            DomElement.showElementAtMousePosition( e, _dialog );
-        }, _configuration.dialogDisplayDelay );
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Move Dialog
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function makeDialogMovable( titleBar: HTMLElement, dialog: HTMLElement ) : void {
+        titleBar.onmousedown = ( e: MouseEvent ) => {
+            onMoveTitleBarMouseDown( e, dialog );
+        };
+
+        titleBar.onmousemove = ( e: MouseEvent ) => {
+            onMoveDocumentMouseMove( e );
+        };
+
+        titleBar.onmouseup = () => {
+            onMoveTitleBarMouseUp();
+        };
+
+        titleBar.oncontextmenu = () => {
+            onMoveTitleBarMouseUp();
+        };
+
+        document.addEventListener( "mousemove", onMoveDocumentMouseMove );
+        document.addEventListener( "mouseleave", onMoveDocumentMouseLeave );
+    }
+
+    function onMoveTitleBarMouseDown( e: MouseEvent, dialog: HTMLElement ) : void {
+        if ( !_element_Dialog_Move_IsMoving ) {
+            _current_Process_Locked = true;
+
+            _element_Dialog_Move = dialog;
+            _element_Dialog_Move_IsMoving = true;
+            _element_Dialog_Move_X = e.pageX - _element_Dialog_Move.offsetLeft;
+            _element_Dialog_Move_Y = e.pageY - _element_Dialog_Move.offsetTop;
+            _element_Dialog_Move_Original_X = _element_Dialog_Move.offsetLeft;
+            _element_Dialog_Move_Original_Y = _element_Dialog_Move.offsetTop;
+        }
+    }
+
+    function onMoveTitleBarMouseUp() : void {
+        if ( _element_Dialog_Move_IsMoving ) {
+            _element_Dialog_Move_IsMoving = false;
+            _element_Dialog_Move = null!;
+            _element_Dialog_Move_Original_X = 0;
+            _element_Dialog_Move_Original_Y = 0;
+        }
+    }
+
+    function onMoveDocumentMouseMove( e: MouseEvent ) : void {
+        if ( _element_Dialog_Move_IsMoving ) {
+            _element_Dialog_Move.style.left = `${ e.pageX - _element_Dialog_Move_X }px`;
+            _element_Dialog_Move.style.top = `${ e.pageY - _element_Dialog_Move_Y }px`;
+        }
+    }
+
+    function onMoveDocumentMouseLeave() : void {
+        if ( _element_Dialog_Move_IsMoving ) {
+            _element_Dialog_Move.style.left = `${ _element_Dialog_Move_Original_X }px`;
+            _element_Dialog_Move.style.top = `${ _element_Dialog_Move_Original_Y }px`;
+
+            _element_Dialog_Move_IsMoving = false;
+            _element_Dialog_Move = null!;
+            _element_Dialog_Move_Original_X = 0;
+            _element_Dialog_Move_Original_Y = 0;
+        }
     }
 
 
@@ -313,6 +447,7 @@ type DialogProperties = Record<string, string>;
         options.titleText = Data.getDefaultString( options.titleText, Char.empty );
         options.showOnly = Data.getDefaultStringOrArray( options.showOnly, [] );
         options.allowEditing = Data.getDefaultBoolean( options.allowEditing, false );
+        options.showIdOrNameInTitle = Data.getDefaultBoolean( options.showIdOrNameInTitle, false );
 
         return options;
     }
@@ -335,6 +470,7 @@ type DialogProperties = Record<string, string>;
         _configuration.cssPropertiesText = Data.getDefaultAnyString( _configuration.cssPropertiesText, "CSS Properties" );
         _configuration.attributesText = Data.getDefaultAnyString( _configuration.attributesText, "Attributes" );
         _configuration.sizeText = Data.getDefaultAnyString( _configuration.sizeText, "Size" );
+        _configuration.classesText = Data.getDefaultAnyString( _configuration.classesText, "Classes" );
         _configuration.noAttributesAvailableText = Data.getDefaultAnyString( _configuration.noAttributesAvailableText, "No attributes are available." );
         _configuration.closeText = Data.getDefaultAnyString( _configuration.closeText, "Close" );
         _configuration.copyText = Data.getDefaultAnyString( _configuration.copyText, "Copy" );
@@ -343,6 +479,7 @@ type DialogProperties = Record<string, string>;
         _configuration.pasteSymbolText = Data.getDefaultAnyString( _configuration.pasteSymbolText, "☐" );
         _configuration.removeText = Data.getDefaultAnyString( _configuration.removeText, "Remove" );
         _configuration.removeSymbolText = Data.getDefaultAnyString( _configuration.removeSymbolText, "✕" );
+        _configuration.noClassesAvailableText = Data.getDefaultAnyString( _configuration.noClassesAvailableText, "No classes are available." );
     }
 
 
@@ -420,7 +557,7 @@ type DialogProperties = Record<string, string>;
          */
 
         getVersion: function (): string {
-            return "1.2.0";
+            return "1.3.0";
         }
     };
 

@@ -1,5 +1,32 @@
 # Peek.js - Change Log:
 
+## Version 1.3.0:
+
+#### **New Features:**
+- Added a new "class" mode, which will list all the CSS classes assigned to an element (editing is also available).
+- Added copy support to "Size" mode values.
+- Added title bar Name/ID support.
+- Added dialog moving support via the title bar.  When the dialog is moved, it is locked until closed (no over elements will open/update the dialog).
+
+#### **Start() > Options:**
+- Added option "showIdOrNameInTitle" (defaults to false), which states if showing the Name/ID of the element in the title of the dialog is enabled.
+
+#### **Configuration:**
+- Added configuration option "classesText" (defaults to "Classes"), which states the text to use for the "Classes" title.
+- Added configuration option "noClassesAvailableText" (defaults to "No classes are available."), which states the text to show when no classes are available.
+
+#### **Adjustments:**
+- Renamed the small Copy, Paste, and Remove button CSS classes to "copy-small", "paste-small", and "remove-small".
+- Removed deprecated "cancelBubble" usages and replaced them with "stopPropagation()".
+
+#### **Fixes:**
+- Fixed an issue with checking ignore states for elements.
+- Fixed a fault that caused the "Paste" and "Remove" buttons to be visible when "allowEditing" is set to false.
+- Fixed missing types across the project code.
+
+<br>
+
+
 ## Version 1.2.0:
 
 #### **New Features:**

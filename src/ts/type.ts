@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
  * @file        type.ts
- * @version     v1.2.0
+ * @version     v1.3.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -20,6 +20,7 @@ export type Configuration = {
 	cssPropertiesText?: string;
     attributesText?: string;
     sizeText?: string;
+    classesText?: string;
     noAttributesAvailableText?: string;
     closeText?: string;
     dialogDisplayDelay?: number;
@@ -29,6 +30,7 @@ export type Configuration = {
     pasteSymbolText?: string;
     removeText?: string;
     removeSymbolText?: string;
+    noClassesAvailableText?: string;
 };
 
 export type Options = {
@@ -37,4 +39,5 @@ export type Options = {
     titleText?: string;
     showOnly?: string[] | string;
     allowEditing?: boolean;
+    showIdOrNameInTitle?: boolean;
 };
