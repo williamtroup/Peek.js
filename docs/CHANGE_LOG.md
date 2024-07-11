@@ -21,6 +21,7 @@
 #### **Fixes:**
 - Fixed an issue with checking ignore states for elements.
 - Fixed a fault that caused the "Paste" and "Remove" buttons being visible when "allowEditing" is set to false.
+- Fixed missing types across the project code.
 
 <br>
 

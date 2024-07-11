@@ -103,9 +103,9 @@ type DialogProperties = Record<string, string>;
             const name: string = element.getAttribute( "name" )!;
 
             if ( Is.definedString( id ) ) {
-                DomElement.createWithHTML( _dialog_Title, "span", Char.empty, ` - ${id}` );
+                DomElement.createWithHTML( _dialog_Title, "span", Char.empty, ` - ${ id }` );
             } else if ( Is.definedString( name ) ) {
-                DomElement.createWithHTML( _dialog_Title, "span", Char.empty, ` - ${name}` );
+                DomElement.createWithHTML( _dialog_Title, "span", Char.empty, ` - ${ name }` );
             }
         }
     }
@@ -192,10 +192,10 @@ type DialogProperties = Record<string, string>;
     function buildSizeProperties( element: HTMLElement ) : void {
         const offset: Position = DomElement.getOffset( element );
 
-        buildPropertyRow( element, "left", `${offset.left.toString()}px`, false );
-        buildPropertyRow( element, "top", `${offset.top.toString()}px`, false );
-        buildPropertyRow( element, "width", `${element.offsetWidth.toString()}px`, false );
-        buildPropertyRow( element, "height", `${element.offsetHeight.toString()}px`, false );
+        buildPropertyRow( element, "left", `${ offset.left.toString() }px`, false );
+        buildPropertyRow( element, "top", `${ offset.top.toString() }px`, false );
+        buildPropertyRow( element, "width", `${ element.offsetWidth.toString() }px`, false );
+        buildPropertyRow( element, "height", `${ element.offsetHeight.toString() }px`, false );
     }
 
     function buildClassProperties( element: HTMLElement ) : void {
@@ -315,7 +315,7 @@ type DialogProperties = Record<string, string>;
         const attributeValue: string = element.getAttribute( Constant.PEEK_JS_IGNORE_STATE_ATTRIBUTE )!;
 
         if ( !Is.definedString( attributeValue ) && attributeValue !== IgnoreState.ignore ) {
-            element.addEventListener( "mousemove", ( e ) => {
+            element.addEventListener( "mousemove", ( e: MouseEvent ) => {
                 onNodeMouseOver( e, element );
             } );
     
@@ -329,7 +329,7 @@ type DialogProperties = Record<string, string>;
         for ( let elementIndex: number = 0; elementIndex < currentProcessElementsLength; elementIndex++ ) {
             var element: HTMLElement = _current_Process_Elements[ elementIndex ];
 
-            element.removeEventListener( "mousemove", ( e ) => {
+            element.removeEventListener( "mousemove", ( e: MouseEvent ) => {
                 onNodeMouseOver( e, element );
             } );
         }
@@ -416,15 +416,15 @@ type DialogProperties = Record<string, string>;
 
     function onMoveDocumentMouseMove( e: MouseEvent ) : void {
         if ( _element_Dialog_Move_IsMoving ) {
-            _element_Dialog_Move.style.left = `${e.pageX - _element_Dialog_Move_X}px`;
-            _element_Dialog_Move.style.top = `${e.pageY - _element_Dialog_Move_Y}px`;
+            _element_Dialog_Move.style.left = `${ e.pageX - _element_Dialog_Move_X }px`;
+            _element_Dialog_Move.style.top = `${ e.pageY - _element_Dialog_Move_Y }px`;
         }
     }
 
     function onMoveDocumentMouseLeave() : void {
         if ( _element_Dialog_Move_IsMoving ) {
-            _element_Dialog_Move.style.left = `${_element_Dialog_Move_Original_X}px`;
-            _element_Dialog_Move.style.top = `${_element_Dialog_Move_Original_Y}px`;
+            _element_Dialog_Move.style.left = `${ _element_Dialog_Move_Original_X }px`;
+            _element_Dialog_Move.style.top = `${ _element_Dialog_Move_Original_Y }px`;
 
             _element_Dialog_Move_IsMoving = false;
             _element_Dialog_Move = null!;
