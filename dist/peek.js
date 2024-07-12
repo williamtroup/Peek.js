@@ -182,13 +182,14 @@ var o;
     let g = {};
     let p = null;
     let m = false;
-    let T = null;
-    let y = 0;
+    let T = 0;
+    let y = null;
     let b = 0;
-    let v = false;
-    let x = 0;
+    let v = 0;
+    let x = false;
     let S = 0;
-    function h() {
+    let h = 0;
+    function A() {
         if (e.definedObject(l)) {
             D();
             document.body.removeChild(l);
@@ -200,13 +201,17 @@ var o;
         s = n.create(l, "div", "dialog-contents");
         f = n.create(l, "div", "dialog-buttons");
         a = n.createWithHTML(f, "button", "copy", i.copyText);
-        a.onclick = w;
+        a.onclick = L;
         const t = n.createWithHTML(f, "button", "close", i.closeText);
         t.onclick = D;
-        W(r, l);
+        k(r, l);
     }
-    function A(t = null) {
+    function w(t = null) {
         let o = c.titleText;
+        r.innerHTML = "";
+        if (T > 1 && c.showNodeNameInTitle) {
+            n.createWithHTML(r, "span", "node-name", `[${t.nodeName.toLowerCase()}] - `);
+        }
         if (!e.definedString(o)) {
             if (c.mode === 1) {
                 o = i.cssPropertiesText;
@@ -218,14 +223,14 @@ var o;
                 o = i.classesText;
             }
         }
-        r.innerHTML = o;
+        n.createWithHTML(r, "span", "title", o);
         if (c.showIdOrNameInTitle && e.defined(t)) {
             const o = t.getAttribute("id");
             const i = t.getAttribute("name");
             if (e.definedString(o)) {
-                n.createWithHTML(r, "span", "", ` - ${o}`);
+                n.createWithHTML(r, "span", "id-or-name", ` - ${o}`);
             } else if (e.definedString(i)) {
-                n.createWithHTML(r, "span", "", ` - ${i}`);
+                n.createWithHTML(r, "span", "id-or-name", ` - ${i}`);
             }
         }
     }
@@ -233,7 +238,7 @@ var o;
         l.style.display = "none";
         m = false;
     }
-    function w() {
+    function L() {
         const e = [];
         for (let t in g) {
             if (g.hasOwnProperty(t)) {
@@ -257,57 +262,57 @@ var o;
         s.scrollTop = 0;
         g = {};
         p = e;
-        A(e);
+        w(e);
         if (c.mode === 3) {
             a.style.display = "none";
         } else {
             a.style.removeProperty("display");
         }
         if (c.mode === 1) {
-            L(e);
-        } else if (c.mode === 2) {
             O(e);
-        } else if (c.mode === 3) {
+        } else if (c.mode === 2) {
             N(e);
-        } else if (c.mode === 4) {
+        } else if (c.mode === 3) {
             P(e);
-        }
-    }
-    function L(e) {
-        const t = getComputedStyle(e);
-        const n = t.length;
-        for (let o = 0; o < n; o++) {
-            $(e, t[o], t.getPropertyValue(t[o]));
+        } else if (c.mode === 4) {
+            $(e);
         }
     }
     function O(e) {
+        const t = getComputedStyle(e);
+        const n = t.length;
+        for (let o = 0; o < n; o++) {
+            H(e, t[o], t.getPropertyValue(t[o]));
+        }
+    }
+    function N(e) {
         if (e.hasAttributes()) {
             for (let t of e.attributes) {
-                $(e, t.name, t.value);
+                H(e, t.name, t.value);
             }
         } else {
             s.innerHTML = i.noAttributesAvailableText;
         }
     }
-    function N(e) {
-        const t = n.getOffset(e);
-        $(e, "left", `${t.left.toString()}px`, false);
-        $(e, "top", `${t.top.toString()}px`, false);
-        $(e, "width", `${e.offsetWidth.toString()}px`, false);
-        $(e, "height", `${e.offsetHeight.toString()}px`, false);
-    }
     function P(e) {
+        const t = n.getOffset(e);
+        H(e, "left", `${t.left.toString()}px`, false);
+        H(e, "top", `${t.top.toString()}px`, false);
+        H(e, "width", `${e.offsetWidth.toString()}px`, false);
+        H(e, "height", `${e.offsetHeight.toString()}px`, false);
+    }
+    function $(e) {
         if (e.classList.length > 0) {
             let t = 1;
             for (let n of e.classList) {
-                $(e, t.toString(), n);
+                H(e, t.toString(), n);
                 t++;
             }
         } else {
             s.innerHTML = i.noClassesAvailableText;
         }
     }
-    function $(e, t, o, l = true) {
+    function H(e, t, o, l = true) {
         if (c.showOnly.length === 0 || c.showOnly.indexOf(t) > -1) {
             const r = n.create(s, "div", "property-row");
             n.createWithHTML(r, "div", "property-name", t);
@@ -326,7 +331,7 @@ var o;
                 l.onclick = () => {
                     navigator.clipboard.readText().then((n => {
                         a.value = n;
-                        M(e, t, a);
+                        I(e, t, a);
                     }));
                 };
                 f.onclick = () => {
@@ -347,17 +352,17 @@ var o;
                 a.readOnly = true;
             } else {
                 a.onkeyup = n => {
-                    H(n, t, a, e);
+                    M(n, t, a, e);
                 };
             }
         }
     }
-    function H(e, t, n, o) {
+    function M(e, t, n, o) {
         if (e.code === "Enter") {
-            M(o, t, n);
+            I(o, t, n);
         }
     }
-    function M(e, t, n) {
+    function I(e, t, n) {
         if (c.mode === 1) {
             e.style.setProperty(t, n.value);
         } else if (c.mode === 2) {
@@ -366,41 +371,41 @@ var o;
             e.classList.replace(e.classList[parseInt(t) - 1], n.value);
         }
     }
-    function _() {
+    function C() {
         const e = c.nodeType;
-        const t = e.length;
-        for (let n = 0; n < t; n++) {
-            const t = document.getElementsByTagName(e[n]);
-            const o = [].slice.call(t);
+        T = e.length;
+        for (let t = 0; t < T; t++) {
+            const n = document.getElementsByTagName(e[t]);
+            const o = [].slice.call(n);
             const i = o.length;
             for (let e = 0; e < i; e++) {
-                j(o[e]);
+                _(o[e]);
             }
         }
         window.addEventListener("mousemove", B);
     }
-    function j(n) {
+    function _(n) {
         const o = n.getAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE);
         if (!e.definedString(o) && o !== "ignore") {
             n.addEventListener("mousemove", (e => {
-                I(e, n);
+                W(e, n);
             }));
             d.push(n);
         }
     }
-    function C() {
+    function j() {
         const e = d.length;
         for (let n = 0; n < e; n++) {
             var t = d[n];
             t.removeEventListener("mousemove", (e => {
-                I(e, t);
+                W(e, t);
             }));
         }
         d = [];
         window.removeEventListener("mousemove", B);
         D();
     }
-    function I(e, t) {
+    function W(e, t) {
         if (!m) {
             n.cancelBubble(e);
             if (u !== 0) {
@@ -418,58 +423,58 @@ var o;
             D();
         }
     }
-    function W(e, t) {
+    function k(e, t) {
         e.onmousedown = e => {
-            k(e, t);
+            R(e, t);
         };
         e.onmousemove = e => {
-            z(e);
+            G(e);
         };
         e.onmouseup = () => {
-            R();
+            z();
         };
         e.oncontextmenu = () => {
-            R();
+            z();
         };
-        document.addEventListener("mousemove", z);
-        document.addEventListener("mouseleave", G);
+        document.addEventListener("mousemove", G);
+        document.addEventListener("mouseleave", J);
     }
-    function k(e, t) {
-        if (!v) {
+    function R(e, t) {
+        if (!x) {
             m = true;
-            T = t;
-            v = true;
-            x = e.pageX - T.offsetLeft;
-            S = e.pageY - T.offsetTop;
-            y = T.offsetLeft;
-            b = T.offsetTop;
+            y = t;
+            x = true;
+            S = e.pageX - y.offsetLeft;
+            h = e.pageY - y.offsetTop;
+            b = y.offsetLeft;
+            v = y.offsetTop;
         }
     }
-    function R() {
-        if (v) {
-            v = false;
-            T = null;
-            y = 0;
+    function z() {
+        if (x) {
+            x = false;
+            y = null;
             b = 0;
+            v = 0;
         }
     }
-    function z(e) {
-        if (v) {
-            T.style.left = `${e.pageX - x}px`;
-            T.style.top = `${e.pageY - S}px`;
+    function G(e) {
+        if (x) {
+            y.style.left = `${e.pageX - S}px`;
+            y.style.top = `${e.pageY - h}px`;
         }
     }
-    function G() {
-        if (v) {
-            T.style.left = `${y}px`;
-            T.style.top = `${b}px`;
-            v = false;
-            T = null;
-            y = 0;
+    function J() {
+        if (x) {
+            y.style.left = `${b}px`;
+            y.style.top = `${v}px`;
+            x = false;
+            y = null;
             b = 0;
+            v = 0;
         }
     }
-    function J(e) {
+    function K(e) {
         let t = o.getDefaultObject(e, {});
         t.nodeType = o.getDefaultStringOrArray(t.nodeType, []);
         t.mode = o.getDefaultNumber(t.mode, 1);
@@ -477,14 +482,15 @@ var o;
         t.showOnly = o.getDefaultStringOrArray(t.showOnly, []);
         t.allowEditing = o.getDefaultBoolean(t.allowEditing, false);
         t.showIdOrNameInTitle = o.getDefaultBoolean(t.showIdOrNameInTitle, false);
+        t.showNodeNameInTitle = o.getDefaultBoolean(t.showNodeNameInTitle, false);
         return t;
     }
-    function K(e = null) {
+    function U(e = null) {
         i = o.getDefaultObject(e, {});
         i.dialogDisplayDelay = o.getDefaultNumber(i.dialogDisplayDelay, 1e3);
-        U();
+        X();
     }
-    function U() {
+    function X() {
         i.cssPropertiesText = o.getDefaultAnyString(i.cssPropertiesText, "CSS Properties");
         i.attributesText = o.getDefaultAnyString(i.attributesText, "Attributes");
         i.sizeText = o.getDefaultAnyString(i.sizeText, "Size");
@@ -499,21 +505,21 @@ var o;
         i.removeSymbolText = o.getDefaultAnyString(i.removeSymbolText, "✕");
         i.noClassesAvailableText = o.getDefaultAnyString(i.noClassesAvailableText, "No classes are available.");
     }
-    const X = {
+    const Y = {
         start: function(t) {
             if (!e.definedObject(c)) {
-                c = J(t);
-                A();
-                _();
+                c = K(t);
+                w();
+                C();
             }
-            return X;
+            return Y;
         },
         stop: function() {
             if (e.definedObject(c)) {
                 c = null;
-                C();
+                j();
             }
-            return X;
+            return Y;
         },
         setConfiguration: function(t) {
             if (e.definedObject(t)) {
@@ -526,26 +532,26 @@ var o;
                     }
                 }
                 if (n) {
-                    K(o);
-                    h();
+                    U(o);
+                    A();
                     if (e.definedObject(c)) {
-                        A();
+                        w();
                     }
                 }
             }
-            return X;
+            return Y;
         },
         getVersion: function() {
             return "1.4.0";
         }
     };
     (() => {
-        K();
+        U();
         document.addEventListener("DOMContentLoaded", (() => {
-            h();
+            A();
         }));
         if (!e.defined(window.$peek)) {
-            window.$peek = X;
+            window.$peek = Y;
         }
     })();
 })();//# sourceMappingURL=peek.js.map

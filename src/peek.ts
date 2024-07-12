@@ -41,6 +41,7 @@ type DialogProperties = Record<string, string>;
     let _current_Process_Properties: DialogProperties = {} as DialogProperties;
     let _current_Process_Element: HTMLElement = null!;
     let _current_Process_Locked: boolean = false;
+    let _current_Process_NodeCount: number = 0;
 
     // Variables: Dialog Moving
     let _element_Dialog_Move: HTMLElement = null!;
@@ -84,6 +85,12 @@ type DialogProperties = Record<string, string>;
     function setDialogText( element: HTMLElement = null! ) : void {
         let title: string = _current_Process_Options.titleText!;
 
+        _dialog_Title.innerHTML = Char.empty;
+
+        if ( _current_Process_NodeCount > 1 && _current_Process_Options.showNodeNameInTitle ) {
+            DomElement.createWithHTML( _dialog_Title, "span", "node-name", `[${ element.nodeName.toLowerCase() }] - ` );
+        }
+
         if ( !Is.definedString( title ) ) {
             if ( _current_Process_Options.mode === Mode.css ) {
                 title = _configuration.cssPropertiesText!;
@@ -96,16 +103,16 @@ type DialogProperties = Record<string, string>;
             }
         }
 
-        _dialog_Title.innerHTML = title;
+        DomElement.createWithHTML( _dialog_Title, "span", "title", title );
 
         if ( _current_Process_Options.showIdOrNameInTitle && Is.defined( element ) ) {
             const id: string = element.getAttribute( "id" )!;
             const name: string = element.getAttribute( "name" )!;
 
             if ( Is.definedString( id ) ) {
-                DomElement.createWithHTML( _dialog_Title, "span", Char.empty, ` - ${ id }` );
+                DomElement.createWithHTML( _dialog_Title, "span", "id-or-name", ` - ${ id }` );
             } else if ( Is.definedString( name ) ) {
-                DomElement.createWithHTML( _dialog_Title, "span", Char.empty, ` - ${ name }` );
+                DomElement.createWithHTML( _dialog_Title, "span", "id-or-name", ` - ${ name }` );
             }
         }
     }
@@ -296,9 +303,10 @@ type DialogProperties = Record<string, string>;
 
     function buildNodeEvents() : void {
         const tagTypes: string[] = _current_Process_Options.nodeType as string[];
-        const tagTypesLength: number = tagTypes.length;
 
-        for ( let tagTypeIndex: number = 0; tagTypeIndex < tagTypesLength; tagTypeIndex++ ) {
+        _current_Process_NodeCount = tagTypes.length;
+
+        for ( let tagTypeIndex: number = 0; tagTypeIndex < _current_Process_NodeCount; tagTypeIndex++ ) {
             const domElements: HTMLCollectionOf<Element> = document.getElementsByTagName( tagTypes[ tagTypeIndex ] );
             const elements: HTMLElement[] = [].slice.call( domElements );
             const elementsLength: number = elements.length;
@@ -448,6 +456,7 @@ type DialogProperties = Record<string, string>;
         options.showOnly = Data.getDefaultStringOrArray( options.showOnly, [] );
         options.allowEditing = Data.getDefaultBoolean( options.allowEditing, false );
         options.showIdOrNameInTitle = Data.getDefaultBoolean( options.showIdOrNameInTitle, false );
+        options.showNodeNameInTitle = Data.getDefaultBoolean( options.showNodeNameInTitle, false );
 
         return options;
     }

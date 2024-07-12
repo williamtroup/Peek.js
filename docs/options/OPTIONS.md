@@ -14,6 +14,7 @@ Below are all the options that can be passed to the "start()" public function.
 | *string[]* | showOnly | States the names of the CSS Properties / Attributes that only should be shown (defaults to []). |
 | *boolean* | allowEditing | States if editing CSS Properties / Attributes is allowed (defaults to false). |
 | *boolean* | showIdOrNameInTitle | States if showing the Name/ID of element in the title of the dialog is enabled (defaults to false). |
+| *boolean* | showNodeNameInTitle | States if the node type should be shown in the title (if more than one is being used. Defaults to false). |
 
 <br/>
 

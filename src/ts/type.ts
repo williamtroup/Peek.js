@@ -40,4 +40,5 @@ export type Options = {
     showOnly?: string[] | string;
     allowEditing?: boolean;
     showIdOrNameInTitle?: boolean;
+    showNodeNameInTitle?: boolean;
 };

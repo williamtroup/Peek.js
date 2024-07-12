@@ -1,7 +1,9 @@
 # Peek.js - Change Log:
 
 ## Version 1.4.0:
-- 
+
+#### **Start() > Options:**
+- Added option "showNodeNameInTitle" (defaults to false), which states if the node name should be shown in the title (if more than one node type is being used).
 
 <br>
 
