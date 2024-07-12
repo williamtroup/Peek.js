@@ -482,7 +482,7 @@ type DialogProperties = Record<string, string>;
         options.titleText = Data.getDefaultString( options.titleText, Char.empty );
         options.showOnly = Data.getDefaultStringOrArray( options.showOnly, [] );
         options.allowEditing = Data.getDefaultBoolean( options.allowEditing, false );
-        options.showIdOrNameInTitle = Data.getDefaultBoolean( options.showIdOrNameInTitle, false );
+        options.showIdOrNameInTitle = Data.getDefaultBoolean( options.showIdOrNameInTitle, true );
         options.showNodeNameInTitle = Data.getDefaultBoolean( options.showNodeNameInTitle, false );
 
         return options;

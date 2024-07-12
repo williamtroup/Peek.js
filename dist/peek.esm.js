@@ -500,7 +500,7 @@ var o;
         t.titleText = o.getDefaultString(t.titleText, "");
         t.showOnly = o.getDefaultStringOrArray(t.showOnly, []);
         t.allowEditing = o.getDefaultBoolean(t.allowEditing, false);
-        t.showIdOrNameInTitle = o.getDefaultBoolean(t.showIdOrNameInTitle, false);
+        t.showIdOrNameInTitle = o.getDefaultBoolean(t.showIdOrNameInTitle, true);
         t.showNodeNameInTitle = o.getDefaultBoolean(t.showNodeNameInTitle, false);
         return t;
     }

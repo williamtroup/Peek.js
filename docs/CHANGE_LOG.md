@@ -8,6 +8,7 @@
 #### **Start() > Options:**
 - Added option "showNodeNameInTitle" (defaults to false), which states if the node name should be shown in the title (if more than one node type is being used).
 - Renamed option "cssPropertiesText" to "cssText", and changed the default value to "CSS".
+- The option "showIdOrNameInTitle" now defaults to true.
 
 #### **Public API Functions:**
 - Added a "close()" public API function, which will close the dialog if it's open.
