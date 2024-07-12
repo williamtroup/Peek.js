@@ -1,5 +1,11 @@
 # Peek.js - Change Log:
 
+## Version 1.5.0:
+- 
+
+<br>
+
+
 ## Version 1.4.0:
 
 #### **New Features:**

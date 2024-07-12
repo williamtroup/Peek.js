@@ -571,7 +571,7 @@ var o;
             return F;
         },
         getVersion: function() {
-            return "1.4.0";
+            return "1.5.0";
         }
     };
     (() => {

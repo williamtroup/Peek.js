@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>jPeek.js</id>
-        <version>1.4.0</version>
+        <version>1.5.0</version>
         <title>Peek.js</title>
         <description>A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.</description>
         <authors>William Troup</authors>
