@@ -43,10 +43,10 @@
     "build-sass-minimized": "sass src/peek.js.scss dist/peek.js.min.css --style=compressed --no-source-map"
   },
   "devDependencies": {
-    "@swc/core": "^1.6.12",
-    "sass": "^1.77.6",
-    "terser": "^5.31.1",
+    "@swc/core": "^1.6.13",
+    "sass": "^1.77.8",
+    "terser": "^5.31.2",
     "tsup": "^8.1.0",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.3"
   }
 }

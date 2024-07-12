@@ -2,6 +2,7 @@
 
 ## Version 1.5.0:
 - Moved all string concatenation to use string templates.
+- Updated to the latest NPM packages.
 - 
 
 <br>
