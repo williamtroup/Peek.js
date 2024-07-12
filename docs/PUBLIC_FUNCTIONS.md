@@ -20,6 +20,12 @@ Stops the peek process.
 <br>
 ***Returns***: '*Object*' - The Peek.js class instance.
 <br>
+
+#### **close()**:
+Closes the dialog.
+<br>
+***Returns***: '*Object*' - The Peek.js class instance.
+<br>
 <br>
 
 

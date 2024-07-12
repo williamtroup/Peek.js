@@ -532,7 +532,7 @@ type DialogProperties = Record<string, string>;
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        start: function ( options: Options ): PublicApi {
+        start: function ( options: Options ) : PublicApi {
             if ( !Is.definedObject( _current_Process_Options ) ) {
                 _current_Process_Options = buildOptions( options );
 
@@ -543,13 +543,19 @@ type DialogProperties = Record<string, string>;
             return _public;
         },
 
-        stop: function (): PublicApi {
+        stop: function () : PublicApi {
             if ( Is.definedObject( _current_Process_Options ) ) {
                 _current_Process_Options = null!;
 
                 removeNodeEvents();
             }
 
+            return _public;
+        },
+
+        close: function() : PublicApi {
+            closeDialog();
+            
             return _public;
         },
 
@@ -560,7 +566,7 @@ type DialogProperties = Record<string, string>;
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        setConfiguration: function ( newConfiguration: any ): PublicApi {
+        setConfiguration: function ( newConfiguration: any ) : PublicApi {
             if ( Is.definedObject( newConfiguration ) ) {
                 let configurationHasChanged: boolean = false;
                 const newInternalConfiguration: any = _configuration;
@@ -592,7 +598,7 @@ type DialogProperties = Record<string, string>;
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        getVersion: function (): string {
+        getVersion: function () : string {
             return "1.4.0";
         }
     };

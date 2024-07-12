@@ -542,6 +542,10 @@ var o;
             }
             return F;
         },
+        close: function() {
+            D();
+            return F;
+        },
         setConfiguration: function(t) {
             if (e.definedObject(t)) {
                 let n = false;
