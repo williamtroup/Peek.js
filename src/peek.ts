@@ -33,6 +33,7 @@ type DialogProperties = Record<string, string>;
     let _dialog_Contents: HTMLElement = null!;
     let _dialog_Buttons: HTMLElement = null!;
     let _dialog_Buttons_Copy: HTMLButtonElement = null!;
+    let _dialog_Buttons_Remove: HTMLButtonElement = null!;
     let _dialog_Timer: number = 0;
 
     // Variables: Current Process:
@@ -79,6 +80,9 @@ type DialogProperties = Record<string, string>;
         const closeButton: HTMLElement = DomElement.createWithHTML( _dialog_Buttons, "button", "close", _configuration.closeText! );
         closeButton.onclick = closeDialog;
 
+        _dialog_Buttons_Remove = DomElement.createWithHTML( _dialog_Buttons, "button", "remove", _configuration.removeText! ) as HTMLButtonElement;
+        _dialog_Buttons_Remove.onclick = onRemove;
+
         makeDialogMovable( _dialog_Title, _dialog );
     }
 
@@ -89,6 +93,7 @@ type DialogProperties = Record<string, string>;
 
         if ( _current_Process_NodeCount > 1 && _current_Process_Options.showNodeNameInTitle ) {
             DomElement.createWithHTML( _dialog_Title, "span", "node-name", `[${ element.nodeName.toLowerCase() }] - ` );
+            DomElement.createWithHTML( _dialog_Title, "span", "dash", " - " );
         }
 
         if ( !Is.definedString( title ) ) {
@@ -110,9 +115,11 @@ type DialogProperties = Record<string, string>;
             const name: string = element.getAttribute( "name" )!;
 
             if ( Is.definedString( id ) ) {
-                DomElement.createWithHTML( _dialog_Title, "span", "id-or-name", ` - ${ id }` );
+                DomElement.createWithHTML( _dialog_Title, "span", "dash", " - " );
+                DomElement.createWithHTML( _dialog_Title, "span", "id-or-name", id );
             } else if ( Is.definedString( name ) ) {
-                DomElement.createWithHTML( _dialog_Title, "span", "id-or-name", ` - ${ name }` );
+                DomElement.createWithHTML( _dialog_Title, "span", "dash", " - " );
+                DomElement.createWithHTML( _dialog_Title, "span", "id-or-name", name );
             }
         }
     }
@@ -144,6 +151,12 @@ type DialogProperties = Record<string, string>;
         }
     }
 
+    function onRemove() : void {
+        _current_Process_Element.parentNode?.removeChild( _current_Process_Element );
+
+        closeDialog();
+    }
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -163,6 +176,12 @@ type DialogProperties = Record<string, string>;
             _dialog_Buttons_Copy.style.display = "none";
         } else {
             _dialog_Buttons_Copy.style.removeProperty( "display" );
+        }
+
+        if ( !_current_Process_Options.allowEditing ) {
+            _dialog_Buttons_Remove.style.display = "none";
+        } else {
+            _dialog_Buttons_Remove.style.removeProperty( "display" );
         }
 
         if ( _current_Process_Options.mode === Mode.css ) {

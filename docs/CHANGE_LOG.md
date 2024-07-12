@@ -2,6 +2,9 @@
 
 ## Version 1.4.0:
 
+#### **New Features:**
+- Added a "Remove" button to the right side of the bottom buttons, which will allow you to remove the focused element from the DOM.
+
 #### **Start() > Options:**
 - Added option "showNodeNameInTitle" (defaults to false), which states if the node name should be shown in the title (if more than one node type is being used).
 - Renamed option "cssPropertiesText" to "cssText", and changed the default value to "CSS".

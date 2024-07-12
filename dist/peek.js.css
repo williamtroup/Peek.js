@@ -96,6 +96,9 @@ div.peek-js div.dialog-title-bar {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+div.peek-js div.dialog-title-bar span.dash {
+  font-weight: var(--peek-js-title-span-bold-weight);
+}
 div.peek-js div.dialog-title-bar span.node-name {
   font-weight: var(--peek-js-title-span-bold-weight);
   color: var(--peek-js-color-white);
@@ -232,6 +235,10 @@ div.peek-js div.dialog-buttons button.active {
 }
 div.peek-js div.dialog-buttons button {
   margin-left: var(--peek-js-spacing) !important;
+}
+div.peek-js div.dialog-buttons button.remove {
+  margin-left: 0 !important;
+  float: left;
 }
 
 /*

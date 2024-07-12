@@ -111,6 +111,10 @@ div.peek-js {
 
         @include no-text-wrap;
 
+        span.dash {
+            font-weight: var(--peek-js-title-span-bold-weight);
+        }
+
         span.node-name {
             font-weight: var(--peek-js-title-span-bold-weight);
             color: var(--peek-js-color-white);
@@ -207,6 +211,11 @@ div.peek-js {
 
         button {
             margin-left: var(--peek-js-spacing) !important;
+        }
+
+        button.remove {
+            margin-left: 0 !important;
+            float: left;
         }
     }
 }
