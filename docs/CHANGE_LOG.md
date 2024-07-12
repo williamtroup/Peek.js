@@ -3,14 +3,14 @@
 ## Version 1.4.0:
 
 #### **New Features:**
-- Added a "Remove" button to the right side of the bottom buttons, which will allow you to remove the focused element from the DOM.
+- Added a "Remove" button to the right side of the bottom buttons, allowing you to remove the focused element from the DOM.
 
 #### **Start() > Options:**
 - Added option "showNodeNameInTitle" (defaults to false), which states if the node name should be shown in the title (if more than one node type is being used).
 - Renamed option "cssPropertiesText" to "cssText", and changed the default value to "CSS".
 
 #### **Public API Functions:**
-- Added "close()" public API function, which will close the dialog if it's open.
+- Added a "close()" public API function, which will close the dialog if it's open.
 
 #### **Adjustments:**
 - The warning text shown when no attributes/classes are available now uses its own CSS class.
