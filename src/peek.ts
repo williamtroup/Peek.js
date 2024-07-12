@@ -199,7 +199,7 @@ type DialogProperties = Record<string, string>;
         const computedStyles: CSSStyleDeclaration = getComputedStyle( element );
         const computedStylesLength: number = computedStyles.length;
 
-        for( let styleIndex: number = 0; styleIndex < computedStylesLength; styleIndex++ ) {
+        for ( let styleIndex: number = 0; styleIndex < computedStylesLength; styleIndex++ ) {
             buildPropertyRow( element, computedStyles[ styleIndex ], computedStyles.getPropertyValue( computedStyles[ styleIndex ] ) );
         }
     }
