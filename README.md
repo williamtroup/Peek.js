@@ -16,6 +16,7 @@ Peek.js
 ![Peek.js - CSS Mode](docs/images/css-mode.png)
 ![Peek.js - Attribute Mode](docs/images/attribute-mode.png)
 ![Peek.js - Size Mode](docs/images/size-mode.png)
+![Peek.js - Class Mode](docs/images/class-mode.png)
 <br>
 <br>
 
