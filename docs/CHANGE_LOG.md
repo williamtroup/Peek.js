@@ -1,6 +1,7 @@
 # Peek.js - Change Log:
 
 ## Version 1.5.0:
+- Moved all string concatenation to use string templates.
 - 
 
 <br>

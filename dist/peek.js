@@ -105,8 +105,8 @@ var n;
             if (o < i.top) {
                 o = e.pageY + 1;
             }
-            t.style.left = n + "px";
-            t.style.top = o + "px";
+            t.style.left = `${n}px`;
+            t.style.top = `${o}px`;
         }
     }
     n.showElementAtMousePosition = s;
