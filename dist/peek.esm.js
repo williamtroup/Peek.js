@@ -443,8 +443,8 @@ var o;
         e.onmousedown = e => {
             G(e, t);
         };
-        e.onmousemove = e => {
-            K(e);
+        t.onmousemove = e => {
+            K(e, true);
         };
         e.onmouseup = () => {
             J();
@@ -474,7 +474,10 @@ var o;
             h = 0;
         }
     }
-    function K(e) {
+    function K(e, t = false) {
+        if (t) {
+            n.cancelBubble(e);
+        }
         if (x) {
             b.style.left = `${e.pageX - S}px`;
             b.style.top = `${e.pageY - A}px`;

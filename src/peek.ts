@@ -407,8 +407,8 @@ type DialogProperties = Record<string, string>;
             onMoveTitleBarMouseDown( e, dialog );
         };
 
-        titleBar.onmousemove = ( e: MouseEvent ) => {
-            onMoveDocumentMouseMove( e );
+        dialog.onmousemove = ( e: MouseEvent ) => {
+            onMoveDocumentMouseMove( e, true );
         };
 
         titleBar.onmouseup = () => {
@@ -445,7 +445,11 @@ type DialogProperties = Record<string, string>;
         }
     }
 
-    function onMoveDocumentMouseMove( e: MouseEvent ) : void {
+    function onMoveDocumentMouseMove( e: MouseEvent, cancelBubble: boolean = false ) : void {
+        if ( cancelBubble ) {
+            DomElement.cancelBubble( e );
+        }
+
         if ( _element_Dialog_Move_IsMoving ) {
             _element_Dialog_Move.style.left = `${ e.pageX - _element_Dialog_Move_X }px`;
             _element_Dialog_Move.style.top = `${ e.pageY - _element_Dialog_Move_Y }px`;

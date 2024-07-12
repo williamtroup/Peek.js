@@ -12,6 +12,9 @@
 #### **Adjustments:**
 - The warning text shown when no attributes/classes are available now uses its own CSS class.
 
+#### **Fixes:**
+- Fixed a fault that caused the dialog moving to sometimes fail when moving the mouse quickly.
+
 <br>
 
 
