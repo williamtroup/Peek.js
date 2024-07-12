@@ -436,6 +436,10 @@ var o;
     }
     function R() {
         if (!T) {
+            if (c !== 0) {
+                clearTimeout(c);
+                c = 0;
+            }
             D();
         }
     }

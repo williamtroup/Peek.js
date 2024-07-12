@@ -391,6 +391,11 @@ type DialogProperties = Record<string, string>;
 
     function onWindowMove() : void {
         if ( !_current_Process_Locked ) {
+            if ( _dialog_Timer !== 0 ) {
+                clearTimeout( _dialog_Timer );
+                _dialog_Timer = 0;
+            }
+            
             closeDialog();
         }
     }

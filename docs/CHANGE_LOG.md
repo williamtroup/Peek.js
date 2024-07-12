@@ -20,6 +20,7 @@
 #### **Fixes:**
 - Fixed a fault that caused the dialog moving to sometimes fail when moving the mouse quickly.
 - Fixed documentation stating that events get fired when they don't.
+- Fixed a fault that caused the dialog to still appear even when the mouse leaves an element.
 
 <br>
 
