@@ -17,7 +17,7 @@ export type Position = {
 };
 
 export type Configuration = {
-	cssPropertiesText?: string;
+	cssText?: string;
     attributesText?: string;
     sizeText?: string;
     classesText?: string;

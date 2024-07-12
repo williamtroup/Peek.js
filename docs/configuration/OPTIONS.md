@@ -18,7 +18,7 @@ Below are all the configuration options that can be passed to the "setConfigurat
 
 | Type: | Name: | Description: |
 | --- | --- | --- |
-| *string* | cssPropertiesText | The text that should be used for the "CSS Properties" title. |
+| *string* | cssText | The text that should be used for the "CSS" title. |
 | *string* | attributesText | The text that should be used for the "Attributes" title. |
 | *string* | sizeText | The text that should be used for the "Size" title. |
 | *string* | classesText | The text that should be used for the "Classes" title. |

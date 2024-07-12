@@ -212,7 +212,7 @@ var o;
         }
         if (!e.definedString(o)) {
             if (c.mode === 1) {
-                o = i.cssPropertiesText;
+                o = i.cssText;
             } else if (c.mode === 2) {
                 o = i.attributesText;
             } else if (c.mode === 3) {
@@ -271,46 +271,46 @@ var o;
         } else if (c.mode === 2) {
             N(e);
         } else if (c.mode === 3) {
-            P(e);
-        } else if (c.mode === 4) {
             $(e);
+        } else if (c.mode === 4) {
+            H(e);
         }
     }
     function O(e) {
         const t = getComputedStyle(e);
         const n = t.length;
         for (let o = 0; o < n; o++) {
-            H(e, t[o], t.getPropertyValue(t[o]));
+            M(e, t[o], t.getPropertyValue(t[o]));
         }
     }
     function N(e) {
         if (e.hasAttributes()) {
             for (let t of e.attributes) {
-                H(e, t.name, t.value);
+                M(e, t.name, t.value);
             }
         } else {
             s.innerHTML = i.noAttributesAvailableText;
         }
     }
-    function P(e) {
-        const t = n.getOffset(e);
-        H(e, "left", `${t.left.toString()}px`, false);
-        H(e, "top", `${t.top.toString()}px`, false);
-        H(e, "width", `${e.offsetWidth.toString()}px`, false);
-        H(e, "height", `${e.offsetHeight.toString()}px`, false);
-    }
     function $(e) {
+        const t = n.getOffset(e);
+        M(e, "left", `${t.left.toString()}px`, false);
+        M(e, "top", `${t.top.toString()}px`, false);
+        M(e, "width", `${e.offsetWidth.toString()}px`, false);
+        M(e, "height", `${e.offsetHeight.toString()}px`, false);
+    }
+    function H(e) {
         if (e.classList.length > 0) {
             let t = 1;
             for (let n of e.classList) {
-                H(e, t.toString(), n);
+                M(e, t.toString(), n);
                 t++;
             }
         } else {
             s.innerHTML = i.noClassesAvailableText;
         }
     }
-    function H(e, t, o, l = true) {
+    function M(e, t, o, l = true) {
         if (c.showOnly.length === 0 || c.showOnly.indexOf(t) > -1) {
             const r = n.create(s, "div", "property-row");
             n.createWithHTML(r, "div", "property-name", t);
@@ -329,7 +329,7 @@ var o;
                 l.onclick = () => {
                     navigator.clipboard.readText().then((n => {
                         a.value = n;
-                        I(e, t, a);
+                        P(e, t, a);
                     }));
                 };
                 f.onclick = () => {
@@ -350,17 +350,17 @@ var o;
                 a.readOnly = true;
             } else {
                 a.onkeyup = n => {
-                    M(n, t, a, e);
+                    I(n, t, a, e);
                 };
             }
         }
     }
-    function M(e, t, n, o) {
+    function I(e, t, n, o) {
         if (e.code === "Enter") {
-            I(o, t, n);
+            P(o, t, n);
         }
     }
-    function I(e, t, n) {
+    function P(e, t, n) {
         if (c.mode === 1) {
             e.style.setProperty(t, n.value);
         } else if (c.mode === 2) {
@@ -489,7 +489,7 @@ var o;
         X();
     }
     function X() {
-        i.cssPropertiesText = o.getDefaultAnyString(i.cssPropertiesText, "CSS Properties");
+        i.cssText = o.getDefaultAnyString(i.cssText, "CSS");
         i.attributesText = o.getDefaultAnyString(i.attributesText, "Attributes");
         i.sizeText = o.getDefaultAnyString(i.sizeText, "Size");
         i.classesText = o.getDefaultAnyString(i.classesText, "Classes");

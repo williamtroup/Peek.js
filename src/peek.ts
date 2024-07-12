@@ -93,7 +93,7 @@ type DialogProperties = Record<string, string>;
 
         if ( !Is.definedString( title ) ) {
             if ( _current_Process_Options.mode === Mode.css ) {
-                title = _configuration.cssPropertiesText!;
+                title = _configuration.cssText!;
             } else if ( _current_Process_Options.mode === Mode.attributes ) {
                 title = _configuration.attributesText!;
             } else if ( _current_Process_Options.mode === Mode.size ) {
@@ -476,7 +476,7 @@ type DialogProperties = Record<string, string>;
     }
 
     function buildDefaultStringConfiguration() : void {
-        _configuration.cssPropertiesText = Data.getDefaultAnyString( _configuration.cssPropertiesText, "CSS Properties" );
+        _configuration.cssText = Data.getDefaultAnyString( _configuration.cssText, "CSS" );
         _configuration.attributesText = Data.getDefaultAnyString( _configuration.attributesText, "Attributes" );
         _configuration.sizeText = Data.getDefaultAnyString( _configuration.sizeText, "Size" );
         _configuration.classesText = Data.getDefaultAnyString( _configuration.classesText, "Classes" );
