@@ -25,8 +25,9 @@
             <br />
 
             <h3>Running:</h3>
-            <button class="btn btn-primary" onclick="$peek.start( { nodeType: 'button', mode: 4, allowEditing: true, showIdOrNameInTitle: true } );">Start</button>
+            <button class="btn btn-primary" onclick="$peek.start( { nodeType: 'button h1', mode: 4, allowEditing: true, showIdOrNameInTitle: true } );">Start</button>
             <button class="btn btn-primary" onclick="$peek.stop();">Stop</button>
+            <button class="btn btn-primary" onclick="$peek.close();">Close</button>
             <br />
 
             <h3>Additional Data:</h3>
@@ -40,7 +41,7 @@
 
         function setupConfiguration() {
             $peek.setConfiguration( {
-                cssPropertiesText: "CSS"
+                cssText: "CSS (config update)"
             } );
         }
     </script>

@@ -1,5 +1,31 @@
 # Peek.js - Change Log:
 
+## Version 1.4.0:
+
+#### **New Features:**
+- Added a "Remove" button to the right side of the bottom buttons, allowing you to remove the focused element from the DOM.
+
+#### **Start() > Options:**
+- Added option "showNodeNameInTitle" (defaults to false), which states if the node name should be shown in the title (if more than one node type is being used).
+- Renamed option "cssPropertiesText" to "cssText", and changed the default value to "CSS".
+- The option "showIdOrNameInTitle" now defaults to true.
+
+#### **Public API Functions:**
+- Added a "close()" public API function, which will close the dialog if it's open.
+
+#### **UI Adjustments:**
+- The warning text shown when no attributes/classes are available now uses its own CSS class.
+- Added a focus effect for editable property values.
+- Massive improvements to the title bar and spacing around the dialog.
+
+#### **Fixes:**
+- Fixed a fault that caused the dialog moving to sometimes fail when moving the mouse quickly.
+- Fixed documentation stating that events get fired when they don't.
+- Fixed a fault that caused the dialog to still appear even when the mouse leaves an element.
+
+<br>
+
+
 ## Version 1.3.0:
 
 #### **New Features:**

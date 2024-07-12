@@ -4,14 +4,14 @@
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
  * @file        api.ts
- * @version     v1.3.0
+ * @version     v1.4.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
  */
 
 
-import { type Configuration, type Options } from "./type";
+import { type Options } from "./type";
 
 
 export type PublicApi = {
@@ -27,7 +27,6 @@ export type PublicApi = {
      * Starts the peek process using the options passed and attaches the viewed to the DOM elements.
      * 
      * @public
-     * @fires       onStart
      * 
      * @param       {Object}    options                                     All the options to use.
      * 
@@ -42,11 +41,21 @@ export type PublicApi = {
      * Stops the peek process.
      * 
      * @public
-     * @fires       onStop
      * 
      * @returns     {Object}                                                The Peek.js class instance.
      */
     stop: () => PublicApi;
+
+    /**
+     * close().
+     * 
+     * Closes the dialog.
+     * 
+     * @public
+     * 
+     * @returns     {Object}                                                The Peek.js class instance.
+     */
+    close: () => PublicApi;
 
 
     /*
@@ -61,7 +70,6 @@ export type PublicApi = {
      * Sets the specific configuration options that should be used.
      * 
      * @public
-     * @fires       onRefresh
      * 
      * @param       {Object}    newConfiguration                            All the configuration options that should be set (refer to "Configuration Options" documentation for properties).
      * 

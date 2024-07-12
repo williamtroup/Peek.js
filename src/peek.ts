@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
  * @file        peek.ts
- * @version     v1.3.0
+ * @version     v1.4.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -33,6 +33,7 @@ type DialogProperties = Record<string, string>;
     let _dialog_Contents: HTMLElement = null!;
     let _dialog_Buttons: HTMLElement = null!;
     let _dialog_Buttons_Copy: HTMLButtonElement = null!;
+    let _dialog_Buttons_Remove: HTMLButtonElement = null!;
     let _dialog_Timer: number = 0;
 
     // Variables: Current Process:
@@ -41,6 +42,7 @@ type DialogProperties = Record<string, string>;
     let _current_Process_Properties: DialogProperties = {} as DialogProperties;
     let _current_Process_Element: HTMLElement = null!;
     let _current_Process_Locked: boolean = false;
+    let _current_Process_NodeCount: number = 0;
 
     // Variables: Dialog Moving
     let _element_Dialog_Move: HTMLElement = null!;
@@ -78,15 +80,25 @@ type DialogProperties = Record<string, string>;
         const closeButton: HTMLElement = DomElement.createWithHTML( _dialog_Buttons, "button", "close", _configuration.closeText! );
         closeButton.onclick = closeDialog;
 
+        _dialog_Buttons_Remove = DomElement.createWithHTML( _dialog_Buttons, "button", "remove", _configuration.removeText! ) as HTMLButtonElement;
+        _dialog_Buttons_Remove.onclick = onRemove;
+
         makeDialogMovable( _dialog_Title, _dialog );
     }
 
     function setDialogText( element: HTMLElement = null! ) : void {
         let title: string = _current_Process_Options.titleText!;
 
+        _dialog_Title.innerHTML = Char.empty;
+
+        if ( _current_Process_NodeCount > 1 && _current_Process_Options.showNodeNameInTitle ) {
+            DomElement.createWithHTML( _dialog_Title, "span", "node-name", `[${ element.nodeName.toLowerCase() }] - ` );
+            DomElement.createWithHTML( _dialog_Title, "span", "dash", " - " );
+        }
+
         if ( !Is.definedString( title ) ) {
             if ( _current_Process_Options.mode === Mode.css ) {
-                title = _configuration.cssPropertiesText!;
+                title = _configuration.cssText!;
             } else if ( _current_Process_Options.mode === Mode.attributes ) {
                 title = _configuration.attributesText!;
             } else if ( _current_Process_Options.mode === Mode.size ) {
@@ -96,16 +108,18 @@ type DialogProperties = Record<string, string>;
             }
         }
 
-        _dialog_Title.innerHTML = title;
+        DomElement.createWithHTML( _dialog_Title, "span", "title", title );
 
         if ( _current_Process_Options.showIdOrNameInTitle && Is.defined( element ) ) {
             const id: string = element.getAttribute( "id" )!;
             const name: string = element.getAttribute( "name" )!;
 
             if ( Is.definedString( id ) ) {
-                DomElement.createWithHTML( _dialog_Title, "span", Char.empty, ` - ${ id }` );
+                DomElement.createWithHTML( _dialog_Title, "span", "dash", " - " );
+                DomElement.createWithHTML( _dialog_Title, "span", "id-or-name", id );
             } else if ( Is.definedString( name ) ) {
-                DomElement.createWithHTML( _dialog_Title, "span", Char.empty, ` - ${ name }` );
+                DomElement.createWithHTML( _dialog_Title, "span", "dash", " - " );
+                DomElement.createWithHTML( _dialog_Title, "span", "id-or-name", name );
             }
         }
     }
@@ -137,6 +151,12 @@ type DialogProperties = Record<string, string>;
         }
     }
 
+    function onRemove() : void {
+        _current_Process_Element.parentNode?.removeChild( _current_Process_Element );
+
+        closeDialog();
+    }
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -158,6 +178,12 @@ type DialogProperties = Record<string, string>;
             _dialog_Buttons_Copy.style.removeProperty( "display" );
         }
 
+        if ( !_current_Process_Options.allowEditing ) {
+            _dialog_Buttons_Remove.style.display = "none";
+        } else {
+            _dialog_Buttons_Remove.style.removeProperty( "display" );
+        }
+
         if ( _current_Process_Options.mode === Mode.css ) {
             buildCssProperties( element );
         } else if ( _current_Process_Options.mode === Mode.attributes ) {
@@ -173,7 +199,7 @@ type DialogProperties = Record<string, string>;
         const computedStyles: CSSStyleDeclaration = getComputedStyle( element );
         const computedStylesLength: number = computedStyles.length;
 
-        for( let styleIndex: number = 0; styleIndex < computedStylesLength; styleIndex++ ) {
+        for ( let styleIndex: number = 0; styleIndex < computedStylesLength; styleIndex++ ) {
             buildPropertyRow( element, computedStyles[ styleIndex ], computedStyles.getPropertyValue( computedStyles[ styleIndex ] ) );
         }
     }
@@ -185,7 +211,9 @@ type DialogProperties = Record<string, string>;
             }
 
         } else {
-            _dialog_Contents.innerHTML = _configuration.noAttributesAvailableText!;
+            _dialog_Contents.innerHTML = Char.empty;
+
+            DomElement.createWithHTML( _dialog_Contents, "span", "warning", _configuration.noAttributesAvailableText! );
         }
     }
 
@@ -208,7 +236,9 @@ type DialogProperties = Record<string, string>;
             }
 
         } else {
-            _dialog_Contents.innerHTML = _configuration.noClassesAvailableText!;
+            _dialog_Contents.innerHTML = Char.empty;
+
+            DomElement.createWithHTML( _dialog_Contents, "span", "warning", _configuration.noClassesAvailableText! );
         }
     }
 
@@ -296,9 +326,10 @@ type DialogProperties = Record<string, string>;
 
     function buildNodeEvents() : void {
         const tagTypes: string[] = _current_Process_Options.nodeType as string[];
-        const tagTypesLength: number = tagTypes.length;
 
-        for ( let tagTypeIndex: number = 0; tagTypeIndex < tagTypesLength; tagTypeIndex++ ) {
+        _current_Process_NodeCount = tagTypes.length;
+
+        for ( let tagTypeIndex: number = 0; tagTypeIndex < _current_Process_NodeCount; tagTypeIndex++ ) {
             const domElements: HTMLCollectionOf<Element> = document.getElementsByTagName( tagTypes[ tagTypeIndex ] );
             const elements: HTMLElement[] = [].slice.call( domElements );
             const elementsLength: number = elements.length;
@@ -360,6 +391,11 @@ type DialogProperties = Record<string, string>;
 
     function onWindowMove() : void {
         if ( !_current_Process_Locked ) {
+            if ( _dialog_Timer !== 0 ) {
+                clearTimeout( _dialog_Timer );
+                _dialog_Timer = 0;
+            }
+            
             closeDialog();
         }
     }
@@ -376,8 +412,8 @@ type DialogProperties = Record<string, string>;
             onMoveTitleBarMouseDown( e, dialog );
         };
 
-        titleBar.onmousemove = ( e: MouseEvent ) => {
-            onMoveDocumentMouseMove( e );
+        dialog.onmousemove = ( e: MouseEvent ) => {
+            onMoveDocumentMouseMove( e, true );
         };
 
         titleBar.onmouseup = () => {
@@ -414,7 +450,11 @@ type DialogProperties = Record<string, string>;
         }
     }
 
-    function onMoveDocumentMouseMove( e: MouseEvent ) : void {
+    function onMoveDocumentMouseMove( e: MouseEvent, cancelBubble: boolean = false ) : void {
+        if ( cancelBubble ) {
+            DomElement.cancelBubble( e );
+        }
+
         if ( _element_Dialog_Move_IsMoving ) {
             _element_Dialog_Move.style.left = `${ e.pageX - _element_Dialog_Move_X }px`;
             _element_Dialog_Move.style.top = `${ e.pageY - _element_Dialog_Move_Y }px`;
@@ -447,7 +487,8 @@ type DialogProperties = Record<string, string>;
         options.titleText = Data.getDefaultString( options.titleText, Char.empty );
         options.showOnly = Data.getDefaultStringOrArray( options.showOnly, [] );
         options.allowEditing = Data.getDefaultBoolean( options.allowEditing, false );
-        options.showIdOrNameInTitle = Data.getDefaultBoolean( options.showIdOrNameInTitle, false );
+        options.showIdOrNameInTitle = Data.getDefaultBoolean( options.showIdOrNameInTitle, true );
+        options.showNodeNameInTitle = Data.getDefaultBoolean( options.showNodeNameInTitle, false );
 
         return options;
     }
@@ -467,7 +508,7 @@ type DialogProperties = Record<string, string>;
     }
 
     function buildDefaultStringConfiguration() : void {
-        _configuration.cssPropertiesText = Data.getDefaultAnyString( _configuration.cssPropertiesText, "CSS Properties" );
+        _configuration.cssText = Data.getDefaultAnyString( _configuration.cssText, "CSS" );
         _configuration.attributesText = Data.getDefaultAnyString( _configuration.attributesText, "Attributes" );
         _configuration.sizeText = Data.getDefaultAnyString( _configuration.sizeText, "Size" );
         _configuration.classesText = Data.getDefaultAnyString( _configuration.classesText, "Classes" );
@@ -496,7 +537,7 @@ type DialogProperties = Record<string, string>;
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        start: function ( options: Options ): PublicApi {
+        start: function ( options: Options ) : PublicApi {
             if ( !Is.definedObject( _current_Process_Options ) ) {
                 _current_Process_Options = buildOptions( options );
 
@@ -507,13 +548,19 @@ type DialogProperties = Record<string, string>;
             return _public;
         },
 
-        stop: function (): PublicApi {
+        stop: function () : PublicApi {
             if ( Is.definedObject( _current_Process_Options ) ) {
                 _current_Process_Options = null!;
 
                 removeNodeEvents();
             }
 
+            return _public;
+        },
+
+        close: function() : PublicApi {
+            closeDialog();
+            
             return _public;
         },
 
@@ -524,7 +571,7 @@ type DialogProperties = Record<string, string>;
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        setConfiguration: function ( newConfiguration: any ): PublicApi {
+        setConfiguration: function ( newConfiguration: any ) : PublicApi {
             if ( Is.definedObject( newConfiguration ) ) {
                 let configurationHasChanged: boolean = false;
                 const newInternalConfiguration: any = _configuration;
@@ -556,8 +603,8 @@ type DialogProperties = Record<string, string>;
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        getVersion: function (): string {
-            return "1.3.0";
+        getVersion: function () : string {
+            return "1.4.0";
         }
     };
 

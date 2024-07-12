@@ -1,8 +1,8 @@
-# Peek.js v1.3.0
+# Peek.js v1.4.0
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Peek.js%2C%20a%20free%20JavaScript%json%20converter&url=https://github.com/williamtroup/Peek.js&hashtags=javascript,element,property,viewer)
-[![npm](https://img.shields.io/badge/npmjs-v1.3.0-blue)](https://www.npmjs.com/package/jpeek.js)
-[![nuget](https://img.shields.io/badge/nuget-v1.3.0-purple)](https://www.nuget.org/packages/Peek.js/)
+[![npm](https://img.shields.io/badge/npmjs-v1.4.0-blue)](https://www.npmjs.com/package/jpeek.js)
+[![nuget](https://img.shields.io/badge/nuget-v1.4.0-purple)](https://www.nuget.org/packages/Peek.js/)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://github.com/williamtroup/Peek.js/blob/main/LICENSE.txt)
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/Peek.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://william-troup.com/)
@@ -22,6 +22,7 @@
 - Show only the data your interested in!
 - Copy, Paste, and Remove CSS, Attributes, and Classes!
 - Move the dialog away from the element to lock it!
+- Remove elements from the DOM.
 
 
 ## What browsers are supported?
@@ -45,8 +46,8 @@ npm install jpeek.js
 You can also use the following CDN links:
 
 ```markdown
-https://cdn.jsdelivr.net/gh/williamtroup/Peek.js@1.3.0/dist/peek.min.js
-https://cdn.jsdelivr.net/gh/williamtroup/Peek.js@1.3.0/dist/peek.js.min.css
+https://cdn.jsdelivr.net/gh/williamtroup/Peek.js@1.4.0/dist/peek.min.js
+https://cdn.jsdelivr.net/gh/williamtroup/Peek.js@1.4.0/dist/peek.js.min.css
 ```
 
 
