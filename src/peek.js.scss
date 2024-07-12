@@ -147,6 +147,10 @@ div.peek-js {
         border-radius: var(--peek-js-border-radius);
         padding: var(--peek-js-spacing);
 
+        span.warning {
+            font-style: italic;
+        }
+
         div.property-row {
             display: flex;
             align-items: flex-end;

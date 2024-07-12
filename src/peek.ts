@@ -211,7 +211,9 @@ type DialogProperties = Record<string, string>;
             }
 
         } else {
-            _dialog_Contents.innerHTML = _configuration.noAttributesAvailableText!;
+            _dialog_Contents.innerHTML = Char.empty;
+
+            DomElement.createWithHTML( _dialog_Contents, "span", "warning", _configuration.noAttributesAvailableText! );
         }
     }
 
@@ -234,7 +236,9 @@ type DialogProperties = Record<string, string>;
             }
 
         } else {
-            _dialog_Contents.innerHTML = _configuration.noClassesAvailableText!;
+            _dialog_Contents.innerHTML = Char.empty;
+
+            DomElement.createWithHTML( _dialog_Contents, "span", "warning", _configuration.noClassesAvailableText! );
         }
     }
 

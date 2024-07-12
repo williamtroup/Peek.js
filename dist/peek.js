@@ -307,7 +307,8 @@ var o;
                 I(e, t.name, t.value);
             }
         } else {
-            s.innerHTML = i.noAttributesAvailableText;
+            s.innerHTML = "";
+            n.createWithHTML(s, "span", "warning", i.noAttributesAvailableText);
         }
     }
     function W(e) {
@@ -325,7 +326,8 @@ var o;
                 t++;
             }
         } else {
-            s.innerHTML = i.noClassesAvailableText;
+            s.innerHTML = "";
+            n.createWithHTML(s, "span", "warning", i.noClassesAvailableText);
         }
     }
     function I(e, t, o, l = true) {

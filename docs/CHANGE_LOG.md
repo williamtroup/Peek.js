@@ -9,6 +9,9 @@
 - Added option "showNodeNameInTitle" (defaults to false), which states if the node name should be shown in the title (if more than one node type is being used).
 - Renamed option "cssPropertiesText" to "cssText", and changed the default value to "CSS".
 
+#### **Adjustments:**
+- The warning text shown when no attributes/classes are available now uses its own CSS class.
+
 <br>
 
 

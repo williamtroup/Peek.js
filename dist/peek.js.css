@@ -124,6 +124,9 @@ div.peek-js div.dialog-contents {
   border-radius: var(--peek-js-border-radius);
   padding: var(--peek-js-spacing);
 }
+div.peek-js div.dialog-contents span.warning {
+  font-style: italic;
+}
 div.peek-js div.dialog-contents div.property-row {
   display: flex;
   align-items: flex-end;
