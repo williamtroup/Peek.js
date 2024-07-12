@@ -195,6 +195,9 @@ div.peek-js div.dialog-contents div.property-row div.property-value input[type=t
 div.peek-js div.dialog-contents div.property-row div.property-value input[type=text]:not([readonly]):focus {
   background-color: var(--peek-js-color-gray);
 }
+div.peek-js div.dialog-contents div.property-row div.property-value input[type=text].property-value-color {
+  border-left: 3px solid var(--peek-js-dialog-border-color);
+}
 div.peek-js div.dialog-contents div.property-row button {
   margin-left: calc(var(--peek-js-spacing) / 2);
 }

@@ -37,6 +37,20 @@ var e;
         return !s(e) || e.length < t;
     }
     e.invalidOptionArray = f;
+    function u(e) {
+        let t = e.length >= 2 && e.length <= 7;
+        if (t && e[0] === "#") {
+            t = isNaN(+e.substring(1, e.length - 1));
+        } else {
+            t = false;
+        }
+        return t;
+    }
+    e.hexColor = u;
+    function c(e) {
+        return e.startsWith("rgb") || e.startsWith("rgba");
+    }
+    e.isRgbColor = c;
 })(e || (e = {}));
 
 var t;
@@ -177,8 +191,8 @@ var o;
     let u = null;
     let c = 0;
     let d = null;
-    let p = [];
-    let g = {};
+    let g = [];
+    let p = {};
     let m = null;
     let T = false;
     let y = 0;
@@ -244,14 +258,14 @@ var o;
     }
     function E() {
         const e = [];
-        for (let t in g) {
-            if (g.hasOwnProperty(t)) {
+        for (let t in p) {
+            if (p.hasOwnProperty(t)) {
                 if (d.mode === 1) {
-                    e.push(`${t}: ${g[t]};`);
+                    e.push(`${t}: ${p[t]};`);
                 } else if (d.mode === 2) {
-                    e.push(`${t}="${g[t]}"`);
+                    e.push(`${t}="${p[t]}"`);
                 } else if (d.mode === 4) {
-                    e.push(g[t]);
+                    e.push(p[t]);
                 }
             }
         }
@@ -269,7 +283,7 @@ var o;
     function N(e) {
         s.innerHTML = "";
         s.scrollTop = 0;
-        g = {};
+        p = {};
         m = e;
         w(e);
         if (d.mode === 3) {
@@ -287,40 +301,40 @@ var o;
         } else if (d.mode === 2) {
             M(e);
         } else if (d.mode === 3) {
-            W(e);
+            C(e);
         } else if (d.mode === 4) {
-            $(e);
+            W(e);
         }
     }
     function H(e) {
         const t = getComputedStyle(e);
         const n = t.length;
         for (let o = 0; o < n; o++) {
-            I(e, t[o], t.getPropertyValue(t[o]));
+            $(e, t[o], t.getPropertyValue(t[o]));
         }
     }
     function M(e) {
         if (e.hasAttributes()) {
             for (let t of e.attributes) {
-                I(e, t.name, t.value);
+                $(e, t.name, t.value);
             }
         } else {
             s.innerHTML = "";
             n.createWithHTML(s, "span", "warning", i.noAttributesAvailableText);
         }
     }
-    function W(e) {
+    function C(e) {
         const t = n.getOffset(e);
-        I(e, "left", `${t.left.toString()}px`, false);
-        I(e, "top", `${t.top.toString()}px`, false);
-        I(e, "width", `${e.offsetWidth.toString()}px`, false);
-        I(e, "height", `${e.offsetHeight.toString()}px`, false);
+        $(e, "left", `${t.left.toString()}px`, false);
+        $(e, "top", `${t.top.toString()}px`, false);
+        $(e, "width", `${e.offsetWidth.toString()}px`, false);
+        $(e, "height", `${e.offsetHeight.toString()}px`, false);
     }
-    function $(e) {
+    function W(e) {
         if (e.classList.length > 0) {
             let t = 1;
             for (let n of e.classList) {
-                I(e, t.toString(), n);
+                $(e, t.toString(), n);
                 t++;
             }
         } else {
@@ -328,63 +342,73 @@ var o;
             n.createWithHTML(s, "span", "warning", i.noClassesAvailableText);
         }
     }
-    function I(e, t, o, l = true) {
-        if (d.showOnly.length === 0 || d.showOnly.indexOf(t) > -1) {
-            const r = n.create(s, "div", "property-row");
-            n.createWithHTML(r, "div", "property-name", t);
-            const a = n.create(r, "div", "property-value");
-            const f = n.create(a, "input");
-            const u = n.createWithHTML(r, "button", "copy-small", i.copySymbolText);
-            u.title = i.copyText;
-            u.onclick = () => {
-                navigator.clipboard.writeText(o);
+    function $(t, o, l, r = true) {
+        if (d.showOnly.length === 0 || d.showOnly.indexOf(o) > -1) {
+            const a = n.create(s, "div", "property-row");
+            n.createWithHTML(a, "div", "property-name", o);
+            const f = n.create(a, "div", "property-value");
+            const u = n.create(f, "input");
+            if (e.hexColor(l) || e.isRgbColor(l)) {
+                u.classList.add("property-value-color");
+                u.style.borderLeftColor = l;
+            }
+            const c = n.createWithHTML(a, "button", "copy-small", i.copySymbolText);
+            c.title = i.copyText;
+            c.onclick = () => {
+                navigator.clipboard.writeText(l);
             };
-            if (d.allowEditing && l) {
-                const l = n.createWithHTML(r, "button", "paste-small", i.pasteSymbolText);
-                const a = n.createWithHTML(r, "button", "remove-small", i.removeSymbolText);
-                l.title = i.pasteText;
-                a.title = i.removeText;
-                l.onclick = () => {
-                    navigator.clipboard.readText().then((n => {
-                        f.value = n;
-                        C(e, t, f);
+            if (d.allowEditing && r) {
+                const e = n.createWithHTML(a, "button", "paste-small", i.pasteSymbolText);
+                const r = n.createWithHTML(a, "button", "remove-small", i.removeSymbolText);
+                e.title = i.pasteText;
+                r.title = i.removeText;
+                e.onclick = () => {
+                    navigator.clipboard.readText().then((e => {
+                        u.value = e;
+                        P(t, o, u);
                     }));
                 };
-                a.onclick = () => {
+                r.onclick = () => {
                     if (d.mode === 1) {
-                        e.style.removeProperty(t);
+                        t.style.removeProperty(o);
                     } else if (d.mode === 2) {
-                        e.removeAttribute(t);
+                        t.removeAttribute(o);
                     } else if (d.mode === 4) {
-                        e.classList.remove(o);
+                        t.classList.remove(l);
                     }
-                    s.removeChild(r);
                 };
             }
-            f.type = "text";
-            f.value = o;
-            g[t] = o;
-            if (!d.allowEditing || !l) {
-                f.readOnly = true;
+            u.type = "text";
+            u.value = l;
+            p[o] = l;
+            if (!d.allowEditing || !r) {
+                u.readOnly = true;
             } else {
-                f.onkeyup = n => {
-                    P(n, t, f, e);
+                u.onkeyup = e => {
+                    I(e, o, u, t);
                 };
             }
         }
     }
-    function P(e, t, n, o) {
+    function I(e, t, n, o) {
         if (e.code === "Enter") {
-            C(o, t, n);
+            P(o, t, n);
         }
     }
-    function C(e, t, n) {
+    function P(t, n, o) {
         if (d.mode === 1) {
-            e.style.setProperty(t, n.value);
+            t.style.setProperty(n, o.value);
         } else if (d.mode === 2) {
-            e.setAttribute(t, n.value);
+            t.setAttribute(n, o.value);
         } else if (d.mode === 4) {
-            e.classList.replace(e.classList[parseInt(t) - 1], n.value);
+            t.classList.replace(t.classList[parseInt(n) - 1], o.value);
+        }
+        p[n] = o.value;
+        if (e.hexColor(o.value) || e.isRgbColor(o.value)) {
+            o.classList.add("property-value-color");
+            o.style.borderLeftColor = o.value;
+        } else {
+            o.classList.remove("property-value-color");
         }
     }
     function _() {
@@ -406,18 +430,18 @@ var o;
             n.addEventListener("mousemove", (e => {
                 k(e, n);
             }));
-            p.push(n);
+            g.push(n);
         }
     }
     function B() {
-        const e = p.length;
+        const e = g.length;
         for (let n = 0; n < e; n++) {
-            var t = p[n];
+            var t = g[n];
             t.removeEventListener("mousemove", (e => {
                 k(e, t);
             }));
         }
-        p = [];
+        g = [];
         window.removeEventListener("mousemove", R);
         D();
     }

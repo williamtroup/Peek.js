@@ -1,9 +1,16 @@
 # Peek.js - Change Log:
 
 ## Version 1.5.0:
+
+#### **New Features:**
+- HEX and RGB(a) colors are now shown in the property values are a left border.
+
+#### **Adjustments:**
 - Moved all string concatenation to use string templates.
 - Updated to the latest NPM packages.
-- 
+
+#### **Fixes:**
+- Fixed a fault that caused the edited property values to now be reflected correctly when the "Copy" button is pressed.
 
 <br>
 

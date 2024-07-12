@@ -15,6 +15,7 @@ export const enum Char {
     empty = "",
     space = " ",
     newLine = "\n",
+    hash = "#",
 }
 
 export const enum Mode {

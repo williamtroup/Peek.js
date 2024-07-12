@@ -191,6 +191,10 @@ div.peek-js {
                         background-color: var(--peek-js-color-gray);
                     }
                 }
+
+                input[type="text"].property-value-color {
+                    border-left: 3px solid var(--peek-js-dialog-border-color);
+                }
             }
 
             button {

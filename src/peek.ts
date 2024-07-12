@@ -251,6 +251,11 @@ type DialogProperties = Record<string, string>;
             const propertyValue: HTMLElement = DomElement.create( property, "div", "property-value" );
             const propertyValueInput: HTMLInputElement = DomElement.create( propertyValue, "input" ) as HTMLInputElement;
 
+            if ( Is.hexColor( propertyValueText ) || Is.isRgbColor( propertyValueText ) ) {
+                propertyValueInput.classList.add( "property-value-color" );
+                propertyValueInput.style.borderLeftColor = propertyValueText;
+            }
+
             const copyButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "copy-small", _configuration.copySymbolText! ) as HTMLButtonElement;
             copyButton.title = _configuration.copyText!;
 
@@ -281,8 +286,6 @@ type DialogProperties = Record<string, string>;
                     } else if ( _current_Process_Options.mode === Mode.class ) {
                         element.classList.remove( propertyValueText );
                     }
-
-                    _dialog_Contents.removeChild( property );
                 };
             }
 
@@ -314,6 +317,15 @@ type DialogProperties = Record<string, string>;
             element.setAttribute( propertyName, input.value );
         } else if ( _current_Process_Options.mode === Mode.class ) {
             element.classList.replace( element.classList[ parseInt( propertyName ) - 1 ], input.value );
+        }
+
+        _current_Process_Properties[ propertyName ] = input.value;
+
+        if ( Is.hexColor( input.value ) || Is.isRgbColor( input.value ) ) {
+            input.classList.add( "property-value-color" );
+            input.style.borderLeftColor = input.value;
+        } else {
+            input.classList.remove( "property-value-color" );
         }
     }
 
