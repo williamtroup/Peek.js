@@ -12,8 +12,9 @@
 #### **Public API Functions:**
 - Added a "close()" public API function, which will close the dialog if it's open.
 
-#### **Adjustments:**
+#### **UI Adjustments:**
 - The warning text shown when no attributes/classes are available now uses its own CSS class.
+- Added a focus effect for editable property values.
 
 #### **Fixes:**
 - Fixed a fault that caused the dialog moving to sometimes fail when moving the mouse quickly.

@@ -31,6 +31,7 @@
     --peek-js-color-black: #3b3a3a;
     --peek-js-color-white: #adbac7;
     --peek-js-color-snow-white: #F5F5F5;
+    --peek-js-color-gray: gray;
 
     // Dialog
     --peek-js-dialog-background-color: #22272e;
@@ -173,13 +174,18 @@ div.peek-js {
 
                 input[type="text"] {
                     width: 100%;
-                    padding: calc( var(--peek-js-spacing) / 2 ) !important;
+                    padding: calc( var(--peek-js-spacing) / 2 );
                     border-radius: var(--peek-js-border-radius);
-                    border: var(--peek-js-border-size) solid var(--peek-js-dialog-border-color) !important;
-                    color: var(--peek-js-color-snow-white) !important;
-                    background-color: var(--peek-js-dialog-background-color) !important;
-                    outline: none !important;
-                    box-shadow: none !important;
+                    border: var(--peek-js-border-size) solid var(--peek-js-dialog-border-color);
+                    color: var(--peek-js-color-snow-white);
+                    background-color: var(--peek-js-dialog-background-color);
+                    outline: none;
+                    box-shadow: none;
+                    transition: var(--peek-js-transition);
+
+                    &:not([readonly]):focus {
+                        background-color: var(--peek-js-color-gray);
+                    }
                 }
             }
 
