@@ -16,6 +16,7 @@
 #### **UI Adjustments:**
 - The warning text shown when no attributes/classes are available now uses its own CSS class.
 - Added a focus effect for editable property values.
+- Massive improvements to the title bar and spacing around the dialog.
 
 #### **Fixes:**
 - Fixed a fault that caused the dialog moving to sometimes fail when moving the mouse quickly.
