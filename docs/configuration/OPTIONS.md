@@ -10,6 +10,7 @@ Below are all the configuration options that can be passed to the "setConfigurat
 | Type: | Name: | Description: |
 | --- | --- | --- |
 | *number* | dialogDisplayDelay | States the delay (in milliseconds) that should be used before showing the viewer dialog (defaults to 1000). |
+| *number* | searchDelayDelay | States the delay (in milliseconds) that should be used when typing before searching (defaults to 500). |
 
 <br/>
 

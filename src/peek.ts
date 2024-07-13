@@ -219,7 +219,7 @@ type DialogProperties = Record<string, string>;
                 _dialog_Contents_NoSearchResultsText.style.removeProperty( "display" );
             }
             
-        }, 500 );
+        }, _configuration.searchDelayDelay );
     }
 
     function onSearchPropertiesClear() : void {
@@ -597,6 +597,7 @@ type DialogProperties = Record<string, string>;
     function buildDefaultConfiguration( newConfiguration: Configuration = null! ) : void {
         _configuration = Data.getDefaultObject( newConfiguration, {} as Configuration );
         _configuration.dialogDisplayDelay = Data.getDefaultNumber( _configuration.dialogDisplayDelay, 1000 );
+        _configuration.searchDelayDelay = Data.getDefaultNumber( _configuration.searchDelayDelay, 500 );
 
         buildDefaultStringConfiguration();
     }

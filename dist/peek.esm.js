@@ -193,18 +193,18 @@ var o;
     let d = null;
     let p = null;
     let g = null;
-    let x = 0;
-    let y = null;
-    let T = [];
-    let m = {};
+    let y = 0;
+    let x = null;
+    let m = [];
+    let T = {};
     let b = null;
-    let v = false;
-    let h = 0;
+    let h = false;
+    let v = 0;
     let S = 0;
     let A = null;
     let L = 0;
-    let w = 0;
-    let D = false;
+    let D = 0;
+    let w = false;
     let E = 0;
     let N = 0;
     function O() {
@@ -236,25 +236,25 @@ var o;
         Y(r, i);
     }
     function H(t = null) {
-        let o = y.titleText;
+        let o = x.titleText;
         r.innerHTML = "";
-        if (h > 1 && y.showNodeNameInTitle) {
+        if (v > 1 && x.showNodeNameInTitle) {
             n.createWithHTML(r, "span", "node-name", `[${t.nodeName.toLowerCase()}] - `);
             n.createWithHTML(r, "span", "dash", " - ");
         }
         if (!e.definedString(o)) {
-            if (y.mode === 1) {
+            if (x.mode === 1) {
                 o = l.text.cssText;
-            } else if (y.mode === 2) {
+            } else if (x.mode === 2) {
                 o = l.text.attributesText;
-            } else if (y.mode === 3) {
+            } else if (x.mode === 3) {
                 o = l.text.sizeText;
-            } else if (y.mode === 4) {
+            } else if (x.mode === 4) {
                 o = l.text.classesText;
             }
         }
         n.createWithHTML(r, "span", "title", o);
-        if (y.showIdOrNameInTitle && e.defined(t)) {
+        if (x.showIdOrNameInTitle && e.defined(t)) {
             const o = t.getAttribute("id");
             const l = t.getAttribute("name");
             if (e.definedString(o)) {
@@ -268,25 +268,25 @@ var o;
     }
     function P() {
         i.style.display = "none";
-        v = false;
+        h = false;
         a.value = "";
     }
     function C() {
         const e = [];
-        for (let t in m) {
-            if (m.hasOwnProperty(t)) {
-                if (y.mode === 1) {
-                    e.push(`${t}: ${m[t]};`);
-                } else if (y.mode === 2) {
-                    e.push(`${t}="${m[t]}"`);
-                } else if (y.mode === 4) {
-                    e.push(m[t]);
+        for (let t in T) {
+            if (T.hasOwnProperty(t)) {
+                if (x.mode === 1) {
+                    e.push(`${t}: ${T[t]};`);
+                } else if (x.mode === 2) {
+                    e.push(`${t}="${T[t]}"`);
+                } else if (x.mode === 4) {
+                    e.push(T[t]);
                 }
             }
         }
-        if (y.mode === 1) {
+        if (x.mode === 1) {
             navigator.clipboard.writeText(`${b.nodeName.toLowerCase()} { ${"\n"} ${e.join("\n")} ${"\n"} }`);
-        } else if (y.mode === 2 || y.mode === 4) {
+        } else if (x.mode === 2 || x.mode === 4) {
             navigator.clipboard.writeText(e.join(" "));
         }
     }
@@ -328,7 +328,7 @@ var o;
             } else {
                 u.style.removeProperty("display");
             }
-        }), 500);
+        }), l.searchDelayDelay);
     }
     function $() {
         a.value = "";
@@ -338,28 +338,28 @@ var o;
     function I(e) {
         c.innerHTML = "";
         c.scrollTop = 0;
-        m = {};
+        T = {};
         S = 0;
         b = e;
         H(e);
-        if (y.mode === 3) {
+        if (x.mode === 3) {
             p.style.display = "none";
         } else {
             p.style.removeProperty("display");
         }
-        if (!y.allowEditing) {
+        if (!x.allowEditing) {
             g.style.display = "none";
         } else {
             g.style.removeProperty("display");
         }
         u = n.createWithHTML(c, "span", "no-search-results", l.text.noPropertiesFoundForSearchText);
-        if (y.mode === 1) {
+        if (x.mode === 1) {
             j(e);
-        } else if (y.mode === 2) {
+        } else if (x.mode === 2) {
             k(e);
-        } else if (y.mode === 3) {
+        } else if (x.mode === 3) {
             B(e);
-        } else if (y.mode === 4) {
+        } else if (x.mode === 4) {
             _(e);
         }
         if (S <= 15) {
@@ -405,7 +405,7 @@ var o;
         }
     }
     function R(t, o, i, r = true) {
-        if (y.showOnly.length === 0 || y.showOnly.indexOf(o) > -1) {
+        if (x.showOnly.length === 0 || x.showOnly.indexOf(o) > -1) {
             const s = n.create(c, "div", "property-row");
             n.createWithHTML(s, "div", "property-name", o);
             const a = n.create(s, "div", "property-value");
@@ -419,7 +419,7 @@ var o;
             u.onclick = () => {
                 navigator.clipboard.writeText(i);
             };
-            if (y.allowEditing && r) {
+            if (x.allowEditing && r) {
                 const e = n.createWithHTML(s, "button", "paste-small", l.text.pasteSymbolText);
                 const r = n.createWithHTML(s, "button", "remove-small", l.text.removeSymbolText);
                 e.title = l.text.pasteText;
@@ -431,20 +431,20 @@ var o;
                     }));
                 };
                 r.onclick = () => {
-                    if (y.mode === 1) {
+                    if (x.mode === 1) {
                         t.style.removeProperty(o);
-                    } else if (y.mode === 2) {
+                    } else if (x.mode === 2) {
                         t.removeAttribute(o);
-                    } else if (y.mode === 4) {
+                    } else if (x.mode === 4) {
                         t.classList.remove(i);
                     }
                 };
             }
             f.type = "text";
             f.value = i;
-            m[o] = i;
+            T[o] = i;
             S++;
-            if (!y.allowEditing || !r) {
+            if (!x.allowEditing || !r) {
                 f.readOnly = true;
             } else {
                 f.onkeyup = e => {
@@ -459,14 +459,14 @@ var o;
         }
     }
     function z(t, n, o) {
-        if (y.mode === 1) {
+        if (x.mode === 1) {
             t.style.setProperty(n, o.value);
-        } else if (y.mode === 2) {
+        } else if (x.mode === 2) {
             t.setAttribute(n, o.value);
-        } else if (y.mode === 4) {
+        } else if (x.mode === 4) {
             t.classList.replace(t.classList[parseInt(n) - 1], o.value);
         }
-        m[n] = o.value;
+        T[n] = o.value;
         if (e.hexColor(o.value) || e.isRgbColor(o.value)) {
             o.classList.add("property-value-color");
             o.style.borderLeftColor = o.value;
@@ -475,9 +475,9 @@ var o;
         }
     }
     function G() {
-        const e = y.nodeType;
-        h = e.length;
-        for (let t = 0; t < h; t++) {
+        const e = x.nodeType;
+        v = e.length;
+        for (let t = 0; t < v; t++) {
             const n = document.getElementsByTagName(e[t]);
             const o = [].slice.call(n);
             const l = o.length;
@@ -493,39 +493,39 @@ var o;
             n.addEventListener("mousemove", (e => {
                 U(e, n);
             }));
-            T.push(n);
+            m.push(n);
         }
     }
     function K() {
-        const e = T.length;
+        const e = m.length;
         for (let n = 0; n < e; n++) {
-            var t = T[n];
+            var t = m[n];
             t.removeEventListener("mousemove", (e => {
                 U(e, t);
             }));
         }
-        T = [];
+        m = [];
         window.removeEventListener("mousemove", X);
         P();
     }
     function U(e, t) {
-        if (!v) {
+        if (!h) {
             n.cancelBubble(e);
-            if (x !== 0) {
-                clearTimeout(x);
-                x = 0;
+            if (y !== 0) {
+                clearTimeout(y);
+                y = 0;
             }
-            x = setTimeout((() => {
+            y = setTimeout((() => {
                 I(t);
                 n.showElementAtMousePosition(e, i);
             }), l.dialogDisplayDelay);
         }
     }
     function X() {
-        if (!v) {
-            if (x !== 0) {
-                clearTimeout(x);
-                x = 0;
+        if (!h) {
+            if (y !== 0) {
+                clearTimeout(y);
+                y = 0;
             }
             P();
         }
@@ -547,41 +547,41 @@ var o;
         document.addEventListener("mouseleave", Z);
     }
     function V(e, t) {
-        if (!D) {
-            v = true;
+        if (!w) {
+            h = true;
             A = t;
-            D = true;
+            w = true;
             E = e.pageX - A.offsetLeft;
             N = e.pageY - A.offsetTop;
             L = A.offsetLeft;
-            w = A.offsetTop;
+            D = A.offsetTop;
         }
     }
     function q() {
-        if (D) {
-            D = false;
+        if (w) {
+            w = false;
             A = null;
             L = 0;
-            w = 0;
+            D = 0;
         }
     }
     function Q(e, t = false) {
         if (t) {
             n.cancelBubble(e);
         }
-        if (D) {
+        if (w) {
             A.style.left = `${e.pageX - E}px`;
             A.style.top = `${e.pageY - N}px`;
         }
     }
     function Z() {
-        if (D) {
+        if (w) {
             A.style.left = `${L}px`;
-            A.style.top = `${w}px`;
-            D = false;
+            A.style.top = `${D}px`;
+            w = false;
             A = null;
             L = 0;
-            w = 0;
+            D = 0;
         }
     }
     function ee(e) {
@@ -598,6 +598,7 @@ var o;
     function te(e = null) {
         l = o.getDefaultObject(e, {});
         l.dialogDisplayDelay = o.getDefaultNumber(l.dialogDisplayDelay, 1e3);
+        l.searchDelayDelay = o.getDefaultNumber(l.searchDelayDelay, 500);
         ne();
     }
     function ne() {
@@ -622,16 +623,16 @@ var o;
     }
     const oe = {
         start: function(t) {
-            if (!e.definedObject(y)) {
-                y = ee(t);
+            if (!e.definedObject(x)) {
+                x = ee(t);
                 H();
                 G();
             }
             return oe;
         },
         stop: function() {
-            if (e.definedObject(y)) {
-                y = null;
+            if (e.definedObject(x)) {
+                x = null;
                 K();
             }
             return oe;
@@ -653,7 +654,7 @@ var o;
                 if (n) {
                     te(o);
                     O();
-                    if (e.definedObject(y)) {
+                    if (e.definedObject(x)) {
                         H();
                     }
                 }

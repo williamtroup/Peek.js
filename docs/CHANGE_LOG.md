@@ -12,6 +12,7 @@
 - Added configuration option "text.clearSymbolText" (defaults to "✕"), which states the symbol text to use for the "Clear" button.
 - Added configuration option "text.searchPropertiesPlaceHolderText" (defaults to "Search properties..."), which states the placeholder text to use for the search input field.
 - Added configuration option "text.noPropertiesFoundForSearchText" (defaults to "No properties were found for your search."), which states the warning text to show when no search results are found.
+- Added configuration option "searchDelayDelay" (defaults to 500 milliseconds), which states how long the search should wait when typing before running the search.
 
 #### **UI Enhancements:**
 - Improved the focus background color used for text input fields.
