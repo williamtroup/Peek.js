@@ -1,5 +1,5 @@
 /*
- * Peek.js Library v1.4.0
+ * Peek.js Library v1.5.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -23,7 +23,7 @@
   --peek-js-color-black: #1c2128;
   --peek-js-color-white: #adbac7;
   --peek-js-color-snow-white: #F5F5F5;
-  --peek-js-color-gray: gray;
+  --peek-js-color-gray: #363e4a;
   --peek-js-dialog-background-color: #22272e;
   --peek-js-dialog-border-color: #454c56;
   --peek-js-dialog-contents-background-color: #2d333b;
@@ -117,6 +117,69 @@ div.peek-js div.dialog-title-bar span.id-or-name {
 
 /*
     -------------------------------------------------------------------------
+    Peek.js - Dialog - Search
+    -------------------------------------------------------------------------
+*/
+div.peek-js div.dialog-search {
+  display: flex;
+  background-color: var(--peek-js-dialog-contents-background-color);
+  border: var(--peek-js-border-size) solid var(--peek-js-dialog-contents-border-color);
+  border-radius: var(--peek-js-border-radius);
+  padding: var(--peek-js-spacing);
+  margin: var(--peek-js-spacing);
+}
+div.peek-js div.dialog-search input[type=text] {
+  flex-grow: 1;
+  width: 100%;
+  padding: calc(var(--peek-js-spacing) / 2);
+  border-radius: var(--peek-js-border-radius);
+  border: var(--peek-js-border-size) solid var(--peek-js-dialog-border-color);
+  color: var(--peek-js-color-snow-white);
+  background-color: var(--peek-js-dialog-background-color);
+  outline: none;
+  box-shadow: none;
+  transition: var(--peek-js-transition);
+}
+div.peek-js div.dialog-search input[type=text]:not([readonly]):focus {
+  background-color: var(--peek-js-color-gray);
+}
+div.peek-js div.dialog-search button {
+  background-color: var(--peek-js-button-background-color);
+  border: var(--peek-js-border-size) solid var(--peek-js-button-border-color);
+  color: var(--peek-js-button-text-color);
+  border-radius: var(--peek-js-border-radius);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 9px;
+  padding-right: 9px;
+  outline: none;
+  transition: var(--peek-js-transition);
+}
+div.peek-js div.dialog-search button:disabled {
+  color: var(--peek-js-button-border-color);
+}
+div.peek-js div.dialog-search button:not(.active):not(:disabled):active {
+  background: var(--peek-js-button-background-color-active) !important;
+  color: var(--peek-js-button-text-color-active) !important;
+}
+div.peek-js div.dialog-search button:not(.active):not(:disabled):hover {
+  cursor: pointer;
+  background: var(--peek-js-button-background-color-hover);
+  color: var(--peek-js-button-text-color-hover);
+}
+div.peek-js div.dialog-search button.active {
+  cursor: default;
+  background: var(--peek-js-button-background-color-hover);
+  color: var(--peek-js-button-text-color-hover);
+  transition: var(--peek-js-transition);
+  font-weight: var(--peek-js-text-bold-weight-active);
+}
+div.peek-js div.dialog-search button {
+  margin-left: var(--peek-js-spacing);
+}
+
+/*
+    -------------------------------------------------------------------------
     Peek.js - Dialog - Contents
     -------------------------------------------------------------------------
 */
@@ -129,8 +192,12 @@ div.peek-js div.dialog-contents {
   padding: var(--peek-js-spacing);
   margin: var(--peek-js-spacing);
 }
-div.peek-js div.dialog-contents span.warning {
+div.peek-js div.dialog-contents span.warning,
+div.peek-js div.dialog-contents span.no-search-results {
   font-style: italic;
+}
+div.peek-js div.dialog-contents span.no-search-results {
+  display: none;
 }
 div.peek-js div.dialog-contents div.property-row {
   display: flex;
@@ -194,6 +261,9 @@ div.peek-js div.dialog-contents div.property-row div.property-value input[type=t
 }
 div.peek-js div.dialog-contents div.property-row div.property-value input[type=text]:not([readonly]):focus {
   background-color: var(--peek-js-color-gray);
+}
+div.peek-js div.dialog-contents div.property-row div.property-value input[type=text].property-value-color {
+  border-left: 3px solid var(--peek-js-dialog-border-color);
 }
 div.peek-js div.dialog-contents div.property-row button {
   margin-left: calc(var(--peek-js-spacing) / 2);

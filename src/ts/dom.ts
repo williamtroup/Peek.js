@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
  * @file        dom.ts
- * @version     v1.4.0
+ * @version     v1.5.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -87,8 +87,8 @@ export namespace DomElement {
                 top = e.pageY + 1;
             }
             
-            element.style.left = left + "px";
-            element.style.top = top + "px";
+            element.style.left = `${left}px`;
+            element.style.top = `${top}px`;
         }
     }
 

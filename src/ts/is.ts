@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
  * @file        is.ts
- * @version     v1.4.0
+ * @version     v1.5.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -49,5 +49,21 @@ export namespace Is {
 
     export function invalidOptionArray( array: any, minimumLength: number = 1 ) : boolean {
         return !definedArray( array ) || array.length < minimumLength;
+    }
+
+    export function hexColor( value: string ) : boolean {
+        let valid: boolean = value.length >= 2 && value.length <= 7;
+    
+        if ( valid && value[ 0 ] === Char.hash ) {
+            valid = isNaN( +value.substring( 1, value.length - 1 ) );
+        } else {
+            valid = false;
+        }
+    
+        return valid;
+    }
+
+    export function isRgbColor( value: string ) : boolean {
+        return value.startsWith( "rgb" ) || value.startsWith( "rgba" );
     }
 }

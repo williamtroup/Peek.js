@@ -1,5 +1,5 @@
 /*
- * Peek.js Library v1.4.0
+ * Peek.js Library v1.5.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -31,7 +31,7 @@
     --peek-js-color-black: #1c2128;
     --peek-js-color-white: #adbac7;
     --peek-js-color-snow-white: #F5F5F5;
-    --peek-js-color-gray: gray;
+    --peek-js-color-gray: #363e4a;
 
     // Dialog
     --peek-js-dialog-background-color: #22272e;
@@ -138,6 +138,36 @@ div.peek-js {
 
 /*
     -------------------------------------------------------------------------
+    Peek.js - Dialog - Search
+    -------------------------------------------------------------------------
+*/
+
+div.peek-js {
+    div.dialog-search {
+        display: flex;
+        background-color: var(--peek-js-dialog-contents-background-color);
+        border: var(--peek-js-border-size) solid var(--peek-js-dialog-contents-border-color);
+        border-radius: var(--peek-js-border-radius);
+        padding: var(--peek-js-spacing);
+        margin: var(--peek-js-spacing);
+
+        input[type="text"] {
+            flex-grow: 1;
+
+            @include input-text-fields;
+        }
+
+        @include buttons;
+
+        button {
+            margin-left: var(--peek-js-spacing);
+        }
+    }
+}
+
+
+/*
+    -------------------------------------------------------------------------
     Peek.js - Dialog - Contents
     -------------------------------------------------------------------------
 */
@@ -152,8 +182,13 @@ div.peek-js {
         padding: var(--peek-js-spacing);
         margin: var(--peek-js-spacing);
 
-        span.warning {
+        span.warning,
+        span.no-search-results {
             font-style: italic;
+        }
+
+        span.no-search-results {
+            display: none;
         }
 
         div.property-row {
@@ -177,19 +212,11 @@ div.peek-js {
                 margin-left: calc( var(--peek-js-spacing) * 2 );
 
                 input[type="text"] {
-                    width: 100%;
-                    padding: calc( var(--peek-js-spacing) / 2 );
-                    border-radius: var(--peek-js-border-radius);
-                    border: var(--peek-js-border-size) solid var(--peek-js-dialog-border-color);
-                    color: var(--peek-js-color-snow-white);
-                    background-color: var(--peek-js-dialog-background-color);
-                    outline: none;
-                    box-shadow: none;
-                    transition: var(--peek-js-transition);
+                    @include input-text-fields;
+                }
 
-                    &:not([readonly]):focus {
-                        background-color: var(--peek-js-color-gray);
-                    }
+                input[type="text"].property-value-color {
+                    border-left: 3px solid var(--peek-js-dialog-border-color);
                 }
             }
 

@@ -4,14 +4,19 @@
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
  * @file        peek.ts
- * @version     v1.4.0
+ * @version     v1.5.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
  */
 
 
-import { Position, type Configuration, type Options } from "./ts/type";
+import {
+    type ConfigurationText,
+    type Position,
+    type Configuration,
+    type Options } from "./ts/type";
+
 import { PublicApi } from "./ts/api";
 import { Is } from "./ts/is";
 import { DomElement } from "./ts/dom";
@@ -30,7 +35,11 @@ type DialogProperties = Record<string, string>;
     // Variables: Dialog
     let _dialog: HTMLElement = null!;
     let _dialog_Title: HTMLElement = null!;
+    let _dialog_Search: HTMLElement = null!;
+    let _dialog_Search_Input: HTMLInputElement = null!;
+    let _dialog_Search_Input_Timer: number = 0;
     let _dialog_Contents: HTMLElement = null!;
+    let _dialog_Contents_NoSearchResultsText: HTMLSpanElement = null!;
     let _dialog_Buttons: HTMLElement = null!;
     let _dialog_Buttons_Copy: HTMLButtonElement = null!;
     let _dialog_Buttons_Remove: HTMLButtonElement = null!;
@@ -43,6 +52,7 @@ type DialogProperties = Record<string, string>;
     let _current_Process_Element: HTMLElement = null!;
     let _current_Process_Locked: boolean = false;
     let _current_Process_NodeCount: number = 0;
+    let _current_Process_Properties_Count: number = 0;
 
     // Variables: Dialog Moving
     let _element_Dialog_Move: HTMLElement = null!;
@@ -71,16 +81,27 @@ type DialogProperties = Record<string, string>;
         _dialog.onmousemove = DomElement.cancelBubble;
 
         _dialog_Title = DomElement.create( _dialog, "div", "dialog-title-bar" );
+        _dialog_Search = DomElement.create( _dialog, "div", "dialog-search" );
         _dialog_Contents = DomElement.create( _dialog, "div", "dialog-contents" );
         _dialog_Buttons = DomElement.create( _dialog, "div", "dialog-buttons" );
 
-        _dialog_Buttons_Copy = DomElement.createWithHTML( _dialog_Buttons, "button", "copy", _configuration.copyText! ) as HTMLButtonElement;
+        _dialog_Buttons_Copy = DomElement.createWithHTML( _dialog_Buttons, "button", "copy", _configuration.text!.copyText! ) as HTMLButtonElement;
         _dialog_Buttons_Copy.onclick = onCopy;
         
-        const closeButton: HTMLElement = DomElement.createWithHTML( _dialog_Buttons, "button", "close", _configuration.closeText! );
+        _dialog_Search_Input = DomElement.create( _dialog_Search, "input" ) as HTMLInputElement;
+        _dialog_Search_Input.placeholder = _configuration.text!.searchPropertiesPlaceHolderText!;
+        _dialog_Search_Input.type = "text";
+        _dialog_Search_Input.onkeyup = onSearchProperties;
+        _dialog_Search_Input.onpaste = onSearchProperties;
+
+        const removeButton: HTMLButtonElement = DomElement.createWithHTML( _dialog_Search, "button", "clear-small", _configuration.text!.clearSymbolText! ) as HTMLButtonElement;
+        removeButton.title = _configuration.text!.clearText!;
+        removeButton.onclick = onSearchPropertiesClear;
+
+        const closeButton: HTMLElement = DomElement.createWithHTML( _dialog_Buttons, "button", "close", _configuration.text!.closeText! );
         closeButton.onclick = closeDialog;
 
-        _dialog_Buttons_Remove = DomElement.createWithHTML( _dialog_Buttons, "button", "remove", _configuration.removeText! ) as HTMLButtonElement;
+        _dialog_Buttons_Remove = DomElement.createWithHTML( _dialog_Buttons, "button", "remove", _configuration.text!.removeText! ) as HTMLButtonElement;
         _dialog_Buttons_Remove.onclick = onRemove;
 
         makeDialogMovable( _dialog_Title, _dialog );
@@ -98,13 +119,13 @@ type DialogProperties = Record<string, string>;
 
         if ( !Is.definedString( title ) ) {
             if ( _current_Process_Options.mode === Mode.css ) {
-                title = _configuration.cssText!;
+                title = _configuration.text!.cssText!;
             } else if ( _current_Process_Options.mode === Mode.attributes ) {
-                title = _configuration.attributesText!;
+                title = _configuration.text!.attributesText!;
             } else if ( _current_Process_Options.mode === Mode.size ) {
-                title = _configuration.sizeText!;
+                title = _configuration.text!.sizeText!;
             } else if ( _current_Process_Options.mode === Mode.class ) {
-                title = _configuration.classesText!;
+                title = _configuration.text!.classesText!;
             }
         }
 
@@ -127,6 +148,7 @@ type DialogProperties = Record<string, string>;
     function closeDialog() : void {
         _dialog.style.display = "none";
         _current_Process_Locked = false;
+        _dialog_Search_Input.value = Char.empty;
     }
 
     function onCopy() : void {
@@ -157,6 +179,56 @@ type DialogProperties = Record<string, string>;
         closeDialog();
     }
 
+    function onSearchProperties() : void {
+        if ( _dialog_Search_Input_Timer !== 0 ) {
+            clearTimeout( _dialog_Search_Input_Timer );
+            _dialog_Search_Input_Timer = 0;
+        }
+
+        _dialog_Search_Input_Timer = setTimeout( () => {
+            const children: HTMLCollectionOf<Element> = _dialog_Contents.getElementsByClassName( "property-name" );
+            const propertyNames: HTMLElement[] = [].slice.call( children );
+            const propertyNamesLength: number = propertyNames.length;
+            const searchValue = _dialog_Search_Input.value.toLowerCase();
+            let propertiesFound: number = 0;
+    
+            for ( let propertyNameIndex = 0; propertyNameIndex < propertyNamesLength; propertyNameIndex++ ) {
+                const parent: HTMLElement = propertyNames[ propertyNameIndex ].parentNode as HTMLElement;
+                
+                if ( Is.defined( parent ) ) {
+                    if ( _dialog_Search_Input.value.trim() === Char.empty ) {
+                        parent.style.removeProperty( "display" );
+                        propertiesFound++;
+                    } else {
+    
+                        const propertyNameText: string = propertyNames[ propertyNameIndex ].innerText;
+    
+                        if ( propertyNameText.toLowerCase().indexOf( searchValue ) > Value.notFound ) {
+                            parent.style.removeProperty( "display" );
+                            propertiesFound++;
+                        } else {
+                            parent.style.display = "none";
+                        }
+                    }   
+                }
+            }
+
+            if ( propertiesFound === 0 ) {
+                _dialog_Contents_NoSearchResultsText.style.display = "block";
+            } else {
+                _dialog_Contents_NoSearchResultsText.style.removeProperty( "display" );
+            }
+            
+        }, _configuration.searchDelayDelay );
+    }
+
+    function onSearchPropertiesClear() : void {
+        _dialog_Search_Input.value = Char.empty;
+        _dialog_Search_Input.focus();
+
+        onSearchProperties();
+    } 
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -168,6 +240,7 @@ type DialogProperties = Record<string, string>;
         _dialog_Contents.innerHTML = Char.empty;
         _dialog_Contents.scrollTop = 0;
         _current_Process_Properties = {} as DialogProperties;
+        _current_Process_Properties_Count = 0;
         _current_Process_Element = element;
 
         setDialogText( element );
@@ -184,6 +257,8 @@ type DialogProperties = Record<string, string>;
             _dialog_Buttons_Remove.style.removeProperty( "display" );
         }
 
+        _dialog_Contents_NoSearchResultsText = DomElement.createWithHTML( _dialog_Contents, "span", "no-search-results", _configuration.text!.noPropertiesFoundForSearchText! ) as HTMLSpanElement;
+        
         if ( _current_Process_Options.mode === Mode.css ) {
             buildCssProperties( element );
         } else if ( _current_Process_Options.mode === Mode.attributes ) {
@@ -192,6 +267,12 @@ type DialogProperties = Record<string, string>;
             buildSizeProperties( element );
         } else if ( _current_Process_Options.mode === Mode.class ) {
             buildClassProperties( element );
+        }
+
+        if ( _current_Process_Properties_Count <= 15 ) {
+            _dialog_Search.style.display = "none";
+        } else {
+            _dialog_Search.style.removeProperty( "display" );
         }
     }
 
@@ -213,7 +294,7 @@ type DialogProperties = Record<string, string>;
         } else {
             _dialog_Contents.innerHTML = Char.empty;
 
-            DomElement.createWithHTML( _dialog_Contents, "span", "warning", _configuration.noAttributesAvailableText! );
+            DomElement.createWithHTML( _dialog_Contents, "span", "warning", _configuration.text!.noAttributesAvailableText! );
         }
     }
 
@@ -238,7 +319,7 @@ type DialogProperties = Record<string, string>;
         } else {
             _dialog_Contents.innerHTML = Char.empty;
 
-            DomElement.createWithHTML( _dialog_Contents, "span", "warning", _configuration.noClassesAvailableText! );
+            DomElement.createWithHTML( _dialog_Contents, "span", "warning", _configuration.text!.noClassesAvailableText! );
         }
     }
 
@@ -251,19 +332,24 @@ type DialogProperties = Record<string, string>;
             const propertyValue: HTMLElement = DomElement.create( property, "div", "property-value" );
             const propertyValueInput: HTMLInputElement = DomElement.create( propertyValue, "input" ) as HTMLInputElement;
 
-            const copyButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "copy-small", _configuration.copySymbolText! ) as HTMLButtonElement;
-            copyButton.title = _configuration.copyText!;
+            if ( Is.hexColor( propertyValueText ) || Is.isRgbColor( propertyValueText ) ) {
+                propertyValueInput.classList.add( "property-value-color" );
+                propertyValueInput.style.borderLeftColor = propertyValueText;
+            }
+
+            const copyButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "copy-small", _configuration.text!.copySymbolText! ) as HTMLButtonElement;
+            copyButton.title = _configuration.text!.copyText!;
 
             copyButton.onclick = () => {
                 navigator.clipboard.writeText( propertyValueText );
             };
 
             if ( _current_Process_Options.allowEditing && allowEditing ) {
-                const pasteButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "paste-small", _configuration.pasteSymbolText! ) as HTMLButtonElement;
-                const removeButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "remove-small", _configuration.removeSymbolText! ) as HTMLButtonElement;
+                const pasteButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "paste-small", _configuration.text!.pasteSymbolText! ) as HTMLButtonElement;
+                const removeButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "remove-small", _configuration.text!.removeSymbolText! ) as HTMLButtonElement;
 
-                pasteButton.title = _configuration.pasteText!;
-                removeButton.title = _configuration.removeText!;
+                pasteButton.title = _configuration.text!.pasteText!;
+                removeButton.title = _configuration.text!.removeText!;
     
                 pasteButton.onclick = () => {
                     navigator.clipboard.readText().then( data => {
@@ -281,8 +367,6 @@ type DialogProperties = Record<string, string>;
                     } else if ( _current_Process_Options.mode === Mode.class ) {
                         element.classList.remove( propertyValueText );
                     }
-
-                    _dialog_Contents.removeChild( property );
                 };
             }
 
@@ -290,6 +374,7 @@ type DialogProperties = Record<string, string>;
             propertyValueInput.value = propertyValueText;
 
             _current_Process_Properties[ propertyNameText ] = propertyValueText;
+            _current_Process_Properties_Count++;
 
             if ( !_current_Process_Options.allowEditing || !allowEditing ) {
                 propertyValueInput.readOnly = true;
@@ -314,6 +399,15 @@ type DialogProperties = Record<string, string>;
             element.setAttribute( propertyName, input.value );
         } else if ( _current_Process_Options.mode === Mode.class ) {
             element.classList.replace( element.classList[ parseInt( propertyName ) - 1 ], input.value );
+        }
+
+        _current_Process_Properties[ propertyName ] = input.value;
+
+        if ( Is.hexColor( input.value ) || Is.isRgbColor( input.value ) ) {
+            input.classList.add( "property-value-color" );
+            input.style.borderLeftColor = input.value;
+        } else {
+            input.classList.remove( "property-value-color" );
         }
     }
 
@@ -503,24 +597,30 @@ type DialogProperties = Record<string, string>;
     function buildDefaultConfiguration( newConfiguration: Configuration = null! ) : void {
         _configuration = Data.getDefaultObject( newConfiguration, {} as Configuration );
         _configuration.dialogDisplayDelay = Data.getDefaultNumber( _configuration.dialogDisplayDelay, 1000 );
+        _configuration.searchDelayDelay = Data.getDefaultNumber( _configuration.searchDelayDelay, 500 );
 
         buildDefaultStringConfiguration();
     }
 
     function buildDefaultStringConfiguration() : void {
-        _configuration.cssText = Data.getDefaultAnyString( _configuration.cssText, "CSS" );
-        _configuration.attributesText = Data.getDefaultAnyString( _configuration.attributesText, "Attributes" );
-        _configuration.sizeText = Data.getDefaultAnyString( _configuration.sizeText, "Size" );
-        _configuration.classesText = Data.getDefaultAnyString( _configuration.classesText, "Classes" );
-        _configuration.noAttributesAvailableText = Data.getDefaultAnyString( _configuration.noAttributesAvailableText, "No attributes are available." );
-        _configuration.closeText = Data.getDefaultAnyString( _configuration.closeText, "Close" );
-        _configuration.copyText = Data.getDefaultAnyString( _configuration.copyText, "Copy" );
-        _configuration.copySymbolText = Data.getDefaultAnyString( _configuration.copySymbolText, "❐" );
-        _configuration.pasteText = Data.getDefaultAnyString( _configuration.pasteText, "Paste" );
-        _configuration.pasteSymbolText = Data.getDefaultAnyString( _configuration.pasteSymbolText, "☐" );
-        _configuration.removeText = Data.getDefaultAnyString( _configuration.removeText, "Remove" );
-        _configuration.removeSymbolText = Data.getDefaultAnyString( _configuration.removeSymbolText, "✕" );
-        _configuration.noClassesAvailableText = Data.getDefaultAnyString( _configuration.noClassesAvailableText, "No classes are available." );
+        _configuration.text = Data.getDefaultObject( _configuration.text, {} as ConfigurationText );
+        _configuration.text!.cssText = Data.getDefaultAnyString( _configuration.text!.cssText, "CSS" );
+        _configuration.text!.attributesText = Data.getDefaultAnyString( _configuration.text!.attributesText, "Attributes" );
+        _configuration.text!.sizeText = Data.getDefaultAnyString( _configuration.text!.sizeText, "Size" );
+        _configuration.text!.classesText = Data.getDefaultAnyString( _configuration.text!.classesText, "Classes" );
+        _configuration.text!.noAttributesAvailableText = Data.getDefaultAnyString( _configuration.text!.noAttributesAvailableText, "No attributes are available." );
+        _configuration.text!.closeText = Data.getDefaultAnyString( _configuration.text!.closeText, "Close" );
+        _configuration.text!.copyText = Data.getDefaultAnyString( _configuration.text!.copyText, "Copy" );
+        _configuration.text!.copySymbolText = Data.getDefaultAnyString( _configuration.text!.copySymbolText, "❐" );
+        _configuration.text!.pasteText = Data.getDefaultAnyString( _configuration.text!.pasteText, "Paste" );
+        _configuration.text!.pasteSymbolText = Data.getDefaultAnyString( _configuration.text!.pasteSymbolText, "☐" );
+        _configuration.text!.removeText = Data.getDefaultAnyString( _configuration.text!.removeText, "Remove" );
+        _configuration.text!.removeSymbolText = Data.getDefaultAnyString( _configuration.text!.removeSymbolText, "✕" );
+        _configuration.text!.noClassesAvailableText = Data.getDefaultAnyString( _configuration.text!.noClassesAvailableText, "No classes are available." );
+        _configuration.text!.searchPropertiesPlaceHolderText = Data.getDefaultAnyString( _configuration.text!.searchPropertiesPlaceHolderText, "Search properties..." );
+        _configuration.text!.clearText = Data.getDefaultAnyString( _configuration.text!.clearText, "Clear" );
+        _configuration.text!.clearSymbolText = Data.getDefaultAnyString( _configuration.text!.clearSymbolText, "✕" );
+        _configuration.text!.noPropertiesFoundForSearchText = Data.getDefaultAnyString( _configuration.text!.noPropertiesFoundForSearchText, "No properties were found for your search." );
     }
 
 
@@ -604,7 +704,7 @@ type DialogProperties = Record<string, string>;
          */
 
         getVersion: function () : string {
-            return "1.4.0";
+            return "1.5.0";
         }
     };
 

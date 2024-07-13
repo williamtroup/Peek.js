@@ -1,5 +1,32 @@
 # Peek.js - Change Log:
 
+## Version 1.5.0:
+
+#### **New Features:**
+- Added Search support! This will allow you to filter the properties down via the property name (if more than 15 are available).
+- HEX and RGB(a) colors are now shown in the property values are a left border.
+
+#### **Configuration:**
+- BREAKING: All text options are now under a new section called "text" (see documentation).
+- Added configuration option "text.clearText" (defaults to "Clear"), which states the text to use for the "Clear" button.
+- Added configuration option "text.clearSymbolText" (defaults to "✕"), which states the symbol text to use for the "Clear" button.
+- Added configuration option "text.searchPropertiesPlaceHolderText" (defaults to "Search properties..."), which states the placeholder text to use for the search input field.
+- Added configuration option "text.noPropertiesFoundForSearchText" (defaults to "No properties were found for your search."), which states the warning text to show when no search results are found.
+- Added configuration option "searchDelayDelay" (defaults to 500 milliseconds), which states how long the search should wait when typing before running the search.
+
+#### **UI Enhancements:**
+- Improved the focus background color used for text input fields.
+
+#### **Adjustments:**
+- Moved all string concatenation to use string templates.
+- Updated to the latest NPM packages.
+
+#### **Fixes:**
+- Fixed a fault that caused the edited property values to be incorrectly reflected when the "Copy" button was pressed.
+
+<br>
+
+
 ## Version 1.4.0:
 
 #### **New Features:**
