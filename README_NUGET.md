@@ -19,7 +19,7 @@
 - Fully configurable.
 - Edit CSS, Attribute, and Class values on the fly!
 - Exclude specific DOM elements by using the ignore attribute!
-- Show only the data your interested in!
+- Show only the data you are interested in!
 - Copy, Paste, and Remove CSS, Attributes, and Classes!
 - Move the dialog away from the element to lock it!
 - Remove elements from the DOM.

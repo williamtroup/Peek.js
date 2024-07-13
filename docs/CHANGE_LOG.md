@@ -22,7 +22,7 @@
 - Updated to the latest NPM packages.
 
 #### **Fixes:**
-- Fixed a fault that caused the edited property values to now be reflected correctly when the "Copy" button is pressed.
+- Fixed a fault that caused the edited property values to be incorrectly reflected when the "Copy" button was pressed.
 
 <br>
 
