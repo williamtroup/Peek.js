@@ -17,13 +17,17 @@ export type Position = {
 };
 
 export type Configuration = {
+	dialogDisplayDelay?: number;
+    text?: ConfigurationText;
+};
+
+export type ConfigurationText = {
 	cssText?: string;
     attributesText?: string;
     sizeText?: string;
     classesText?: string;
     noAttributesAvailableText?: string;
     closeText?: string;
-    dialogDisplayDelay?: number;
     copyText?: string;
     copySymbolText?: string;
     pasteText?: string;
@@ -35,7 +39,7 @@ export type Configuration = {
     clearText?: string;
     clearSymbolText?: string;
     noPropertiesFoundForSearchText?: string;
-};
+}
 
 export type Options = {
     nodeType: string[] | string;

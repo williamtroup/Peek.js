@@ -193,13 +193,13 @@ var o;
     let d = null;
     let p = null;
     let g = null;
-    let y = 0;
-    let m = null;
-    let T = [];
-    let b = {};
-    let v = null;
-    let h = false;
     let x = 0;
+    let y = null;
+    let T = [];
+    let m = {};
+    let b = null;
+    let v = false;
+    let h = 0;
     let S = 0;
     let A = null;
     let L = 0;
@@ -219,42 +219,42 @@ var o;
         s = n.create(i, "div", "dialog-search");
         c = n.create(i, "div", "dialog-contents");
         d = n.create(i, "div", "dialog-buttons");
-        p = n.createWithHTML(d, "button", "copy", l.copyText);
+        p = n.createWithHTML(d, "button", "copy", l.text.copyText);
         p.onclick = C;
         a = n.create(s, "input");
-        a.placeholder = l.searchPropertiesPlaceHolderText;
+        a.placeholder = l.text.searchPropertiesPlaceHolderText;
         a.type = "text";
         a.onkeyup = W;
         a.onpaste = W;
-        const t = n.createWithHTML(s, "button", "remove-small", l.clearSymbolText);
-        t.title = l.clearText;
+        const t = n.createWithHTML(s, "button", "clear-small", l.text.clearSymbolText);
+        t.title = l.text.clearText;
         t.onclick = $;
-        const o = n.createWithHTML(d, "button", "close", l.closeText);
+        const o = n.createWithHTML(d, "button", "close", l.text.closeText);
         o.onclick = P;
-        g = n.createWithHTML(d, "button", "remove", l.removeText);
+        g = n.createWithHTML(d, "button", "remove", l.text.removeText);
         g.onclick = M;
         Y(r, i);
     }
     function H(t = null) {
-        let o = m.titleText;
+        let o = y.titleText;
         r.innerHTML = "";
-        if (x > 1 && m.showNodeNameInTitle) {
+        if (h > 1 && y.showNodeNameInTitle) {
             n.createWithHTML(r, "span", "node-name", `[${t.nodeName.toLowerCase()}] - `);
             n.createWithHTML(r, "span", "dash", " - ");
         }
         if (!e.definedString(o)) {
-            if (m.mode === 1) {
-                o = l.cssText;
-            } else if (m.mode === 2) {
-                o = l.attributesText;
-            } else if (m.mode === 3) {
-                o = l.sizeText;
-            } else if (m.mode === 4) {
-                o = l.classesText;
+            if (y.mode === 1) {
+                o = l.text.cssText;
+            } else if (y.mode === 2) {
+                o = l.text.attributesText;
+            } else if (y.mode === 3) {
+                o = l.text.sizeText;
+            } else if (y.mode === 4) {
+                o = l.text.classesText;
             }
         }
         n.createWithHTML(r, "span", "title", o);
-        if (m.showIdOrNameInTitle && e.defined(t)) {
+        if (y.showIdOrNameInTitle && e.defined(t)) {
             const o = t.getAttribute("id");
             const l = t.getAttribute("name");
             if (e.definedString(o)) {
@@ -268,31 +268,31 @@ var o;
     }
     function P() {
         i.style.display = "none";
-        h = false;
+        v = false;
         a.value = "";
     }
     function C() {
         const e = [];
-        for (let t in b) {
-            if (b.hasOwnProperty(t)) {
-                if (m.mode === 1) {
-                    e.push(`${t}: ${b[t]};`);
-                } else if (m.mode === 2) {
-                    e.push(`${t}="${b[t]}"`);
-                } else if (m.mode === 4) {
-                    e.push(b[t]);
+        for (let t in m) {
+            if (m.hasOwnProperty(t)) {
+                if (y.mode === 1) {
+                    e.push(`${t}: ${m[t]};`);
+                } else if (y.mode === 2) {
+                    e.push(`${t}="${m[t]}"`);
+                } else if (y.mode === 4) {
+                    e.push(m[t]);
                 }
             }
         }
-        if (m.mode === 1) {
-            navigator.clipboard.writeText(`${v.nodeName.toLowerCase()} { ${"\n"} ${e.join("\n")} ${"\n"} }`);
-        } else if (m.mode === 2 || m.mode === 4) {
+        if (y.mode === 1) {
+            navigator.clipboard.writeText(`${b.nodeName.toLowerCase()} { ${"\n"} ${e.join("\n")} ${"\n"} }`);
+        } else if (y.mode === 2 || y.mode === 4) {
             navigator.clipboard.writeText(e.join(" "));
         }
     }
     function M() {
         var e;
-        (e = v.parentNode) == null ? void 0 : e.removeChild(v);
+        (e = b.parentNode) == null ? void 0 : e.removeChild(b);
         P();
     }
     function W() {
@@ -338,29 +338,29 @@ var o;
     function I(e) {
         c.innerHTML = "";
         c.scrollTop = 0;
-        b = {};
+        m = {};
         S = 0;
-        v = e;
+        b = e;
         H(e);
-        if (m.mode === 3) {
+        if (y.mode === 3) {
             p.style.display = "none";
         } else {
             p.style.removeProperty("display");
         }
-        if (!m.allowEditing) {
+        if (!y.allowEditing) {
             g.style.display = "none";
         } else {
             g.style.removeProperty("display");
         }
-        u = n.createWithHTML(c, "span", "no-search-results", l.noPropertiesFoundForSearchText);
-        if (m.mode === 1) {
-            k(e);
-        } else if (m.mode === 2) {
-            B(e);
-        } else if (m.mode === 3) {
-            _(e);
-        } else if (m.mode === 4) {
+        u = n.createWithHTML(c, "span", "no-search-results", l.text.noPropertiesFoundForSearchText);
+        if (y.mode === 1) {
             j(e);
+        } else if (y.mode === 2) {
+            k(e);
+        } else if (y.mode === 3) {
+            B(e);
+        } else if (y.mode === 4) {
+            _(e);
         }
         if (S <= 15) {
             s.style.display = "none";
@@ -368,31 +368,31 @@ var o;
             s.style.removeProperty("display");
         }
     }
-    function k(e) {
+    function j(e) {
         const t = getComputedStyle(e);
         const n = t.length;
         for (let o = 0; o < n; o++) {
             R(e, t[o], t.getPropertyValue(t[o]));
         }
     }
-    function B(e) {
+    function k(e) {
         if (e.hasAttributes()) {
             for (let t of e.attributes) {
                 R(e, t.name, t.value);
             }
         } else {
             c.innerHTML = "";
-            n.createWithHTML(c, "span", "warning", l.noAttributesAvailableText);
+            n.createWithHTML(c, "span", "warning", l.text.noAttributesAvailableText);
         }
     }
-    function _(e) {
+    function B(e) {
         const t = n.getOffset(e);
         R(e, "left", `${t.left.toString()}px`, false);
         R(e, "top", `${t.top.toString()}px`, false);
         R(e, "width", `${e.offsetWidth.toString()}px`, false);
         R(e, "height", `${e.offsetHeight.toString()}px`, false);
     }
-    function j(e) {
+    function _(e) {
         if (e.classList.length > 0) {
             let t = 1;
             for (let n of e.classList) {
@@ -401,11 +401,11 @@ var o;
             }
         } else {
             c.innerHTML = "";
-            n.createWithHTML(c, "span", "warning", l.noClassesAvailableText);
+            n.createWithHTML(c, "span", "warning", l.text.noClassesAvailableText);
         }
     }
     function R(t, o, i, r = true) {
-        if (m.showOnly.length === 0 || m.showOnly.indexOf(o) > -1) {
+        if (y.showOnly.length === 0 || y.showOnly.indexOf(o) > -1) {
             const s = n.create(c, "div", "property-row");
             n.createWithHTML(s, "div", "property-name", o);
             const a = n.create(s, "div", "property-value");
@@ -414,16 +414,16 @@ var o;
                 f.classList.add("property-value-color");
                 f.style.borderLeftColor = i;
             }
-            const u = n.createWithHTML(s, "button", "copy-small", l.copySymbolText);
-            u.title = l.copyText;
+            const u = n.createWithHTML(s, "button", "copy-small", l.text.copySymbolText);
+            u.title = l.text.copyText;
             u.onclick = () => {
                 navigator.clipboard.writeText(i);
             };
-            if (m.allowEditing && r) {
-                const e = n.createWithHTML(s, "button", "paste-small", l.pasteSymbolText);
-                const r = n.createWithHTML(s, "button", "remove-small", l.removeSymbolText);
-                e.title = l.pasteText;
-                r.title = l.removeText;
+            if (y.allowEditing && r) {
+                const e = n.createWithHTML(s, "button", "paste-small", l.text.pasteSymbolText);
+                const r = n.createWithHTML(s, "button", "remove-small", l.text.removeSymbolText);
+                e.title = l.text.pasteText;
+                r.title = l.text.removeText;
                 e.onclick = () => {
                     navigator.clipboard.readText().then((e => {
                         f.value = e;
@@ -431,20 +431,20 @@ var o;
                     }));
                 };
                 r.onclick = () => {
-                    if (m.mode === 1) {
+                    if (y.mode === 1) {
                         t.style.removeProperty(o);
-                    } else if (m.mode === 2) {
+                    } else if (y.mode === 2) {
                         t.removeAttribute(o);
-                    } else if (m.mode === 4) {
+                    } else if (y.mode === 4) {
                         t.classList.remove(i);
                     }
                 };
             }
             f.type = "text";
             f.value = i;
-            b[o] = i;
+            m[o] = i;
             S++;
-            if (!m.allowEditing || !r) {
+            if (!y.allowEditing || !r) {
                 f.readOnly = true;
             } else {
                 f.onkeyup = e => {
@@ -459,14 +459,14 @@ var o;
         }
     }
     function z(t, n, o) {
-        if (m.mode === 1) {
+        if (y.mode === 1) {
             t.style.setProperty(n, o.value);
-        } else if (m.mode === 2) {
+        } else if (y.mode === 2) {
             t.setAttribute(n, o.value);
-        } else if (m.mode === 4) {
+        } else if (y.mode === 4) {
             t.classList.replace(t.classList[parseInt(n) - 1], o.value);
         }
-        b[n] = o.value;
+        m[n] = o.value;
         if (e.hexColor(o.value) || e.isRgbColor(o.value)) {
             o.classList.add("property-value-color");
             o.style.borderLeftColor = o.value;
@@ -475,9 +475,9 @@ var o;
         }
     }
     function G() {
-        const e = m.nodeType;
-        x = e.length;
-        for (let t = 0; t < x; t++) {
+        const e = y.nodeType;
+        h = e.length;
+        for (let t = 0; t < h; t++) {
             const n = document.getElementsByTagName(e[t]);
             const o = [].slice.call(n);
             const l = o.length;
@@ -509,23 +509,23 @@ var o;
         P();
     }
     function U(e, t) {
-        if (!h) {
+        if (!v) {
             n.cancelBubble(e);
-            if (y !== 0) {
-                clearTimeout(y);
-                y = 0;
+            if (x !== 0) {
+                clearTimeout(x);
+                x = 0;
             }
-            y = setTimeout((() => {
+            x = setTimeout((() => {
                 I(t);
                 n.showElementAtMousePosition(e, i);
             }), l.dialogDisplayDelay);
         }
     }
     function X() {
-        if (!h) {
-            if (y !== 0) {
-                clearTimeout(y);
-                y = 0;
+        if (!v) {
+            if (x !== 0) {
+                clearTimeout(x);
+                x = 0;
             }
             P();
         }
@@ -548,7 +548,7 @@ var o;
     }
     function V(e, t) {
         if (!D) {
-            h = true;
+            v = true;
             A = t;
             D = true;
             E = e.pageX - A.offsetLeft;
@@ -601,36 +601,37 @@ var o;
         ne();
     }
     function ne() {
-        l.cssText = o.getDefaultAnyString(l.cssText, "CSS");
-        l.attributesText = o.getDefaultAnyString(l.attributesText, "Attributes");
-        l.sizeText = o.getDefaultAnyString(l.sizeText, "Size");
-        l.classesText = o.getDefaultAnyString(l.classesText, "Classes");
-        l.noAttributesAvailableText = o.getDefaultAnyString(l.noAttributesAvailableText, "No attributes are available.");
-        l.closeText = o.getDefaultAnyString(l.closeText, "Close");
-        l.copyText = o.getDefaultAnyString(l.copyText, "Copy");
-        l.copySymbolText = o.getDefaultAnyString(l.copySymbolText, "❐");
-        l.pasteText = o.getDefaultAnyString(l.pasteText, "Paste");
-        l.pasteSymbolText = o.getDefaultAnyString(l.pasteSymbolText, "☐");
-        l.removeText = o.getDefaultAnyString(l.removeText, "Remove");
-        l.removeSymbolText = o.getDefaultAnyString(l.removeSymbolText, "✕");
-        l.noClassesAvailableText = o.getDefaultAnyString(l.noClassesAvailableText, "No classes are available.");
-        l.searchPropertiesPlaceHolderText = o.getDefaultAnyString(l.searchPropertiesPlaceHolderText, "Search properties...");
-        l.clearText = o.getDefaultAnyString(l.clearText, "Clear");
-        l.clearSymbolText = o.getDefaultAnyString(l.clearSymbolText, "✕");
-        l.noPropertiesFoundForSearchText = o.getDefaultAnyString(l.noPropertiesFoundForSearchText, "No properties were found for your search.");
+        l.text = o.getDefaultObject(l.text, {});
+        l.text.cssText = o.getDefaultAnyString(l.text.cssText, "CSS");
+        l.text.attributesText = o.getDefaultAnyString(l.text.attributesText, "Attributes");
+        l.text.sizeText = o.getDefaultAnyString(l.text.sizeText, "Size");
+        l.text.classesText = o.getDefaultAnyString(l.text.classesText, "Classes");
+        l.text.noAttributesAvailableText = o.getDefaultAnyString(l.text.noAttributesAvailableText, "No attributes are available.");
+        l.text.closeText = o.getDefaultAnyString(l.text.closeText, "Close");
+        l.text.copyText = o.getDefaultAnyString(l.text.copyText, "Copy");
+        l.text.copySymbolText = o.getDefaultAnyString(l.text.copySymbolText, "❐");
+        l.text.pasteText = o.getDefaultAnyString(l.text.pasteText, "Paste");
+        l.text.pasteSymbolText = o.getDefaultAnyString(l.text.pasteSymbolText, "☐");
+        l.text.removeText = o.getDefaultAnyString(l.text.removeText, "Remove");
+        l.text.removeSymbolText = o.getDefaultAnyString(l.text.removeSymbolText, "✕");
+        l.text.noClassesAvailableText = o.getDefaultAnyString(l.text.noClassesAvailableText, "No classes are available.");
+        l.text.searchPropertiesPlaceHolderText = o.getDefaultAnyString(l.text.searchPropertiesPlaceHolderText, "Search properties...");
+        l.text.clearText = o.getDefaultAnyString(l.text.clearText, "Clear");
+        l.text.clearSymbolText = o.getDefaultAnyString(l.text.clearSymbolText, "✕");
+        l.text.noPropertiesFoundForSearchText = o.getDefaultAnyString(l.text.noPropertiesFoundForSearchText, "No properties were found for your search.");
     }
     const oe = {
         start: function(t) {
-            if (!e.definedObject(m)) {
-                m = ee(t);
+            if (!e.definedObject(y)) {
+                y = ee(t);
                 H();
                 G();
             }
             return oe;
         },
         stop: function() {
-            if (e.definedObject(m)) {
-                m = null;
+            if (e.definedObject(y)) {
+                y = null;
                 K();
             }
             return oe;
@@ -652,7 +653,7 @@ var o;
                 if (n) {
                     te(o);
                     O();
-                    if (e.definedObject(m)) {
+                    if (e.definedObject(y)) {
                         H();
                     }
                 }

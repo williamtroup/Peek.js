@@ -11,7 +11,12 @@
  */
 
 
-import { Position, type Configuration, type Options } from "./ts/type";
+import {
+    type ConfigurationText,
+    type Position,
+    type Configuration,
+    type Options } from "./ts/type";
+
 import { PublicApi } from "./ts/api";
 import { Is } from "./ts/is";
 import { DomElement } from "./ts/dom";
@@ -80,23 +85,23 @@ type DialogProperties = Record<string, string>;
         _dialog_Contents = DomElement.create( _dialog, "div", "dialog-contents" );
         _dialog_Buttons = DomElement.create( _dialog, "div", "dialog-buttons" );
 
-        _dialog_Buttons_Copy = DomElement.createWithHTML( _dialog_Buttons, "button", "copy", _configuration.copyText! ) as HTMLButtonElement;
+        _dialog_Buttons_Copy = DomElement.createWithHTML( _dialog_Buttons, "button", "copy", _configuration.text!.copyText! ) as HTMLButtonElement;
         _dialog_Buttons_Copy.onclick = onCopy;
         
         _dialog_Search_Input = DomElement.create( _dialog_Search, "input" ) as HTMLInputElement;
-        _dialog_Search_Input.placeholder = _configuration.searchPropertiesPlaceHolderText!;
+        _dialog_Search_Input.placeholder = _configuration.text!.searchPropertiesPlaceHolderText!;
         _dialog_Search_Input.type = "text";
         _dialog_Search_Input.onkeyup = onSearchProperties;
         _dialog_Search_Input.onpaste = onSearchProperties;
 
-        const removeButton: HTMLButtonElement = DomElement.createWithHTML( _dialog_Search, "button", "remove-small", _configuration.clearSymbolText! ) as HTMLButtonElement;
-        removeButton.title = _configuration.clearText!;
+        const removeButton: HTMLButtonElement = DomElement.createWithHTML( _dialog_Search, "button", "clear-small", _configuration.text!.clearSymbolText! ) as HTMLButtonElement;
+        removeButton.title = _configuration.text!.clearText!;
         removeButton.onclick = onSearchPropertiesClear;
 
-        const closeButton: HTMLElement = DomElement.createWithHTML( _dialog_Buttons, "button", "close", _configuration.closeText! );
+        const closeButton: HTMLElement = DomElement.createWithHTML( _dialog_Buttons, "button", "close", _configuration.text!.closeText! );
         closeButton.onclick = closeDialog;
 
-        _dialog_Buttons_Remove = DomElement.createWithHTML( _dialog_Buttons, "button", "remove", _configuration.removeText! ) as HTMLButtonElement;
+        _dialog_Buttons_Remove = DomElement.createWithHTML( _dialog_Buttons, "button", "remove", _configuration.text!.removeText! ) as HTMLButtonElement;
         _dialog_Buttons_Remove.onclick = onRemove;
 
         makeDialogMovable( _dialog_Title, _dialog );
@@ -114,13 +119,13 @@ type DialogProperties = Record<string, string>;
 
         if ( !Is.definedString( title ) ) {
             if ( _current_Process_Options.mode === Mode.css ) {
-                title = _configuration.cssText!;
+                title = _configuration.text!.cssText!;
             } else if ( _current_Process_Options.mode === Mode.attributes ) {
-                title = _configuration.attributesText!;
+                title = _configuration.text!.attributesText!;
             } else if ( _current_Process_Options.mode === Mode.size ) {
-                title = _configuration.sizeText!;
+                title = _configuration.text!.sizeText!;
             } else if ( _current_Process_Options.mode === Mode.class ) {
-                title = _configuration.classesText!;
+                title = _configuration.text!.classesText!;
             }
         }
 
@@ -252,7 +257,7 @@ type DialogProperties = Record<string, string>;
             _dialog_Buttons_Remove.style.removeProperty( "display" );
         }
 
-        _dialog_Contents_NoSearchResultsText = DomElement.createWithHTML( _dialog_Contents, "span", "no-search-results", _configuration.noPropertiesFoundForSearchText! ) as HTMLSpanElement;
+        _dialog_Contents_NoSearchResultsText = DomElement.createWithHTML( _dialog_Contents, "span", "no-search-results", _configuration.text!.noPropertiesFoundForSearchText! ) as HTMLSpanElement;
         
         if ( _current_Process_Options.mode === Mode.css ) {
             buildCssProperties( element );
@@ -289,7 +294,7 @@ type DialogProperties = Record<string, string>;
         } else {
             _dialog_Contents.innerHTML = Char.empty;
 
-            DomElement.createWithHTML( _dialog_Contents, "span", "warning", _configuration.noAttributesAvailableText! );
+            DomElement.createWithHTML( _dialog_Contents, "span", "warning", _configuration.text!.noAttributesAvailableText! );
         }
     }
 
@@ -314,7 +319,7 @@ type DialogProperties = Record<string, string>;
         } else {
             _dialog_Contents.innerHTML = Char.empty;
 
-            DomElement.createWithHTML( _dialog_Contents, "span", "warning", _configuration.noClassesAvailableText! );
+            DomElement.createWithHTML( _dialog_Contents, "span", "warning", _configuration.text!.noClassesAvailableText! );
         }
     }
 
@@ -332,19 +337,19 @@ type DialogProperties = Record<string, string>;
                 propertyValueInput.style.borderLeftColor = propertyValueText;
             }
 
-            const copyButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "copy-small", _configuration.copySymbolText! ) as HTMLButtonElement;
-            copyButton.title = _configuration.copyText!;
+            const copyButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "copy-small", _configuration.text!.copySymbolText! ) as HTMLButtonElement;
+            copyButton.title = _configuration.text!.copyText!;
 
             copyButton.onclick = () => {
                 navigator.clipboard.writeText( propertyValueText );
             };
 
             if ( _current_Process_Options.allowEditing && allowEditing ) {
-                const pasteButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "paste-small", _configuration.pasteSymbolText! ) as HTMLButtonElement;
-                const removeButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "remove-small", _configuration.removeSymbolText! ) as HTMLButtonElement;
+                const pasteButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "paste-small", _configuration.text!.pasteSymbolText! ) as HTMLButtonElement;
+                const removeButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "remove-small", _configuration.text!.removeSymbolText! ) as HTMLButtonElement;
 
-                pasteButton.title = _configuration.pasteText!;
-                removeButton.title = _configuration.removeText!;
+                pasteButton.title = _configuration.text!.pasteText!;
+                removeButton.title = _configuration.text!.removeText!;
     
                 pasteButton.onclick = () => {
                     navigator.clipboard.readText().then( data => {
@@ -597,23 +602,24 @@ type DialogProperties = Record<string, string>;
     }
 
     function buildDefaultStringConfiguration() : void {
-        _configuration.cssText = Data.getDefaultAnyString( _configuration.cssText, "CSS" );
-        _configuration.attributesText = Data.getDefaultAnyString( _configuration.attributesText, "Attributes" );
-        _configuration.sizeText = Data.getDefaultAnyString( _configuration.sizeText, "Size" );
-        _configuration.classesText = Data.getDefaultAnyString( _configuration.classesText, "Classes" );
-        _configuration.noAttributesAvailableText = Data.getDefaultAnyString( _configuration.noAttributesAvailableText, "No attributes are available." );
-        _configuration.closeText = Data.getDefaultAnyString( _configuration.closeText, "Close" );
-        _configuration.copyText = Data.getDefaultAnyString( _configuration.copyText, "Copy" );
-        _configuration.copySymbolText = Data.getDefaultAnyString( _configuration.copySymbolText, "❐" );
-        _configuration.pasteText = Data.getDefaultAnyString( _configuration.pasteText, "Paste" );
-        _configuration.pasteSymbolText = Data.getDefaultAnyString( _configuration.pasteSymbolText, "☐" );
-        _configuration.removeText = Data.getDefaultAnyString( _configuration.removeText, "Remove" );
-        _configuration.removeSymbolText = Data.getDefaultAnyString( _configuration.removeSymbolText, "✕" );
-        _configuration.noClassesAvailableText = Data.getDefaultAnyString( _configuration.noClassesAvailableText, "No classes are available." );
-        _configuration.searchPropertiesPlaceHolderText = Data.getDefaultAnyString( _configuration.searchPropertiesPlaceHolderText, "Search properties..." );
-        _configuration.clearText = Data.getDefaultAnyString( _configuration.clearText, "Clear" );
-        _configuration.clearSymbolText = Data.getDefaultAnyString( _configuration.clearSymbolText, "✕" );
-        _configuration.noPropertiesFoundForSearchText = Data.getDefaultAnyString( _configuration.noPropertiesFoundForSearchText, "No properties were found for your search." );
+        _configuration.text = Data.getDefaultObject( _configuration.text, {} as ConfigurationText );
+        _configuration.text!.cssText = Data.getDefaultAnyString( _configuration.text!.cssText, "CSS" );
+        _configuration.text!.attributesText = Data.getDefaultAnyString( _configuration.text!.attributesText, "Attributes" );
+        _configuration.text!.sizeText = Data.getDefaultAnyString( _configuration.text!.sizeText, "Size" );
+        _configuration.text!.classesText = Data.getDefaultAnyString( _configuration.text!.classesText, "Classes" );
+        _configuration.text!.noAttributesAvailableText = Data.getDefaultAnyString( _configuration.text!.noAttributesAvailableText, "No attributes are available." );
+        _configuration.text!.closeText = Data.getDefaultAnyString( _configuration.text!.closeText, "Close" );
+        _configuration.text!.copyText = Data.getDefaultAnyString( _configuration.text!.copyText, "Copy" );
+        _configuration.text!.copySymbolText = Data.getDefaultAnyString( _configuration.text!.copySymbolText, "❐" );
+        _configuration.text!.pasteText = Data.getDefaultAnyString( _configuration.text!.pasteText, "Paste" );
+        _configuration.text!.pasteSymbolText = Data.getDefaultAnyString( _configuration.text!.pasteSymbolText, "☐" );
+        _configuration.text!.removeText = Data.getDefaultAnyString( _configuration.text!.removeText, "Remove" );
+        _configuration.text!.removeSymbolText = Data.getDefaultAnyString( _configuration.text!.removeSymbolText, "✕" );
+        _configuration.text!.noClassesAvailableText = Data.getDefaultAnyString( _configuration.text!.noClassesAvailableText, "No classes are available." );
+        _configuration.text!.searchPropertiesPlaceHolderText = Data.getDefaultAnyString( _configuration.text!.searchPropertiesPlaceHolderText, "Search properties..." );
+        _configuration.text!.clearText = Data.getDefaultAnyString( _configuration.text!.clearText, "Clear" );
+        _configuration.text!.clearSymbolText = Data.getDefaultAnyString( _configuration.text!.clearSymbolText, "✕" );
+        _configuration.text!.noPropertiesFoundForSearchText = Data.getDefaultAnyString( _configuration.text!.noPropertiesFoundForSearchText, "No properties were found for your search." );
     }
 
 

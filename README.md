@@ -138,7 +138,10 @@ Configuration options allow you to customize how Peek.js will function.  You can
 ```markdown
 <script> 
   $peek.setConfiguration( {
-      dialogDisplayDelay: 500
+      dialogDisplayDelay: 500,
+      text: {
+        cssText: "CSS Properties"
+      }
   } );
 </script>
 ```
