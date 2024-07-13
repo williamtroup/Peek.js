@@ -33,6 +33,7 @@ Below are all the configuration options that can be passed to the "setConfigurat
 | *string* | searchPropertiesPlaceHolderText | The text that should be used for the "Search properties" place holder. |
 | *string* | clearText | The text that should be used for the "Clear" button. |
 | *string* | clearSymbolText | The text that should be used for the "✕" clear symbol button. |
+| *string* | noPropertiesFoundForSearchText | The text that should be used for the "No properties were found for your search." search warning. |
 
 <br/>
 

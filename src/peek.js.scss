@@ -182,8 +182,13 @@ div.peek-js {
         padding: var(--peek-js-spacing);
         margin: var(--peek-js-spacing);
 
-        span.warning {
+        span.warning,
+        span.no-search-results {
             font-style: italic;
+        }
+
+        span.no-search-results {
+            display: none;
         }
 
         div.property-row {

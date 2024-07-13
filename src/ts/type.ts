@@ -34,6 +34,7 @@ export type Configuration = {
     searchPropertiesPlaceHolderText?: string;
     clearText?: string;
     clearSymbolText?: string;
+    noPropertiesFoundForSearchText?: string;
 };
 
 export type Options = {

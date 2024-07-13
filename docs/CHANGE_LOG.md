@@ -10,6 +10,7 @@
 - Added configuration option "clearText" (defaults to "Clear"), which states the text to use for the "Clear" button.
 - Added configuration option "clearSymbolText" (defaults to "✕"), which states the symbol text to use for the "Clear" button.
 - Added configuration option "searchPropertiesPlaceHolderText" (defaults to "Search properties..."), which states the placeholder text to use for the search input field.
+- Added configuration option "noPropertiesFoundForSearchText" (defaults to "No properties were found for your search."), which states the warning text to show when no search results are found.
 
 #### **UI Enhancements:**
 - Improved the focus background color used for text input fields.

@@ -192,23 +192,24 @@ var o;
     let u = null;
     let d = null;
     let p = null;
-    let g = 0;
+    let g = null;
+    let y = 0;
     let m = null;
-    let y = [];
-    let T = {};
-    let b = null;
-    let v = false;
-    let h = 0;
+    let T = [];
+    let b = {};
+    let v = null;
+    let h = false;
     let x = 0;
-    let S = null;
-    let A = 0;
+    let S = 0;
+    let A = null;
     let L = 0;
-    let w = false;
-    let D = 0;
+    let w = 0;
+    let D = false;
     let E = 0;
-    function N() {
+    let N = 0;
+    function O() {
         if (e.definedObject(i)) {
-            H();
+            P();
             document.body.removeChild(i);
             i = null;
         }
@@ -217,27 +218,27 @@ var o;
         r = n.create(i, "div", "dialog-title-bar");
         s = n.create(i, "div", "dialog-search");
         c = n.create(i, "div", "dialog-contents");
-        u = n.create(i, "div", "dialog-buttons");
-        d = n.createWithHTML(u, "button", "copy", l.copyText);
-        d.onclick = C;
+        d = n.create(i, "div", "dialog-buttons");
+        p = n.createWithHTML(d, "button", "copy", l.copyText);
+        p.onclick = C;
         a = n.create(s, "input");
         a.placeholder = l.searchPropertiesPlaceHolderText;
         a.type = "text";
-        a.onkeyup = M;
-        a.onpaste = M;
+        a.onkeyup = W;
+        a.onpaste = W;
         const t = n.createWithHTML(s, "button", "remove-small", l.clearSymbolText);
         t.title = l.clearText;
-        t.onclick = W;
-        const o = n.createWithHTML(u, "button", "close", l.closeText);
-        o.onclick = H;
-        p = n.createWithHTML(u, "button", "remove", l.removeText);
-        p.onclick = P;
+        t.onclick = $;
+        const o = n.createWithHTML(d, "button", "close", l.closeText);
+        o.onclick = P;
+        g = n.createWithHTML(d, "button", "remove", l.removeText);
+        g.onclick = M;
         Y(r, i);
     }
-    function O(t = null) {
+    function H(t = null) {
         let o = m.titleText;
         r.innerHTML = "";
-        if (h > 1 && m.showNodeNameInTitle) {
+        if (x > 1 && m.showNodeNameInTitle) {
             n.createWithHTML(r, "span", "node-name", `[${t.nodeName.toLowerCase()}] - `);
             n.createWithHTML(r, "span", "dash", " - ");
         }
@@ -265,36 +266,36 @@ var o;
             }
         }
     }
-    function H() {
+    function P() {
         i.style.display = "none";
-        v = false;
+        h = false;
         a.value = "";
     }
     function C() {
         const e = [];
-        for (let t in T) {
-            if (T.hasOwnProperty(t)) {
+        for (let t in b) {
+            if (b.hasOwnProperty(t)) {
                 if (m.mode === 1) {
-                    e.push(`${t}: ${T[t]};`);
+                    e.push(`${t}: ${b[t]};`);
                 } else if (m.mode === 2) {
-                    e.push(`${t}="${T[t]}"`);
+                    e.push(`${t}="${b[t]}"`);
                 } else if (m.mode === 4) {
-                    e.push(T[t]);
+                    e.push(b[t]);
                 }
             }
         }
         if (m.mode === 1) {
-            navigator.clipboard.writeText(`${b.nodeName.toLowerCase()} { ${"\n"} ${e.join("\n")} ${"\n"} }`);
+            navigator.clipboard.writeText(`${v.nodeName.toLowerCase()} { ${"\n"} ${e.join("\n")} ${"\n"} }`);
         } else if (m.mode === 2 || m.mode === 4) {
             navigator.clipboard.writeText(e.join(" "));
         }
     }
-    function P() {
-        var e;
-        (e = b.parentNode) == null ? void 0 : e.removeChild(b);
-        H();
-    }
     function M() {
+        var e;
+        (e = v.parentNode) == null ? void 0 : e.removeChild(v);
+        P();
+    }
+    function W() {
         if (f !== 0) {
             clearTimeout(f);
             f = 0;
@@ -304,47 +305,56 @@ var o;
             const n = [].slice.call(t);
             const o = n.length;
             const l = a.value.toLowerCase();
+            let i = 0;
             for (let t = 0; t < o; t++) {
                 const o = n[t].parentNode;
                 if (e.defined(o)) {
                     if (a.value.trim() === "") {
                         o.style.removeProperty("display");
+                        i++;
                     } else {
                         const e = n[t].innerText;
                         if (e.toLowerCase().indexOf(l) > -1) {
                             o.style.removeProperty("display");
+                            i++;
                         } else {
                             o.style.display = "none";
                         }
                     }
                 }
             }
+            if (i === 0) {
+                u.style.display = "block";
+            } else {
+                u.style.removeProperty("display");
+            }
         }), 500);
     }
-    function W() {
+    function $() {
         a.value = "";
         a.focus();
-        M();
+        W();
     }
-    function $(e) {
+    function I(e) {
         c.innerHTML = "";
         c.scrollTop = 0;
-        T = {};
-        x = 0;
-        b = e;
-        O(e);
+        b = {};
+        S = 0;
+        v = e;
+        H(e);
         if (m.mode === 3) {
-            d.style.display = "none";
-        } else {
-            d.style.removeProperty("display");
-        }
-        if (!m.allowEditing) {
             p.style.display = "none";
         } else {
             p.style.removeProperty("display");
         }
+        if (!m.allowEditing) {
+            g.style.display = "none";
+        } else {
+            g.style.removeProperty("display");
+        }
+        u = n.createWithHTML(c, "span", "no-search-results", l.noPropertiesFoundForSearchText);
         if (m.mode === 1) {
-            I(e);
+            k(e);
         } else if (m.mode === 2) {
             B(e);
         } else if (m.mode === 3) {
@@ -352,23 +362,23 @@ var o;
         } else if (m.mode === 4) {
             j(e);
         }
-        if (x <= 15) {
+        if (S <= 15) {
             s.style.display = "none";
         } else {
             s.style.removeProperty("display");
         }
     }
-    function I(e) {
+    function k(e) {
         const t = getComputedStyle(e);
         const n = t.length;
         for (let o = 0; o < n; o++) {
-            k(e, t[o], t.getPropertyValue(t[o]));
+            R(e, t[o], t.getPropertyValue(t[o]));
         }
     }
     function B(e) {
         if (e.hasAttributes()) {
             for (let t of e.attributes) {
-                k(e, t.name, t.value);
+                R(e, t.name, t.value);
             }
         } else {
             c.innerHTML = "";
@@ -377,16 +387,16 @@ var o;
     }
     function _(e) {
         const t = n.getOffset(e);
-        k(e, "left", `${t.left.toString()}px`, false);
-        k(e, "top", `${t.top.toString()}px`, false);
-        k(e, "width", `${e.offsetWidth.toString()}px`, false);
-        k(e, "height", `${e.offsetHeight.toString()}px`, false);
+        R(e, "left", `${t.left.toString()}px`, false);
+        R(e, "top", `${t.top.toString()}px`, false);
+        R(e, "width", `${e.offsetWidth.toString()}px`, false);
+        R(e, "height", `${e.offsetHeight.toString()}px`, false);
     }
     function j(e) {
         if (e.classList.length > 0) {
             let t = 1;
             for (let n of e.classList) {
-                k(e, t.toString(), n);
+                R(e, t.toString(), n);
                 t++;
             }
         } else {
@@ -394,7 +404,7 @@ var o;
             n.createWithHTML(c, "span", "warning", l.noClassesAvailableText);
         }
     }
-    function k(t, o, i, r = true) {
+    function R(t, o, i, r = true) {
         if (m.showOnly.length === 0 || m.showOnly.indexOf(o) > -1) {
             const s = n.create(c, "div", "property-row");
             n.createWithHTML(s, "div", "property-name", o);
@@ -432,18 +442,18 @@ var o;
             }
             f.type = "text";
             f.value = i;
-            T[o] = i;
-            x++;
+            b[o] = i;
+            S++;
             if (!m.allowEditing || !r) {
                 f.readOnly = true;
             } else {
                 f.onkeyup = e => {
-                    R(e, o, f, t);
+                    F(e, o, f, t);
                 };
             }
         }
     }
-    function R(e, t, n, o) {
+    function F(e, t, n, o) {
         if (e.code === "Enter") {
             z(o, t, n);
         }
@@ -456,7 +466,7 @@ var o;
         } else if (m.mode === 4) {
             t.classList.replace(t.classList[parseInt(n) - 1], o.value);
         }
-        T[n] = o.value;
+        b[n] = o.value;
         if (e.hexColor(o.value) || e.isRgbColor(o.value)) {
             o.classList.add("property-value-color");
             o.style.borderLeftColor = o.value;
@@ -466,8 +476,8 @@ var o;
     }
     function G() {
         const e = m.nodeType;
-        h = e.length;
-        for (let t = 0; t < h; t++) {
+        x = e.length;
+        for (let t = 0; t < x; t++) {
             const n = document.getElementsByTagName(e[t]);
             const o = [].slice.call(n);
             const l = o.length;
@@ -483,41 +493,41 @@ var o;
             n.addEventListener("mousemove", (e => {
                 U(e, n);
             }));
-            y.push(n);
+            T.push(n);
         }
     }
     function K() {
-        const e = y.length;
+        const e = T.length;
         for (let n = 0; n < e; n++) {
-            var t = y[n];
+            var t = T[n];
             t.removeEventListener("mousemove", (e => {
                 U(e, t);
             }));
         }
-        y = [];
+        T = [];
         window.removeEventListener("mousemove", X);
-        H();
+        P();
     }
     function U(e, t) {
-        if (!v) {
+        if (!h) {
             n.cancelBubble(e);
-            if (g !== 0) {
-                clearTimeout(g);
-                g = 0;
+            if (y !== 0) {
+                clearTimeout(y);
+                y = 0;
             }
-            g = setTimeout((() => {
-                $(t);
+            y = setTimeout((() => {
+                I(t);
                 n.showElementAtMousePosition(e, i);
             }), l.dialogDisplayDelay);
         }
     }
     function X() {
-        if (!v) {
-            if (g !== 0) {
-                clearTimeout(g);
-                g = 0;
+        if (!h) {
+            if (y !== 0) {
+                clearTimeout(y);
+                y = 0;
             }
-            H();
+            P();
         }
     }
     function Y(e, t) {
@@ -525,56 +535,56 @@ var o;
             V(e, t);
         };
         t.onmousemove = e => {
-            q(e, true);
+            Q(e, true);
         };
         e.onmouseup = () => {
-            F();
+            q();
         };
         e.oncontextmenu = () => {
-            F();
+            q();
         };
-        document.addEventListener("mousemove", q);
-        document.addEventListener("mouseleave", Q);
+        document.addEventListener("mousemove", Q);
+        document.addEventListener("mouseleave", Z);
     }
     function V(e, t) {
-        if (!w) {
-            v = true;
-            S = t;
-            w = true;
-            D = e.pageX - S.offsetLeft;
-            E = e.pageY - S.offsetTop;
-            A = S.offsetLeft;
-            L = S.offsetTop;
+        if (!D) {
+            h = true;
+            A = t;
+            D = true;
+            E = e.pageX - A.offsetLeft;
+            N = e.pageY - A.offsetTop;
+            L = A.offsetLeft;
+            w = A.offsetTop;
         }
     }
-    function F() {
-        if (w) {
-            w = false;
-            S = null;
-            A = 0;
+    function q() {
+        if (D) {
+            D = false;
+            A = null;
             L = 0;
+            w = 0;
         }
     }
-    function q(e, t = false) {
+    function Q(e, t = false) {
         if (t) {
             n.cancelBubble(e);
         }
-        if (w) {
-            S.style.left = `${e.pageX - D}px`;
-            S.style.top = `${e.pageY - E}px`;
+        if (D) {
+            A.style.left = `${e.pageX - E}px`;
+            A.style.top = `${e.pageY - N}px`;
         }
     }
-    function Q() {
-        if (w) {
-            S.style.left = `${A}px`;
-            S.style.top = `${L}px`;
-            w = false;
-            S = null;
-            A = 0;
+    function Z() {
+        if (D) {
+            A.style.left = `${L}px`;
+            A.style.top = `${w}px`;
+            D = false;
+            A = null;
             L = 0;
+            w = 0;
         }
     }
-    function Z(e) {
+    function ee(e) {
         let t = o.getDefaultObject(e, {});
         t.nodeType = o.getDefaultStringOrArray(t.nodeType, []);
         t.mode = o.getDefaultNumber(t.mode, 1);
@@ -585,12 +595,12 @@ var o;
         t.showNodeNameInTitle = o.getDefaultBoolean(t.showNodeNameInTitle, false);
         return t;
     }
-    function ee(e = null) {
+    function te(e = null) {
         l = o.getDefaultObject(e, {});
         l.dialogDisplayDelay = o.getDefaultNumber(l.dialogDisplayDelay, 1e3);
-        te();
+        ne();
     }
-    function te() {
+    function ne() {
         l.cssText = o.getDefaultAnyString(l.cssText, "CSS");
         l.attributesText = o.getDefaultAnyString(l.attributesText, "Attributes");
         l.sizeText = o.getDefaultAnyString(l.sizeText, "Size");
@@ -607,26 +617,27 @@ var o;
         l.searchPropertiesPlaceHolderText = o.getDefaultAnyString(l.searchPropertiesPlaceHolderText, "Search properties...");
         l.clearText = o.getDefaultAnyString(l.clearText, "Clear");
         l.clearSymbolText = o.getDefaultAnyString(l.clearSymbolText, "✕");
+        l.noPropertiesFoundForSearchText = o.getDefaultAnyString(l.noPropertiesFoundForSearchText, "No properties were found for your search.");
     }
-    const ne = {
+    const oe = {
         start: function(t) {
             if (!e.definedObject(m)) {
-                m = Z(t);
-                O();
+                m = ee(t);
+                H();
                 G();
             }
-            return ne;
+            return oe;
         },
         stop: function() {
             if (e.definedObject(m)) {
                 m = null;
                 K();
             }
-            return ne;
+            return oe;
         },
         close: function() {
-            H();
-            return ne;
+            P();
+            return oe;
         },
         setConfiguration: function(t) {
             if (e.definedObject(t)) {
@@ -639,26 +650,26 @@ var o;
                     }
                 }
                 if (n) {
-                    ee(o);
-                    N();
+                    te(o);
+                    O();
                     if (e.definedObject(m)) {
-                        O();
+                        H();
                     }
                 }
             }
-            return ne;
+            return oe;
         },
         getVersion: function() {
             return "1.5.0";
         }
     };
     (() => {
-        ee();
+        te();
         document.addEventListener("DOMContentLoaded", (() => {
-            N();
+            O();
         }));
         if (!e.defined(window.$peek)) {
-            window.$peek = ne;
+            window.$peek = oe;
         }
     })();
 })();//# sourceMappingURL=peek.esm.js.map

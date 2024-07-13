@@ -34,6 +34,7 @@ type DialogProperties = Record<string, string>;
     let _dialog_Search_Input: HTMLInputElement = null!;
     let _dialog_Search_Input_Timer: number = 0;
     let _dialog_Contents: HTMLElement = null!;
+    let _dialog_Contents_NoSearchResultsText: HTMLSpanElement = null!;
     let _dialog_Buttons: HTMLElement = null!;
     let _dialog_Buttons_Copy: HTMLButtonElement = null!;
     let _dialog_Buttons_Remove: HTMLButtonElement = null!;
@@ -184,6 +185,7 @@ type DialogProperties = Record<string, string>;
             const propertyNames: HTMLElement[] = [].slice.call( children );
             const propertyNamesLength: number = propertyNames.length;
             const searchValue = _dialog_Search_Input.value.toLowerCase();
+            let propertiesFound: number = 0;
     
             for ( let propertyNameIndex = 0; propertyNameIndex < propertyNamesLength; propertyNameIndex++ ) {
                 const parent: HTMLElement = propertyNames[ propertyNameIndex ].parentNode as HTMLElement;
@@ -191,18 +193,27 @@ type DialogProperties = Record<string, string>;
                 if ( Is.defined( parent ) ) {
                     if ( _dialog_Search_Input.value.trim() === Char.empty ) {
                         parent.style.removeProperty( "display" );
+                        propertiesFound++;
                     } else {
     
                         const propertyNameText: string = propertyNames[ propertyNameIndex ].innerText;
     
                         if ( propertyNameText.toLowerCase().indexOf( searchValue ) > Value.notFound ) {
                             parent.style.removeProperty( "display" );
+                            propertiesFound++;
                         } else {
                             parent.style.display = "none";
                         }
                     }   
                 }
             }
+
+            if ( propertiesFound === 0 ) {
+                _dialog_Contents_NoSearchResultsText.style.display = "block";
+            } else {
+                _dialog_Contents_NoSearchResultsText.style.removeProperty( "display" );
+            }
+            
         }, 500 );
     }
 
@@ -241,6 +252,8 @@ type DialogProperties = Record<string, string>;
             _dialog_Buttons_Remove.style.removeProperty( "display" );
         }
 
+        _dialog_Contents_NoSearchResultsText = DomElement.createWithHTML( _dialog_Contents, "span", "no-search-results", _configuration.noPropertiesFoundForSearchText! ) as HTMLSpanElement;
+        
         if ( _current_Process_Options.mode === Mode.css ) {
             buildCssProperties( element );
         } else if ( _current_Process_Options.mode === Mode.attributes ) {
@@ -600,6 +613,7 @@ type DialogProperties = Record<string, string>;
         _configuration.searchPropertiesPlaceHolderText = Data.getDefaultAnyString( _configuration.searchPropertiesPlaceHolderText, "Search properties..." );
         _configuration.clearText = Data.getDefaultAnyString( _configuration.clearText, "Clear" );
         _configuration.clearSymbolText = Data.getDefaultAnyString( _configuration.clearSymbolText, "✕" );
+        _configuration.noPropertiesFoundForSearchText = Data.getDefaultAnyString( _configuration.noPropertiesFoundForSearchText, "No properties were found for your search." );
     }
 
 
