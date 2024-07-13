@@ -23,6 +23,7 @@
 - Copy, Paste, and Remove CSS, Attributes, and Classes!
 - Move the dialog away from the element to lock it!
 - Remove elements from the DOM.
+- Search your properties with ease (if more than 15 are available).
 
 
 ## What browsers are supported?

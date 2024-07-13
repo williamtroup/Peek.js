@@ -63,3 +63,19 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+@mixin input-text-fields {
+    width: 100%;
+    padding: calc( var(--peek-js-spacing) / 2 );
+    border-radius: var(--peek-js-border-radius);
+    border: var(--peek-js-border-size) solid var(--peek-js-dialog-border-color);
+    color: var(--peek-js-color-snow-white);
+    background-color: var(--peek-js-dialog-background-color);
+    outline: none;
+    box-shadow: none;
+    transition: var(--peek-js-transition);
+
+    &:not([readonly]):focus {
+        background-color: var(--peek-js-color-gray);
+    }
+}

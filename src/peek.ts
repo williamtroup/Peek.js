@@ -30,6 +30,9 @@ type DialogProperties = Record<string, string>;
     // Variables: Dialog
     let _dialog: HTMLElement = null!;
     let _dialog_Title: HTMLElement = null!;
+    let _dialog_Search: HTMLElement = null!;
+    let _dialog_Search_Input: HTMLInputElement = null!;
+    let _dialog_Search_Input_Timer: number = 0;
     let _dialog_Contents: HTMLElement = null!;
     let _dialog_Buttons: HTMLElement = null!;
     let _dialog_Buttons_Copy: HTMLButtonElement = null!;
@@ -43,6 +46,7 @@ type DialogProperties = Record<string, string>;
     let _current_Process_Element: HTMLElement = null!;
     let _current_Process_Locked: boolean = false;
     let _current_Process_NodeCount: number = 0;
+    let _current_Process_Properties_Count: number = 0;
 
     // Variables: Dialog Moving
     let _element_Dialog_Move: HTMLElement = null!;
@@ -71,12 +75,23 @@ type DialogProperties = Record<string, string>;
         _dialog.onmousemove = DomElement.cancelBubble;
 
         _dialog_Title = DomElement.create( _dialog, "div", "dialog-title-bar" );
+        _dialog_Search = DomElement.create( _dialog, "div", "dialog-search" );
         _dialog_Contents = DomElement.create( _dialog, "div", "dialog-contents" );
         _dialog_Buttons = DomElement.create( _dialog, "div", "dialog-buttons" );
 
         _dialog_Buttons_Copy = DomElement.createWithHTML( _dialog_Buttons, "button", "copy", _configuration.copyText! ) as HTMLButtonElement;
         _dialog_Buttons_Copy.onclick = onCopy;
         
+        _dialog_Search_Input = DomElement.create( _dialog_Search, "input" ) as HTMLInputElement;
+        _dialog_Search_Input.placeholder = _configuration.searchPropertiesPlaceHolderText!;
+        _dialog_Search_Input.type = "text";
+        _dialog_Search_Input.onkeyup = onSearchProperties;
+        _dialog_Search_Input.onpaste = onSearchProperties;
+
+        const removeButton: HTMLButtonElement = DomElement.createWithHTML( _dialog_Search, "button", "remove-small", _configuration.clearSymbolText! ) as HTMLButtonElement;
+        removeButton.title = _configuration.clearText!;
+        removeButton.onclick = onSearchPropertiesClear;
+
         const closeButton: HTMLElement = DomElement.createWithHTML( _dialog_Buttons, "button", "close", _configuration.closeText! );
         closeButton.onclick = closeDialog;
 
@@ -127,6 +142,7 @@ type DialogProperties = Record<string, string>;
     function closeDialog() : void {
         _dialog.style.display = "none";
         _current_Process_Locked = false;
+        _dialog_Search_Input.value = Char.empty;
     }
 
     function onCopy() : void {
@@ -157,6 +173,46 @@ type DialogProperties = Record<string, string>;
         closeDialog();
     }
 
+    function onSearchProperties() : void {
+        if ( _dialog_Search_Input_Timer !== 0 ) {
+            clearTimeout( _dialog_Search_Input_Timer );
+            _dialog_Search_Input_Timer = 0;
+        }
+
+        _dialog_Search_Input_Timer = setTimeout( () => {
+            const children: HTMLCollectionOf<Element> = _dialog_Contents.getElementsByClassName( "property-name" );
+            const propertyNames: HTMLElement[] = [].slice.call( children );
+            const propertyNamesLength: number = propertyNames.length;
+            const searchValue = _dialog_Search_Input.value.toLowerCase();
+    
+            for ( let propertyNameIndex = 0; propertyNameIndex < propertyNamesLength; propertyNameIndex++ ) {
+                const parent: HTMLElement = propertyNames[ propertyNameIndex ].parentNode as HTMLElement;
+                
+                if ( Is.defined( parent ) ) {
+                    if ( _dialog_Search_Input.value.trim() === Char.empty ) {
+                        parent.style.removeProperty( "display" );
+                    } else {
+    
+                        const propertyNameText: string = propertyNames[ propertyNameIndex ].innerText;
+    
+                        if ( propertyNameText.toLowerCase().indexOf( searchValue ) > Value.notFound ) {
+                            parent.style.removeProperty( "display" );
+                        } else {
+                            parent.style.display = "none";
+                        }
+                    }   
+                }
+            }
+        }, 500 );
+    }
+
+    function onSearchPropertiesClear() : void {
+        _dialog_Search_Input.value = Char.empty;
+        _dialog_Search_Input.focus();
+
+        onSearchProperties();
+    } 
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -168,6 +224,7 @@ type DialogProperties = Record<string, string>;
         _dialog_Contents.innerHTML = Char.empty;
         _dialog_Contents.scrollTop = 0;
         _current_Process_Properties = {} as DialogProperties;
+        _current_Process_Properties_Count = 0;
         _current_Process_Element = element;
 
         setDialogText( element );
@@ -192,6 +249,12 @@ type DialogProperties = Record<string, string>;
             buildSizeProperties( element );
         } else if ( _current_Process_Options.mode === Mode.class ) {
             buildClassProperties( element );
+        }
+
+        if ( _current_Process_Properties_Count <= 15 ) {
+            _dialog_Search.style.display = "none";
+        } else {
+            _dialog_Search.style.removeProperty( "display" );
         }
     }
 
@@ -293,6 +356,7 @@ type DialogProperties = Record<string, string>;
             propertyValueInput.value = propertyValueText;
 
             _current_Process_Properties[ propertyNameText ] = propertyValueText;
+            _current_Process_Properties_Count++;
 
             if ( !_current_Process_Options.allowEditing || !allowEditing ) {
                 propertyValueInput.readOnly = true;
@@ -533,6 +597,9 @@ type DialogProperties = Record<string, string>;
         _configuration.removeText = Data.getDefaultAnyString( _configuration.removeText, "Remove" );
         _configuration.removeSymbolText = Data.getDefaultAnyString( _configuration.removeSymbolText, "✕" );
         _configuration.noClassesAvailableText = Data.getDefaultAnyString( _configuration.noClassesAvailableText, "No classes are available." );
+        _configuration.searchPropertiesPlaceHolderText = Data.getDefaultAnyString( _configuration.searchPropertiesPlaceHolderText, "Search properties..." );
+        _configuration.clearText = Data.getDefaultAnyString( _configuration.clearText, "Clear" );
+        _configuration.clearSymbolText = Data.getDefaultAnyString( _configuration.clearSymbolText, "✕" );
     }
 
 

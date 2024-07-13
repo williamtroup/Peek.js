@@ -3,7 +3,16 @@
 ## Version 1.5.0:
 
 #### **New Features:**
+- Added Search support! This will allow you to filter the properties down via the property name (if more than 15 are available).
 - HEX and RGB(a) colors are now shown in the property values are a left border.
+
+#### **Configuration:**
+- Added configuration option "clearText" (defaults to "Clear"), which states the text to use for the "Clear" button.
+- Added configuration option "clearSymbolText" (defaults to "✕"), which states the symbol text to use for the "Clear" button.
+- Added configuration option "searchPropertiesPlaceHolderText" (defaults to "Search properties..."), which states the placeholder text to use for the search input field.
+
+#### **UI Enhancements:**
+- Improved the focus background color used for text input fields.
 
 #### **Adjustments:**
 - Moved all string concatenation to use string templates.

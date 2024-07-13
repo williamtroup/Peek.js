@@ -31,6 +31,9 @@ export type Configuration = {
     removeText?: string;
     removeSymbolText?: string;
     noClassesAvailableText?: string;
+    searchPropertiesPlaceHolderText?: string;
+    clearText?: string;
+    clearSymbolText?: string;
 };
 
 export type Options = {
