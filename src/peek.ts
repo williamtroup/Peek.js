@@ -107,7 +107,7 @@ type DialogProperties = Record<string, string>;
         makeDialogMovable( _dialog_Title, _dialog );
     }
 
-    function setDialogText( element: HTMLElement = null! ) : void {
+    function setDialogTitle( element: HTMLElement = null! ) : void {
         let title: string = _current_Process_Options.titleText!;
 
         _dialog_Title.innerHTML = Char.empty;
@@ -243,7 +243,7 @@ type DialogProperties = Record<string, string>;
         _current_Process_Properties_Count = 0;
         _current_Process_Element = element;
 
-        setDialogText( element );
+        setDialogTitle( element );
 
         if ( _current_Process_Options.mode === Mode.size ) {
             _dialog_Buttons_Copy.style.display = "none";
@@ -641,7 +641,7 @@ type DialogProperties = Record<string, string>;
             if ( !Is.definedObject( _current_Process_Options ) ) {
                 _current_Process_Options = buildOptions( options );
 
-                setDialogText();
+                setDialogTitle();
                 buildNodeEvents();
             }
 
@@ -688,7 +688,7 @@ type DialogProperties = Record<string, string>;
                     buildDialog();
 
                     if ( Is.definedObject( _current_Process_Options ) ) {
-                        setDialogText();
+                        setDialogTitle();
                     }
                 }
             }
