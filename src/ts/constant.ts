@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
  * @file        constant.ts
- * @version     v1.5.0
+ * @version     v1.6.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
