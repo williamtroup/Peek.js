@@ -25,16 +25,16 @@ var e;
         return t(e) && typeof e === "number";
     }
     e.definedNumber = r;
-    function s(e) {
+    function a(e) {
         return n(e) && e instanceof Array;
     }
-    e.definedArray = s;
-    function a(e) {
+    e.definedArray = a;
+    function s(e) {
         return n(e) && e instanceof Date;
     }
-    e.definedDate = a;
+    e.definedDate = s;
     function f(e, t = 1) {
-        return !s(e) || e.length < t;
+        return !a(e) || e.length < t;
     }
     e.invalidOptionArray = f;
     function c(e) {
@@ -62,23 +62,27 @@ var t;
 var n;
 
 (n => {
-    function o(n, o, l = "") {
-        const i = o.toLowerCase();
-        const r = i === "text";
-        let s = r ? document.createTextNode("") : document.createElement(i);
+    function o(n, o, l = "", i = false) {
+        const r = o.toLowerCase();
+        const a = r === "text";
+        let s = a ? document.createTextNode("") : document.createElement(r);
         s.setAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE, "ignore");
         if (e.definedString(l)) {
             s.className = l;
         }
-        n.appendChild(s);
+        if (!i) {
+            n.appendChild(s);
+        } else {
+            n.insertBefore(s, n.children[0]);
+        }
         return s;
     }
     n.create = o;
-    function l(e, n, l, i) {
-        const r = o(e, n, l);
-        r.innerHTML = i;
-        r.setAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE, "ignore");
-        return r;
+    function l(e, n, l, i, r = false) {
+        const a = o(e, n, l, r);
+        a.innerHTML = i;
+        a.setAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE, "ignore");
+        return a;
     }
     n.createWithHTML = l;
     function i(e) {
@@ -95,7 +99,7 @@ var n;
         return t;
     }
     n.getScrollPosition = r;
-    function s(e, t) {
+    function a(e, t) {
         if (t.style.display !== "block") {
             let n = e.pageX;
             let o = e.pageY;
@@ -121,8 +125,8 @@ var n;
             t.style.top = `${o}px`;
         }
     }
-    n.showElementAtMousePosition = s;
-    function a(e) {
+    n.showElementAtMousePosition = a;
+    function s(e) {
         const t = {
             left: 0,
             top: 0
@@ -134,7 +138,7 @@ var n;
         }
         return t;
     }
-    n.getOffset = a;
+    n.getOffset = s;
 })(n || (n = {}));
 
 var o;
@@ -160,11 +164,11 @@ var o;
         return e.definedArray(t) ? t : n;
     }
     t.getDefaultArray = r;
-    function s(t, n) {
+    function a(t, n) {
         return e.definedObject(t) ? t : n;
     }
-    t.getDefaultObject = s;
-    function a(t, n) {
+    t.getDefaultObject = a;
+    function s(t, n) {
         let o = n;
         if (e.definedString(t)) {
             const e = t.toString().split(" ");
@@ -178,15 +182,15 @@ var o;
         }
         return o;
     }
-    t.getDefaultStringOrArray = a;
+    t.getDefaultStringOrArray = s;
 })(o || (o = {}));
 
 (() => {
     let l = {};
     let i = null;
     let r = null;
-    let s = null;
     let a = null;
+    let s = null;
     let f = 0;
     let c = null;
     let u = null;
@@ -195,8 +199,8 @@ var o;
     let g = null;
     let y = 0;
     let x = null;
-    let m = [];
-    let T = {};
+    let T = [];
+    let m = {};
     let b = null;
     let h = false;
     let v = 0;
@@ -216,71 +220,76 @@ var o;
         i = n.create(document.body, "div", "peek-js");
         i.onmousemove = n.cancelBubble;
         r = n.create(i, "div", "dialog-title-bar");
-        s = n.create(i, "div", "dialog-search");
+        a = n.create(i, "div", "dialog-search");
         c = n.create(i, "div", "dialog-contents");
         d = n.create(i, "div", "dialog-buttons");
         p = n.createWithHTML(d, "button", "copy", l.text.copyText);
         p.onclick = C;
-        a = n.create(s, "input");
-        a.placeholder = l.text.searchPropertiesPlaceHolderText;
-        a.type = "text";
-        a.onkeyup = W;
-        a.onpaste = W;
-        const t = n.createWithHTML(s, "button", "clear-small", l.text.clearSymbolText);
+        s = n.create(a, "input");
+        s.placeholder = l.text.searchPropertiesPlaceHolderText;
+        s.type = "text";
+        s.onkeyup = $;
+        s.onpaste = $;
+        const t = n.createWithHTML(a, "button", "clear-small", l.text.clearSymbolText);
         t.title = l.text.clearText;
-        t.onclick = $;
+        t.onclick = I;
         const o = n.createWithHTML(d, "button", "close", l.text.closeText);
         o.onclick = P;
         g = n.createWithHTML(d, "button", "remove", l.text.removeText);
-        g.onclick = M;
-        Y(r, i);
+        g.onclick = W;
+        V(r, i);
     }
     function H(t = null) {
-        let o = x.titleText;
-        r.innerHTML = "";
-        if (v > 1 && x.showNodeNameInTitle) {
-            n.createWithHTML(r, "span", "node-name", `[${t.nodeName.toLowerCase()}] - `);
-            n.createWithHTML(r, "span", "dash", " - ");
-        }
-        if (!e.definedString(o)) {
-            if (x.mode === 1) {
-                o = l.text.cssText;
-            } else if (x.mode === 2) {
-                o = l.text.attributesText;
-            } else if (x.mode === 3) {
-                o = l.text.sizeText;
-            } else if (x.mode === 4) {
-                o = l.text.classesText;
+        if (!h) {
+            let o = x.titleText;
+            r.innerHTML = "";
+            if (v > 1 && x.showNodeNameInTitle) {
+                n.createWithHTML(r, "span", "node-name", `[${t.nodeName.toLowerCase()}] - `);
+                n.createWithHTML(r, "span", "dash", " - ");
+            }
+            if (!e.definedString(o)) {
+                if (x.mode === 1) {
+                    o = l.text.cssText;
+                } else if (x.mode === 2) {
+                    o = l.text.attributesText;
+                } else if (x.mode === 3) {
+                    o = l.text.sizeText;
+                } else if (x.mode === 4) {
+                    o = l.text.classesText;
+                }
+            }
+            n.createWithHTML(r, "span", "title", o);
+            if (x.showIdOrNameInTitle && e.defined(t)) {
+                const o = t.getAttribute("id");
+                const l = t.getAttribute("name");
+                if (e.definedString(o)) {
+                    n.createWithHTML(r, "span", "dash", " - ");
+                    n.createWithHTML(r, "span", "id-or-name", o);
+                } else if (e.definedString(l)) {
+                    n.createWithHTML(r, "span", "dash", " - ");
+                    n.createWithHTML(r, "span", "id-or-name", l);
+                }
             }
         }
-        n.createWithHTML(r, "span", "title", o);
-        if (x.showIdOrNameInTitle && e.defined(t)) {
-            const o = t.getAttribute("id");
-            const l = t.getAttribute("name");
-            if (e.definedString(o)) {
-                n.createWithHTML(r, "span", "dash", " - ");
-                n.createWithHTML(r, "span", "id-or-name", o);
-            } else if (e.definedString(l)) {
-                n.createWithHTML(r, "span", "dash", " - ");
-                n.createWithHTML(r, "span", "id-or-name", l);
-            }
-        }
+    }
+    function M() {
+        n.createWithHTML(r, "span", "locked", `${l.text.dialogMovedSymbolText}${" "}`, true);
     }
     function P() {
         i.style.display = "none";
         h = false;
-        a.value = "";
+        s.value = "";
     }
     function C() {
         const e = [];
-        for (let t in T) {
-            if (T.hasOwnProperty(t)) {
+        for (let t in m) {
+            if (m.hasOwnProperty(t)) {
                 if (x.mode === 1) {
-                    e.push(`${t}: ${T[t]};`);
+                    e.push(`${t}: ${m[t]};`);
                 } else if (x.mode === 2) {
-                    e.push(`${t}="${T[t]}"`);
+                    e.push(`${t}="${m[t]}"`);
                 } else if (x.mode === 4) {
-                    e.push(T[t]);
+                    e.push(m[t]);
                 }
             }
         }
@@ -290,12 +299,12 @@ var o;
             navigator.clipboard.writeText(e.join(" "));
         }
     }
-    function M() {
+    function W() {
         var e;
         (e = b.parentNode) == null ? void 0 : e.removeChild(b);
         P();
     }
-    function W() {
+    function $() {
         if (f !== 0) {
             clearTimeout(f);
             f = 0;
@@ -304,12 +313,12 @@ var o;
             const t = c.getElementsByClassName("property-name");
             const n = [].slice.call(t);
             const o = n.length;
-            const l = a.value.toLowerCase();
+            const l = s.value.toLowerCase();
             let i = 0;
             for (let t = 0; t < o; t++) {
                 const o = n[t].parentNode;
                 if (e.defined(o)) {
-                    if (a.value.trim() === "") {
+                    if (s.value.trim() === "") {
                         o.style.removeProperty("display");
                         i++;
                     } else {
@@ -330,15 +339,15 @@ var o;
             }
         }), l.searchDelayDelay);
     }
-    function $() {
-        a.value = "";
-        a.focus();
-        W();
+    function I() {
+        s.value = "";
+        s.focus();
+        $();
     }
-    function I(e) {
+    function k(e) {
         c.innerHTML = "";
         c.scrollTop = 0;
-        T = {};
+        m = {};
         S = 0;
         b = e;
         H(e);
@@ -354,49 +363,49 @@ var o;
         }
         u = n.createWithHTML(c, "span", "no-search-results", l.text.noPropertiesFoundForSearchText);
         if (x.mode === 1) {
-            j(e);
-        } else if (x.mode === 2) {
-            k(e);
-        } else if (x.mode === 3) {
             B(e);
-        } else if (x.mode === 4) {
+        } else if (x.mode === 2) {
+            j(e);
+        } else if (x.mode === 3) {
             _(e);
+        } else if (x.mode === 4) {
+            R(e);
         }
         if (S <= 15) {
-            s.style.display = "none";
+            a.style.display = "none";
         } else {
-            s.style.removeProperty("display");
+            a.style.removeProperty("display");
         }
     }
-    function j(e) {
+    function B(e) {
         const t = getComputedStyle(e);
         const n = t.length;
         for (let o = 0; o < n; o++) {
-            R(e, t[o], t.getPropertyValue(t[o]));
+            F(e, t[o], t.getPropertyValue(t[o]));
         }
     }
-    function k(e) {
+    function j(e) {
         if (e.hasAttributes()) {
             for (let t of e.attributes) {
-                R(e, t.name, t.value);
+                F(e, t.name, t.value);
             }
         } else {
             c.innerHTML = "";
             n.createWithHTML(c, "span", "warning", l.text.noAttributesAvailableText);
         }
     }
-    function B(e) {
-        const t = n.getOffset(e);
-        R(e, "left", `${t.left.toString()}px`, false);
-        R(e, "top", `${t.top.toString()}px`, false);
-        R(e, "width", `${e.offsetWidth.toString()}px`, false);
-        R(e, "height", `${e.offsetHeight.toString()}px`, false);
-    }
     function _(e) {
+        const t = n.getOffset(e);
+        F(e, "left", `${t.left.toString()}px`, false);
+        F(e, "top", `${t.top.toString()}px`, false);
+        F(e, "width", `${e.offsetWidth.toString()}px`, false);
+        F(e, "height", `${e.offsetHeight.toString()}px`, false);
+    }
+    function R(e) {
         if (e.classList.length > 0) {
             let t = 1;
             for (let n of e.classList) {
-                R(e, t.toString(), n);
+                F(e, t.toString(), n);
                 t++;
             }
         } else {
@@ -404,30 +413,30 @@ var o;
             n.createWithHTML(c, "span", "warning", l.text.noClassesAvailableText);
         }
     }
-    function R(t, o, i, r = true) {
+    function F(t, o, i, r = true) {
         if (x.showOnly.length === 0 || x.showOnly.indexOf(o) > -1) {
-            const s = n.create(c, "div", "property-row");
-            n.createWithHTML(s, "div", "property-name", o);
-            const a = n.create(s, "div", "property-value");
-            const f = n.create(a, "input");
+            const a = n.create(c, "div", "property-row");
+            n.createWithHTML(a, "div", "property-name", o);
+            const s = n.create(a, "div", "property-value");
+            const f = n.create(s, "input");
             if (e.hexColor(i) || e.isRgbColor(i)) {
                 f.classList.add("property-value-color");
                 f.style.borderLeftColor = i;
             }
-            const u = n.createWithHTML(s, "button", "copy-small", l.text.copySymbolText);
+            const u = n.createWithHTML(a, "button", "copy-small", l.text.copySymbolText);
             u.title = l.text.copyText;
             u.onclick = () => {
                 navigator.clipboard.writeText(i);
             };
             if (x.allowEditing && r) {
-                const e = n.createWithHTML(s, "button", "paste-small", l.text.pasteSymbolText);
-                const r = n.createWithHTML(s, "button", "remove-small", l.text.removeSymbolText);
+                const e = n.createWithHTML(a, "button", "paste-small", l.text.pasteSymbolText);
+                const r = n.createWithHTML(a, "button", "remove-small", l.text.removeSymbolText);
                 e.title = l.text.pasteText;
                 r.title = l.text.removeText;
                 e.onclick = () => {
                     navigator.clipboard.readText().then((e => {
                         f.value = e;
-                        z(t, o, f);
+                        G(t, o, f);
                     }));
                 };
                 r.onclick = () => {
@@ -442,23 +451,23 @@ var o;
             }
             f.type = "text";
             f.value = i;
-            T[o] = i;
+            m[o] = i;
             S++;
             if (!x.allowEditing || !r) {
                 f.readOnly = true;
             } else {
                 f.onkeyup = e => {
-                    F(e, o, f, t);
+                    z(e, o, f, t);
                 };
             }
         }
     }
-    function F(e, t, n, o) {
+    function z(e, t, n, o) {
         if (e.code === "Enter") {
-            z(o, t, n);
+            G(o, t, n);
         }
     }
-    function z(t, n, o) {
+    function G(t, n, o) {
         if (x.mode === 1) {
             t.style.setProperty(n, o.value);
         } else if (x.mode === 2) {
@@ -466,7 +475,7 @@ var o;
         } else if (x.mode === 4) {
             t.classList.replace(t.classList[parseInt(n) - 1], o.value);
         }
-        T[n] = o.value;
+        m[n] = o.value;
         if (e.hexColor(o.value) || e.isRgbColor(o.value)) {
             o.classList.add("property-value-color");
             o.style.borderLeftColor = o.value;
@@ -474,7 +483,7 @@ var o;
             o.classList.remove("property-value-color");
         }
     }
-    function G() {
+    function J() {
         const e = x.nodeType;
         v = e.length;
         for (let t = 0; t < v; t++) {
@@ -482,33 +491,33 @@ var o;
             const o = [].slice.call(n);
             const l = o.length;
             for (let e = 0; e < l; e++) {
-                J(o[e]);
+                K(o[e]);
             }
         }
-        window.addEventListener("mousemove", X);
+        window.addEventListener("mousemove", Y);
     }
-    function J(n) {
+    function K(n) {
         const o = n.getAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE);
         if (!e.definedString(o) && o !== "ignore") {
             n.addEventListener("mousemove", (e => {
-                U(e, n);
+                X(e, n);
             }));
-            m.push(n);
+            T.push(n);
         }
     }
-    function K() {
-        const e = m.length;
+    function U() {
+        const e = T.length;
         for (let n = 0; n < e; n++) {
-            var t = m[n];
+            var t = T[n];
             t.removeEventListener("mousemove", (e => {
-                U(e, t);
+                X(e, t);
             }));
         }
-        m = [];
-        window.removeEventListener("mousemove", X);
+        T = [];
+        window.removeEventListener("mousemove", Y);
         P();
     }
-    function U(e, t) {
+    function X(e, t) {
         if (!h) {
             n.cancelBubble(e);
             if (y !== 0) {
@@ -516,12 +525,12 @@ var o;
                 y = 0;
             }
             y = setTimeout((() => {
-                I(t);
+                k(t);
                 n.showElementAtMousePosition(e, i);
             }), l.dialogDisplayDelay);
         }
     }
-    function X() {
+    function Y() {
         if (!h) {
             if (y !== 0) {
                 clearTimeout(y);
@@ -530,24 +539,27 @@ var o;
             P();
         }
     }
-    function Y(e, t) {
+    function V(e, t) {
         e.onmousedown = e => {
-            V(e, t);
+            q(e, t);
         };
         t.onmousemove = e => {
-            Q(e, true);
+            Z(e, true);
         };
         e.onmouseup = () => {
-            q();
+            Q();
         };
         e.oncontextmenu = () => {
-            q();
+            Q();
         };
-        document.addEventListener("mousemove", Q);
-        document.addEventListener("mouseleave", Z);
+        document.addEventListener("mousemove", Z);
+        document.addEventListener("mouseleave", ee);
     }
-    function V(e, t) {
+    function q(e, t) {
         if (!w) {
+            if (!h) {
+                M();
+            }
             h = true;
             A = t;
             w = true;
@@ -557,7 +569,7 @@ var o;
             D = A.offsetTop;
         }
     }
-    function q() {
+    function Q() {
         if (w) {
             w = false;
             A = null;
@@ -565,7 +577,7 @@ var o;
             D = 0;
         }
     }
-    function Q(e, t = false) {
+    function Z(e, t = false) {
         if (t) {
             n.cancelBubble(e);
         }
@@ -574,7 +586,7 @@ var o;
             A.style.top = `${e.pageY - N}px`;
         }
     }
-    function Z() {
+    function ee() {
         if (w) {
             A.style.left = `${L}px`;
             A.style.top = `${D}px`;
@@ -584,7 +596,7 @@ var o;
             D = 0;
         }
     }
-    function ee(e) {
+    function te(e) {
         let t = o.getDefaultObject(e, {});
         t.nodeType = o.getDefaultStringOrArray(t.nodeType, []);
         t.mode = o.getDefaultNumber(t.mode, 1);
@@ -595,13 +607,13 @@ var o;
         t.showNodeNameInTitle = o.getDefaultBoolean(t.showNodeNameInTitle, false);
         return t;
     }
-    function te(e = null) {
+    function ne(e = null) {
         l = o.getDefaultObject(e, {});
         l.dialogDisplayDelay = o.getDefaultNumber(l.dialogDisplayDelay, 1e3);
         l.searchDelayDelay = o.getDefaultNumber(l.searchDelayDelay, 500);
-        ne();
+        oe();
     }
-    function ne() {
+    function oe() {
         l.text = o.getDefaultObject(l.text, {});
         l.text.cssText = o.getDefaultAnyString(l.text.cssText, "CSS");
         l.text.attributesText = o.getDefaultAnyString(l.text.attributesText, "Attributes");
@@ -620,26 +632,27 @@ var o;
         l.text.clearText = o.getDefaultAnyString(l.text.clearText, "Clear");
         l.text.clearSymbolText = o.getDefaultAnyString(l.text.clearSymbolText, "✕");
         l.text.noPropertiesFoundForSearchText = o.getDefaultAnyString(l.text.noPropertiesFoundForSearchText, "No properties were found for your search.");
+        l.text.dialogMovedSymbolText = o.getDefaultAnyString(l.text.dialogMovedSymbolText, "✱");
     }
-    const oe = {
+    const le = {
         start: function(t) {
             if (!e.definedObject(x)) {
-                x = ee(t);
+                x = te(t);
                 H();
-                G();
+                J();
             }
-            return oe;
+            return le;
         },
         stop: function() {
             if (e.definedObject(x)) {
                 x = null;
-                K();
+                U();
             }
-            return oe;
+            return le;
         },
         close: function() {
             P();
-            return oe;
+            return le;
         },
         setConfiguration: function(t) {
             if (e.definedObject(t)) {
@@ -652,26 +665,26 @@ var o;
                     }
                 }
                 if (n) {
-                    te(o);
+                    ne(o);
                     O();
                     if (e.definedObject(x)) {
                         H();
                     }
                 }
             }
-            return oe;
+            return le;
         },
         getVersion: function() {
             return "1.6.0";
         }
     };
     (() => {
-        te();
+        ne();
         document.addEventListener("DOMContentLoaded", (() => {
             O();
         }));
         if (!e.defined(window.$peek)) {
-            window.$peek = oe;
+            window.$peek = le;
         }
     })();
 })();//# sourceMappingURL=peek.esm.js.map

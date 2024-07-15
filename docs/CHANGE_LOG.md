@@ -1,8 +1,12 @@
 # Peek.js - Change Log:
 
 ## Version 1.6.0:
+
+#### **Configuration:**
+- Added configuration option "text.dialogMovedSymbolText" (defaults to "✱"), which states the symbol to show in the dialog title when the dialog has been moved and locked.
+
+#### **UI Enhancements:**
 - The "Search properties..." search field now uses a new style for the placeholder text.
-- 
 
 <br>
 

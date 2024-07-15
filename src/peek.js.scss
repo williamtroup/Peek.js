@@ -115,6 +115,11 @@ div.peek-js {
 
         @include no-text-wrap;
 
+        span.locked {
+            margin-right: calc( var(--peek-js-spacing) / 2 );
+            font-weight: var(--peek-js-title-span-bold-weight);
+        }
+
         span.dash {
             font-weight: var(--peek-js-title-span-bold-weight);
         }

@@ -18,7 +18,7 @@ import { type Position } from "./type";
 
 
 export namespace DomElement {
-    export function create( container: HTMLElement, type: string, className: string = Char.empty ) : HTMLElement {
+    export function create( container: HTMLElement, type: string, className: string = Char.empty, insertAtStart: boolean = false ) : HTMLElement {
         const nodeType: string = type.toLowerCase();
         const isText: boolean = nodeType === "text";
 
@@ -30,13 +30,17 @@ export namespace DomElement {
             result.className = className;
         }
 
-        container.appendChild( result );
+        if ( !insertAtStart ) {
+            container.appendChild( result );
+        } else {
+            container.insertBefore( result, container.children[ 0 ] );
+        }
 
         return result;
     }
 
-    export function createWithHTML( container: HTMLElement, type: string, className: string, html: string ) : HTMLElement {
-        const element: HTMLElement = create( container, type, className );
+    export function createWithHTML( container: HTMLElement, type: string, className: string, html: string, insertAtStart: boolean = false ) : HTMLElement {
+        const element: HTMLElement = create( container, type, className, insertAtStart );
         element.innerHTML = html;
         element.setAttribute( Constant.PEEK_JS_IGNORE_STATE_ATTRIBUTE, IgnoreState.ignore );
 
