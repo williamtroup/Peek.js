@@ -155,6 +155,10 @@ div.peek-js {
             flex-grow: 1;
 
             @include input-text-fields;
+
+            &::placeholder {
+                font-style: italic;
+            }
         }
 
         @include buttons;

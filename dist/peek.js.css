@@ -143,6 +143,9 @@ div.peek-js div.dialog-search input[type=text] {
 div.peek-js div.dialog-search input[type=text]:not([readonly]):focus {
   background-color: var(--peek-js-color-gray);
 }
+div.peek-js div.dialog-search input[type=text]::placeholder {
+  font-style: italic;
+}
 div.peek-js div.dialog-search button {
   background-color: var(--peek-js-button-background-color);
   border: var(--peek-js-border-size) solid var(--peek-js-button-border-color);

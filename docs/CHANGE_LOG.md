@@ -1,6 +1,7 @@
 # Peek.js - Change Log:
 
 ## Version 1.6.0:
+- The "Search properties..." search field now uses a new style for the placeholder text.
 - 
 
 <br>
