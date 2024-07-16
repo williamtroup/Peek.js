@@ -157,6 +157,8 @@ div.peek-js {
         padding: var(--peek-js-spacing);
         margin: var(--peek-js-spacing);
 
+        @include buttons;
+
         input[type="text"] {
             flex-grow: 1;
 
@@ -166,8 +168,6 @@ div.peek-js {
                 font-style: italic;
             }
         }
-
-        @include buttons;
 
         button {
             margin-left: var(--peek-js-spacing);

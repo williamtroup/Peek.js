@@ -132,24 +132,6 @@ div.peek-js div.dialog-search {
   padding: var(--peek-js-spacing);
   margin: var(--peek-js-spacing);
 }
-div.peek-js div.dialog-search input[type=text] {
-  flex-grow: 1;
-  width: 100%;
-  padding: calc(var(--peek-js-spacing) / 2);
-  border-radius: var(--peek-js-border-radius);
-  border: var(--peek-js-border-size) solid var(--peek-js-dialog-border-color);
-  color: var(--peek-js-color-snow-white);
-  background-color: var(--peek-js-dialog-background-color);
-  outline: none;
-  box-shadow: none;
-  transition: var(--peek-js-transition);
-}
-div.peek-js div.dialog-search input[type=text]:not([readonly]):focus {
-  background-color: var(--peek-js-color-gray);
-}
-div.peek-js div.dialog-search input[type=text]::placeholder {
-  font-style: italic;
-}
 div.peek-js div.dialog-search button {
   background-color: var(--peek-js-button-background-color);
   border: var(--peek-js-border-size) solid var(--peek-js-button-border-color);
@@ -180,6 +162,24 @@ div.peek-js div.dialog-search button.active {
   color: var(--peek-js-button-text-color-hover);
   transition: var(--peek-js-transition);
   font-weight: var(--peek-js-text-bold-weight-active);
+}
+div.peek-js div.dialog-search input[type=text] {
+  flex-grow: 1;
+  width: 100%;
+  padding: calc(var(--peek-js-spacing) / 2);
+  border-radius: var(--peek-js-border-radius);
+  border: var(--peek-js-border-size) solid var(--peek-js-dialog-border-color);
+  color: var(--peek-js-color-snow-white);
+  background-color: var(--peek-js-dialog-background-color);
+  outline: none;
+  box-shadow: none;
+  transition: var(--peek-js-transition);
+}
+div.peek-js div.dialog-search input[type=text]:not([readonly]):focus {
+  background-color: var(--peek-js-color-gray);
+}
+div.peek-js div.dialog-search input[type=text]::placeholder {
+  font-style: italic;
 }
 div.peek-js div.dialog-search button {
   margin-left: var(--peek-js-spacing);
