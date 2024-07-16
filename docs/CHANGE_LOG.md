@@ -4,6 +4,7 @@
 
 #### **New Features:**
 - Added support to move an element Up/Down within the elements parent node.
+- Added support to show when the dialog has been moved and locked.
 
 #### **Configuration:**
 - Added configuration option "text.dialogMovedSymbolText" (defaults to "✱"), which states the symbol to show in the dialog title when the dialog has been moved and locked.
