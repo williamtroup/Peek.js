@@ -127,6 +127,8 @@ type DialogProperties = Record<string, string>;
                     title = _configuration.text!.sizeText!;
                 } else if ( _current_Process_Options.mode === Mode.class ) {
                     title = _configuration.text!.classesText!;
+                } else {
+                    title = _configuration.text!.unknownModeText!;
                 }
             }
     
@@ -251,10 +253,10 @@ type DialogProperties = Record<string, string>;
 
         setDialogTitle( element );
 
-        if ( _current_Process_Options.mode === Mode.size ) {
-            _dialog_Buttons_Copy.style.display = "none";
-        } else {
+        if ( _current_Process_Options.mode === Mode.css || _current_Process_Options.mode === Mode.class || _current_Process_Options.mode === Mode.attributes ) {
             _dialog_Buttons_Copy.style.removeProperty( "display" );
+        } else {
+            _dialog_Buttons_Copy.style.display = "none";
         }
 
         if ( !_current_Process_Options.allowEditing ) {
@@ -273,6 +275,8 @@ type DialogProperties = Record<string, string>;
             buildSizeProperties( element );
         } else if ( _current_Process_Options.mode === Mode.class ) {
             buildClassProperties( element );
+        } else {
+            DomElement.createWithHTML( _dialog_Contents, "span", "warning", _configuration.text!.modeNotSupportedText! );
         }
 
         if ( _current_Process_Properties_Count <= 15 ) {
@@ -634,6 +638,8 @@ type DialogProperties = Record<string, string>;
         _configuration.text!.noPropertiesFoundForSearchText = Data.getDefaultAnyString( _configuration.text!.noPropertiesFoundForSearchText, "No properties were found for your search." );
         _configuration.text!.dialogMovedSymbolText = Data.getDefaultAnyString( _configuration.text!.dialogMovedSymbolText, "✱" );
         _configuration.text!.propertyValuePlaceHolderText = Data.getDefaultAnyString( _configuration.text!.propertyValuePlaceHolderText, "Enter value..." );
+        _configuration.text!.modeNotSupportedText = Data.getDefaultAnyString( _configuration.text!.modeNotSupportedText, "The mode you have specified is not supported." );
+        _configuration.text!.unknownModeText = Data.getDefaultAnyString( _configuration.text!.unknownModeText, "Unknown Mode" );
     }
 
 

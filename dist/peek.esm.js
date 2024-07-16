@@ -37,7 +37,7 @@ var e;
         return !a(e) || e.length < t;
     }
     e.invalidOptionArray = f;
-    function c(e) {
+    function u(e) {
         let t = e.length >= 2 && e.length <= 7;
         if (t && e[0] === "#") {
             t = isNaN(+e.substring(1, e.length - 1));
@@ -46,11 +46,11 @@ var e;
         }
         return t;
     }
-    e.hexColor = c;
-    function u(e) {
+    e.hexColor = u;
+    function c(e) {
         return e.startsWith("rgb") || e.startsWith("rgba");
     }
-    e.isRgbColor = u;
+    e.isRgbColor = c;
 })(e || (e = {}));
 
 var t;
@@ -192,28 +192,28 @@ var o;
     let a = null;
     let s = null;
     let f = 0;
-    let c = null;
     let u = null;
+    let c = null;
     let d = null;
     let p = null;
-    let g = null;
-    let y = 0;
     let x = null;
+    let g = 0;
+    let y = null;
     let T = [];
     let m = {};
-    let b = null;
-    let h = false;
+    let h = null;
+    let b = false;
     let v = 0;
     let S = 0;
     let A = null;
-    let L = 0;
     let D = 0;
+    let L = 0;
     let w = false;
     let E = 0;
     let N = 0;
     function H() {
         if (e.definedObject(i)) {
-            M();
+            P();
             document.body.removeChild(i);
             i = null;
         }
@@ -221,7 +221,7 @@ var o;
         i.onmousemove = n.cancelBubble;
         r = n.create(i, "div", "dialog-title-bar");
         a = n.create(i, "div", "dialog-search");
-        c = n.create(i, "div", "dialog-contents");
+        u = n.create(i, "div", "dialog-contents");
         d = n.create(i, "div", "dialog-buttons");
         p = n.createWithHTML(d, "button", "copy", l.text.copyText);
         p.onclick = C;
@@ -232,34 +232,36 @@ var o;
         s.onpaste = $;
         const t = n.createWithHTML(a, "button", "clear-small", l.text.clearSymbolText);
         t.title = l.text.clearText;
-        t.onclick = I;
+        t.onclick = k;
         const o = n.createWithHTML(d, "button", "close", l.text.closeText);
-        o.onclick = M;
-        g = n.createWithHTML(d, "button", "remove", l.text.removeText);
-        g.onclick = W;
+        o.onclick = P;
+        x = n.createWithHTML(d, "button", "remove", l.text.removeText);
+        x.onclick = W;
         Y(r, i);
     }
-    function O(t = null) {
-        if (!h) {
-            let o = x.titleText;
+    function M(t = null) {
+        if (!b) {
+            let o = y.titleText;
             r.innerHTML = "";
-            if (v > 1 && x.showNodeNameInTitle) {
+            if (v > 1 && y.showNodeNameInTitle) {
                 n.createWithHTML(r, "span", "node-name", `[${t.nodeName.toLowerCase()}] - `);
                 n.createWithHTML(r, "span", "dash", " - ");
             }
             if (!e.definedString(o)) {
-                if (x.mode === 1) {
+                if (y.mode === 1) {
                     o = l.text.cssText;
-                } else if (x.mode === 2) {
+                } else if (y.mode === 2) {
                     o = l.text.attributesText;
-                } else if (x.mode === 3) {
+                } else if (y.mode === 3) {
                     o = l.text.sizeText;
-                } else if (x.mode === 4) {
+                } else if (y.mode === 4) {
                     o = l.text.classesText;
+                } else {
+                    o = l.text.unknownModeText;
                 }
             }
             n.createWithHTML(r, "span", "title", o);
-            if (x.showIdOrNameInTitle && e.defined(t)) {
+            if (y.showIdOrNameInTitle && e.defined(t)) {
                 const o = t.getAttribute("id");
                 const l = t.getAttribute("name");
                 if (e.definedString(o)) {
@@ -272,37 +274,37 @@ var o;
             }
         }
     }
-    function P() {
+    function O() {
         n.createWithHTML(r, "span", "locked", `${l.text.dialogMovedSymbolText}${" "}`, true);
     }
-    function M() {
+    function P() {
         i.style.display = "none";
-        h = false;
+        b = false;
         s.value = "";
     }
     function C() {
         const e = [];
         for (let t in m) {
             if (m.hasOwnProperty(t)) {
-                if (x.mode === 1) {
+                if (y.mode === 1) {
                     e.push(`${t}: ${m[t]};`);
-                } else if (x.mode === 2) {
+                } else if (y.mode === 2) {
                     e.push(`${t}="${m[t]}"`);
-                } else if (x.mode === 4) {
+                } else if (y.mode === 4) {
                     e.push(m[t]);
                 }
             }
         }
-        if (x.mode === 1) {
-            navigator.clipboard.writeText(`${b.nodeName.toLowerCase()} { ${"\n"} ${e.join("\n")} ${"\n"} }`);
-        } else if (x.mode === 2 || x.mode === 4) {
+        if (y.mode === 1) {
+            navigator.clipboard.writeText(`${h.nodeName.toLowerCase()} { ${"\n"} ${e.join("\n")} ${"\n"} }`);
+        } else if (y.mode === 2 || y.mode === 4) {
             navigator.clipboard.writeText(e.join(" "));
         }
     }
     function W() {
         var e;
-        (e = b.parentNode) == null ? void 0 : e.removeChild(b);
-        M();
+        (e = h.parentNode) == null ? void 0 : e.removeChild(h);
+        P();
     }
     function $() {
         if (f !== 0) {
@@ -310,7 +312,7 @@ var o;
             f = 0;
         }
         f = setTimeout((() => {
-            const t = c.getElementsByClassName("property-name");
+            const t = u.getElementsByClassName("property-name");
             const n = [].slice.call(t);
             const o = n.length;
             const l = s.value.toLowerCase();
@@ -333,43 +335,45 @@ var o;
                 }
             }
             if (i === 0) {
-                u.style.display = "block";
+                c.style.display = "block";
             } else {
-                u.style.removeProperty("display");
+                c.style.removeProperty("display");
             }
         }), l.searchDelayDelay);
     }
-    function I() {
+    function k() {
         s.value = "";
         s.focus();
         $();
     }
-    function k(e) {
-        c.innerHTML = "";
-        c.scrollTop = 0;
+    function I(e) {
+        u.innerHTML = "";
+        u.scrollTop = 0;
         m = {};
         S = 0;
-        b = e;
-        O(e);
-        if (x.mode === 3) {
-            p.style.display = "none";
-        } else {
+        h = e;
+        M(e);
+        if (y.mode === 1 || y.mode === 4 || y.mode === 2) {
             p.style.removeProperty("display");
-        }
-        if (!x.allowEditing) {
-            g.style.display = "none";
         } else {
-            g.style.removeProperty("display");
+            p.style.display = "none";
         }
-        u = n.createWithHTML(c, "span", "no-search-results", l.text.noPropertiesFoundForSearchText);
-        if (x.mode === 1) {
+        if (!y.allowEditing) {
+            x.style.display = "none";
+        } else {
+            x.style.removeProperty("display");
+        }
+        c = n.createWithHTML(u, "span", "no-search-results", l.text.noPropertiesFoundForSearchText);
+        if (y.mode === 1) {
             B(e);
-        } else if (x.mode === 2) {
+        } else if (y.mode === 2) {
             j(e);
-        } else if (x.mode === 3) {
+        } else if (y.mode === 3) {
             _(e);
-        } else if (x.mode === 4) {
+        } else if (y.mode === 4) {
             R(e);
+        } else {
+            n.createWithHTML(u, "span", "warning", l.text.modeNotSupportedText);
         }
         if (S <= 15) {
             a.style.display = "none";
@@ -390,8 +394,8 @@ var o;
                 F(e, t.name, t.value);
             }
         } else {
-            c.innerHTML = "";
-            n.createWithHTML(c, "span", "warning", l.text.noAttributesAvailableText);
+            u.innerHTML = "";
+            n.createWithHTML(u, "span", "warning", l.text.noAttributesAvailableText);
         }
     }
     function _(e) {
@@ -409,13 +413,13 @@ var o;
                 t++;
             }
         } else {
-            c.innerHTML = "";
-            n.createWithHTML(c, "span", "warning", l.text.noClassesAvailableText);
+            u.innerHTML = "";
+            n.createWithHTML(u, "span", "warning", l.text.noClassesAvailableText);
         }
     }
     function F(t, o, i, r = true) {
-        if (x.showOnly.length === 0 || x.showOnly.indexOf(o) > -1) {
-            const a = n.create(c, "div", "property-row");
+        if (y.showOnly.length === 0 || y.showOnly.indexOf(o) > -1) {
+            const a = n.create(u, "div", "property-row");
             n.createWithHTML(a, "div", "property-name", o);
             const s = n.create(a, "div", "property-value");
             const f = n.create(s, "input");
@@ -424,12 +428,12 @@ var o;
                 f.style.borderLeftColor = i;
             }
             f.placeholder = l.text.propertyValuePlaceHolderText;
-            const u = n.createWithHTML(a, "button", "copy-small", l.text.copySymbolText);
-            u.title = l.text.copyText;
-            u.onclick = () => {
+            const c = n.createWithHTML(a, "button", "copy-small", l.text.copySymbolText);
+            c.title = l.text.copyText;
+            c.onclick = () => {
                 navigator.clipboard.writeText(i);
             };
-            if (x.allowEditing && r) {
+            if (y.allowEditing && r) {
                 const e = n.createWithHTML(a, "button", "paste-small", l.text.pasteSymbolText);
                 const r = n.createWithHTML(a, "button", "remove-small", l.text.removeSymbolText);
                 e.title = l.text.pasteText;
@@ -437,15 +441,15 @@ var o;
                 e.onclick = () => {
                     navigator.clipboard.readText().then((e => {
                         f.value = e;
-                        z(t, o, f);
+                        V(t, o, f);
                     }));
                 };
                 r.onclick = () => {
-                    if (x.mode === 1) {
+                    if (y.mode === 1) {
                         t.style.removeProperty(o);
-                    } else if (x.mode === 2) {
+                    } else if (y.mode === 2) {
                         t.removeAttribute(o);
-                    } else if (x.mode === 4) {
+                    } else if (y.mode === 4) {
                         t.classList.remove(i);
                     }
                 };
@@ -454,26 +458,26 @@ var o;
             f.value = i;
             m[o] = i;
             S++;
-            if (!x.allowEditing || !r) {
+            if (!y.allowEditing || !r) {
                 f.readOnly = true;
             } else {
                 f.onkeyup = e => {
-                    V(e, o, f, t);
+                    U(e, o, f, t);
                 };
             }
         }
     }
-    function V(e, t, n, o) {
+    function U(e, t, n, o) {
         if (e.code === "Enter") {
-            z(o, t, n);
+            V(o, t, n);
         }
     }
-    function z(t, n, o) {
-        if (x.mode === 1) {
+    function V(t, n, o) {
+        if (y.mode === 1) {
             t.style.setProperty(n, o.value);
-        } else if (x.mode === 2) {
+        } else if (y.mode === 2) {
             t.setAttribute(n, o.value);
-        } else if (x.mode === 4) {
+        } else if (y.mode === 4) {
             t.classList.replace(t.classList[parseInt(n) - 1], o.value);
         }
         m[n] = o.value;
@@ -484,60 +488,60 @@ var o;
             o.classList.remove("property-value-color");
         }
     }
-    function G() {
-        const e = x.nodeType;
+    function z() {
+        const e = y.nodeType;
         v = e.length;
         for (let t = 0; t < v; t++) {
             const n = document.getElementsByTagName(e[t]);
             const o = [].slice.call(n);
             const l = o.length;
             for (let e = 0; e < l; e++) {
-                J(o[e]);
+                G(o[e]);
             }
         }
         window.addEventListener("mousemove", X);
     }
-    function J(n) {
+    function G(n) {
         const o = n.getAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE);
         if (!e.definedString(o) && o !== "ignore") {
             n.addEventListener("mousemove", (e => {
-                U(e, n);
+                K(e, n);
             }));
             T.push(n);
         }
     }
-    function K() {
+    function J() {
         const e = T.length;
         for (let n = 0; n < e; n++) {
             var t = T[n];
             t.removeEventListener("mousemove", (e => {
-                U(e, t);
+                K(e, t);
             }));
         }
         T = [];
         window.removeEventListener("mousemove", X);
-        M();
+        P();
     }
-    function U(e, t) {
-        if (!h) {
+    function K(e, t) {
+        if (!b) {
             n.cancelBubble(e);
-            if (y !== 0) {
-                clearTimeout(y);
-                y = 0;
+            if (g !== 0) {
+                clearTimeout(g);
+                g = 0;
             }
-            y = setTimeout((() => {
-                k(t);
+            g = setTimeout((() => {
+                I(t);
                 n.showElementAtMousePosition(e, i);
             }), l.dialogDisplayDelay);
         }
     }
     function X() {
-        if (!h) {
-            if (y !== 0) {
-                clearTimeout(y);
-                y = 0;
+        if (!b) {
+            if (g !== 0) {
+                clearTimeout(g);
+                g = 0;
             }
-            M();
+            P();
         }
     }
     function Y(e, t) {
@@ -562,16 +566,16 @@ var o;
             w = true;
             E = e.pageX - A.offsetLeft;
             N = e.pageY - A.offsetTop;
-            L = A.offsetLeft;
-            D = A.offsetTop;
+            D = A.offsetLeft;
+            L = A.offsetTop;
         }
     }
     function Q() {
         if (w) {
             w = false;
             A = null;
-            L = 0;
             D = 0;
+            L = 0;
         }
     }
     function Z(e, t = false) {
@@ -579,22 +583,22 @@ var o;
             n.cancelBubble(e);
         }
         if (w) {
-            if (!h) {
-                P();
+            if (!b) {
+                O();
             }
-            h = true;
+            b = true;
             A.style.left = `${e.pageX - E}px`;
             A.style.top = `${e.pageY - N}px`;
         }
     }
     function ee() {
         if (w) {
-            A.style.left = `${L}px`;
-            A.style.top = `${D}px`;
+            A.style.left = `${D}px`;
+            A.style.top = `${L}px`;
             w = false;
             A = null;
-            L = 0;
             D = 0;
+            L = 0;
         }
     }
     function te(e) {
@@ -635,25 +639,27 @@ var o;
         l.text.noPropertiesFoundForSearchText = o.getDefaultAnyString(l.text.noPropertiesFoundForSearchText, "No properties were found for your search.");
         l.text.dialogMovedSymbolText = o.getDefaultAnyString(l.text.dialogMovedSymbolText, "✱");
         l.text.propertyValuePlaceHolderText = o.getDefaultAnyString(l.text.propertyValuePlaceHolderText, "Enter value...");
+        l.text.modeNotSupportedText = o.getDefaultAnyString(l.text.modeNotSupportedText, "The mode you have specified is not supported.");
+        l.text.unknownModeText = o.getDefaultAnyString(l.text.unknownModeText, "Unknown Mode");
     }
     const le = {
         start: function(t) {
-            if (!e.definedObject(x)) {
-                x = te(t);
-                O();
-                G();
+            if (!e.definedObject(y)) {
+                y = te(t);
+                M();
+                z();
             }
             return le;
         },
         stop: function() {
-            if (e.definedObject(x)) {
-                x = null;
-                K();
+            if (e.definedObject(y)) {
+                y = null;
+                J();
             }
             return le;
         },
         close: function() {
-            M();
+            P();
             return le;
         },
         setConfiguration: function(t) {
@@ -669,8 +675,8 @@ var o;
                 if (n) {
                     ne(o);
                     H();
-                    if (e.definedObject(x)) {
-                        O();
+                    if (e.definedObject(y)) {
+                        M();
                     }
                 }
             }

@@ -5,6 +5,8 @@
 #### **Configuration:**
 - Added configuration option "text.dialogMovedSymbolText" (defaults to "✱"), which states the symbol to show in the dialog title when the dialog has been moved and locked.
 - Added configuration option "text.propertyValuePlaceHolderText" (defaults to "Enter value..."), which states the placeholder text to use for the property values.
+- Added configuration option "text.modeNotSupportedText" (defaults to "The mode you have specified is not supported."), which states the warning text to show when a mode is not supported.
+- Added configuration option "text.unknownModeText" (defaults to "Unknown Mode"), which states the dialog title to use when a mode is not supported.
 
 #### **UI Enhancements:**
 - The "Search properties..." search field now uses a new style for the placeholder text.

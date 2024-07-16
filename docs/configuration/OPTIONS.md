@@ -35,6 +35,8 @@ Below are all the configuration options that can be passed to the "setConfigurat
 | text | *string* | clearText | The text used for the "Clear" button. |
 | text | *string* | clearSymbolText | The text used for the "✕" clear symbol button. |
 | text | *string* | noPropertiesFoundForSearchText | The text that should be used for the "No properties were found for your search." search warning. |
+| text | *string* | modeNotSupportedText | The text that should be used for the "The mode you have specified is not supported." warning. |
+| text | *string* | unknownModeText | The text that should be used for the "Unknown Mode" title. |
 
 <br/>
 
