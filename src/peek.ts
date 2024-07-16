@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
  * @file        peek.ts
- * @version     v1.5.0
+ * @version     v1.6.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -43,6 +43,8 @@ type DialogProperties = Record<string, string>;
     let _dialog_Buttons: HTMLElement = null!;
     let _dialog_Buttons_Copy: HTMLButtonElement = null!;
     let _dialog_Buttons_Remove: HTMLButtonElement = null!;
+    let _dialog_Buttons_MoveUp: HTMLButtonElement = null!;
+    let _dialog_Buttons_MoveDown: HTMLButtonElement = null!;
     let _dialog_Timer: number = 0;
 
     // Variables: Current Process:
@@ -101,48 +103,65 @@ type DialogProperties = Record<string, string>;
         const closeButton: HTMLElement = DomElement.createWithHTML( _dialog_Buttons, "button", "close", _configuration.text!.closeText! );
         closeButton.onclick = closeDialog;
 
-        _dialog_Buttons_Remove = DomElement.createWithHTML( _dialog_Buttons, "button", "remove", _configuration.text!.removeText! ) as HTMLButtonElement;
+        _dialog_Buttons_Remove = DomElement.createWithHTML( _dialog_Buttons, "button", "remove", _configuration.text!.removeElementSymbolText! ) as HTMLButtonElement;
         _dialog_Buttons_Remove.onclick = onRemove;
+        _dialog_Buttons_Remove.title = _configuration.text!.removeText!;
+
+        _dialog_Buttons_MoveUp = DomElement.createWithHTML( _dialog_Buttons, "button", "move-up", _configuration.text!.moveUpSymbolText! ) as HTMLButtonElement;
+        _dialog_Buttons_MoveUp.onclick = onMoveUp;
+        _dialog_Buttons_MoveUp.title = _configuration.text!.moveUpText!;
+
+        _dialog_Buttons_MoveDown = DomElement.createWithHTML( _dialog_Buttons, "button", "move-down", _configuration.text!.moveDownSymbolText! ) as HTMLButtonElement;
+        _dialog_Buttons_MoveDown.onclick = onMoveDown;
+        _dialog_Buttons_MoveDown.title = _configuration.text!.moveDownText!;
 
         makeDialogMovable( _dialog_Title, _dialog );
     }
 
-    function setDialogText( element: HTMLElement = null! ) : void {
-        let title: string = _current_Process_Options.titleText!;
+    function setDialogTitle( element: HTMLElement = null! ) : void {
+        if ( !_current_Process_Locked ) {
+            let title: string = _current_Process_Options.titleText!;
 
-        _dialog_Title.innerHTML = Char.empty;
-
-        if ( _current_Process_NodeCount > 1 && _current_Process_Options.showNodeNameInTitle ) {
-            DomElement.createWithHTML( _dialog_Title, "span", "node-name", `[${ element.nodeName.toLowerCase() }] - ` );
-            DomElement.createWithHTML( _dialog_Title, "span", "dash", " - " );
-        }
-
-        if ( !Is.definedString( title ) ) {
-            if ( _current_Process_Options.mode === Mode.css ) {
-                title = _configuration.text!.cssText!;
-            } else if ( _current_Process_Options.mode === Mode.attributes ) {
-                title = _configuration.text!.attributesText!;
-            } else if ( _current_Process_Options.mode === Mode.size ) {
-                title = _configuration.text!.sizeText!;
-            } else if ( _current_Process_Options.mode === Mode.class ) {
-                title = _configuration.text!.classesText!;
+            _dialog_Title.innerHTML = Char.empty;
+    
+            if ( _current_Process_NodeCount > 1 && _current_Process_Options.showNodeNameInTitle ) {
+                DomElement.createWithHTML( _dialog_Title, "span", "node-name", `[${ element.nodeName.toLowerCase() }] - ` );
+                DomElement.createWithHTML( _dialog_Title, "span", "dash", " - " );
+            }
+    
+            if ( !Is.definedString( title ) ) {
+                if ( _current_Process_Options.mode === Mode.css ) {
+                    title = _configuration.text!.cssText!;
+                } else if ( _current_Process_Options.mode === Mode.attributes ) {
+                    title = _configuration.text!.attributesText!;
+                } else if ( _current_Process_Options.mode === Mode.size ) {
+                    title = _configuration.text!.sizeText!;
+                } else if ( _current_Process_Options.mode === Mode.class ) {
+                    title = _configuration.text!.classesText!;
+                } else {
+                    title = _configuration.text!.unknownModeText!;
+                }
+            }
+    
+            DomElement.createWithHTML( _dialog_Title, "span", "title", title );
+    
+            if ( _current_Process_Options.showIdOrNameInTitle && Is.defined( element ) ) {
+                const id: string = element.getAttribute( "id" )!;
+                const name: string = element.getAttribute( "name" )!;
+    
+                if ( Is.definedString( id ) ) {
+                    DomElement.createWithHTML( _dialog_Title, "span", "dash", " - " );
+                    DomElement.createWithHTML( _dialog_Title, "span", "id-or-name", id );
+                } else if ( Is.definedString( name ) ) {
+                    DomElement.createWithHTML( _dialog_Title, "span", "dash", " - " );
+                    DomElement.createWithHTML( _dialog_Title, "span", "id-or-name", name );
+                }
             }
         }
+    }
 
-        DomElement.createWithHTML( _dialog_Title, "span", "title", title );
-
-        if ( _current_Process_Options.showIdOrNameInTitle && Is.defined( element ) ) {
-            const id: string = element.getAttribute( "id" )!;
-            const name: string = element.getAttribute( "name" )!;
-
-            if ( Is.definedString( id ) ) {
-                DomElement.createWithHTML( _dialog_Title, "span", "dash", " - " );
-                DomElement.createWithHTML( _dialog_Title, "span", "id-or-name", id );
-            } else if ( Is.definedString( name ) ) {
-                DomElement.createWithHTML( _dialog_Title, "span", "dash", " - " );
-                DomElement.createWithHTML( _dialog_Title, "span", "id-or-name", name );
-            }
-        }
+    function setDialogTitleAsLocked() : void {
+        DomElement.createWithHTML( _dialog_Title, "span", "locked", `${_configuration.text!.dialogMovedSymbolText}${Char.space}`, true );
     }
 
     function closeDialog() : void {
@@ -227,7 +246,19 @@ type DialogProperties = Record<string, string>;
         _dialog_Search_Input.focus();
 
         onSearchProperties();
-    } 
+    }
+
+    function onMoveUp() : void {
+        if ( _current_Process_Element.parentNode !== null && _current_Process_Element.previousElementSibling !== null ) {
+            _current_Process_Element.parentNode!.insertBefore( _current_Process_Element, _current_Process_Element.previousElementSibling );
+        }
+    }
+
+    function onMoveDown() : void {
+        if ( _current_Process_Element.parentNode !== null && _current_Process_Element.nextElementSibling !== null ) {
+            _current_Process_Element.parentNode!.insertBefore( _current_Process_Element.nextElementSibling!, _current_Process_Element );
+        }
+    }
 
 
     /*
@@ -243,18 +274,22 @@ type DialogProperties = Record<string, string>;
         _current_Process_Properties_Count = 0;
         _current_Process_Element = element;
 
-        setDialogText( element );
+        setDialogTitle( element );
 
-        if ( _current_Process_Options.mode === Mode.size ) {
-            _dialog_Buttons_Copy.style.display = "none";
-        } else {
+        if ( _current_Process_Options.mode === Mode.css || _current_Process_Options.mode === Mode.class || _current_Process_Options.mode === Mode.attributes ) {
             _dialog_Buttons_Copy.style.removeProperty( "display" );
+        } else {
+            _dialog_Buttons_Copy.style.display = "none";
         }
 
         if ( !_current_Process_Options.allowEditing ) {
             _dialog_Buttons_Remove.style.display = "none";
+            _dialog_Buttons_MoveUp.style.display = "none";
+            _dialog_Buttons_MoveDown.style.display = "none";
         } else {
             _dialog_Buttons_Remove.style.removeProperty( "display" );
+            _dialog_Buttons_MoveUp.style.removeProperty( "display" );
+            _dialog_Buttons_MoveDown.style.removeProperty( "display" );
         }
 
         _dialog_Contents_NoSearchResultsText = DomElement.createWithHTML( _dialog_Contents, "span", "no-search-results", _configuration.text!.noPropertiesFoundForSearchText! ) as HTMLSpanElement;
@@ -267,6 +302,8 @@ type DialogProperties = Record<string, string>;
             buildSizeProperties( element );
         } else if ( _current_Process_Options.mode === Mode.class ) {
             buildClassProperties( element );
+        } else {
+            DomElement.createWithHTML( _dialog_Contents, "span", "warning", _configuration.text!.modeNotSupportedText! );
         }
 
         if ( _current_Process_Properties_Count <= 15 ) {
@@ -336,6 +373,8 @@ type DialogProperties = Record<string, string>;
                 propertyValueInput.classList.add( "property-value-color" );
                 propertyValueInput.style.borderLeftColor = propertyValueText;
             }
+
+            propertyValueInput.placeholder = _configuration.text!.propertyValuePlaceHolderText!;
 
             const copyButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "copy-small", _configuration.text!.copySymbolText! ) as HTMLButtonElement;
             copyButton.title = _configuration.text!.copyText!;
@@ -524,8 +563,6 @@ type DialogProperties = Record<string, string>;
 
     function onMoveTitleBarMouseDown( e: MouseEvent, dialog: HTMLElement ) : void {
         if ( !_element_Dialog_Move_IsMoving ) {
-            _current_Process_Locked = true;
-
             _element_Dialog_Move = dialog;
             _element_Dialog_Move_IsMoving = true;
             _element_Dialog_Move_X = e.pageX - _element_Dialog_Move.offsetLeft;
@@ -550,6 +587,11 @@ type DialogProperties = Record<string, string>;
         }
 
         if ( _element_Dialog_Move_IsMoving ) {
+            if ( !_current_Process_Locked ) {
+                setDialogTitleAsLocked();
+            }
+
+            _current_Process_Locked = true;
             _element_Dialog_Move.style.left = `${ e.pageX - _element_Dialog_Move_X }px`;
             _element_Dialog_Move.style.top = `${ e.pageY - _element_Dialog_Move_Y }px`;
         }
@@ -621,6 +663,15 @@ type DialogProperties = Record<string, string>;
         _configuration.text!.clearText = Data.getDefaultAnyString( _configuration.text!.clearText, "Clear" );
         _configuration.text!.clearSymbolText = Data.getDefaultAnyString( _configuration.text!.clearSymbolText, "✕" );
         _configuration.text!.noPropertiesFoundForSearchText = Data.getDefaultAnyString( _configuration.text!.noPropertiesFoundForSearchText, "No properties were found for your search." );
+        _configuration.text!.dialogMovedSymbolText = Data.getDefaultAnyString( _configuration.text!.dialogMovedSymbolText, "✱" );
+        _configuration.text!.propertyValuePlaceHolderText = Data.getDefaultAnyString( _configuration.text!.propertyValuePlaceHolderText, "Enter value..." );
+        _configuration.text!.modeNotSupportedText = Data.getDefaultAnyString( _configuration.text!.modeNotSupportedText, "The mode you have specified is not supported." );
+        _configuration.text!.unknownModeText = Data.getDefaultAnyString( _configuration.text!.unknownModeText, "Unknown Mode" );
+        _configuration.text!.moveUpText = Data.getDefaultAnyString( _configuration.text!.moveUpText, "Move Up" );
+        _configuration.text!.moveUpSymbolText = Data.getDefaultAnyString( _configuration.text!.moveUpSymbolText, "↑" );
+        _configuration.text!.moveDownText = Data.getDefaultAnyString( _configuration.text!.moveDownText, "Move Down" );
+        _configuration.text!.moveDownSymbolText = Data.getDefaultAnyString( _configuration.text!.moveDownSymbolText, "↓" );
+        _configuration.text!.removeElementSymbolText = Data.getDefaultAnyString( _configuration.text!.removeElementSymbolText, "⌫" );
     }
 
 
@@ -641,7 +692,7 @@ type DialogProperties = Record<string, string>;
             if ( !Is.definedObject( _current_Process_Options ) ) {
                 _current_Process_Options = buildOptions( options );
 
-                setDialogText();
+                setDialogTitle();
                 buildNodeEvents();
             }
 
@@ -688,7 +739,7 @@ type DialogProperties = Record<string, string>;
                     buildDialog();
 
                     if ( Is.definedObject( _current_Process_Options ) ) {
-                        setDialogText();
+                        setDialogTitle();
                     }
                 }
             }
@@ -704,7 +755,7 @@ type DialogProperties = Record<string, string>;
          */
 
         getVersion: function () : string {
-            return "1.5.0";
+            return "1.6.0";
         }
     };
 

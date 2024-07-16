@@ -1,5 +1,28 @@
 # Peek.js - Change Log:
 
+## Version 1.6.0:
+
+#### **New Features:**
+- Added support to move an element Up/Down within the elements parent node.
+- Added support to show when the dialog has been moved and locked.
+
+#### **Configuration:**
+- Added configuration option "text.dialogMovedSymbolText" (defaults to "✱"), which states the symbol to show in the dialog title when the dialog has been moved and locked.
+- Added configuration option "text.propertyValuePlaceHolderText" (defaults to "Enter value..."), which states the placeholder text to use for the property values.
+- Added configuration option "text.modeNotSupportedText" (defaults to "The mode you have specified is not supported."), which states the warning text to show when a mode is not supported.
+- Added configuration option "text.unknownModeText" (defaults to "Unknown Mode"), which states the dialog title to use when a mode is not supported.
+- Added configuration option "text.moveUpText" (defaults to "Move Up"), which states the text to use for the Move Up button.
+- Added configuration option "text.moveUpSymbolText" (defaults to "↑"), which states the text to use for the Move Up symbol button.
+- Added configuration option "text.moveDownText" (defaults to "Move Down"), which states the text to use for the Move Down button.
+- Added configuration option "text.moveDownSymbolText" (defaults to "↓"), which states the text to use for the Move Down symbol button.
+- Added configuration option "text.removeElementSymbolText" (defaults to "⌫"), which states the text to use for the Remove element symbol button.
+
+#### **UI Enhancements:**
+- The "Search properties..." search field now uses a new style for the placeholder text.
+
+<br>
+
+
 ## Version 1.5.0:
 
 #### **New Features:**

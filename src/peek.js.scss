@@ -1,5 +1,5 @@
 /*
- * Peek.js Library v1.5.0
+ * Peek.js Library v1.6.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -71,9 +71,6 @@
 */
 
 div.peek-js {
-    @include no-selection-allowed;
-    @include box-sizing;
-    @include fade-in-effect-animation( 1s );
     font-family: var(--peek-js-default-font);
     position: absolute;
     border-radius: var(--peek-js-border-radius);
@@ -86,6 +83,10 @@ div.peek-js {
     margin: 0 !important;
     display: none;
     z-index: 2000;
+
+    @include no-selection-allowed;
+    @include box-sizing;
+    @include fade-in-effect-animation( 1s );
 
     * {
         @include box-sizing;
@@ -114,6 +115,11 @@ div.peek-js {
         border-bottom: var(--peek-js-dialog-border-color) solid var(--peek-js-border-size);
 
         @include no-text-wrap;
+
+        span.locked {
+            margin-right: calc( var(--peek-js-spacing) / 2 );
+            font-weight: var(--peek-js-title-span-bold-weight);
+        }
 
         span.dash {
             font-weight: var(--peek-js-title-span-bold-weight);
@@ -151,13 +157,17 @@ div.peek-js {
         padding: var(--peek-js-spacing);
         margin: var(--peek-js-spacing);
 
+        @include buttons;
+
         input[type="text"] {
             flex-grow: 1;
 
             @include input-text-fields;
-        }
 
-        @include buttons;
+            &::placeholder {
+                font-style: italic;
+            }
+        }
 
         button {
             margin-left: var(--peek-js-spacing);
@@ -213,6 +223,10 @@ div.peek-js {
 
                 input[type="text"] {
                     @include input-text-fields;
+
+                    &::placeholder {
+                        font-style: italic;
+                    }
                 }
 
                 input[type="text"].property-value-color {
@@ -225,7 +239,6 @@ div.peek-js {
 
                 &:first-of-type {
                     margin-left: var(--peek-js-spacing);
-                    
                 }
             }
 
@@ -257,6 +270,11 @@ div.peek-js {
 
         button.remove {
             margin-left: 0 !important;
+            float: left;
+        }
+
+        button.move-up,
+        button.move-down {
             float: left;
         }
     }
