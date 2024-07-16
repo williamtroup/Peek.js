@@ -49,6 +49,18 @@
     -------------------------------------------------------------------------
 */
 div.peek-js {
+  font-family: var(--peek-js-default-font);
+  position: absolute;
+  border-radius: var(--peek-js-border-radius);
+  background-color: var(--peek-js-dialog-background-color);
+  color: var(--peek-js-color-white);
+  border: var(--peek-js-border-size) solid var(--peek-js-dialog-border-color);
+  font-size: var(--peek-js-spacing-font-size);
+  width: 100%;
+  max-width: 530px;
+  margin: 0 !important;
+  display: none;
+  z-index: 2000;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -62,18 +74,6 @@ div.peek-js {
   -moz-animation: fade-in-effect ease 1s;
   -o-animation: fade-in-effect ease 1s;
   -ms-animation: fade-in-effect ease 1s;
-  font-family: var(--peek-js-default-font);
-  position: absolute;
-  border-radius: var(--peek-js-border-radius);
-  background-color: var(--peek-js-dialog-background-color);
-  color: var(--peek-js-color-white);
-  border: var(--peek-js-border-size) solid var(--peek-js-dialog-border-color);
-  font-size: var(--peek-js-spacing-font-size);
-  width: 100%;
-  max-width: 530px;
-  margin: 0 !important;
-  display: none;
-  z-index: 2000;
 }
 div.peek-js * {
   box-sizing: border-box;

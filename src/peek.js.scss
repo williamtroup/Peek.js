@@ -71,9 +71,6 @@
 */
 
 div.peek-js {
-    @include no-selection-allowed;
-    @include box-sizing;
-    @include fade-in-effect-animation( 1s );
     font-family: var(--peek-js-default-font);
     position: absolute;
     border-radius: var(--peek-js-border-radius);
@@ -86,6 +83,10 @@ div.peek-js {
     margin: 0 !important;
     display: none;
     z-index: 2000;
+
+    @include no-selection-allowed;
+    @include box-sizing;
+    @include fade-in-effect-animation( 1s );
 
     * {
         @include box-sizing;
