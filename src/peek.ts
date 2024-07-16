@@ -343,6 +343,8 @@ type DialogProperties = Record<string, string>;
                 propertyValueInput.style.borderLeftColor = propertyValueText;
             }
 
+            propertyValueInput.placeholder = _configuration.text!.propertyValuePlaceHolderText!;
+
             const copyButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "copy-small", _configuration.text!.copySymbolText! ) as HTMLButtonElement;
             copyButton.title = _configuration.text!.copyText!;
 
@@ -530,12 +532,6 @@ type DialogProperties = Record<string, string>;
 
     function onMoveTitleBarMouseDown( e: MouseEvent, dialog: HTMLElement ) : void {
         if ( !_element_Dialog_Move_IsMoving ) {
-            if ( !_current_Process_Locked ) {
-                setDialogTitleAsLocked();
-            }
-
-            _current_Process_Locked = true;
-
             _element_Dialog_Move = dialog;
             _element_Dialog_Move_IsMoving = true;
             _element_Dialog_Move_X = e.pageX - _element_Dialog_Move.offsetLeft;
@@ -560,6 +556,11 @@ type DialogProperties = Record<string, string>;
         }
 
         if ( _element_Dialog_Move_IsMoving ) {
+            if ( !_current_Process_Locked ) {
+                setDialogTitleAsLocked();
+            }
+
+            _current_Process_Locked = true;
             _element_Dialog_Move.style.left = `${ e.pageX - _element_Dialog_Move_X }px`;
             _element_Dialog_Move.style.top = `${ e.pageY - _element_Dialog_Move_Y }px`;
         }
@@ -632,6 +633,7 @@ type DialogProperties = Record<string, string>;
         _configuration.text!.clearSymbolText = Data.getDefaultAnyString( _configuration.text!.clearSymbolText, "✕" );
         _configuration.text!.noPropertiesFoundForSearchText = Data.getDefaultAnyString( _configuration.text!.noPropertiesFoundForSearchText, "No properties were found for your search." );
         _configuration.text!.dialogMovedSymbolText = Data.getDefaultAnyString( _configuration.text!.dialogMovedSymbolText, "✱" );
+        _configuration.text!.propertyValuePlaceHolderText = Data.getDefaultAnyString( _configuration.text!.propertyValuePlaceHolderText, "Enter value..." );
     }
 
 

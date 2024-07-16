@@ -4,6 +4,7 @@
 
 #### **Configuration:**
 - Added configuration option "text.dialogMovedSymbolText" (defaults to "✱"), which states the symbol to show in the dialog title when the dialog has been moved and locked.
+- Added configuration option "text.propertyValuePlaceHolderText" (defaults to "Enter value..."), which states the placeholder text to use for the property values.
 
 #### **UI Enhancements:**
 - The "Search properties..." search field now uses a new style for the placeholder text.

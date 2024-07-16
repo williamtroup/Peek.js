@@ -41,6 +41,7 @@ export type ConfigurationText = {
     clearSymbolText?: string;
     noPropertiesFoundForSearchText?: string;
     dialogMovedSymbolText?: string;
+    propertyValuePlaceHolderText?: string;
 }
 
 export type Options = {

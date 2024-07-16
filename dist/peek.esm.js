@@ -211,9 +211,9 @@ var o;
     let w = false;
     let E = 0;
     let N = 0;
-    function O() {
+    function H() {
         if (e.definedObject(i)) {
-            P();
+            M();
             document.body.removeChild(i);
             i = null;
         }
@@ -234,12 +234,12 @@ var o;
         t.title = l.text.clearText;
         t.onclick = I;
         const o = n.createWithHTML(d, "button", "close", l.text.closeText);
-        o.onclick = P;
+        o.onclick = M;
         g = n.createWithHTML(d, "button", "remove", l.text.removeText);
         g.onclick = W;
-        V(r, i);
+        Y(r, i);
     }
-    function H(t = null) {
+    function O(t = null) {
         if (!h) {
             let o = x.titleText;
             r.innerHTML = "";
@@ -272,10 +272,10 @@ var o;
             }
         }
     }
-    function M() {
+    function P() {
         n.createWithHTML(r, "span", "locked", `${l.text.dialogMovedSymbolText}${" "}`, true);
     }
-    function P() {
+    function M() {
         i.style.display = "none";
         h = false;
         s.value = "";
@@ -302,7 +302,7 @@ var o;
     function W() {
         var e;
         (e = b.parentNode) == null ? void 0 : e.removeChild(b);
-        P();
+        M();
     }
     function $() {
         if (f !== 0) {
@@ -350,7 +350,7 @@ var o;
         m = {};
         S = 0;
         b = e;
-        H(e);
+        O(e);
         if (x.mode === 3) {
             p.style.display = "none";
         } else {
@@ -423,6 +423,7 @@ var o;
                 f.classList.add("property-value-color");
                 f.style.borderLeftColor = i;
             }
+            f.placeholder = l.text.propertyValuePlaceHolderText;
             const u = n.createWithHTML(a, "button", "copy-small", l.text.copySymbolText);
             u.title = l.text.copyText;
             u.onclick = () => {
@@ -436,7 +437,7 @@ var o;
                 e.onclick = () => {
                     navigator.clipboard.readText().then((e => {
                         f.value = e;
-                        G(t, o, f);
+                        z(t, o, f);
                     }));
                 };
                 r.onclick = () => {
@@ -457,17 +458,17 @@ var o;
                 f.readOnly = true;
             } else {
                 f.onkeyup = e => {
-                    z(e, o, f, t);
+                    V(e, o, f, t);
                 };
             }
         }
     }
-    function z(e, t, n, o) {
+    function V(e, t, n, o) {
         if (e.code === "Enter") {
-            G(o, t, n);
+            z(o, t, n);
         }
     }
-    function G(t, n, o) {
+    function z(t, n, o) {
         if (x.mode === 1) {
             t.style.setProperty(n, o.value);
         } else if (x.mode === 2) {
@@ -483,7 +484,7 @@ var o;
             o.classList.remove("property-value-color");
         }
     }
-    function J() {
+    function G() {
         const e = x.nodeType;
         v = e.length;
         for (let t = 0; t < v; t++) {
@@ -491,33 +492,33 @@ var o;
             const o = [].slice.call(n);
             const l = o.length;
             for (let e = 0; e < l; e++) {
-                K(o[e]);
+                J(o[e]);
             }
         }
-        window.addEventListener("mousemove", Y);
+        window.addEventListener("mousemove", X);
     }
-    function K(n) {
+    function J(n) {
         const o = n.getAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE);
         if (!e.definedString(o) && o !== "ignore") {
             n.addEventListener("mousemove", (e => {
-                X(e, n);
+                U(e, n);
             }));
             T.push(n);
         }
     }
-    function U() {
+    function K() {
         const e = T.length;
         for (let n = 0; n < e; n++) {
             var t = T[n];
             t.removeEventListener("mousemove", (e => {
-                X(e, t);
+                U(e, t);
             }));
         }
         T = [];
-        window.removeEventListener("mousemove", Y);
-        P();
+        window.removeEventListener("mousemove", X);
+        M();
     }
-    function X(e, t) {
+    function U(e, t) {
         if (!h) {
             n.cancelBubble(e);
             if (y !== 0) {
@@ -530,16 +531,16 @@ var o;
             }), l.dialogDisplayDelay);
         }
     }
-    function Y() {
+    function X() {
         if (!h) {
             if (y !== 0) {
                 clearTimeout(y);
                 y = 0;
             }
-            P();
+            M();
         }
     }
-    function V(e, t) {
+    function Y(e, t) {
         e.onmousedown = e => {
             q(e, t);
         };
@@ -557,10 +558,6 @@ var o;
     }
     function q(e, t) {
         if (!w) {
-            if (!h) {
-                M();
-            }
-            h = true;
             A = t;
             w = true;
             E = e.pageX - A.offsetLeft;
@@ -582,6 +579,10 @@ var o;
             n.cancelBubble(e);
         }
         if (w) {
+            if (!h) {
+                P();
+            }
+            h = true;
             A.style.left = `${e.pageX - E}px`;
             A.style.top = `${e.pageY - N}px`;
         }
@@ -633,25 +634,26 @@ var o;
         l.text.clearSymbolText = o.getDefaultAnyString(l.text.clearSymbolText, "✕");
         l.text.noPropertiesFoundForSearchText = o.getDefaultAnyString(l.text.noPropertiesFoundForSearchText, "No properties were found for your search.");
         l.text.dialogMovedSymbolText = o.getDefaultAnyString(l.text.dialogMovedSymbolText, "✱");
+        l.text.propertyValuePlaceHolderText = o.getDefaultAnyString(l.text.propertyValuePlaceHolderText, "Enter value...");
     }
     const le = {
         start: function(t) {
             if (!e.definedObject(x)) {
                 x = te(t);
-                H();
-                J();
+                O();
+                G();
             }
             return le;
         },
         stop: function() {
             if (e.definedObject(x)) {
                 x = null;
-                U();
+                K();
             }
             return le;
         },
         close: function() {
-            P();
+            M();
             return le;
         },
         setConfiguration: function(t) {
@@ -666,9 +668,9 @@ var o;
                 }
                 if (n) {
                     ne(o);
-                    O();
+                    H();
                     if (e.definedObject(x)) {
-                        H();
+                        O();
                     }
                 }
             }
@@ -681,7 +683,7 @@ var o;
     (() => {
         ne();
         document.addEventListener("DOMContentLoaded", (() => {
-            O();
+            H();
         }));
         if (!e.defined(window.$peek)) {
             window.$peek = le;

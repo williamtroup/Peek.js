@@ -222,6 +222,10 @@ div.peek-js {
 
                 input[type="text"] {
                     @include input-text-fields;
+
+                    &::placeholder {
+                        font-style: italic;
+                    }
                 }
 
                 input[type="text"].property-value-color {
