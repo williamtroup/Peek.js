@@ -14,6 +14,7 @@
 - Added configuration option "text.moveUpSymbolText" (defaults to "↑"), which states the text to use for the Move Up symbol button.
 - Added configuration option "text.moveDownText" (defaults to "Move Down"), which states the text to use for the Move Down button.
 - Added configuration option "text.moveDownSymbolText" (defaults to "↓"), which states the text to use for the Move Down symbol button.
+- Added configuration option "text.removeElementSymbolText" (defaults to "⌫"), which states the text to use for the Remove element symbol button.
 
 #### **UI Enhancements:**
 - The "Search properties..." search field now uses a new style for the placeholder text.

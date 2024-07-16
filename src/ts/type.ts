@@ -48,6 +48,7 @@ export type ConfigurationText = {
     moveUpSymbolText?: string;
     moveDownText?: string;
     moveDownSymbolText?: string;
+    removeElementSymbolText?: string;
 }
 
 export type Options = {

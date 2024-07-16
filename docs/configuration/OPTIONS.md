@@ -41,6 +41,7 @@ Below are all the configuration options that can be passed to the "setConfigurat
 | text | *string* | moveUpSymbolText | The text that should be used for the "Move Up" symbol button. |
 | text | *string* | moveDownText | The text that should be used for the "Move Down" button. |
 | text | *string* | moveDownSymbolText | The text that should be used for the "Move Down" symbol button. |
+| text | *string* | removeElementSymbolText | The text that should be used for the "Remove Element" symbol button. |
 
 <br/>
 

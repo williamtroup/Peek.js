@@ -103,8 +103,9 @@ type DialogProperties = Record<string, string>;
         const closeButton: HTMLElement = DomElement.createWithHTML( _dialog_Buttons, "button", "close", _configuration.text!.closeText! );
         closeButton.onclick = closeDialog;
 
-        _dialog_Buttons_Remove = DomElement.createWithHTML( _dialog_Buttons, "button", "remove", _configuration.text!.removeText! ) as HTMLButtonElement;
+        _dialog_Buttons_Remove = DomElement.createWithHTML( _dialog_Buttons, "button", "remove", _configuration.text!.removeElementSymbolText! ) as HTMLButtonElement;
         _dialog_Buttons_Remove.onclick = onRemove;
+        _dialog_Buttons_Remove.title = _configuration.text!.removeText!;
 
         _dialog_Buttons_MoveUp = DomElement.createWithHTML( _dialog_Buttons, "button", "move-up", _configuration.text!.moveUpSymbolText! ) as HTMLButtonElement;
         _dialog_Buttons_MoveUp.onclick = onMoveUp;
@@ -670,7 +671,7 @@ type DialogProperties = Record<string, string>;
         _configuration.text!.moveUpSymbolText = Data.getDefaultAnyString( _configuration.text!.moveUpSymbolText, "↑" );
         _configuration.text!.moveDownText = Data.getDefaultAnyString( _configuration.text!.moveDownText, "Move Down" );
         _configuration.text!.moveDownSymbolText = Data.getDefaultAnyString( _configuration.text!.moveDownSymbolText, "↓" );
-
+        _configuration.text!.removeElementSymbolText = Data.getDefaultAnyString( _configuration.text!.removeElementSymbolText, "⌫" );
     }
 
 

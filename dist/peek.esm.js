@@ -198,8 +198,8 @@ var o;
     let p = null;
     let x = null;
     let y = null;
-    let g = null;
-    let m = 0;
+    let m = null;
+    let g = 0;
     let T = null;
     let v = [];
     let b = {};
@@ -237,14 +237,15 @@ var o;
         t.onclick = I;
         const o = n.createWithHTML(d, "button", "close", l.text.closeText);
         o.onclick = C;
-        x = n.createWithHTML(d, "button", "remove", l.text.removeText);
+        x = n.createWithHTML(d, "button", "remove", l.text.removeElementSymbolText);
         x.onclick = $;
+        x.title = l.text.removeText;
         y = n.createWithHTML(d, "button", "move-up", l.text.moveUpSymbolText);
         y.onclick = j;
         y.title = l.text.moveUpText;
-        g = n.createWithHTML(d, "button", "move-down", l.text.moveDownSymbolText);
-        g.onclick = _;
-        g.title = l.text.moveDownText;
+        m = n.createWithHTML(d, "button", "move-down", l.text.moveDownSymbolText);
+        m.onclick = _;
+        m.title = l.text.moveDownText;
         ee(r, i);
     }
     function O(t = null) {
@@ -379,11 +380,11 @@ var o;
         if (!T.allowEditing) {
             x.style.display = "none";
             y.style.display = "none";
-            g.style.display = "none";
+            m.style.display = "none";
         } else {
             x.style.removeProperty("display");
             y.style.removeProperty("display");
-            g.style.removeProperty("display");
+            m.style.removeProperty("display");
         }
         c = n.createWithHTML(u, "span", "no-search-results", l.text.noPropertiesFoundForSearchText);
         if (T.mode === 1) {
@@ -547,11 +548,11 @@ var o;
     function Q(e, t) {
         if (!S) {
             n.cancelBubble(e);
-            if (m !== 0) {
-                clearTimeout(m);
-                m = 0;
+            if (g !== 0) {
+                clearTimeout(g);
+                g = 0;
             }
-            m = setTimeout((() => {
+            g = setTimeout((() => {
                 R(t);
                 n.showElementAtMousePosition(e, i);
             }), l.dialogDisplayDelay);
@@ -559,9 +560,9 @@ var o;
     }
     function Z() {
         if (!S) {
-            if (m !== 0) {
-                clearTimeout(m);
-                m = 0;
+            if (g !== 0) {
+                clearTimeout(g);
+                g = 0;
             }
             C();
         }
@@ -667,6 +668,7 @@ var o;
         l.text.moveUpSymbolText = o.getDefaultAnyString(l.text.moveUpSymbolText, "↑");
         l.text.moveDownText = o.getDefaultAnyString(l.text.moveDownText, "Move Down");
         l.text.moveDownSymbolText = o.getDefaultAnyString(l.text.moveDownSymbolText, "↓");
+        l.text.removeElementSymbolText = o.getDefaultAnyString(l.text.removeElementSymbolText, "⌫");
     }
     const se = {
         start: function(t) {
