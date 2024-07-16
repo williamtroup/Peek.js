@@ -238,7 +238,6 @@ div.peek-js {
 
                 &:first-of-type {
                     margin-left: var(--peek-js-spacing);
-                    
                 }
             }
 
@@ -270,6 +269,11 @@ div.peek-js {
 
         button.remove {
             margin-left: 0 !important;
+            float: left;
+        }
+
+        button.move-up,
+        button.move-down {
             float: left;
         }
     }

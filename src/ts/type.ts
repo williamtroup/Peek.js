@@ -44,6 +44,10 @@ export type ConfigurationText = {
     propertyValuePlaceHolderText?: string;
     modeNotSupportedText?: string;
     unknownModeText?: string;
+    moveUpText?: string;
+    moveUpSymbolText?: string;
+    moveDownText?: string;
+    moveDownSymbolText?: string;
 }
 
 export type Options = {

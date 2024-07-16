@@ -43,6 +43,8 @@ type DialogProperties = Record<string, string>;
     let _dialog_Buttons: HTMLElement = null!;
     let _dialog_Buttons_Copy: HTMLButtonElement = null!;
     let _dialog_Buttons_Remove: HTMLButtonElement = null!;
+    let _dialog_Buttons_MoveUp: HTMLButtonElement = null!;
+    let _dialog_Buttons_MoveDown: HTMLButtonElement = null!;
     let _dialog_Timer: number = 0;
 
     // Variables: Current Process:
@@ -103,6 +105,14 @@ type DialogProperties = Record<string, string>;
 
         _dialog_Buttons_Remove = DomElement.createWithHTML( _dialog_Buttons, "button", "remove", _configuration.text!.removeText! ) as HTMLButtonElement;
         _dialog_Buttons_Remove.onclick = onRemove;
+
+        _dialog_Buttons_MoveUp = DomElement.createWithHTML( _dialog_Buttons, "button", "move-up", _configuration.text!.moveUpSymbolText! ) as HTMLButtonElement;
+        _dialog_Buttons_MoveUp.onclick = onMoveUp;
+        _dialog_Buttons_MoveUp.title = _configuration.text!.moveUpText!;
+
+        _dialog_Buttons_MoveDown = DomElement.createWithHTML( _dialog_Buttons, "button", "move-down", _configuration.text!.moveDownSymbolText! ) as HTMLButtonElement;
+        _dialog_Buttons_MoveDown.onclick = onMoveDown;
+        _dialog_Buttons_MoveDown.title = _configuration.text!.moveDownText!;
 
         makeDialogMovable( _dialog_Title, _dialog );
     }
@@ -235,7 +245,19 @@ type DialogProperties = Record<string, string>;
         _dialog_Search_Input.focus();
 
         onSearchProperties();
-    } 
+    }
+
+    function onMoveUp() : void {
+        if ( _current_Process_Element.parentNode !== null && _current_Process_Element.previousElementSibling !== null ) {
+            _current_Process_Element.parentNode!.insertBefore( _current_Process_Element, _current_Process_Element.previousElementSibling );
+        }
+    }
+
+    function onMoveDown() : void {
+        if ( _current_Process_Element.parentNode !== null && _current_Process_Element.nextElementSibling !== null ) {
+            _current_Process_Element.parentNode!.insertBefore( _current_Process_Element.nextElementSibling!, _current_Process_Element );
+        }
+    }
 
 
     /*
@@ -261,8 +283,12 @@ type DialogProperties = Record<string, string>;
 
         if ( !_current_Process_Options.allowEditing ) {
             _dialog_Buttons_Remove.style.display = "none";
+            _dialog_Buttons_MoveUp.style.display = "none";
+            _dialog_Buttons_MoveDown.style.display = "none";
         } else {
             _dialog_Buttons_Remove.style.removeProperty( "display" );
+            _dialog_Buttons_MoveUp.style.removeProperty( "display" );
+            _dialog_Buttons_MoveDown.style.removeProperty( "display" );
         }
 
         _dialog_Contents_NoSearchResultsText = DomElement.createWithHTML( _dialog_Contents, "span", "no-search-results", _configuration.text!.noPropertiesFoundForSearchText! ) as HTMLSpanElement;
@@ -640,6 +666,11 @@ type DialogProperties = Record<string, string>;
         _configuration.text!.propertyValuePlaceHolderText = Data.getDefaultAnyString( _configuration.text!.propertyValuePlaceHolderText, "Enter value..." );
         _configuration.text!.modeNotSupportedText = Data.getDefaultAnyString( _configuration.text!.modeNotSupportedText, "The mode you have specified is not supported." );
         _configuration.text!.unknownModeText = Data.getDefaultAnyString( _configuration.text!.unknownModeText, "Unknown Mode" );
+        _configuration.text!.moveUpText = Data.getDefaultAnyString( _configuration.text!.moveUpText, "Move Up" );
+        _configuration.text!.moveUpSymbolText = Data.getDefaultAnyString( _configuration.text!.moveUpSymbolText, "↑" );
+        _configuration.text!.moveDownText = Data.getDefaultAnyString( _configuration.text!.moveDownText, "Move Down" );
+        _configuration.text!.moveDownSymbolText = Data.getDefaultAnyString( _configuration.text!.moveDownSymbolText, "↓" );
+
     }
 
 

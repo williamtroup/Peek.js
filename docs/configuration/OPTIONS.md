@@ -37,6 +37,10 @@ Below are all the configuration options that can be passed to the "setConfigurat
 | text | *string* | noPropertiesFoundForSearchText | The text that should be used for the "No properties were found for your search." search warning. |
 | text | *string* | modeNotSupportedText | The text that should be used for the "The mode you have specified is not supported." warning. |
 | text | *string* | unknownModeText | The text that should be used for the "Unknown Mode" title. |
+| text | *string* | moveUpText | The text that should be used for the "Move Up" button. |
+| text | *string* | moveUpSymbolText | The text that should be used for the "Move Up" symbol button. |
+| text | *string* | moveDownText | The text that should be used for the "Move Down" button. |
+| text | *string* | moveDownSymbolText | The text that should be used for the "Move Down" symbol button. |
 
 <br/>
 

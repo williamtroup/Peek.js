@@ -333,6 +333,10 @@ div.peek-js div.dialog-buttons button.remove {
   margin-left: 0 !important;
   float: left;
 }
+div.peek-js div.dialog-buttons button.move-up,
+div.peek-js div.dialog-buttons button.move-down {
+  float: left;
+}
 
 /*
     -------------------------------------------------------------------------
