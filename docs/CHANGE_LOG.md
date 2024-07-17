@@ -1,7 +1,7 @@
 # Peek.js - Change Log:
 
 ## Version 1.6.1:
-- 
+- Fixed missing return types for private shared functions.
 
 <br>
 

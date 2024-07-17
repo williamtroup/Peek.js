@@ -47,7 +47,7 @@ export namespace DomElement {
         return element;
     }
 
-    export function cancelBubble( e: Event ) {
+    export function cancelBubble( e: Event ) : void {
         e.preventDefault();
         e.stopPropagation();
     }
@@ -63,7 +63,7 @@ export namespace DomElement {
         return result;
     }
 
-    export function showElementAtMousePosition( e: MouseEvent, element: HTMLElement ) {
+    export function showElementAtMousePosition( e: MouseEvent, element: HTMLElement ) : void {
         if ( element.style.display !== "block" ) {
             let left: number = e.pageX;
             let top: number = e.pageY;

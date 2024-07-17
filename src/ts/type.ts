@@ -49,7 +49,7 @@ export type ConfigurationText = {
     moveDownText?: string;
     moveDownSymbolText?: string;
     removeElementSymbolText?: string;
-}
+};
 
 export type Options = {
     nodeType: string[] | string;
