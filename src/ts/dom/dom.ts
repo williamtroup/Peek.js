@@ -11,10 +11,10 @@
  */
 
 
-import { Constant } from "./constant";
-import { Char, IgnoreState } from "./enum";
-import { Is } from "./is";
-import { type Position } from "./type";
+import { type Position } from "../type";
+import { Constant } from "../constant";
+import { Char, IgnoreState } from "../data/enum";
+import { Is } from "../data/is";
 
 
 export namespace DomElement {

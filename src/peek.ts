@@ -17,11 +17,11 @@ import {
     type Configuration,
     type Options } from "./ts/type";
 
-import { PublicApi } from "./ts/api";
-import { Is } from "./ts/is";
-import { DomElement } from "./ts/dom";
-import { Data } from "./ts/data";
-import { Char, IgnoreState, KeyCode, Mode, Value } from "./ts/enum";
+import { type PublicApi } from "./ts/api";
+import { Is } from "./ts/data/is";
+import { DomElement } from "./ts/dom/dom";
+import { Default } from "./ts/data/data";
+import { Char, IgnoreState, KeyCode, Mode, Value } from "./ts/data/enum";
 import { Constant } from "./ts/constant";
 
 
@@ -617,14 +617,14 @@ type DialogProperties = Record<string, string>;
      */
 
     function buildOptions( newOptions: any ) : Options {
-        let options: Options = Data.getDefaultObject( newOptions, {} as Options );
-        options.nodeType = Data.getDefaultStringOrArray( options.nodeType, [] );
-        options.mode = Data.getDefaultNumber( options.mode, Mode.css );
-        options.titleText = Data.getDefaultString( options.titleText, Char.empty );
-        options.showOnly = Data.getDefaultStringOrArray( options.showOnly, [] );
-        options.allowEditing = Data.getDefaultBoolean( options.allowEditing, false );
-        options.showIdOrNameInTitle = Data.getDefaultBoolean( options.showIdOrNameInTitle, true );
-        options.showNodeNameInTitle = Data.getDefaultBoolean( options.showNodeNameInTitle, false );
+        let options: Options = Default.getObject( newOptions, {} as Options );
+        options.nodeType = Default.getStringOrArray( options.nodeType, [] );
+        options.mode = Default.getNumber( options.mode, Mode.css );
+        options.titleText = Default.getString( options.titleText, Char.empty );
+        options.showOnly = Default.getStringOrArray( options.showOnly, [] );
+        options.allowEditing = Default.getBoolean( options.allowEditing, false );
+        options.showIdOrNameInTitle = Default.getBoolean( options.showIdOrNameInTitle, true );
+        options.showNodeNameInTitle = Default.getBoolean( options.showNodeNameInTitle, false );
 
         return options;
     }
@@ -637,41 +637,41 @@ type DialogProperties = Record<string, string>;
 	 */
 
     function buildDefaultConfiguration( newConfiguration: Configuration = null! ) : void {
-        _configuration = Data.getDefaultObject( newConfiguration, {} as Configuration );
-        _configuration.dialogDisplayDelay = Data.getDefaultNumber( _configuration.dialogDisplayDelay, 1000 );
-        _configuration.searchDelayDelay = Data.getDefaultNumber( _configuration.searchDelayDelay, 500 );
+        _configuration = Default.getObject( newConfiguration, {} as Configuration );
+        _configuration.dialogDisplayDelay = Default.getNumber( _configuration.dialogDisplayDelay, 1000 );
+        _configuration.searchDelayDelay = Default.getNumber( _configuration.searchDelayDelay, 500 );
 
         buildDefaultStringConfiguration();
     }
 
     function buildDefaultStringConfiguration() : void {
-        _configuration.text = Data.getDefaultObject( _configuration.text, {} as ConfigurationText );
-        _configuration.text!.cssText = Data.getDefaultAnyString( _configuration.text!.cssText, "CSS" );
-        _configuration.text!.attributesText = Data.getDefaultAnyString( _configuration.text!.attributesText, "Attributes" );
-        _configuration.text!.sizeText = Data.getDefaultAnyString( _configuration.text!.sizeText, "Size" );
-        _configuration.text!.classesText = Data.getDefaultAnyString( _configuration.text!.classesText, "Classes" );
-        _configuration.text!.noAttributesAvailableText = Data.getDefaultAnyString( _configuration.text!.noAttributesAvailableText, "No attributes are available." );
-        _configuration.text!.closeText = Data.getDefaultAnyString( _configuration.text!.closeText, "Close" );
-        _configuration.text!.copyText = Data.getDefaultAnyString( _configuration.text!.copyText, "Copy" );
-        _configuration.text!.copySymbolText = Data.getDefaultAnyString( _configuration.text!.copySymbolText, "❐" );
-        _configuration.text!.pasteText = Data.getDefaultAnyString( _configuration.text!.pasteText, "Paste" );
-        _configuration.text!.pasteSymbolText = Data.getDefaultAnyString( _configuration.text!.pasteSymbolText, "☐" );
-        _configuration.text!.removeText = Data.getDefaultAnyString( _configuration.text!.removeText, "Remove" );
-        _configuration.text!.removeSymbolText = Data.getDefaultAnyString( _configuration.text!.removeSymbolText, "✕" );
-        _configuration.text!.noClassesAvailableText = Data.getDefaultAnyString( _configuration.text!.noClassesAvailableText, "No classes are available." );
-        _configuration.text!.searchPropertiesPlaceHolderText = Data.getDefaultAnyString( _configuration.text!.searchPropertiesPlaceHolderText, "Search properties..." );
-        _configuration.text!.clearText = Data.getDefaultAnyString( _configuration.text!.clearText, "Clear" );
-        _configuration.text!.clearSymbolText = Data.getDefaultAnyString( _configuration.text!.clearSymbolText, "✕" );
-        _configuration.text!.noPropertiesFoundForSearchText = Data.getDefaultAnyString( _configuration.text!.noPropertiesFoundForSearchText, "No properties were found for your search." );
-        _configuration.text!.dialogMovedSymbolText = Data.getDefaultAnyString( _configuration.text!.dialogMovedSymbolText, "✱" );
-        _configuration.text!.propertyValuePlaceHolderText = Data.getDefaultAnyString( _configuration.text!.propertyValuePlaceHolderText, "Enter value..." );
-        _configuration.text!.modeNotSupportedText = Data.getDefaultAnyString( _configuration.text!.modeNotSupportedText, "The mode you have specified is not supported." );
-        _configuration.text!.unknownModeText = Data.getDefaultAnyString( _configuration.text!.unknownModeText, "Unknown Mode" );
-        _configuration.text!.moveUpText = Data.getDefaultAnyString( _configuration.text!.moveUpText, "Move Up" );
-        _configuration.text!.moveUpSymbolText = Data.getDefaultAnyString( _configuration.text!.moveUpSymbolText, "↑" );
-        _configuration.text!.moveDownText = Data.getDefaultAnyString( _configuration.text!.moveDownText, "Move Down" );
-        _configuration.text!.moveDownSymbolText = Data.getDefaultAnyString( _configuration.text!.moveDownSymbolText, "↓" );
-        _configuration.text!.removeElementSymbolText = Data.getDefaultAnyString( _configuration.text!.removeElementSymbolText, "⌫" );
+        _configuration.text = Default.getObject( _configuration.text, {} as ConfigurationText );
+        _configuration.text!.cssText = Default.getAnyString( _configuration.text!.cssText, "CSS" );
+        _configuration.text!.attributesText = Default.getAnyString( _configuration.text!.attributesText, "Attributes" );
+        _configuration.text!.sizeText = Default.getAnyString( _configuration.text!.sizeText, "Size" );
+        _configuration.text!.classesText = Default.getAnyString( _configuration.text!.classesText, "Classes" );
+        _configuration.text!.noAttributesAvailableText = Default.getAnyString( _configuration.text!.noAttributesAvailableText, "No attributes are available." );
+        _configuration.text!.closeText = Default.getAnyString( _configuration.text!.closeText, "Close" );
+        _configuration.text!.copyText = Default.getAnyString( _configuration.text!.copyText, "Copy" );
+        _configuration.text!.copySymbolText = Default.getAnyString( _configuration.text!.copySymbolText, "❐" );
+        _configuration.text!.pasteText = Default.getAnyString( _configuration.text!.pasteText, "Paste" );
+        _configuration.text!.pasteSymbolText = Default.getAnyString( _configuration.text!.pasteSymbolText, "☐" );
+        _configuration.text!.removeText = Default.getAnyString( _configuration.text!.removeText, "Remove" );
+        _configuration.text!.removeSymbolText = Default.getAnyString( _configuration.text!.removeSymbolText, "✕" );
+        _configuration.text!.noClassesAvailableText = Default.getAnyString( _configuration.text!.noClassesAvailableText, "No classes are available." );
+        _configuration.text!.searchPropertiesPlaceHolderText = Default.getAnyString( _configuration.text!.searchPropertiesPlaceHolderText, "Search properties..." );
+        _configuration.text!.clearText = Default.getAnyString( _configuration.text!.clearText, "Clear" );
+        _configuration.text!.clearSymbolText = Default.getAnyString( _configuration.text!.clearSymbolText, "✕" );
+        _configuration.text!.noPropertiesFoundForSearchText = Default.getAnyString( _configuration.text!.noPropertiesFoundForSearchText, "No properties were found for your search." );
+        _configuration.text!.dialogMovedSymbolText = Default.getAnyString( _configuration.text!.dialogMovedSymbolText, "✱" );
+        _configuration.text!.propertyValuePlaceHolderText = Default.getAnyString( _configuration.text!.propertyValuePlaceHolderText, "Enter value..." );
+        _configuration.text!.modeNotSupportedText = Default.getAnyString( _configuration.text!.modeNotSupportedText, "The mode you have specified is not supported." );
+        _configuration.text!.unknownModeText = Default.getAnyString( _configuration.text!.unknownModeText, "Unknown Mode" );
+        _configuration.text!.moveUpText = Default.getAnyString( _configuration.text!.moveUpText, "Move Up" );
+        _configuration.text!.moveUpSymbolText = Default.getAnyString( _configuration.text!.moveUpSymbolText, "↑" );
+        _configuration.text!.moveDownText = Default.getAnyString( _configuration.text!.moveDownText, "Move Down" );
+        _configuration.text!.moveDownSymbolText = Default.getAnyString( _configuration.text!.moveDownSymbolText, "↓" );
+        _configuration.text!.removeElementSymbolText = Default.getAnyString( _configuration.text!.removeElementSymbolText, "⌫" );
     }
 
 
