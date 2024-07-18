@@ -20,7 +20,7 @@ import {
 import { type PublicApi } from "./ts/api";
 import { Is } from "./ts/data/is";
 import { DomElement } from "./ts/dom/dom";
-import { Default } from "./ts/data/data";
+import { Default } from "./ts/data/default";
 import { Char, IgnoreState, KeyCode, Mode, Value } from "./ts/data/enum";
 import { Constant } from "./ts/constant";
 

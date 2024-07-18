@@ -3,7 +3,7 @@
  * 
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
- * @file        data.ts
+ * @file        default.ts
  * @version     v1.6.1
  * @author      Bunoon
  * @license     MIT License
