@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
  * @file        peek.ts
- * @version     v1.6.0
+ * @version     v1.6.1
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -12,17 +12,17 @@
 
 
 import {
-    type ConfigurationText,
     type Position,
     type Configuration,
     type Options } from "./ts/type";
 
-import { PublicApi } from "./ts/api";
-import { Is } from "./ts/is";
-import { DomElement } from "./ts/dom";
-import { Data } from "./ts/data";
-import { Char, IgnoreState, KeyCode, Mode, Value } from "./ts/enum";
+import { type PublicApi } from "./ts/api";
+import { Is } from "./ts/data/is";
+import { DomElement } from "./ts/dom/dom";
+import { Char, IgnoreState, KeyCode, Mode, Value } from "./ts/data/enum";
 import { Constant } from "./ts/constant";
+import { Config } from "./ts/options/config";
+import { Start } from "./ts/options/options";
 
 
 type DialogProperties = Record<string, string>;
@@ -610,71 +610,6 @@ type DialogProperties = Record<string, string>;
     }
 
 
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Options
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    function buildOptions( newOptions: any ) : Options {
-        let options: Options = Data.getDefaultObject( newOptions, {} as Options );
-        options.nodeType = Data.getDefaultStringOrArray( options.nodeType, [] );
-        options.mode = Data.getDefaultNumber( options.mode, Mode.css );
-        options.titleText = Data.getDefaultString( options.titleText, Char.empty );
-        options.showOnly = Data.getDefaultStringOrArray( options.showOnly, [] );
-        options.allowEditing = Data.getDefaultBoolean( options.allowEditing, false );
-        options.showIdOrNameInTitle = Data.getDefaultBoolean( options.showIdOrNameInTitle, true );
-        options.showNodeNameInTitle = Data.getDefaultBoolean( options.showNodeNameInTitle, false );
-
-        return options;
-    }
-
-
-	/*
-	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	 * Public API Functions:  Helpers:  Configuration
-	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	 */
-
-    function buildDefaultConfiguration( newConfiguration: Configuration = null! ) : void {
-        _configuration = Data.getDefaultObject( newConfiguration, {} as Configuration );
-        _configuration.dialogDisplayDelay = Data.getDefaultNumber( _configuration.dialogDisplayDelay, 1000 );
-        _configuration.searchDelayDelay = Data.getDefaultNumber( _configuration.searchDelayDelay, 500 );
-
-        buildDefaultStringConfiguration();
-    }
-
-    function buildDefaultStringConfiguration() : void {
-        _configuration.text = Data.getDefaultObject( _configuration.text, {} as ConfigurationText );
-        _configuration.text!.cssText = Data.getDefaultAnyString( _configuration.text!.cssText, "CSS" );
-        _configuration.text!.attributesText = Data.getDefaultAnyString( _configuration.text!.attributesText, "Attributes" );
-        _configuration.text!.sizeText = Data.getDefaultAnyString( _configuration.text!.sizeText, "Size" );
-        _configuration.text!.classesText = Data.getDefaultAnyString( _configuration.text!.classesText, "Classes" );
-        _configuration.text!.noAttributesAvailableText = Data.getDefaultAnyString( _configuration.text!.noAttributesAvailableText, "No attributes are available." );
-        _configuration.text!.closeText = Data.getDefaultAnyString( _configuration.text!.closeText, "Close" );
-        _configuration.text!.copyText = Data.getDefaultAnyString( _configuration.text!.copyText, "Copy" );
-        _configuration.text!.copySymbolText = Data.getDefaultAnyString( _configuration.text!.copySymbolText, "❐" );
-        _configuration.text!.pasteText = Data.getDefaultAnyString( _configuration.text!.pasteText, "Paste" );
-        _configuration.text!.pasteSymbolText = Data.getDefaultAnyString( _configuration.text!.pasteSymbolText, "☐" );
-        _configuration.text!.removeText = Data.getDefaultAnyString( _configuration.text!.removeText, "Remove" );
-        _configuration.text!.removeSymbolText = Data.getDefaultAnyString( _configuration.text!.removeSymbolText, "✕" );
-        _configuration.text!.noClassesAvailableText = Data.getDefaultAnyString( _configuration.text!.noClassesAvailableText, "No classes are available." );
-        _configuration.text!.searchPropertiesPlaceHolderText = Data.getDefaultAnyString( _configuration.text!.searchPropertiesPlaceHolderText, "Search properties..." );
-        _configuration.text!.clearText = Data.getDefaultAnyString( _configuration.text!.clearText, "Clear" );
-        _configuration.text!.clearSymbolText = Data.getDefaultAnyString( _configuration.text!.clearSymbolText, "✕" );
-        _configuration.text!.noPropertiesFoundForSearchText = Data.getDefaultAnyString( _configuration.text!.noPropertiesFoundForSearchText, "No properties were found for your search." );
-        _configuration.text!.dialogMovedSymbolText = Data.getDefaultAnyString( _configuration.text!.dialogMovedSymbolText, "✱" );
-        _configuration.text!.propertyValuePlaceHolderText = Data.getDefaultAnyString( _configuration.text!.propertyValuePlaceHolderText, "Enter value..." );
-        _configuration.text!.modeNotSupportedText = Data.getDefaultAnyString( _configuration.text!.modeNotSupportedText, "The mode you have specified is not supported." );
-        _configuration.text!.unknownModeText = Data.getDefaultAnyString( _configuration.text!.unknownModeText, "Unknown Mode" );
-        _configuration.text!.moveUpText = Data.getDefaultAnyString( _configuration.text!.moveUpText, "Move Up" );
-        _configuration.text!.moveUpSymbolText = Data.getDefaultAnyString( _configuration.text!.moveUpSymbolText, "↑" );
-        _configuration.text!.moveDownText = Data.getDefaultAnyString( _configuration.text!.moveDownText, "Move Down" );
-        _configuration.text!.moveDownSymbolText = Data.getDefaultAnyString( _configuration.text!.moveDownSymbolText, "↓" );
-        _configuration.text!.removeElementSymbolText = Data.getDefaultAnyString( _configuration.text!.removeElementSymbolText, "⌫" );
-    }
-
-
 	/*
 	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	 * Public API Functions:
@@ -690,7 +625,7 @@ type DialogProperties = Record<string, string>;
 
         start: function ( options: Options ) : PublicApi {
             if ( !Is.definedObject( _current_Process_Options ) ) {
-                _current_Process_Options = buildOptions( options );
+                _current_Process_Options = Start.Options.get( options );
 
                 setDialogTitle();
                 buildNodeEvents();
@@ -735,7 +670,7 @@ type DialogProperties = Record<string, string>;
                 }
         
                 if ( configurationHasChanged ) {
-                    buildDefaultConfiguration( newInternalConfiguration );
+                    _configuration = Config.Options.get( newInternalConfiguration );
                     buildDialog();
 
                     if ( Is.definedObject( _current_Process_Options ) ) {
@@ -755,7 +690,7 @@ type DialogProperties = Record<string, string>;
          */
 
         getVersion: function () : string {
-            return "1.6.0";
+            return "1.6.1";
         }
     };
 
@@ -767,7 +702,7 @@ type DialogProperties = Record<string, string>;
      */
 
     ( () => {
-        buildDefaultConfiguration();
+        _configuration = Config.Options.get();
 
         document.addEventListener( "DOMContentLoaded", () => {
             buildDialog();

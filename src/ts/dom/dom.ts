@@ -4,17 +4,17 @@
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
  * @file        dom.ts
- * @version     v1.6.0
+ * @version     v1.6.1
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
  */
 
 
-import { Constant } from "./constant";
-import { Char, IgnoreState } from "./enum";
-import { Is } from "./is";
-import { type Position } from "./type";
+import { type Position } from "../type";
+import { Constant } from "../constant";
+import { Char, IgnoreState } from "../data/enum";
+import { Is } from "../data/is";
 
 
 export namespace DomElement {
@@ -47,7 +47,7 @@ export namespace DomElement {
         return element;
     }
 
-    export function cancelBubble( e: Event ) {
+    export function cancelBubble( e: Event ) : void {
         e.preventDefault();
         e.stopPropagation();
     }
@@ -63,7 +63,7 @@ export namespace DomElement {
         return result;
     }
 
-    export function showElementAtMousePosition( e: MouseEvent, element: HTMLElement ) {
+    export function showElementAtMousePosition( e: MouseEvent, element: HTMLElement ) : void {
         if ( element.style.display !== "block" ) {
             let left: number = e.pageX;
             let top: number = e.pageY;
