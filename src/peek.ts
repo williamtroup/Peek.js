@@ -12,7 +12,6 @@
 
 
 import {
-    type ConfigurationText,
     type Position,
     type Configuration,
     type Options } from "./ts/type";
@@ -20,9 +19,10 @@ import {
 import { type PublicApi } from "./ts/api";
 import { Is } from "./ts/data/is";
 import { DomElement } from "./ts/dom/dom";
-import { Default } from "./ts/data/default";
 import { Char, IgnoreState, KeyCode, Mode, Value } from "./ts/data/enum";
 import { Constant } from "./ts/constant";
+import { Config } from "./ts/options/config";
+import { Start } from "./ts/options/options";
 
 
 type DialogProperties = Record<string, string>;
@@ -610,71 +610,6 @@ type DialogProperties = Record<string, string>;
     }
 
 
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Options
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    function buildOptions( newOptions: any ) : Options {
-        let options: Options = Default.getObject( newOptions, {} as Options );
-        options.nodeType = Default.getStringOrArray( options.nodeType, [] );
-        options.mode = Default.getNumber( options.mode, Mode.css );
-        options.titleText = Default.getString( options.titleText, Char.empty );
-        options.showOnly = Default.getStringOrArray( options.showOnly, [] );
-        options.allowEditing = Default.getBoolean( options.allowEditing, false );
-        options.showIdOrNameInTitle = Default.getBoolean( options.showIdOrNameInTitle, true );
-        options.showNodeNameInTitle = Default.getBoolean( options.showNodeNameInTitle, false );
-
-        return options;
-    }
-
-
-	/*
-	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	 * Public API Functions:  Helpers:  Configuration
-	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	 */
-
-    function buildDefaultConfiguration( newConfiguration: Configuration = null! ) : void {
-        _configuration = Default.getObject( newConfiguration, {} as Configuration );
-        _configuration.dialogDisplayDelay = Default.getNumber( _configuration.dialogDisplayDelay, 1000 );
-        _configuration.searchDelayDelay = Default.getNumber( _configuration.searchDelayDelay, 500 );
-
-        buildDefaultStringConfiguration();
-    }
-
-    function buildDefaultStringConfiguration() : void {
-        _configuration.text = Default.getObject( _configuration.text, {} as ConfigurationText );
-        _configuration.text!.cssText = Default.getAnyString( _configuration.text!.cssText, "CSS" );
-        _configuration.text!.attributesText = Default.getAnyString( _configuration.text!.attributesText, "Attributes" );
-        _configuration.text!.sizeText = Default.getAnyString( _configuration.text!.sizeText, "Size" );
-        _configuration.text!.classesText = Default.getAnyString( _configuration.text!.classesText, "Classes" );
-        _configuration.text!.noAttributesAvailableText = Default.getAnyString( _configuration.text!.noAttributesAvailableText, "No attributes are available." );
-        _configuration.text!.closeText = Default.getAnyString( _configuration.text!.closeText, "Close" );
-        _configuration.text!.copyText = Default.getAnyString( _configuration.text!.copyText, "Copy" );
-        _configuration.text!.copySymbolText = Default.getAnyString( _configuration.text!.copySymbolText, "❐" );
-        _configuration.text!.pasteText = Default.getAnyString( _configuration.text!.pasteText, "Paste" );
-        _configuration.text!.pasteSymbolText = Default.getAnyString( _configuration.text!.pasteSymbolText, "☐" );
-        _configuration.text!.removeText = Default.getAnyString( _configuration.text!.removeText, "Remove" );
-        _configuration.text!.removeSymbolText = Default.getAnyString( _configuration.text!.removeSymbolText, "✕" );
-        _configuration.text!.noClassesAvailableText = Default.getAnyString( _configuration.text!.noClassesAvailableText, "No classes are available." );
-        _configuration.text!.searchPropertiesPlaceHolderText = Default.getAnyString( _configuration.text!.searchPropertiesPlaceHolderText, "Search properties..." );
-        _configuration.text!.clearText = Default.getAnyString( _configuration.text!.clearText, "Clear" );
-        _configuration.text!.clearSymbolText = Default.getAnyString( _configuration.text!.clearSymbolText, "✕" );
-        _configuration.text!.noPropertiesFoundForSearchText = Default.getAnyString( _configuration.text!.noPropertiesFoundForSearchText, "No properties were found for your search." );
-        _configuration.text!.dialogMovedSymbolText = Default.getAnyString( _configuration.text!.dialogMovedSymbolText, "✱" );
-        _configuration.text!.propertyValuePlaceHolderText = Default.getAnyString( _configuration.text!.propertyValuePlaceHolderText, "Enter value..." );
-        _configuration.text!.modeNotSupportedText = Default.getAnyString( _configuration.text!.modeNotSupportedText, "The mode you have specified is not supported." );
-        _configuration.text!.unknownModeText = Default.getAnyString( _configuration.text!.unknownModeText, "Unknown Mode" );
-        _configuration.text!.moveUpText = Default.getAnyString( _configuration.text!.moveUpText, "Move Up" );
-        _configuration.text!.moveUpSymbolText = Default.getAnyString( _configuration.text!.moveUpSymbolText, "↑" );
-        _configuration.text!.moveDownText = Default.getAnyString( _configuration.text!.moveDownText, "Move Down" );
-        _configuration.text!.moveDownSymbolText = Default.getAnyString( _configuration.text!.moveDownSymbolText, "↓" );
-        _configuration.text!.removeElementSymbolText = Default.getAnyString( _configuration.text!.removeElementSymbolText, "⌫" );
-    }
-
-
 	/*
 	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	 * Public API Functions:
@@ -690,7 +625,7 @@ type DialogProperties = Record<string, string>;
 
         start: function ( options: Options ) : PublicApi {
             if ( !Is.definedObject( _current_Process_Options ) ) {
-                _current_Process_Options = buildOptions( options );
+                _current_Process_Options = Start.Options.get( options );
 
                 setDialogTitle();
                 buildNodeEvents();
@@ -735,7 +670,7 @@ type DialogProperties = Record<string, string>;
                 }
         
                 if ( configurationHasChanged ) {
-                    buildDefaultConfiguration( newInternalConfiguration );
+                    _configuration = Config.Options.get( newInternalConfiguration );
                     buildDialog();
 
                     if ( Is.definedObject( _current_Process_Options ) ) {
@@ -767,7 +702,7 @@ type DialogProperties = Record<string, string>;
      */
 
     ( () => {
-        buildDefaultConfiguration();
+        _configuration = Config.Options.get();
 
         document.addEventListener( "DOMContentLoaded", () => {
             buildDialog();
