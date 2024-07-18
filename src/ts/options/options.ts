@@ -11,9 +11,9 @@
  */
 
 
+import { type Options } from "../type";
 import { Default } from "../data/default";
 import { Char, Mode } from "../data/enum";
-import { type Options } from "../type";
 
 
 export namespace Start {
