@@ -2,6 +2,7 @@
 
 ## Version 1.7.0:
 - Updated to the latest NPM packages.
+- Renamed the type "Options" to "StartOptions".
 
 <br>
 

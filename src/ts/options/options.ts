@@ -11,15 +11,15 @@
  */
 
 
-import { type Options } from "../type";
+import { type StartOptions } from "../type";
 import { Default } from "../data/default";
 import { Char, Mode } from "../data/enum";
 
 
 export namespace Start {
     export namespace Options {
-        export function get( newOptions: any ) : Options {
-            let options: Options = Default.getObject( newOptions, {} as Options );
+        export function get( newOptions: any ) : StartOptions {
+            let options: StartOptions = Default.getObject( newOptions, {} as StartOptions );
             options.nodeType = Default.getStringOrArray( options.nodeType, [] );
             options.mode = Default.getNumber( options.mode, Mode.css );
             options.titleText = Default.getString( options.titleText, Char.empty );

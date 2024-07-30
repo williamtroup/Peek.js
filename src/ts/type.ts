@@ -51,7 +51,7 @@ export type ConfigurationText = {
     removeElementSymbolText?: string;
 };
 
-export type Options = {
+export type StartOptions = {
     nodeType: string[] | string;
     mode: number;
     titleText?: string;

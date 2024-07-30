@@ -14,7 +14,7 @@
 import {
     type Position,
     type Configuration,
-    type Options } from "./ts/type";
+    type StartOptions } from "./ts/type";
 
 import { type PublicApi } from "./ts/api";
 import { Is } from "./ts/data/is";
@@ -48,7 +48,7 @@ type DialogProperties = Record<string, string>;
     let _dialog_Timer: number = 0;
 
     // Variables: Current Process:
-    let _current_Process_Options: Options = null!;
+    let _current_Process_Options: StartOptions = null!;
     let _current_Process_Elements: HTMLElement[] = [];
     let _current_Process_Properties: DialogProperties = {} as DialogProperties;
     let _current_Process_Element: HTMLElement = null!;
@@ -623,7 +623,7 @@ type DialogProperties = Record<string, string>;
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        start: function ( options: Options ) : PublicApi {
+        start: function ( options: StartOptions ) : PublicApi {
             if ( !Is.definedObject( _current_Process_Options ) ) {
                 _current_Process_Options = Start.Options.get( options );
 

@@ -11,7 +11,7 @@
  */
 
 
-import { type Options } from "./type";
+import { type StartOptions } from "./type";
 
 
 export type PublicApi = {
@@ -32,7 +32,7 @@ export type PublicApi = {
      * 
      * @returns     {Object}                                                The Peek.js class instance.
      */
-    start: ( options: Options ) => PublicApi;
+    start: ( options: StartOptions ) => PublicApi;
 
 
     /**
