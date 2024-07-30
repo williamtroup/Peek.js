@@ -12,5 +12,5 @@
 
 
 export namespace Constant {
-    export const PEEK_JS_IGNORE_STATE_ATTRIBUTE = "data-peek-js-ignore-state";
+    export const PEEK_JS_IGNORE_STATE_ATTRIBUTE: string = "data-peek-js-ignore-state";
 }

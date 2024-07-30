@@ -211,7 +211,7 @@ type DialogProperties = Record<string, string>;
             const searchValue = _dialog_Search_Input.value.toLowerCase();
             let propertiesFound: number = 0;
     
-            for ( let propertyNameIndex = 0; propertyNameIndex < propertyNamesLength; propertyNameIndex++ ) {
+            for ( let propertyNameIndex: number = 0; propertyNameIndex < propertyNamesLength; propertyNameIndex++ ) {
                 const parent: HTMLElement = propertyNames[ propertyNameIndex ].parentNode as HTMLElement;
                 
                 if ( Is.defined( parent ) ) {
