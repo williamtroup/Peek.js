@@ -733,7 +733,7 @@ var i;
             return re;
         },
         getVersion: function() {
-            return "1.6.1";
+            return "1.7.0";
         }
     };
     (() => {
