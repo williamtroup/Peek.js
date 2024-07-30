@@ -1,7 +1,7 @@
 # Peek.js - Change Log:
 
 ## Version 1.7.0:
-- 
+- Updated to the latest NPM packages.
 
 <br>
 
