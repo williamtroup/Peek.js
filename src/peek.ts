@@ -37,7 +37,7 @@ type DialogProperties = Record<string, string>;
     let _dialog_Title: HTMLElement = null!;
     let _dialog_Search: HTMLElement = null!;
     let _dialog_Search_Input: HTMLInputElement = null!;
-    let _dialog_Search_Input_Timer: number = 0;
+    let _dialog_Search_Input_TimerId: number = 0;
     let _dialog_Contents: HTMLElement = null!;
     let _dialog_Contents_NoSearchResultsText: HTMLSpanElement = null!;
     let _dialog_Buttons: HTMLElement = null!;
@@ -45,7 +45,7 @@ type DialogProperties = Record<string, string>;
     let _dialog_Buttons_Remove: HTMLButtonElement = null!;
     let _dialog_Buttons_MoveUp: HTMLButtonElement = null!;
     let _dialog_Buttons_MoveDown: HTMLButtonElement = null!;
-    let _dialog_Timer: number = 0;
+    let _dialog_TimerId: number = 0;
 
     // Variables: Current Process:
     let _current_Process_Options: StartOptions = null!;
@@ -199,12 +199,12 @@ type DialogProperties = Record<string, string>;
     }
 
     function onSearchProperties() : void {
-        if ( _dialog_Search_Input_Timer !== 0 ) {
-            clearTimeout( _dialog_Search_Input_Timer );
-            _dialog_Search_Input_Timer = 0;
+        if ( _dialog_Search_Input_TimerId !== 0 ) {
+            clearTimeout( _dialog_Search_Input_TimerId );
+            _dialog_Search_Input_TimerId = 0;
         }
 
-        _dialog_Search_Input_Timer = setTimeout( () => {
+        _dialog_Search_Input_TimerId = setTimeout( () => {
             const children: HTMLCollectionOf<Element> = _dialog_Contents.getElementsByClassName( "property-name" );
             const propertyNames: HTMLElement[] = [].slice.call( children );
             const propertyNamesLength: number = propertyNames.length;
@@ -509,12 +509,12 @@ type DialogProperties = Record<string, string>;
         if ( !_current_Process_Locked ) {
             DomElement.cancelBubble( e );
         
-            if ( _dialog_Timer !== 0 ) {
-                clearTimeout( _dialog_Timer );
-                _dialog_Timer = 0;
+            if ( _dialog_TimerId !== 0 ) {
+                clearTimeout( _dialog_TimerId );
+                _dialog_TimerId = 0;
             }
     
-            _dialog_Timer = setTimeout( () => {
+            _dialog_TimerId = setTimeout( () => {
                 buildDialogContent( element );
     
                 DomElement.showElementAtMousePosition( e, _dialog );
@@ -524,9 +524,9 @@ type DialogProperties = Record<string, string>;
 
     function onWindowMove() : void {
         if ( !_current_Process_Locked ) {
-            if ( _dialog_Timer !== 0 ) {
-                clearTimeout( _dialog_Timer );
-                _dialog_Timer = 0;
+            if ( _dialog_TimerId !== 0 ) {
+                clearTimeout( _dialog_TimerId );
+                _dialog_TimerId = 0;
             }
             
             closeDialog();
