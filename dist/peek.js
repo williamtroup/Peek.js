@@ -247,6 +247,7 @@ var i;
             t.allowEditing = o.getBoolean(t.allowEditing, false);
             t.showIdOrNameInTitle = o.getBoolean(t.showIdOrNameInTitle, true);
             t.showNodeNameInTitle = o.getBoolean(t.showNodeNameInTitle, false);
+            t.ignoreValues = o.getStringOrArray(t.ignoreValues, []);
             return t;
         }
         e.get = t;
@@ -264,8 +265,8 @@ var i;
     let d = null;
     let p = null;
     let x = null;
-    let y = null;
     let g = null;
+    let y = null;
     let m = null;
     let T = 0;
     let v = null;
@@ -276,8 +277,8 @@ var i;
     let w = 0;
     let L = 0;
     let E = null;
-    let N = 0;
     let O = 0;
+    let N = 0;
     let M = false;
     let H = 0;
     let P = 0;
@@ -305,16 +306,16 @@ var i;
         t.onclick = j;
         const l = n.createWithHTML(p, "button", "close", o.text.closeText);
         l.onclick = D;
-        y = n.createWithHTML(p, "button", "remove", o.text.removeElementSymbolText);
-        y.onclick = B;
-        y.title = o.text.removeText;
-        g = n.createWithHTML(p, "button", "move-up", o.text.moveUpSymbolText);
-        g.onclick = _;
-        g.title = o.text.moveUpText;
+        g = n.createWithHTML(p, "button", "remove", o.text.removeElementSymbolText);
+        g.onclick = B;
+        g.title = o.text.removeText;
+        y = n.createWithHTML(p, "button", "move-up", o.text.moveUpSymbolText);
+        y.onclick = _;
+        y.title = o.text.moveUpText;
         m = n.createWithHTML(p, "button", "move-down", o.text.moveDownSymbolText);
         m.onclick = R;
         m.title = o.text.moveDownText;
-        te(s, r);
+        oe(s, r);
     }
     function C(t = null) {
         if (!A) {
@@ -446,19 +447,19 @@ var i;
             x.style.display = "none";
         }
         if (!v.allowEditing) {
-            y.style.display = "none";
             g.style.display = "none";
+            y.style.display = "none";
             m.style.display = "none";
         } else {
-            y.style.removeProperty("display");
             g.style.removeProperty("display");
+            y.style.removeProperty("display");
             m.style.removeProperty("display");
         }
         d = n.createWithHTML(u, "span", "no-search-results", o.text.noPropertiesFoundForSearchText);
         if (v.mode === 1) {
-            F(e);
-        } else if (v.mode === 2) {
             V(e);
+        } else if (v.mode === 2) {
+            F(e);
         } else if (v.mode === 3) {
             z(e);
         } else if (v.mode === 4) {
@@ -472,14 +473,14 @@ var i;
             a.style.removeProperty("display");
         }
     }
-    function F(e) {
+    function V(e) {
         const t = getComputedStyle(e);
         const n = t.length;
         for (let o = 0; o < n; o++) {
             J(e, t[o], t.getPropertyValue(t[o]));
         }
     }
-    function V(e) {
+    function F(e) {
         if (e.hasAttributes()) {
             for (let t of e.attributes) {
                 J(e, t.name, t.value);
@@ -509,7 +510,7 @@ var i;
         }
     }
     function J(t, l, i, r = true) {
-        if (v.showOnly.length === 0 || v.showOnly.indexOf(l) > -1) {
+        if (Y(l) && q(i)) {
             const s = n.create(u, "div", "property-row");
             n.createWithHTML(s, "div", "property-name", l);
             const a = n.create(s, "div", "property-value");
@@ -579,7 +580,13 @@ var i;
             o.classList.remove("property-value-color");
         }
     }
-    function Y() {
+    function Y(e) {
+        return v.showOnly.length === 0 || v.showOnly.indexOf(e) > -1;
+    }
+    function q(e) {
+        return v.ignoreValues.length === 0 || v.ignoreValues.indexOf(e) <= -1;
+    }
+    function Q() {
         const e = v.nodeType;
         w = e.length;
         for (let t = 0; t < w; t++) {
@@ -587,33 +594,33 @@ var i;
             const o = [].slice.call(n);
             const l = o.length;
             for (let e = 0; e < l; e++) {
-                q(o[e]);
+                Z(o[e]);
             }
         }
-        window.addEventListener("mousemove", ee);
+        window.addEventListener("mousemove", ne);
     }
-    function q(n) {
+    function Z(n) {
         const o = n.getAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE);
         if (!e.definedString(o) && o !== "ignore") {
             n.addEventListener("mousemove", (e => {
-                Z(e, n);
+                te(e, n);
             }));
             b.push(n);
         }
     }
-    function Q() {
+    function ee() {
         const e = b.length;
         for (let n = 0; n < e; n++) {
             var t = b[n];
             t.removeEventListener("mousemove", (e => {
-                Z(e, t);
+                te(e, t);
             }));
         }
         b = [];
-        window.removeEventListener("mousemove", ee);
+        window.removeEventListener("mousemove", ne);
         D();
     }
-    function Z(e, t) {
+    function te(e, t) {
         if (!A) {
             n.cancelBubble(e);
             if (T !== 0) {
@@ -626,7 +633,7 @@ var i;
             }), o.dialogDisplayDelay);
         }
     }
-    function ee() {
+    function ne() {
         if (!A) {
             if (T !== 0) {
                 clearTimeout(T);
@@ -635,41 +642,41 @@ var i;
             D();
         }
     }
-    function te(e, t) {
+    function oe(e, t) {
         e.onmousedown = e => {
-            ne(e, t);
+            le(e, t);
         };
         t.onmousemove = e => {
-            le(e, true);
+            re(e, true);
         };
         e.onmouseup = () => {
-            oe();
+            ie();
         };
         e.oncontextmenu = () => {
-            oe();
+            ie();
         };
-        document.addEventListener("mousemove", le);
-        document.addEventListener("mouseleave", ie);
+        document.addEventListener("mousemove", re);
+        document.addEventListener("mouseleave", se);
     }
-    function ne(e, t) {
+    function le(e, t) {
         if (!M) {
             E = t;
             M = true;
             H = e.pageX - E.offsetLeft;
             P = e.pageY - E.offsetTop;
-            N = E.offsetLeft;
-            O = E.offsetTop;
+            O = E.offsetLeft;
+            N = E.offsetTop;
         }
     }
-    function oe() {
+    function ie() {
         if (M) {
             M = false;
             E = null;
-            N = 0;
             O = 0;
+            N = 0;
         }
     }
-    function le(e, t = false) {
+    function re(e, t = false) {
         if (t) {
             n.cancelBubble(e);
         }
@@ -682,35 +689,35 @@ var i;
             E.style.top = `${e.pageY - P}px`;
         }
     }
-    function ie() {
+    function se() {
         if (M) {
-            E.style.left = `${N}px`;
-            E.style.top = `${O}px`;
+            E.style.left = `${O}px`;
+            E.style.top = `${N}px`;
             M = false;
             E = null;
-            N = 0;
             O = 0;
+            N = 0;
         }
     }
-    const re = {
+    const ae = {
         start: function(t) {
             if (!e.definedObject(v)) {
                 v = i.Options.get(t);
                 C();
-                Y();
+                Q();
             }
-            return re;
+            return ae;
         },
         stop: function() {
             if (e.definedObject(v)) {
                 v = null;
-                Q();
+                ee();
             }
-            return re;
+            return ae;
         },
         close: function() {
             D();
-            return re;
+            return ae;
         },
         setConfiguration: function(t) {
             if (e.definedObject(t)) {
@@ -730,7 +737,7 @@ var i;
                     }
                 }
             }
-            return re;
+            return ae;
         },
         getVersion: function() {
             return "1.7.0";
@@ -742,7 +749,7 @@ var i;
             W();
         }));
         if (!e.defined(window.$peek)) {
-            window.$peek = re;
+            window.$peek = ae;
         }
     })();
 })();//# sourceMappingURL=peek.js.map

@@ -361,7 +361,7 @@ type DialogProperties = Record<string, string>;
     }
 
     function buildPropertyRow( element: HTMLElement, propertyNameText: string, propertyValueText: string, allowEditing: boolean = true ) : void {
-        if ( _current_Process_Options.showOnly!.length === 0 || _current_Process_Options.showOnly!.indexOf( propertyNameText ) > Value.notFound ) {
+        if ( isPropertyVisible( propertyNameText ) && isPropertyValueVisible( propertyValueText ) ) {
             const property: HTMLElement = DomElement.create( _dialog_Contents, "div", "property-row" );
 
             DomElement.createWithHTML( property, "div", "property-name", propertyNameText );
@@ -448,6 +448,14 @@ type DialogProperties = Record<string, string>;
         } else {
             input.classList.remove( "property-value-color" );
         }
+    }
+
+    function isPropertyVisible( propertyNameText: string ) : boolean {
+        return _current_Process_Options.showOnly!.length === 0 || _current_Process_Options.showOnly!.indexOf( propertyNameText ) > Value.notFound
+    }
+
+    function isPropertyValueVisible( propertyValueText: string ) : boolean {
+        return _current_Process_Options.ignoreValues!.length === 0 || _current_Process_Options.ignoreValues!.indexOf( propertyValueText ) <= Value.notFound
     }
 
 

@@ -1,6 +1,11 @@
 # Peek.js - Change Log:
 
 ## Version 1.7.0:
+
+#### **Start Options:**
+- Added configuration option "ignore" (defaults to "[]"), which states the property values that only should be ignored.
+
+#### **Adjustments:**
 - Updated to the latest NPM packages.
 - Renamed the type "Options" to "StartOptions".
 - Added missing type declarations.

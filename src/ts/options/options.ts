@@ -27,7 +27,8 @@ export namespace Start {
             options.allowEditing = Default.getBoolean( options.allowEditing, false );
             options.showIdOrNameInTitle = Default.getBoolean( options.showIdOrNameInTitle, true );
             options.showNodeNameInTitle = Default.getBoolean( options.showNodeNameInTitle, false );
-    
+            options.ignoreValues = Default.getStringOrArray( options.ignoreValues, [] );
+
             return options;
         }
     }

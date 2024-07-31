@@ -59,4 +59,5 @@ export type StartOptions = {
     allowEditing?: boolean;
     showIdOrNameInTitle?: boolean;
     showNodeNameInTitle?: boolean;
+    ignoreValues?: string[] | string;
 };
