@@ -379,9 +379,7 @@ type DialogProperties = Record<string, string>;
             const copyButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "copy-small", _configuration.text!.copySymbolText! ) as HTMLButtonElement;
             copyButton.title = _configuration.text!.copyText!;
 
-            copyButton.onclick = () => {
-                navigator.clipboard.writeText( propertyValueText );
-            };
+            copyButton.onclick = () => navigator.clipboard.writeText( propertyValueText );
 
             if ( _current_Process_Options.allowEditing && allowEditing ) {
                 const pasteButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "paste-small", _configuration.text!.pasteSymbolText! ) as HTMLButtonElement;
@@ -390,23 +388,8 @@ type DialogProperties = Record<string, string>;
                 pasteButton.title = _configuration.text!.pasteText!;
                 removeButton.title = _configuration.text!.removeText!;
     
-                pasteButton.onclick = () => {
-                    navigator.clipboard.readText().then( data => {
-                        propertyValueInput.value = data;
-
-                        updatePropertyValue( element, propertyNameText, propertyValueInput );
-                    } );
-                };
-
-                removeButton.onclick = () => {
-                    if ( _current_Process_Options.mode === Mode.css ) {
-                        element.style.removeProperty( propertyNameText );
-                    } else if ( _current_Process_Options.mode === Mode.attributes ) {
-                        element.removeAttribute( propertyNameText );
-                    } else if ( _current_Process_Options.mode === Mode.class ) {
-                        element.classList.remove( propertyValueText );
-                    }
-                };
+                pasteButton.onclick = () => onPropertyPaste( element, propertyValueInput, propertyNameText );
+                removeButton.onclick = () => onPropertyRemove( property, element, propertyNameText, propertyValueText );
             }
 
             propertyValueInput.type = "text";
@@ -418,10 +401,31 @@ type DialogProperties = Record<string, string>;
             if ( !_current_Process_Options.allowEditing || !allowEditing ) {
                 propertyValueInput.readOnly = true;
             } else {
-                propertyValueInput.onkeyup = ( e: KeyboardEvent ) => {
-                    onPropertyValueKeyUp( e, propertyNameText, propertyValueInput, element );
-                }
+                propertyValueInput.onkeyup = ( e: KeyboardEvent ) => onPropertyValueKeyUp( e, propertyNameText, propertyValueInput, element );
             }
+        }
+    }
+
+    function onPropertyPaste( element: HTMLElement, propertyValueInput: HTMLInputElement, propertyNameText: string ) : void {
+        navigator.clipboard.readText().then( data => {
+            propertyValueInput.value = data;
+
+            updatePropertyValue( element, propertyNameText, propertyValueInput );
+        } );
+    }
+
+    function onPropertyRemove( property: HTMLElement, element: HTMLElement, propertyNameText: string, propertyValueText: string ) : void {
+        if ( _current_Process_Options.mode === Mode.css ) {
+            element.style.removeProperty( propertyNameText );
+            property.parentNode!.removeChild( property );
+
+        } else if ( _current_Process_Options.mode === Mode.attributes ) {
+            element.removeAttribute( propertyNameText );
+            property.parentNode!.removeChild( property );
+            
+        } else if ( _current_Process_Options.mode === Mode.class ) {
+            element.classList.remove( propertyValueText );
+            property.parentNode!.removeChild( property );
         }
     }
 

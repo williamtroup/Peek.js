@@ -11,6 +11,9 @@
 - Added missing type declarations.
 - Added configuration settings to force types to be declared.
 
+#### **Fixes:**
+- Fixed a fault that prevent a property from being removed when the item is deleted.
+
 <br>
 
 
