@@ -95,6 +95,7 @@ type DialogProperties = Record<string, string>;
         _dialog_Search_Input.type = "text";
         _dialog_Search_Input.onkeyup = onSearchProperties;
         _dialog_Search_Input.onpaste = onSearchProperties;
+        _dialog_Search_Input.onfocus = () => _dialog_Search_Input.select();
 
         const removeButton: HTMLButtonElement = DomElement.createWithHTML( _dialog_Search, "button", "clear-small", _configuration.text!.clearSymbolText! ) as HTMLButtonElement;
         removeButton.title = _configuration.text!.clearText!;
@@ -375,10 +376,10 @@ type DialogProperties = Record<string, string>;
             }
 
             propertyValueInput.placeholder = _configuration.text!.propertyValuePlaceHolderText!;
+            propertyValueInput.onfocus = () => propertyValueInput.select();
 
             const copyButton: HTMLButtonElement = DomElement.createWithHTML( property, "button", "copy-small", _configuration.text!.copySymbolText! ) as HTMLButtonElement;
             copyButton.title = _configuration.text!.copyText!;
-
             copyButton.onclick = () => navigator.clipboard.writeText( propertyValueText );
 
             if ( _current_Process_Options.allowEditing && allowEditing ) {

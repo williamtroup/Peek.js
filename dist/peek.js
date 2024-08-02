@@ -15,14 +15,14 @@ var e;
         return t(e) && typeof e === "boolean";
     }
     e.definedBoolean = o;
-    function i(e) {
+    function l(e) {
         return t(e) && typeof e === "string";
     }
-    e.definedString = i;
-    function l(e) {
+    e.definedString = l;
+    function i(e) {
         return t(e) && typeof e === "function";
     }
-    e.definedFunction = l;
+    e.definedFunction = i;
     function r(e) {
         return t(e) && typeof e === "number";
     }
@@ -64,15 +64,15 @@ var t;
 var n;
 
 (n => {
-    function o(n, o, i = "", l = false) {
+    function o(n, o, l = "", i = false) {
         const r = o.toLowerCase();
         const s = r === "text";
         let a = s ? document.createTextNode("") : document.createElement(r);
         a.setAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE, "ignore");
-        if (e.definedString(i)) {
-            a.className = i;
+        if (e.definedString(l)) {
+            a.className = l;
         }
-        if (!l) {
+        if (!i) {
             n.appendChild(a);
         } else {
             n.insertBefore(a, n.children[0]);
@@ -80,18 +80,18 @@ var n;
         return a;
     }
     n.create = o;
-    function i(e, n, i, l, r = false) {
-        const s = o(e, n, i, r);
-        s.innerHTML = l;
+    function l(e, n, l, i, r = false) {
+        const s = o(e, n, l, r);
+        s.innerHTML = i;
         s.setAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE, "ignore");
         return s;
     }
-    n.createWithHTML = i;
-    function l(e) {
+    n.createWithHTML = l;
+    function i(e) {
         e.preventDefault();
         e.stopPropagation();
     }
-    n.cancelBubble = l;
+    n.cancelBubble = i;
     function r() {
         const e = document.documentElement;
         const t = {
@@ -105,7 +105,7 @@ var n;
         if (t.style.display !== "block") {
             let n = e.pageX;
             let o = e.pageY;
-            const i = r();
+            const l = r();
             t.style.display = "block";
             if (n + t.offsetWidth > window.innerWidth) {
                 n -= t.offsetWidth;
@@ -117,10 +117,10 @@ var n;
             } else {
                 o++;
             }
-            if (n < i.left) {
+            if (n < l.left) {
                 n = e.pageX + 1;
             }
-            if (o < i.top) {
+            if (o < l.top) {
                 o = e.pageY + 1;
             }
             t.style.left = `${n}px`;
@@ -154,14 +154,14 @@ var o;
         return e.definedString(t) ? t : n;
     }
     t.getString = o;
-    function i(t, n) {
+    function l(t, n) {
         return e.definedBoolean(t) ? t : n;
     }
-    t.getBoolean = i;
-    function l(t, n) {
+    t.getBoolean = l;
+    function i(t, n) {
         return e.definedNumber(t) ? t : n;
     }
-    t.getNumber = l;
+    t.getNumber = i;
     function r(t, n) {
         return e.definedArray(t) ? t : n;
     }
@@ -187,7 +187,7 @@ var o;
     t.getStringOrArray = a;
 })(o || (o = {}));
 
-var i;
+var l;
 
 (e => {
     let t;
@@ -231,9 +231,9 @@ var i;
             return e;
         }
     })(t = e.Options || (e.Options = {}));
-})(i || (i = {}));
+})(l || (l = {}));
 
-var l;
+var i;
 
 (e => {
     let t;
@@ -252,7 +252,7 @@ var l;
         }
         e.get = t;
     })(t = e.Options || (e.Options = {}));
-})(l || (l = {}));
+})(i || (i = {}));
 
 (() => {
     let o = {};
@@ -301,11 +301,12 @@ var l;
         c.type = "text";
         c.onkeyup = I;
         c.onpaste = I;
+        c.onfocus = () => c.select();
         const t = n.createWithHTML(a, "button", "clear-small", o.text.clearSymbolText);
         t.title = o.text.clearText;
         t.onclick = j;
-        const i = n.createWithHTML(p, "button", "close", o.text.closeText);
-        i.onclick = D;
+        const l = n.createWithHTML(p, "button", "close", o.text.closeText);
+        l.onclick = D;
         g = n.createWithHTML(p, "button", "remove", o.text.removeElementSymbolText);
         g.onclick = B;
         g.title = o.text.removeText;
@@ -315,39 +316,39 @@ var l;
         m = n.createWithHTML(p, "button", "move-down", o.text.moveDownSymbolText);
         m.onclick = R;
         m.title = o.text.moveDownText;
-        le(s, r);
+        ie(s, r);
     }
     function W(t = null) {
         if (!A) {
-            let i = v.titleText;
+            let l = v.titleText;
             s.innerHTML = "";
-            if (!e.definedString(i)) {
+            if (!e.definedString(l)) {
                 if (v.mode === 1) {
-                    i = o.text.cssText;
+                    l = o.text.cssText;
                 } else if (v.mode === 2) {
-                    i = o.text.attributesText;
+                    l = o.text.attributesText;
                 } else if (v.mode === 3) {
-                    i = o.text.sizeText;
+                    l = o.text.sizeText;
                 } else if (v.mode === 4) {
-                    i = o.text.classesText;
+                    l = o.text.classesText;
                 } else {
-                    i = o.text.unknownModeText;
+                    l = o.text.unknownModeText;
                 }
             }
-            n.createWithHTML(s, "span", "title", i);
+            n.createWithHTML(s, "span", "title", l);
             if (w > 1 && v.showNodeNameInTitle) {
                 n.createWithHTML(s, "span", "dash", " - ");
                 n.createWithHTML(s, "span", "node-name", `[${t.nodeName.toLowerCase()}]`);
             }
             if (v.showIdOrNameInTitle && e.defined(t)) {
                 const o = t.getAttribute("id");
-                const i = t.getAttribute("name");
+                const l = t.getAttribute("name");
                 if (e.definedString(o)) {
                     n.createWithHTML(s, "span", "dash", " - ");
                     n.createWithHTML(s, "span", "id-or-name", o);
-                } else if (e.definedString(i)) {
+                } else if (e.definedString(l)) {
                     n.createWithHTML(s, "span", "dash", " - ");
-                    n.createWithHTML(s, "span", "id-or-name", i);
+                    n.createWithHTML(s, "span", "id-or-name", l);
                 }
             }
         }
@@ -393,26 +394,26 @@ var l;
             const t = u.getElementsByClassName("property-name");
             const n = [].slice.call(t);
             const o = n.length;
-            const i = c.value.toLowerCase();
-            let l = 0;
+            const l = c.value.toLowerCase();
+            let i = 0;
             for (let t = 0; t < o; t++) {
                 const o = n[t].parentNode;
                 if (e.defined(o)) {
                     if (c.value.trim() === "") {
                         o.style.removeProperty("display");
-                        l++;
+                        i++;
                     } else {
                         const e = n[t].innerText;
-                        if (e.toLowerCase().indexOf(i) > -1) {
+                        if (e.toLowerCase().indexOf(l) > -1) {
                             o.style.removeProperty("display");
-                            l++;
+                            i++;
                         } else {
                             o.style.display = "none";
                         }
                     }
                 }
             }
-            if (l === 0) {
+            if (i === 0) {
                 d.style.display = "block";
             } else {
                 d.style.removeProperty("display");
@@ -509,36 +510,37 @@ var l;
             n.createWithHTML(u, "span", "warning", o.text.noClassesAvailableText);
         }
     }
-    function J(t, i, l, r = true) {
-        if (Q(i) && Z(l)) {
+    function J(t, l, i, r = true) {
+        if (Q(l) && Z(i)) {
             const s = n.create(u, "div", "property-row");
-            n.createWithHTML(s, "div", "property-name", i);
+            n.createWithHTML(s, "div", "property-name", l);
             const a = n.create(s, "div", "property-value");
             const c = n.create(a, "input");
-            if (e.hexColor(l) || e.isRgbColor(l)) {
+            if (e.hexColor(i) || e.isRgbColor(i)) {
                 c.classList.add("property-value-color");
-                c.style.borderLeftColor = l;
+                c.style.borderLeftColor = i;
             }
             c.placeholder = o.text.propertyValuePlaceHolderText;
+            c.onfocus = () => c.select();
             const f = n.createWithHTML(s, "button", "copy-small", o.text.copySymbolText);
             f.title = o.text.copyText;
-            f.onclick = () => navigator.clipboard.writeText(l);
+            f.onclick = () => navigator.clipboard.writeText(i);
             if (v.allowEditing && r) {
                 const e = n.createWithHTML(s, "button", "paste-small", o.text.pasteSymbolText);
                 const r = n.createWithHTML(s, "button", "remove-small", o.text.removeSymbolText);
                 e.title = o.text.pasteText;
                 r.title = o.text.removeText;
-                e.onclick = () => K(t, c, i);
-                r.onclick = () => X(s, t, i, l);
+                e.onclick = () => K(t, c, l);
+                r.onclick = () => X(s, t, l, i);
             }
             c.type = "text";
-            c.value = l;
-            h[i] = l;
+            c.value = i;
+            h[l] = i;
             L++;
             if (!v.allowEditing || !r) {
                 c.readOnly = true;
             } else {
-                c.onkeyup = e => Y(e, i, c, t);
+                c.onkeyup = e => Y(e, l, c, t);
             }
         }
     }
@@ -593,12 +595,12 @@ var l;
         for (let t = 0; t < w; t++) {
             const n = document.getElementsByTagName(e[t]);
             const o = [].slice.call(n);
-            const i = o.length;
-            for (let e = 0; e < i; e++) {
+            const l = o.length;
+            for (let e = 0; e < l; e++) {
                 te(o[e]);
             }
         }
-        window.addEventListener("mousemove", ie);
+        window.addEventListener("mousemove", le);
     }
     function te(n) {
         const o = n.getAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE);
@@ -618,7 +620,7 @@ var l;
             }));
         }
         b = [];
-        window.removeEventListener("mousemove", ie);
+        window.removeEventListener("mousemove", le);
         D();
     }
     function oe(e, t) {
@@ -634,7 +636,7 @@ var l;
             }), o.dialogDisplayDelay);
         }
     }
-    function ie() {
+    function le() {
         if (!A) {
             if (T !== 0) {
                 clearTimeout(T);
@@ -643,7 +645,7 @@ var l;
             D();
         }
     }
-    function le(e, t) {
+    function ie(e, t) {
         e.onmousedown = e => {
             re(e, t);
         };
@@ -703,7 +705,7 @@ var l;
     const fe = {
         start: function(t) {
             if (!e.definedObject(v)) {
-                v = l.Options.get(t);
+                v = i.Options.get(t);
                 W();
                 ee();
             }
@@ -723,15 +725,15 @@ var l;
         setConfiguration: function(t) {
             if (e.definedObject(t)) {
                 let n = false;
-                const l = o;
+                const i = o;
                 for (let e in t) {
-                    if (t.hasOwnProperty(e) && o.hasOwnProperty(e) && l[e] !== t[e]) {
-                        l[e] = t[e];
+                    if (t.hasOwnProperty(e) && o.hasOwnProperty(e) && i[e] !== t[e]) {
+                        i[e] = t[e];
                         n = true;
                     }
                 }
                 if (n) {
-                    o = i.Options.get(l);
+                    o = l.Options.get(i);
                     C();
                     if (e.definedObject(v)) {
                         W();
@@ -745,7 +747,7 @@ var l;
         }
     };
     (() => {
-        o = i.Options.get();
+        o = l.Options.get();
         document.addEventListener("DOMContentLoaded", (() => {
             C();
         }));

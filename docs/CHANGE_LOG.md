@@ -5,12 +5,15 @@
 #### **Start Options:**
 - Added configuration option "ignore" (defaults to "[]"), which states the property values that only should be ignored.
 
+#### **UI Improvements:**
+- The title bar now uses the main title text as the starting text (instead of the Node Type, when "showNodeNameInTitle" is enabled).
+- The Search and Property Value text fields now select all the text when they are focused.
+
 #### **Adjustments:**
 - Updated to the latest NPM packages.
 - Renamed the type "Options" to "StartOptions".
 - Added missing type declarations.
 - Added configuration settings to force types to be declared.
-- The title bar now uses the main title text as the starting text (instead of the Node Type, when "showNodeNameInTitle" is enabled).
 
 #### **Fixes:**
 - Fixed a fault that prevent a property from being removed when the item is deleted.
