@@ -49,6 +49,7 @@ export type ConfigurationText = {
     moveDownText?: string;
     moveDownSymbolText?: string;
     removeElementSymbolText?: string;
+    lockText?: string;
 };
 
 export type StartOptions = {
@@ -60,4 +61,5 @@ export type StartOptions = {
     showIdOrNameInTitle?: boolean;
     showNodeNameInTitle?: boolean;
     ignoreValues?: string[] | string;
+    showLockButtonInTitle?: boolean;
 };

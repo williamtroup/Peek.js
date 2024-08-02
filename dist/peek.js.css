@@ -118,6 +118,16 @@ div.peek-js div.dialog-title-bar span.id-or-name {
   font-weight: var(--peek-js-title-span-bold-weight);
   font-style: italic;
 }
+div.peek-js div.dialog-title-bar button {
+  background-color: transparent;
+  border: none;
+  color: var(--peek-js-color-white);
+  outline: none;
+  padding: 0;
+}
+div.peek-js div.dialog-title-bar button.lock {
+  float: right;
+}
 
 /*
     -------------------------------------------------------------------------

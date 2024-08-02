@@ -3,14 +3,17 @@
 ## Version 1.7.0:
 
 #### **Start Options:**
-- Added configuration option "ignore" (defaults to "[]"), which states the property values that only should be ignored.
+- Added start option "ignore" (defaults to "[]"), which states the property values that only should be ignored.
+- Added start option "showLockButtonInTitle" (defaults to true), which states if the lock button should be shown in the title bar.
 
 #### **Configuration Options:**
 - Changed the default value for the "text.dialogMovedSymbolText" option to "✸".
+- Added start option "lockText" (defaults to "Lock), which states the text to use for the title bar "Lock" button.
 
 #### **UI Improvements:**
 - The title bar now uses the main title text as the starting text (instead of the Node Type, when "showNodeNameInTitle" is enabled).
 - The Search and Property Value text fields now select all the text when they are focused.
+- Added a lock button (configurable) to the right side of the title bar, which will allow you quickly lock the dialog without having to move it.
 
 #### **Adjustments:**
 - Updated to the latest NPM packages.

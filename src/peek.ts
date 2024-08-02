@@ -35,6 +35,7 @@ type DialogProperties = Record<string, string>;
     // Variables: Dialog
     let _dialog: HTMLElement = null!;
     let _dialog_Title: HTMLElement = null!;
+    let _dialog_Title_Button_Lock: HTMLButtonElement = null!;
     let _dialog_Search: HTMLElement = null!;
     let _dialog_Search_Input: HTMLInputElement = null!;
     let _dialog_Search_Input_TimerId: number = 0;
@@ -158,11 +159,26 @@ type DialogProperties = Record<string, string>;
                     DomElement.createWithHTML( _dialog_Title, "span", "id-or-name", name );
                 }
             }
+            
+            if ( _current_Process_Options.showLockButtonInTitle ) {
+                _dialog_Title_Button_Lock = DomElement.createWithHTML( _dialog_Title, "button", "lock", _configuration.text!.dialogMovedSymbolText! ) as HTMLButtonElement;
+                _dialog_Title_Button_Lock.title = _configuration.text!.lockText!;
+                _dialog_Title_Button_Lock.onclick = () => setDialogAsLocked();
+            }
         }
     }
 
-    function setDialogTitleAsLocked() : void {
-        DomElement.createWithHTML( _dialog_Title, "span", "locked", `${_configuration.text!.dialogMovedSymbolText}${Char.space}`, true );
+    function setDialogAsLocked() : void {
+        if ( !_current_Process_Locked ) {
+            DomElement.createWithHTML( _dialog_Title, "span", "locked", `${_configuration.text!.dialogMovedSymbolText}${Char.space}`, true );
+
+            if ( Is.defined( _dialog_Title_Button_Lock ) ) {
+                _dialog_Title_Button_Lock.parentNode!.removeChild( _dialog_Title_Button_Lock );
+                _dialog_Title_Button_Lock = null!;
+            }
+
+            _current_Process_Locked = true;
+        }
     }
 
     function closeDialog() : void {
@@ -600,11 +616,8 @@ type DialogProperties = Record<string, string>;
         }
 
         if ( _element_Dialog_Move_IsMoving ) {
-            if ( !_current_Process_Locked ) {
-                setDialogTitleAsLocked();
-            }
+            setDialogAsLocked();
 
-            _current_Process_Locked = true;
             _element_Dialog_Move.style.left = `${ e.pageX - _element_Dialog_Move_X }px`;
             _element_Dialog_Move.style.top = `${ e.pageY - _element_Dialog_Move_Y }px`;
         }

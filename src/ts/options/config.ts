@@ -55,6 +55,7 @@ export namespace Config {
             configuration.text!.moveDownText = Default.getAnyString( configuration.text!.moveDownText, "Move Down" );
             configuration.text!.moveDownSymbolText = Default.getAnyString( configuration.text!.moveDownSymbolText, "↓" );
             configuration.text!.removeElementSymbolText = Default.getAnyString( configuration.text!.removeElementSymbolText, "⌫" );
+            configuration.text!.lockText = Default.getAnyString( configuration.text!.lockText, "Lock" );
 
             return configuration;
         }

@@ -28,6 +28,7 @@ export namespace Start {
             options.showIdOrNameInTitle = Default.getBoolean( options.showIdOrNameInTitle, true );
             options.showNodeNameInTitle = Default.getBoolean( options.showNodeNameInTitle, false );
             options.ignoreValues = Default.getStringOrArray( options.ignoreValues, [] );
+            options.showLockButtonInTitle = Default.getBoolean( options.showLockButtonInTitle, true );
 
             return options;
         }
