@@ -217,7 +217,7 @@ var l;
             e.text.clearText = o.getAnyString(e.text.clearText, "Clear");
             e.text.clearSymbolText = o.getAnyString(e.text.clearSymbolText, "✕");
             e.text.noPropertiesFoundForSearchText = o.getAnyString(e.text.noPropertiesFoundForSearchText, "No properties were found for your search.");
-            e.text.dialogMovedSymbolText = o.getAnyString(e.text.dialogMovedSymbolText, "✱");
+            e.text.dialogMovedSymbolText = o.getAnyString(e.text.dialogMovedSymbolText, "✸");
             e.text.propertyValuePlaceHolderText = o.getAnyString(e.text.propertyValuePlaceHolderText, "Enter value...");
             e.text.modeNotSupportedText = o.getAnyString(e.text.modeNotSupportedText, "The mode you have specified is not supported.");
             e.text.unknownModeText = o.getAnyString(e.text.unknownModeText, "Unknown Mode");

@@ -5,6 +5,9 @@
 #### **Start Options:**
 - Added configuration option "ignore" (defaults to "[]"), which states the property values that only should be ignored.
 
+#### **Configuration Options:**
+- Changed the default value for the "text.dialogMovedSymbolText" option to "✸".
+
 #### **UI Improvements:**
 - The title bar now uses the main title text as the starting text (instead of the Node Type, when "showNodeNameInTitle" is enabled).
 - The Search and Property Value text fields now select all the text when they are focused.

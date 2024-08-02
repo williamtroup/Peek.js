@@ -46,7 +46,7 @@ export namespace Config {
             configuration.text!.clearText = Default.getAnyString( configuration.text!.clearText, "Clear" );
             configuration.text!.clearSymbolText = Default.getAnyString( configuration.text!.clearSymbolText, "✕" );
             configuration.text!.noPropertiesFoundForSearchText = Default.getAnyString( configuration.text!.noPropertiesFoundForSearchText, "No properties were found for your search." );
-            configuration.text!.dialogMovedSymbolText = Default.getAnyString( configuration.text!.dialogMovedSymbolText, "✱" );
+            configuration.text!.dialogMovedSymbolText = Default.getAnyString( configuration.text!.dialogMovedSymbolText, "✸" );
             configuration.text!.propertyValuePlaceHolderText = Default.getAnyString( configuration.text!.propertyValuePlaceHolderText, "Enter value..." );
             configuration.text!.modeNotSupportedText = Default.getAnyString( configuration.text!.modeNotSupportedText, "The mode you have specified is not supported." );
             configuration.text!.unknownModeText = Default.getAnyString( configuration.text!.unknownModeText, "Unknown Mode" );
