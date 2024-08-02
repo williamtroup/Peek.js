@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
  * @file        config.ts
- * @version     v1.6.1
+ * @version     v1.7.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -46,7 +46,7 @@ export namespace Config {
             configuration.text!.clearText = Default.getAnyString( configuration.text!.clearText, "Clear" );
             configuration.text!.clearSymbolText = Default.getAnyString( configuration.text!.clearSymbolText, "✕" );
             configuration.text!.noPropertiesFoundForSearchText = Default.getAnyString( configuration.text!.noPropertiesFoundForSearchText, "No properties were found for your search." );
-            configuration.text!.dialogMovedSymbolText = Default.getAnyString( configuration.text!.dialogMovedSymbolText, "✱" );
+            configuration.text!.dialogMovedSymbolText = Default.getAnyString( configuration.text!.dialogMovedSymbolText, "✸" );
             configuration.text!.propertyValuePlaceHolderText = Default.getAnyString( configuration.text!.propertyValuePlaceHolderText, "Enter value..." );
             configuration.text!.modeNotSupportedText = Default.getAnyString( configuration.text!.modeNotSupportedText, "The mode you have specified is not supported." );
             configuration.text!.unknownModeText = Default.getAnyString( configuration.text!.unknownModeText, "Unknown Mode" );
@@ -55,6 +55,7 @@ export namespace Config {
             configuration.text!.moveDownText = Default.getAnyString( configuration.text!.moveDownText, "Move Down" );
             configuration.text!.moveDownSymbolText = Default.getAnyString( configuration.text!.moveDownSymbolText, "↓" );
             configuration.text!.removeElementSymbolText = Default.getAnyString( configuration.text!.removeElementSymbolText, "⌫" );
+            configuration.text!.lockText = Default.getAnyString( configuration.text!.lockText, "Lock" );
 
             return configuration;
         }

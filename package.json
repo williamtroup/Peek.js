@@ -2,7 +2,7 @@
   "name": "jpeek.js",
   "title": "Peek.js",
   "description": "A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "homepage": "https://www.william-troup.com/peek-js/",
   "author": {
     "name": "Bunoon"
@@ -43,10 +43,10 @@
     "build-sass-minimized": "sass src/peek.js.scss dist/peek.js.min.css --style=compressed --no-source-map"
   },
   "devDependencies": {
-    "@swc/core": "^1.7.0",
+    "@swc/core": "^1.7.5",
     "sass": "^1.77.8",
     "terser": "^5.31.3",
-    "tsup": "^8.1.2",
-    "typescript": "^5.5.3"
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4"
   }
 }

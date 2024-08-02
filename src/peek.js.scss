@@ -1,5 +1,5 @@
 /*
- * Peek.js Library v1.6.1
+ * Peek.js Library v1.7.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -137,6 +137,18 @@ div.peek-js {
         span.id-or-name {
             font-weight: var(--peek-js-title-span-bold-weight);
             font-style: italic;
+        }
+
+        button {
+            background-color: transparent;
+            border: none;
+            color: var(--peek-js-color-white);
+            outline: none;
+            padding: 0;
+        }
+
+        button.lock {
+            float: right;
         }
     }
 }
