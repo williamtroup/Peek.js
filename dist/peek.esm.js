@@ -319,10 +319,6 @@ var l;
         if (!A) {
             let i = v.titleText;
             s.innerHTML = "";
-            if (w > 1 && v.showNodeNameInTitle) {
-                n.createWithHTML(s, "span", "node-name", `[${t.nodeName.toLowerCase()}] - `);
-                n.createWithHTML(s, "span", "dash", " - ");
-            }
             if (!e.definedString(i)) {
                 if (v.mode === 1) {
                     i = o.text.cssText;
@@ -337,6 +333,10 @@ var l;
                 }
             }
             n.createWithHTML(s, "span", "title", i);
+            if (w > 1 && v.showNodeNameInTitle) {
+                n.createWithHTML(s, "span", "dash", " - ");
+                n.createWithHTML(s, "span", "node-name", `[${t.nodeName.toLowerCase()}]`);
+            }
             if (v.showIdOrNameInTitle && e.defined(t)) {
                 const o = t.getAttribute("id");
                 const i = t.getAttribute("name");

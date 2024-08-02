@@ -123,12 +123,7 @@ type DialogProperties = Record<string, string>;
             let title: string = _current_Process_Options.titleText!;
 
             _dialog_Title.innerHTML = Char.empty;
-    
-            if ( _current_Process_NodeCount > 1 && _current_Process_Options.showNodeNameInTitle ) {
-                DomElement.createWithHTML( _dialog_Title, "span", "node-name", `[${ element.nodeName.toLowerCase() }] - ` );
-                DomElement.createWithHTML( _dialog_Title, "span", "dash", " - " );
-            }
-    
+
             if ( !Is.definedString( title ) ) {
                 if ( _current_Process_Options.mode === Mode.css ) {
                     title = _configuration.text!.cssText!;
@@ -144,6 +139,11 @@ type DialogProperties = Record<string, string>;
             }
     
             DomElement.createWithHTML( _dialog_Title, "span", "title", title );
+    
+            if ( _current_Process_NodeCount > 1 && _current_Process_Options.showNodeNameInTitle ) {
+                DomElement.createWithHTML( _dialog_Title, "span", "dash", " - " );
+                DomElement.createWithHTML( _dialog_Title, "span", "node-name", `[${ element.nodeName.toLowerCase() }]` );
+            }
     
             if ( _current_Process_Options.showIdOrNameInTitle && Is.defined( element ) ) {
                 const id: string = element.getAttribute( "id" )!;

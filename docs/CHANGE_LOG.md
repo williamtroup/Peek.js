@@ -10,9 +10,11 @@
 - Renamed the type "Options" to "StartOptions".
 - Added missing type declarations.
 - Added configuration settings to force types to be declared.
+- The title bar now uses the main title text as the starting text (instead of the Node Type, when "showNodeNameInTitle" is enabled).
 
 #### **Fixes:**
 - Fixed a fault that prevent a property from being removed when the item is deleted.
+- Fixed a fault that caused a double dash to appear in the title bar when "showNodeNameInTitle" is enabled.
 
 <br>
 
