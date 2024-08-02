@@ -3,7 +3,7 @@
 ## Version 1.7.0:
 
 #### **Start Options:**
-- Added start option "ignore" (defaults to "[]"), which states the property values that only should be ignored.
+- Added a start option "ignore" (defaults to "[]"), which states the property values that only should be ignored.
 - Added start option "showLockButtonInTitle" (defaults to true), which states if the lock button should be shown in the title bar.
 
 #### **Configuration Options:**
@@ -13,7 +13,7 @@
 #### **UI Improvements:**
 - The title bar now uses the main title text as the starting text (instead of the Node Type, when "showNodeNameInTitle" is enabled).
 - The Search and Property Value text fields now select all the text when they are focused.
-- Added a lock button (configurable) to the right side of the title bar, which will allow you quickly lock the dialog without having to move it.
+- Added a lock button (configurable) to the right side of the title bar, which will allow you to quickly lock the dialog without having to move it.
 
 #### **Adjustments:**
 - Updated to the latest NPM packages.
@@ -22,10 +22,10 @@
 - Added configuration settings to force types to be declared.
 
 #### **Fixes:**
-- Fixed a fault that prevent a property from being removed when the item is deleted.
+- Fixed a fault that prevented a property from being removed when the item was deleted.
 - Fixed a fault that caused a double dash to appear in the title bar when "showNodeNameInTitle" is enabled.
-- Fixed some script errors appearing in the console when the "stop()" is called.
-- Fixed the dialog still appearing for elements after "stop()" is called.
+- Fixed some script errors in the console when the "stop()" is called.
+- Fixed a fault that caused the dialog to still appear for elements after "stop()" is called.
 
 <br>
 
