@@ -24,6 +24,8 @@
 #### **Fixes:**
 - Fixed a fault that prevent a property from being removed when the item is deleted.
 - Fixed a fault that caused a double dash to appear in the title bar when "showNodeNameInTitle" is enabled.
+- Fixed some script errors appearing in the console when the "stop()" is called.
+- Fixed the dialog still appearing for elements after "stop()" is called.
 
 <br>
 

@@ -121,7 +121,7 @@ type DialogProperties = Record<string, string>;
     }
 
     function setDialogTitle( element: HTMLElement = null! ) : void {
-        if ( !_current_Process_Locked ) {
+        if ( !_current_Process_Locked && Is.defined( _current_Process_Options ) ) {
             let title: string = _current_Process_Options.titleText!;
 
             _dialog_Title.innerHTML = Char.empty;
@@ -285,48 +285,50 @@ type DialogProperties = Record<string, string>;
      */
 
     function buildDialogContent( element: HTMLElement ) : void {
-        _dialog_Contents.innerHTML = Char.empty;
-        _dialog_Contents.scrollTop = 0;
-        _current_Process_Properties = {} as DialogProperties;
-        _current_Process_Properties_Count = 0;
-        _current_Process_Element = element;
-
-        setDialogTitle( element );
-
-        if ( _current_Process_Options.mode === Mode.css || _current_Process_Options.mode === Mode.class || _current_Process_Options.mode === Mode.attributes ) {
-            _dialog_Buttons_Copy.style.removeProperty( "display" );
-        } else {
-            _dialog_Buttons_Copy.style.display = "none";
-        }
-
-        if ( !_current_Process_Options.allowEditing ) {
-            _dialog_Buttons_Remove.style.display = "none";
-            _dialog_Buttons_MoveUp.style.display = "none";
-            _dialog_Buttons_MoveDown.style.display = "none";
-        } else {
-            _dialog_Buttons_Remove.style.removeProperty( "display" );
-            _dialog_Buttons_MoveUp.style.removeProperty( "display" );
-            _dialog_Buttons_MoveDown.style.removeProperty( "display" );
-        }
-
-        _dialog_Contents_NoSearchResultsText = DomElement.createWithHTML( _dialog_Contents, "span", "no-search-results", _configuration.text!.noPropertiesFoundForSearchText! ) as HTMLSpanElement;
-        
-        if ( _current_Process_Options.mode === Mode.css ) {
-            buildCssProperties( element );
-        } else if ( _current_Process_Options.mode === Mode.attributes ) {
-            buildAttributeProperties( element );
-        } else if ( _current_Process_Options.mode === Mode.size ) {
-            buildSizeProperties( element );
-        } else if ( _current_Process_Options.mode === Mode.class ) {
-            buildClassProperties( element );
-        } else {
-            DomElement.createWithHTML( _dialog_Contents, "span", "warning", _configuration.text!.modeNotSupportedText! );
-        }
-
-        if ( _current_Process_Properties_Count <= 15 ) {
-            _dialog_Search.style.display = "none";
-        } else {
-            _dialog_Search.style.removeProperty( "display" );
+        if ( Is.defined( _current_Process_Options ) ) {
+            _dialog_Contents.innerHTML = Char.empty;
+            _dialog_Contents.scrollTop = 0;
+            _current_Process_Properties = {} as DialogProperties;
+            _current_Process_Properties_Count = 0;
+            _current_Process_Element = element;
+    
+            setDialogTitle( element );
+    
+            if ( _current_Process_Options.mode === Mode.css || _current_Process_Options.mode === Mode.class || _current_Process_Options.mode === Mode.attributes ) {
+                _dialog_Buttons_Copy.style.removeProperty( "display" );
+            } else {
+                _dialog_Buttons_Copy.style.display = "none";
+            }
+    
+            if ( !_current_Process_Options.allowEditing ) {
+                _dialog_Buttons_Remove.style.display = "none";
+                _dialog_Buttons_MoveUp.style.display = "none";
+                _dialog_Buttons_MoveDown.style.display = "none";
+            } else {
+                _dialog_Buttons_Remove.style.removeProperty( "display" );
+                _dialog_Buttons_MoveUp.style.removeProperty( "display" );
+                _dialog_Buttons_MoveDown.style.removeProperty( "display" );
+            }
+    
+            _dialog_Contents_NoSearchResultsText = DomElement.createWithHTML( _dialog_Contents, "span", "no-search-results", _configuration.text!.noPropertiesFoundForSearchText! ) as HTMLSpanElement;
+            
+            if ( _current_Process_Options.mode === Mode.css ) {
+                buildCssProperties( element );
+            } else if ( _current_Process_Options.mode === Mode.attributes ) {
+                buildAttributeProperties( element );
+            } else if ( _current_Process_Options.mode === Mode.size ) {
+                buildSizeProperties( element );
+            } else if ( _current_Process_Options.mode === Mode.class ) {
+                buildClassProperties( element );
+            } else {
+                DomElement.createWithHTML( _dialog_Contents, "span", "warning", _configuration.text!.modeNotSupportedText! );
+            }
+    
+            if ( _current_Process_Properties_Count <= 15 ) {
+                _dialog_Search.style.display = "none";
+            } else {
+                _dialog_Search.style.removeProperty( "display" );
+            }
         }
     }
 
@@ -520,7 +522,7 @@ type DialogProperties = Record<string, string>;
         const currentProcessElementsLength: number = _current_Process_Elements.length;
 
         for ( let elementIndex: number = 0; elementIndex < currentProcessElementsLength; elementIndex++ ) {
-            var element: HTMLElement = _current_Process_Elements[ elementIndex ];
+            const element: HTMLElement = _current_Process_Elements[ elementIndex ];
 
             element.removeEventListener( "mousemove", ( e: MouseEvent ) => {
                 onNodeMouseOver( e, element );
@@ -535,13 +537,10 @@ type DialogProperties = Record<string, string>;
     }
 
     function onNodeMouseOver( e: MouseEvent, element: HTMLElement ) : void {
-        if ( !_current_Process_Locked ) {
+        if ( !_current_Process_Locked && Is.defined( _current_Process_Options ) ) {
             DomElement.cancelBubble( e );
         
-            if ( _dialog_TimerId !== 0 ) {
-                clearTimeout( _dialog_TimerId );
-                _dialog_TimerId = 0;
-            }
+            clearDialogShowTimer();
     
             _dialog_TimerId = setTimeout( () => {
                 buildDialogContent( element );
@@ -553,12 +552,15 @@ type DialogProperties = Record<string, string>;
 
     function onWindowMove() : void {
         if ( !_current_Process_Locked ) {
-            if ( _dialog_TimerId !== 0 ) {
-                clearTimeout( _dialog_TimerId );
-                _dialog_TimerId = 0;
-            }
-            
+            clearDialogShowTimer();
             closeDialog();
+        }
+    }
+
+    function clearDialogShowTimer() : void {
+        if ( _dialog_TimerId !== 0 ) {
+            clearTimeout( _dialog_TimerId );
+            _dialog_TimerId = 0;
         }
     }
 
@@ -664,6 +666,7 @@ type DialogProperties = Record<string, string>;
             if ( Is.definedObject( _current_Process_Options ) ) {
                 _current_Process_Options = null!;
 
+                clearDialogShowTimer();
                 removeNodeEvents();
             }
 

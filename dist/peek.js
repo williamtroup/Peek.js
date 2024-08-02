@@ -319,10 +319,10 @@ var i;
         T = n.createWithHTML(x, "button", "move-down", o.text.moveDownSymbolText);
         T.onclick = U;
         T.title = o.text.moveDownText;
-        re(s, r);
+        se(s, r);
     }
     function W(t = null) {
-        if (!w) {
+        if (!w && e.defined(b)) {
             let l = b.titleText;
             s.innerHTML = "";
             if (!e.definedString(l)) {
@@ -450,43 +450,45 @@ var i;
             A.parentNode.insertBefore(A.nextElementSibling, A);
         }
     }
-    function V(e) {
-        d.innerHTML = "";
-        d.scrollTop = 0;
-        S = {};
-        E = 0;
-        A = e;
-        W(e);
-        if (b.mode === 1 || b.mode === 4 || b.mode === 2) {
-            g.style.removeProperty("display");
-        } else {
-            g.style.display = "none";
-        }
-        if (!b.allowEditing) {
-            y.style.display = "none";
-            m.style.display = "none";
-            T.style.display = "none";
-        } else {
-            y.style.removeProperty("display");
-            m.style.removeProperty("display");
-            T.style.removeProperty("display");
-        }
-        p = n.createWithHTML(d, "span", "no-search-results", o.text.noPropertiesFoundForSearchText);
-        if (b.mode === 1) {
-            F(e);
-        } else if (b.mode === 2) {
-            z(e);
-        } else if (b.mode === 3) {
-            G(e);
-        } else if (b.mode === 4) {
-            J(e);
-        } else {
-            n.createWithHTML(d, "span", "warning", o.text.modeNotSupportedText);
-        }
-        if (E <= 15) {
-            c.style.display = "none";
-        } else {
-            c.style.removeProperty("display");
+    function V(t) {
+        if (e.defined(b)) {
+            d.innerHTML = "";
+            d.scrollTop = 0;
+            S = {};
+            E = 0;
+            A = t;
+            W(t);
+            if (b.mode === 1 || b.mode === 4 || b.mode === 2) {
+                g.style.removeProperty("display");
+            } else {
+                g.style.display = "none";
+            }
+            if (!b.allowEditing) {
+                y.style.display = "none";
+                m.style.display = "none";
+                T.style.display = "none";
+            } else {
+                y.style.removeProperty("display");
+                m.style.removeProperty("display");
+                T.style.removeProperty("display");
+            }
+            p = n.createWithHTML(d, "span", "no-search-results", o.text.noPropertiesFoundForSearchText);
+            if (b.mode === 1) {
+                F(t);
+            } else if (b.mode === 2) {
+                z(t);
+            } else if (b.mode === 3) {
+                G(t);
+            } else if (b.mode === 4) {
+                J(t);
+            } else {
+                n.createWithHTML(d, "span", "warning", o.text.modeNotSupportedText);
+            }
+            if (E <= 15) {
+                c.style.display = "none";
+            } else {
+                c.style.removeProperty("display");
+            }
         }
     }
     function F(e) {
@@ -628,55 +630,55 @@ var i;
     }
     function oe() {
         const e = h.length;
-        for (let n = 0; n < e; n++) {
-            var t = h[n];
-            t.removeEventListener("mousemove", (e => {
-                le(e, t);
+        for (let t = 0; t < e; t++) {
+            const e = h[t];
+            e.removeEventListener("mousemove", (t => {
+                le(t, e);
             }));
         }
         h = [];
         window.removeEventListener("mousemove", ie);
         D();
     }
-    function le(e, t) {
-        if (!w) {
-            n.cancelBubble(e);
-            if (v !== 0) {
-                clearTimeout(v);
-                v = 0;
-            }
+    function le(t, l) {
+        if (!w && e.defined(b)) {
+            n.cancelBubble(t);
+            re();
             v = setTimeout((() => {
-                V(t);
-                n.showElementAtMousePosition(e, r);
+                V(l);
+                n.showElementAtMousePosition(t, r);
             }), o.dialogDisplayDelay);
         }
     }
     function ie() {
         if (!w) {
-            if (v !== 0) {
-                clearTimeout(v);
-                v = 0;
-            }
+            re();
             D();
         }
     }
-    function re(e, t) {
-        e.onmousedown = e => {
-            se(e, t);
-        };
-        t.onmousemove = e => {
-            ce(e, true);
-        };
-        e.onmouseup = () => {
-            ae();
-        };
-        e.oncontextmenu = () => {
-            ae();
-        };
-        document.addEventListener("mousemove", ce);
-        document.addEventListener("mouseleave", fe);
+    function re() {
+        if (v !== 0) {
+            clearTimeout(v);
+            v = 0;
+        }
     }
     function se(e, t) {
+        e.onmousedown = e => {
+            ae(e, t);
+        };
+        t.onmousemove = e => {
+            fe(e, true);
+        };
+        e.onmouseup = () => {
+            ce();
+        };
+        e.oncontextmenu = () => {
+            ce();
+        };
+        document.addEventListener("mousemove", fe);
+        document.addEventListener("mouseleave", ue);
+    }
+    function ae(e, t) {
         if (!H) {
             N = t;
             H = true;
@@ -686,7 +688,7 @@ var i;
             M = N.offsetTop;
         }
     }
-    function ae() {
+    function ce() {
         if (H) {
             H = false;
             N = null;
@@ -694,7 +696,7 @@ var i;
             M = 0;
         }
     }
-    function ce(e, t = false) {
+    function fe(e, t = false) {
         if (t) {
             n.cancelBubble(e);
         }
@@ -704,7 +706,7 @@ var i;
             N.style.top = `${e.pageY - k}px`;
         }
     }
-    function fe() {
+    function ue() {
         if (H) {
             N.style.left = `${O}px`;
             N.style.top = `${M}px`;
@@ -714,25 +716,26 @@ var i;
             M = 0;
         }
     }
-    const ue = {
+    const de = {
         start: function(t) {
             if (!e.definedObject(b)) {
                 b = i.Options.get(t);
                 W();
                 te();
             }
-            return ue;
+            return de;
         },
         stop: function() {
             if (e.definedObject(b)) {
                 b = null;
+                re();
                 oe();
             }
-            return ue;
+            return de;
         },
         close: function() {
             D();
-            return ue;
+            return de;
         },
         setConfiguration: function(t) {
             if (e.definedObject(t)) {
@@ -752,7 +755,7 @@ var i;
                     }
                 }
             }
-            return ue;
+            return de;
         },
         getVersion: function() {
             return "1.7.0";
@@ -764,7 +767,7 @@ var i;
             C();
         }));
         if (!e.defined(window.$peek)) {
-            window.$peek = ue;
+            window.$peek = de;
         }
     })();
 })();//# sourceMappingURL=peek.js.map
