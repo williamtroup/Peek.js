@@ -1,6 +1,6 @@
 # Peek.js - Change Log:
 
-## Version 1.7.0:
+## Version 1.8.0:
 
 #### **Start Options:**
 - Added a start option "ignore" (defaults to "[]"), which states the property values that only should be ignored.
