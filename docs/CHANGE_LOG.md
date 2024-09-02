@@ -4,6 +4,7 @@
 
 #### **Adjustments:**
 - Updated to the latest NPM packages.
+- Added an ignore path for ".DS_Store" files when packing the NuGet package.
 
 
 ## Version 1.7.0:
