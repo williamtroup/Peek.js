@@ -210,7 +210,7 @@ type DialogProperties = Record<string, string>;
     }
 
     function onRemove() : void {
-        _current_Process_Element.parentNode?.removeChild( _current_Process_Element );
+        _current_Process_Element.parentNode!.removeChild( _current_Process_Element );
 
         closeDialog();
     }

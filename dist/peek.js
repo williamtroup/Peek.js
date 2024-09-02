@@ -396,7 +396,7 @@ var i;
         }
     }
     function I() {
-        A.parentNode?.removeChild(A);
+        A.parentNode.removeChild(A);
         D();
     }
     function j() {
