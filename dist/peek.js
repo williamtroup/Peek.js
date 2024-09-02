@@ -396,8 +396,7 @@ var i;
         }
     }
     function I() {
-        var e;
-        (e = A.parentNode) == null ? void 0 : e.removeChild(A);
+        A.parentNode?.removeChild(A);
         D();
     }
     function j() {

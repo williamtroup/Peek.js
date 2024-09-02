@@ -3,6 +3,7 @@
 ## Version 1.8.0:
 
 #### **Adjustments:**
+- Moved from ES2016 to ES2020.
 - Updated to the latest NPM packages.
 - Added an ignore path for ".DS_Store" files when packing the NuGet package.
 
