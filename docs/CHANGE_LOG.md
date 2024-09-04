@@ -3,7 +3,7 @@
 ## Version 1.8.0:
 
 #### **Start Options:**
-- Added a start option "offset" (defaults to 0), which states the additional offset to use for the dialogs position.
+- Added a start option "dialogOffset" (defaults to 0), which states the additional offset to use for the dialogs position.
 - Added a start option "showSearch" (defaults to true), which states if the search bar should be shown.
 - Added a start option "showSearchPropertyCount" (defaults to 15), which states the minimum number of properties that should be available for the search bar to be visible.
 
