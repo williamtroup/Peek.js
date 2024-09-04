@@ -1,9 +1,31 @@
 # Peek.js - Change Log:
 
+## Version 1.8.0:
+
+#### **Start Options:**
+- Added a start option "dialogOffset" (defaults to 0), which states the additional offset to use for the dialogs position.
+- Added a start option "showSearch" (defaults to true), which states if the search bar should be shown.
+- Added a start option "showSearchPropertyCount" (defaults to 15), which states the minimum number of properties that should be available for the search bar to be visible.
+
+#### **Configuration Options:**
+- BREAKING: Renamed the configuration option "dialogDisplayDelay" to "dialogShowDelay".
+- BREAKING: Renamed the configuration option "searchDelayDelay" to "searchDelay".
+- Added a new configuration option called "dialogHideDelay" (default to 0 milliseconds), which states the delay that should be used before hiding the dialog when moving away from an element.
+
+#### **Adjustments:**
+- Moved from ES2016 to ES2020.
+- Updated to the latest NPM packages.
+- Added an ignore path for ".DS_Store" files when packing the NuGet package.
+- Renamed some of the documentation.
+
+#### **Fixes:**
+- Fixed some missing documentation in the "options/OPTIONS.md".
+
+
 ## Version 1.7.0:
 
 #### **Start Options:**
-- Added a start option "ignore" (defaults to "[]"), which states the property values that only should be ignored.
+- Added a start option "ignoreValues" (defaults to "[]"), which states the property values that only should be ignored.
 - Added start option "showLockButtonInTitle" (defaults to true), which states if the lock button should be shown in the title bar.
 
 #### **Configuration Options:**

@@ -1,4 +1,4 @@
-# Peek.js - Options:
+# Peek.js - Start Options:
 
 Below are all the options that can be passed to the "start()" public function.
 <br>
@@ -16,6 +16,10 @@ Below are all the options that can be passed to the "start()" public function.
 | *boolean* | showIdOrNameInTitle | States if showing the Name/ID of the element in the title of the dialog is enabled (defaults to true). |
 | *boolean* | showNodeNameInTitle | States if the node type should be shown in the title (if more than one is being used. Defaults to false). |
 | *string[]* | ignoreValues | States the property values that only should be ignored (defaults to []). |
+| *boolean* | showLockButtonInTitle | States if the lock symbol button should be shown in the title when the dialog is moved (defaults to true). |
+| *number* | dialogOffset | States the additional offset to use for the dialog position (defaults to 0). |
+| *boolean* | showSearch | States if the search bar should be shown (defaults to true). |
+| *number* | showSearchPropertyCount | States minimum number of properties that should be available to show the search bar (defaults to 15). |
 
 <br/>
 

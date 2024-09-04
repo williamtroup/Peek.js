@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
  * @file        options.ts
- * @version     v1.7.0
+ * @version     v1.8.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -29,6 +29,9 @@ export namespace Start {
             options.showNodeNameInTitle = Default.getBoolean( options.showNodeNameInTitle, false );
             options.ignoreValues = Default.getStringOrArray( options.ignoreValues, [] );
             options.showLockButtonInTitle = Default.getBoolean( options.showLockButtonInTitle, true );
+            options.dialogOffset = Default.getNumber( options.dialogOffset, 0 );
+            options.showSearch = Default.getBoolean( options.showSearch, true );
+            options.showSearchPropertyCount = Default.getNumber( options.showSearchPropertyCount, 15 );
 
             return options;
         }

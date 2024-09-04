@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
  * @file        peek.ts
- * @version     v1.7.0
+ * @version     v1.8.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -46,7 +46,8 @@ type DialogProperties = Record<string, string>;
     let _dialog_Buttons_Remove: HTMLButtonElement = null!;
     let _dialog_Buttons_MoveUp: HTMLButtonElement = null!;
     let _dialog_Buttons_MoveDown: HTMLButtonElement = null!;
-    let _dialog_TimerId: number = 0;
+    let _dialog_Show_TimerId: number = 0;
+    let _dialog_Hide_TimerId: number = 0;
 
     // Variables: Current Process:
     let _current_Process_Options: StartOptions = null!;
@@ -103,7 +104,7 @@ type DialogProperties = Record<string, string>;
         removeButton.onclick = onSearchPropertiesClear;
 
         const closeButton: HTMLElement = DomElement.createWithHTML( _dialog_Buttons, "button", "close", _configuration.text!.closeText! );
-        closeButton.onclick = closeDialog;
+        closeButton.onclick = () => closeDialog();
 
         _dialog_Buttons_Remove = DomElement.createWithHTML( _dialog_Buttons, "button", "remove", _configuration.text!.removeElementSymbolText! ) as HTMLButtonElement;
         _dialog_Buttons_Remove.onclick = onRemove;
@@ -181,10 +182,29 @@ type DialogProperties = Record<string, string>;
         }
     }
 
-    function closeDialog() : void {
-        _dialog.style.display = "none";
-        _current_Process_Locked = false;
-        _dialog_Search_Input.value = Char.empty;
+    function closeDialog( useDelay: boolean = false ) : void {
+        if ( _dialog.style.display !== "none" ) {
+            const closeFunc: Function = () => {
+                _dialog.style.display = "none";
+                _current_Process_Locked = false;
+                _dialog_Search_Input.value = Char.empty;
+                
+                clearDialogHideTimer();
+            }
+
+            if ( useDelay ) {
+                if ( _dialog_Hide_TimerId === 0 ) {
+                    clearDialogShowTimer();
+
+                    _dialog_Hide_TimerId = setTimeout( () => {
+                        closeFunc();
+                    }, _configuration.dialogHideDelay );
+                }
+    
+            } else {
+                closeFunc();
+            }
+        }
     }
 
     function onCopy() : void {
@@ -210,7 +230,7 @@ type DialogProperties = Record<string, string>;
     }
 
     function onRemove() : void {
-        _current_Process_Element.parentNode?.removeChild( _current_Process_Element );
+        _current_Process_Element.parentNode!.removeChild( _current_Process_Element );
 
         closeDialog();
     }
@@ -255,7 +275,7 @@ type DialogProperties = Record<string, string>;
                 _dialog_Contents_NoSearchResultsText.style.removeProperty( "display" );
             }
             
-        }, _configuration.searchDelayDelay );
+        }, _configuration.searchDelay );
     }
 
     function onSearchPropertiesClear() : void {
@@ -324,7 +344,7 @@ type DialogProperties = Record<string, string>;
                 DomElement.createWithHTML( _dialog_Contents, "span", "warning", _configuration.text!.modeNotSupportedText! );
             }
     
-            if ( _current_Process_Properties_Count <= 15 ) {
+            if ( _current_Process_Properties_Count <= _current_Process_Options.showSearchPropertyCount! || !_current_Process_Options.showSearch ) {
                 _dialog_Search.style.display = "none";
             } else {
                 _dialog_Search.style.removeProperty( "display" );
@@ -542,25 +562,33 @@ type DialogProperties = Record<string, string>;
         
             clearDialogShowTimer();
     
-            _dialog_TimerId = setTimeout( () => {
+            _dialog_Show_TimerId = setTimeout( () => {
                 buildDialogContent( element );
+                clearDialogHideTimer();
     
-                DomElement.showElementAtMousePosition( e, _dialog );
-            }, _configuration.dialogDisplayDelay );
+                DomElement.showElementAtMousePosition( e, _dialog, _current_Process_Options.dialogOffset! );
+            }, _configuration.dialogShowDelay );
         }
     }
 
     function onWindowMove() : void {
         if ( !_current_Process_Locked ) {
             clearDialogShowTimer();
-            closeDialog();
+            closeDialog( true );
         }
     }
 
     function clearDialogShowTimer() : void {
-        if ( _dialog_TimerId !== 0 ) {
-            clearTimeout( _dialog_TimerId );
-            _dialog_TimerId = 0;
+        if ( _dialog_Show_TimerId !== 0 ) {
+            clearTimeout( _dialog_Show_TimerId );
+            _dialog_Show_TimerId = 0;
+        }
+    }
+
+    function clearDialogHideTimer() : void {
+        if ( _dialog_Hide_TimerId !== 0 ) {
+            clearTimeout( _dialog_Hide_TimerId );
+            _dialog_Hide_TimerId = 0;
         }
     }
 
@@ -719,7 +747,7 @@ type DialogProperties = Record<string, string>;
          */
 
         getVersion: function () : string {
-            return "1.7.0";
+            return "1.8.0";
         }
     };
 

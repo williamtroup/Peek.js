@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
  * @file        config.ts
- * @version     v1.7.0
+ * @version     v1.8.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -19,8 +19,9 @@ export namespace Config {
     export namespace Options {
         export function get( newConfiguration: Configuration = null! ) : Configuration {
             let configuration: Configuration = Default.getObject( newConfiguration, {} as Configuration );
-            configuration.dialogDisplayDelay = Default.getNumber( configuration.dialogDisplayDelay, 1000 );
-            configuration.searchDelayDelay = Default.getNumber( configuration.searchDelayDelay, 500 );
+            configuration.dialogShowDelay = Default.getNumber( configuration.dialogShowDelay, 1000 );
+            configuration.dialogHideDelay = Default.getNumber( configuration.dialogHideDelay, 500 );
+            configuration.searchDelay = Default.getNumber( configuration.searchDelay, 500 );
     
             configuration = getText( configuration );
 

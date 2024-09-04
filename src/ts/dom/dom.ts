@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
  * @file        dom.ts
- * @version     v1.7.0
+ * @version     v1.8.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -63,7 +63,7 @@ export namespace DomElement {
         return result;
     }
 
-    export function showElementAtMousePosition( e: MouseEvent, element: HTMLElement ) : void {
+    export function showElementAtMousePosition( e: MouseEvent, element: HTMLElement, offset: number ) : void {
         if ( element.style.display !== "block" ) {
             let left: number = e.pageX;
             let top: number = e.pageY;
@@ -72,15 +72,17 @@ export namespace DomElement {
             element.style.display = "block";
     
             if ( left + element.offsetWidth > window.innerWidth ) {
-                left -= element.offsetWidth;
+                left -= ( element.offsetWidth + offset );
             } else {
                 left++;
+                left += offset;
             }
     
             if ( top + element.offsetHeight > window.innerHeight ) {
-                top -= element.offsetHeight;
+                top -= ( element.offsetHeight + offset );
             } else {
                 top++;
+                top += offset;
             }
     
             if ( left < scrollPosition.left ) {

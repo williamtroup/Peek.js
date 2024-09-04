@@ -7,32 +7,32 @@ var e;
         return e !== null && e !== void 0 && e.toString() !== "";
     }
     e.defined = t;
-    function n(e) {
+    function o(e) {
         return t(e) && typeof e === "object";
     }
-    e.definedObject = n;
-    function o(e) {
+    e.definedObject = o;
+    function n(e) {
         return t(e) && typeof e === "boolean";
     }
-    e.definedBoolean = o;
-    function l(e) {
+    e.definedBoolean = n;
+    function i(e) {
         return t(e) && typeof e === "string";
     }
-    e.definedString = l;
-    function i(e) {
+    e.definedString = i;
+    function l(e) {
         return t(e) && typeof e === "function";
     }
-    e.definedFunction = i;
+    e.definedFunction = l;
     function r(e) {
         return t(e) && typeof e === "number";
     }
     e.definedNumber = r;
     function s(e) {
-        return n(e) && e instanceof Array;
+        return o(e) && e instanceof Array;
     }
     e.definedArray = s;
     function a(e) {
-        return n(e) && e instanceof Date;
+        return o(e) && e instanceof Date;
     }
     e.definedDate = a;
     function c(e, t = 1) {
@@ -61,37 +61,37 @@ var t;
     e.PEEK_JS_IGNORE_STATE_ATTRIBUTE = "data-peek-js-ignore-state";
 })(t || (t = {}));
 
-var n;
+var o;
 
-(n => {
-    function o(n, o, l = "", i = false) {
-        const r = o.toLowerCase();
+(o => {
+    function n(o, n, i = "", l = false) {
+        const r = n.toLowerCase();
         const s = r === "text";
         let a = s ? document.createTextNode("") : document.createElement(r);
         a.setAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE, "ignore");
-        if (e.definedString(l)) {
-            a.className = l;
+        if (e.definedString(i)) {
+            a.className = i;
         }
-        if (!i) {
-            n.appendChild(a);
+        if (!l) {
+            o.appendChild(a);
         } else {
-            n.insertBefore(a, n.children[0]);
+            o.insertBefore(a, o.children[0]);
         }
         return a;
     }
-    n.create = o;
-    function l(e, n, l, i, r = false) {
-        const s = o(e, n, l, r);
-        s.innerHTML = i;
+    o.create = n;
+    function i(e, o, i, l, r = false) {
+        const s = n(e, o, i, r);
+        s.innerHTML = l;
         s.setAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE, "ignore");
         return s;
     }
-    n.createWithHTML = l;
-    function i(e) {
+    o.createWithHTML = i;
+    function l(e) {
         e.preventDefault();
         e.stopPropagation();
     }
-    n.cancelBubble = i;
+    o.cancelBubble = l;
     function r() {
         const e = document.documentElement;
         const t = {
@@ -100,34 +100,36 @@ var n;
         };
         return t;
     }
-    n.getScrollPosition = r;
-    function s(e, t) {
+    o.getScrollPosition = r;
+    function s(e, t, o) {
         if (t.style.display !== "block") {
             let n = e.pageX;
-            let o = e.pageY;
+            let i = e.pageY;
             const l = r();
             t.style.display = "block";
             if (n + t.offsetWidth > window.innerWidth) {
-                n -= t.offsetWidth;
+                n -= t.offsetWidth + o;
             } else {
                 n++;
+                n += o;
             }
-            if (o + t.offsetHeight > window.innerHeight) {
-                o -= t.offsetHeight;
+            if (i + t.offsetHeight > window.innerHeight) {
+                i -= t.offsetHeight + o;
             } else {
-                o++;
+                i++;
+                i += o;
             }
             if (n < l.left) {
                 n = e.pageX + 1;
             }
-            if (o < l.top) {
-                o = e.pageY + 1;
+            if (i < l.top) {
+                i = e.pageY + 1;
             }
             t.style.left = `${n}px`;
-            t.style.top = `${o}px`;
+            t.style.top = `${i}px`;
         }
     }
-    n.showElementAtMousePosition = s;
+    o.showElementAtMousePosition = s;
     function a(e) {
         const t = {
             left: 0,
@@ -140,124 +142,128 @@ var n;
         }
         return t;
     }
-    n.getOffset = a;
-})(n || (n = {}));
+    o.getOffset = a;
+})(o || (o = {}));
 
-var o;
+var n;
 
 (t => {
-    function n(e, t) {
+    function o(e, t) {
         return typeof e === "string" ? e : t;
     }
-    t.getAnyString = n;
-    function o(t, n) {
-        return e.definedString(t) ? t : n;
+    t.getAnyString = o;
+    function n(t, o) {
+        return e.definedString(t) ? t : o;
     }
-    t.getString = o;
-    function l(t, n) {
-        return e.definedBoolean(t) ? t : n;
+    t.getString = n;
+    function i(t, o) {
+        return e.definedBoolean(t) ? t : o;
     }
-    t.getBoolean = l;
-    function i(t, n) {
-        return e.definedNumber(t) ? t : n;
+    t.getBoolean = i;
+    function l(t, o) {
+        return e.definedNumber(t) ? t : o;
     }
-    t.getNumber = i;
-    function r(t, n) {
-        return e.definedArray(t) ? t : n;
+    t.getNumber = l;
+    function r(t, o) {
+        return e.definedArray(t) ? t : o;
     }
     t.getArray = r;
-    function s(t, n) {
-        return e.definedObject(t) ? t : n;
+    function s(t, o) {
+        return e.definedObject(t) ? t : o;
     }
     t.getObject = s;
-    function a(t, n) {
-        let o = n;
+    function a(t, o) {
+        let n = o;
         if (e.definedString(t)) {
             const e = t.toString().split(" ");
             if (e.length === 0) {
-                t = n;
+                t = o;
             } else {
-                o = e;
+                n = e;
             }
         } else {
-            o = r(t, n);
+            n = r(t, o);
         }
-        return o;
+        return n;
     }
     t.getStringOrArray = a;
-})(o || (o = {}));
-
-var l;
-
-(e => {
-    let t;
-    (e => {
-        function t(e = null) {
-            let t = o.getObject(e, {});
-            t.dialogDisplayDelay = o.getNumber(t.dialogDisplayDelay, 1e3);
-            t.searchDelayDelay = o.getNumber(t.searchDelayDelay, 500);
-            t = n(t);
-            return t;
-        }
-        e.get = t;
-        function n(e) {
-            e.text = o.getObject(e.text, {});
-            e.text.cssText = o.getAnyString(e.text.cssText, "CSS");
-            e.text.attributesText = o.getAnyString(e.text.attributesText, "Attributes");
-            e.text.sizeText = o.getAnyString(e.text.sizeText, "Size");
-            e.text.classesText = o.getAnyString(e.text.classesText, "Classes");
-            e.text.noAttributesAvailableText = o.getAnyString(e.text.noAttributesAvailableText, "No attributes are available.");
-            e.text.closeText = o.getAnyString(e.text.closeText, "Close");
-            e.text.copyText = o.getAnyString(e.text.copyText, "Copy");
-            e.text.copySymbolText = o.getAnyString(e.text.copySymbolText, "❐");
-            e.text.pasteText = o.getAnyString(e.text.pasteText, "Paste");
-            e.text.pasteSymbolText = o.getAnyString(e.text.pasteSymbolText, "☐");
-            e.text.removeText = o.getAnyString(e.text.removeText, "Remove");
-            e.text.removeSymbolText = o.getAnyString(e.text.removeSymbolText, "✕");
-            e.text.noClassesAvailableText = o.getAnyString(e.text.noClassesAvailableText, "No classes are available.");
-            e.text.searchPropertiesPlaceHolderText = o.getAnyString(e.text.searchPropertiesPlaceHolderText, "Search properties...");
-            e.text.clearText = o.getAnyString(e.text.clearText, "Clear");
-            e.text.clearSymbolText = o.getAnyString(e.text.clearSymbolText, "✕");
-            e.text.noPropertiesFoundForSearchText = o.getAnyString(e.text.noPropertiesFoundForSearchText, "No properties were found for your search.");
-            e.text.dialogMovedSymbolText = o.getAnyString(e.text.dialogMovedSymbolText, "✸");
-            e.text.propertyValuePlaceHolderText = o.getAnyString(e.text.propertyValuePlaceHolderText, "Enter value...");
-            e.text.modeNotSupportedText = o.getAnyString(e.text.modeNotSupportedText, "The mode you have specified is not supported.");
-            e.text.unknownModeText = o.getAnyString(e.text.unknownModeText, "Unknown Mode");
-            e.text.moveUpText = o.getAnyString(e.text.moveUpText, "Move Up");
-            e.text.moveUpSymbolText = o.getAnyString(e.text.moveUpSymbolText, "↑");
-            e.text.moveDownText = o.getAnyString(e.text.moveDownText, "Move Down");
-            e.text.moveDownSymbolText = o.getAnyString(e.text.moveDownSymbolText, "↓");
-            e.text.removeElementSymbolText = o.getAnyString(e.text.removeElementSymbolText, "⌫");
-            e.text.lockText = o.getAnyString(e.text.lockText, "Lock");
-            return e;
-        }
-    })(t = e.Options || (e.Options = {}));
-})(l || (l = {}));
+})(n || (n = {}));
 
 var i;
 
 (e => {
     let t;
     (e => {
+        function t(e = null) {
+            let t = n.getObject(e, {});
+            t.dialogShowDelay = n.getNumber(t.dialogShowDelay, 1e3);
+            t.dialogHideDelay = n.getNumber(t.dialogHideDelay, 500);
+            t.searchDelay = n.getNumber(t.searchDelay, 500);
+            t = o(t);
+            return t;
+        }
+        e.get = t;
+        function o(e) {
+            e.text = n.getObject(e.text, {});
+            e.text.cssText = n.getAnyString(e.text.cssText, "CSS");
+            e.text.attributesText = n.getAnyString(e.text.attributesText, "Attributes");
+            e.text.sizeText = n.getAnyString(e.text.sizeText, "Size");
+            e.text.classesText = n.getAnyString(e.text.classesText, "Classes");
+            e.text.noAttributesAvailableText = n.getAnyString(e.text.noAttributesAvailableText, "No attributes are available.");
+            e.text.closeText = n.getAnyString(e.text.closeText, "Close");
+            e.text.copyText = n.getAnyString(e.text.copyText, "Copy");
+            e.text.copySymbolText = n.getAnyString(e.text.copySymbolText, "❐");
+            e.text.pasteText = n.getAnyString(e.text.pasteText, "Paste");
+            e.text.pasteSymbolText = n.getAnyString(e.text.pasteSymbolText, "☐");
+            e.text.removeText = n.getAnyString(e.text.removeText, "Remove");
+            e.text.removeSymbolText = n.getAnyString(e.text.removeSymbolText, "✕");
+            e.text.noClassesAvailableText = n.getAnyString(e.text.noClassesAvailableText, "No classes are available.");
+            e.text.searchPropertiesPlaceHolderText = n.getAnyString(e.text.searchPropertiesPlaceHolderText, "Search properties...");
+            e.text.clearText = n.getAnyString(e.text.clearText, "Clear");
+            e.text.clearSymbolText = n.getAnyString(e.text.clearSymbolText, "✕");
+            e.text.noPropertiesFoundForSearchText = n.getAnyString(e.text.noPropertiesFoundForSearchText, "No properties were found for your search.");
+            e.text.dialogMovedSymbolText = n.getAnyString(e.text.dialogMovedSymbolText, "✸");
+            e.text.propertyValuePlaceHolderText = n.getAnyString(e.text.propertyValuePlaceHolderText, "Enter value...");
+            e.text.modeNotSupportedText = n.getAnyString(e.text.modeNotSupportedText, "The mode you have specified is not supported.");
+            e.text.unknownModeText = n.getAnyString(e.text.unknownModeText, "Unknown Mode");
+            e.text.moveUpText = n.getAnyString(e.text.moveUpText, "Move Up");
+            e.text.moveUpSymbolText = n.getAnyString(e.text.moveUpSymbolText, "↑");
+            e.text.moveDownText = n.getAnyString(e.text.moveDownText, "Move Down");
+            e.text.moveDownSymbolText = n.getAnyString(e.text.moveDownSymbolText, "↓");
+            e.text.removeElementSymbolText = n.getAnyString(e.text.removeElementSymbolText, "⌫");
+            e.text.lockText = n.getAnyString(e.text.lockText, "Lock");
+            return e;
+        }
+    })(t = e.Options || (e.Options = {}));
+})(i || (i = {}));
+
+var l;
+
+(e => {
+    let t;
+    (e => {
         function t(e) {
-            let t = o.getObject(e, {});
-            t.nodeType = o.getStringOrArray(t.nodeType, []);
-            t.mode = o.getNumber(t.mode, 1);
-            t.titleText = o.getString(t.titleText, "");
-            t.showOnly = o.getStringOrArray(t.showOnly, []);
-            t.allowEditing = o.getBoolean(t.allowEditing, false);
-            t.showIdOrNameInTitle = o.getBoolean(t.showIdOrNameInTitle, true);
-            t.showNodeNameInTitle = o.getBoolean(t.showNodeNameInTitle, false);
-            t.ignoreValues = o.getStringOrArray(t.ignoreValues, []);
-            t.showLockButtonInTitle = o.getBoolean(t.showLockButtonInTitle, true);
+            let t = n.getObject(e, {});
+            t.nodeType = n.getStringOrArray(t.nodeType, []);
+            t.mode = n.getNumber(t.mode, 1);
+            t.titleText = n.getString(t.titleText, "");
+            t.showOnly = n.getStringOrArray(t.showOnly, []);
+            t.allowEditing = n.getBoolean(t.allowEditing, false);
+            t.showIdOrNameInTitle = n.getBoolean(t.showIdOrNameInTitle, true);
+            t.showNodeNameInTitle = n.getBoolean(t.showNodeNameInTitle, false);
+            t.ignoreValues = n.getStringOrArray(t.ignoreValues, []);
+            t.showLockButtonInTitle = n.getBoolean(t.showLockButtonInTitle, true);
+            t.dialogOffset = n.getNumber(t.dialogOffset, 0);
+            t.showSearch = n.getBoolean(t.showSearch, true);
+            t.showSearchPropertyCount = n.getNumber(t.showSearchPropertyCount, 15);
             return t;
         }
         e.get = t;
     })(t = e.Options || (e.Options = {}));
-})(i || (i = {}));
+})(l || (l = {}));
 
 (() => {
-    let o = {};
+    let n = {};
     let r = null;
     let s = null;
     let a = null;
@@ -268,124 +274,140 @@ var i;
     let p = null;
     let x = null;
     let g = null;
-    let y = null;
     let m = null;
+    let y = null;
     let T = null;
+    let h = 0;
     let v = 0;
     let b = null;
-    let h = [];
-    let S = {};
+    let S = [];
+    let w = {};
     let A = null;
-    let w = false;
-    let L = 0;
+    let L = false;
+    let N = 0;
     let E = 0;
-    let N = null;
-    let O = 0;
+    let O = null;
+    let H = 0;
     let M = 0;
-    let H = false;
-    let P = 0;
+    let P = false;
+    let C = 0;
     let k = 0;
-    function C() {
+    function W() {
         if (e.definedObject(r)) {
-            D();
+            I();
             document.body.removeChild(r);
             r = null;
         }
-        r = n.create(document.body, "div", "peek-js");
-        r.onmousemove = n.cancelBubble;
-        s = n.create(r, "div", "dialog-title-bar");
-        c = n.create(r, "div", "dialog-search");
-        d = n.create(r, "div", "dialog-contents");
-        x = n.create(r, "div", "dialog-buttons");
-        g = n.createWithHTML(x, "button", "copy", o.text.copyText);
-        g.onclick = $;
-        f = n.create(c, "input");
-        f.placeholder = o.text.searchPropertiesPlaceHolderText;
+        r = o.create(document.body, "div", "peek-js");
+        r.onmousemove = o.cancelBubble;
+        s = o.create(r, "div", "dialog-title-bar");
+        c = o.create(r, "div", "dialog-search");
+        d = o.create(r, "div", "dialog-contents");
+        x = o.create(r, "div", "dialog-buttons");
+        g = o.createWithHTML(x, "button", "copy", n.text.copyText);
+        g.onclick = D;
+        f = o.create(c, "input");
+        f.placeholder = n.text.searchPropertiesPlaceHolderText;
         f.type = "text";
-        f.onkeyup = j;
-        f.onpaste = j;
+        f.onkeyup = _;
+        f.onpaste = _;
         f.onfocus = () => f.select();
-        const t = n.createWithHTML(c, "button", "clear-small", o.text.clearSymbolText);
-        t.title = o.text.clearText;
-        t.onclick = _;
-        const l = n.createWithHTML(x, "button", "close", o.text.closeText);
-        l.onclick = D;
-        y = n.createWithHTML(x, "button", "remove", o.text.removeElementSymbolText);
-        y.onclick = I;
-        y.title = o.text.removeText;
-        m = n.createWithHTML(x, "button", "move-up", o.text.moveUpSymbolText);
-        m.onclick = R;
-        m.title = o.text.moveUpText;
-        T = n.createWithHTML(x, "button", "move-down", o.text.moveDownSymbolText);
-        T.onclick = U;
-        T.title = o.text.moveDownText;
-        se(s, r);
+        const t = o.createWithHTML(c, "button", "clear-small", n.text.clearSymbolText);
+        t.title = n.text.clearText;
+        t.onclick = R;
+        const i = o.createWithHTML(x, "button", "close", n.text.closeText);
+        i.onclick = () => I();
+        m = o.createWithHTML(x, "button", "remove", n.text.removeElementSymbolText);
+        m.onclick = j;
+        m.title = n.text.removeText;
+        y = o.createWithHTML(x, "button", "move-up", n.text.moveUpSymbolText);
+        y.onclick = U;
+        y.title = n.text.moveUpText;
+        T = o.createWithHTML(x, "button", "move-down", n.text.moveDownSymbolText);
+        T.onclick = V;
+        T.title = n.text.moveDownText;
+        ce(s, r);
     }
-    function W(t = null) {
-        if (!w && e.defined(b)) {
-            let l = b.titleText;
+    function B(t = null) {
+        if (!L && e.defined(b)) {
+            let i = b.titleText;
             s.innerHTML = "";
-            if (!e.definedString(l)) {
+            if (!e.definedString(i)) {
                 if (b.mode === 1) {
-                    l = o.text.cssText;
+                    i = n.text.cssText;
                 } else if (b.mode === 2) {
-                    l = o.text.attributesText;
+                    i = n.text.attributesText;
                 } else if (b.mode === 3) {
-                    l = o.text.sizeText;
+                    i = n.text.sizeText;
                 } else if (b.mode === 4) {
-                    l = o.text.classesText;
+                    i = n.text.classesText;
                 } else {
-                    l = o.text.unknownModeText;
+                    i = n.text.unknownModeText;
                 }
             }
-            n.createWithHTML(s, "span", "title", l);
-            if (L > 1 && b.showNodeNameInTitle) {
-                n.createWithHTML(s, "span", "dash", " - ");
-                n.createWithHTML(s, "span", "node-name", `[${t.nodeName.toLowerCase()}]`);
+            o.createWithHTML(s, "span", "title", i);
+            if (N > 1 && b.showNodeNameInTitle) {
+                o.createWithHTML(s, "span", "dash", " - ");
+                o.createWithHTML(s, "span", "node-name", `[${t.nodeName.toLowerCase()}]`);
             }
             if (b.showIdOrNameInTitle && e.defined(t)) {
-                const o = t.getAttribute("id");
-                const l = t.getAttribute("name");
-                if (e.definedString(o)) {
-                    n.createWithHTML(s, "span", "dash", " - ");
-                    n.createWithHTML(s, "span", "id-or-name", o);
-                } else if (e.definedString(l)) {
-                    n.createWithHTML(s, "span", "dash", " - ");
-                    n.createWithHTML(s, "span", "id-or-name", l);
+                const n = t.getAttribute("id");
+                const i = t.getAttribute("name");
+                if (e.definedString(n)) {
+                    o.createWithHTML(s, "span", "dash", " - ");
+                    o.createWithHTML(s, "span", "id-or-name", n);
+                } else if (e.definedString(i)) {
+                    o.createWithHTML(s, "span", "dash", " - ");
+                    o.createWithHTML(s, "span", "id-or-name", i);
                 }
             }
             if (b.showLockButtonInTitle) {
-                a = n.createWithHTML(s, "button", "lock", o.text.dialogMovedSymbolText);
-                a.title = o.text.lockText;
-                a.onclick = () => B();
+                a = o.createWithHTML(s, "button", "lock", n.text.dialogMovedSymbolText);
+                a.title = n.text.lockText;
+                a.onclick = () => $();
             }
         }
     }
-    function B() {
-        if (!w) {
-            n.createWithHTML(s, "span", "locked", `${o.text.dialogMovedSymbolText}${" "}`, true);
+    function $() {
+        if (!L) {
+            o.createWithHTML(s, "span", "locked", `${n.text.dialogMovedSymbolText}${" "}`, true);
             if (e.defined(a)) {
                 a.parentNode.removeChild(a);
                 a = null;
             }
-            w = true;
+            L = true;
+        }
+    }
+    function I(e = false) {
+        if (r.style.display !== "none") {
+            const t = () => {
+                r.style.display = "none";
+                L = false;
+                f.value = "";
+                ae();
+            };
+            if (e) {
+                if (v === 0) {
+                    se();
+                    v = setTimeout((() => {
+                        t();
+                    }), n.dialogHideDelay);
+                }
+            } else {
+                t();
+            }
         }
     }
     function D() {
-        r.style.display = "none";
-        w = false;
-        f.value = "";
-    }
-    function $() {
         const e = [];
-        for (let t in S) {
-            if (S.hasOwnProperty(t)) {
+        for (let t in w) {
+            if (w.hasOwnProperty(t)) {
                 if (b.mode === 1) {
-                    e.push(`${t}: ${S[t]};`);
+                    e.push(`${t}: ${w[t]};`);
                 } else if (b.mode === 2) {
-                    e.push(`${t}="${S[t]}"`);
+                    e.push(`${t}="${w[t]}"`);
                 } else if (b.mode === 4) {
-                    e.push(S[t]);
+                    e.push(w[t]);
                 }
             }
         }
@@ -395,379 +417,385 @@ var i;
             navigator.clipboard.writeText(e.join(" "));
         }
     }
-    function I() {
-        var e;
-        (e = A.parentNode) == null ? void 0 : e.removeChild(A);
-        D();
-    }
     function j() {
+        A.parentNode.removeChild(A);
+        I();
+    }
+    function _() {
         if (u !== 0) {
             clearTimeout(u);
             u = 0;
         }
         u = setTimeout((() => {
             const t = d.getElementsByClassName("property-name");
-            const n = [].slice.call(t);
-            const o = n.length;
-            const l = f.value.toLowerCase();
-            let i = 0;
-            for (let t = 0; t < o; t++) {
-                const o = n[t].parentNode;
-                if (e.defined(o)) {
+            const o = [].slice.call(t);
+            const n = o.length;
+            const i = f.value.toLowerCase();
+            let l = 0;
+            for (let t = 0; t < n; t++) {
+                const n = o[t].parentNode;
+                if (e.defined(n)) {
                     if (f.value.trim() === "") {
-                        o.style.removeProperty("display");
-                        i++;
+                        n.style.removeProperty("display");
+                        l++;
                     } else {
-                        const e = n[t].innerText;
-                        if (e.toLowerCase().indexOf(l) > -1) {
-                            o.style.removeProperty("display");
-                            i++;
+                        const e = o[t].innerText;
+                        if (e.toLowerCase().indexOf(i) > -1) {
+                            n.style.removeProperty("display");
+                            l++;
                         } else {
-                            o.style.display = "none";
+                            n.style.display = "none";
                         }
                     }
                 }
             }
-            if (i === 0) {
+            if (l === 0) {
                 p.style.display = "block";
             } else {
                 p.style.removeProperty("display");
             }
-        }), o.searchDelayDelay);
-    }
-    function _() {
-        f.value = "";
-        f.focus();
-        j();
+        }), n.searchDelay);
     }
     function R() {
+        f.value = "";
+        f.focus();
+        _();
+    }
+    function U() {
         if (A.parentNode !== null && A.previousElementSibling !== null) {
             A.parentNode.insertBefore(A, A.previousElementSibling);
         }
     }
-    function U() {
+    function V() {
         if (A.parentNode !== null && A.nextElementSibling !== null) {
             A.parentNode.insertBefore(A.nextElementSibling, A);
         }
     }
-    function V(t) {
+    function F(t) {
         if (e.defined(b)) {
             d.innerHTML = "";
             d.scrollTop = 0;
-            S = {};
+            w = {};
             E = 0;
             A = t;
-            W(t);
+            B(t);
             if (b.mode === 1 || b.mode === 4 || b.mode === 2) {
                 g.style.removeProperty("display");
             } else {
                 g.style.display = "none";
             }
             if (!b.allowEditing) {
-                y.style.display = "none";
                 m.style.display = "none";
+                y.style.display = "none";
                 T.style.display = "none";
             } else {
-                y.style.removeProperty("display");
                 m.style.removeProperty("display");
+                y.style.removeProperty("display");
                 T.style.removeProperty("display");
             }
-            p = n.createWithHTML(d, "span", "no-search-results", o.text.noPropertiesFoundForSearchText);
+            p = o.createWithHTML(d, "span", "no-search-results", n.text.noPropertiesFoundForSearchText);
             if (b.mode === 1) {
-                F(t);
-            } else if (b.mode === 2) {
                 z(t);
-            } else if (b.mode === 3) {
+            } else if (b.mode === 2) {
                 G(t);
-            } else if (b.mode === 4) {
+            } else if (b.mode === 3) {
                 J(t);
+            } else if (b.mode === 4) {
+                K(t);
             } else {
-                n.createWithHTML(d, "span", "warning", o.text.modeNotSupportedText);
+                o.createWithHTML(d, "span", "warning", n.text.modeNotSupportedText);
             }
-            if (E <= 15) {
+            if (E <= b.showSearchPropertyCount || !b.showSearch) {
                 c.style.display = "none";
             } else {
                 c.style.removeProperty("display");
             }
         }
     }
-    function F(e) {
-        const t = getComputedStyle(e);
-        const n = t.length;
-        for (let o = 0; o < n; o++) {
-            K(e, t[o], t.getPropertyValue(t[o]));
-        }
-    }
     function z(e) {
-        if (e.hasAttributes()) {
-            for (let t of e.attributes) {
-                K(e, t.name, t.value);
-            }
-        } else {
-            d.innerHTML = "";
-            n.createWithHTML(d, "span", "warning", o.text.noAttributesAvailableText);
+        const t = getComputedStyle(e);
+        const o = t.length;
+        for (let n = 0; n < o; n++) {
+            X(e, t[n], t.getPropertyValue(t[n]));
         }
     }
     function G(e) {
-        const t = n.getOffset(e);
-        K(e, "left", `${t.left.toString()}px`, false);
-        K(e, "top", `${t.top.toString()}px`, false);
-        K(e, "width", `${e.offsetWidth.toString()}px`, false);
-        K(e, "height", `${e.offsetHeight.toString()}px`, false);
+        if (e.hasAttributes()) {
+            for (let t of e.attributes) {
+                X(e, t.name, t.value);
+            }
+        } else {
+            d.innerHTML = "";
+            o.createWithHTML(d, "span", "warning", n.text.noAttributesAvailableText);
+        }
     }
     function J(e) {
+        const t = o.getOffset(e);
+        X(e, "left", `${t.left.toString()}px`, false);
+        X(e, "top", `${t.top.toString()}px`, false);
+        X(e, "width", `${e.offsetWidth.toString()}px`, false);
+        X(e, "height", `${e.offsetHeight.toString()}px`, false);
+    }
+    function K(e) {
         if (e.classList.length > 0) {
             let t = 1;
-            for (let n of e.classList) {
-                K(e, t.toString(), n);
+            for (let o of e.classList) {
+                X(e, t.toString(), o);
                 t++;
             }
         } else {
             d.innerHTML = "";
-            n.createWithHTML(d, "span", "warning", o.text.noClassesAvailableText);
+            o.createWithHTML(d, "span", "warning", n.text.noClassesAvailableText);
         }
     }
-    function K(t, l, i, r = true) {
-        if (Z(l) && ee(i)) {
-            const s = n.create(d, "div", "property-row");
-            n.createWithHTML(s, "div", "property-name", l);
-            const a = n.create(s, "div", "property-value");
-            const c = n.create(a, "input");
-            if (e.hexColor(i) || e.isRgbColor(i)) {
+    function X(t, i, l, r = true) {
+        if (ee(i) && te(l)) {
+            const s = o.create(d, "div", "property-row");
+            o.createWithHTML(s, "div", "property-name", i);
+            const a = o.create(s, "div", "property-value");
+            const c = o.create(a, "input");
+            if (e.hexColor(l) || e.isRgbColor(l)) {
                 c.classList.add("property-value-color");
-                c.style.borderLeftColor = i;
+                c.style.borderLeftColor = l;
             }
-            c.placeholder = o.text.propertyValuePlaceHolderText;
+            c.placeholder = n.text.propertyValuePlaceHolderText;
             c.onfocus = () => c.select();
-            const f = n.createWithHTML(s, "button", "copy-small", o.text.copySymbolText);
-            f.title = o.text.copyText;
-            f.onclick = () => navigator.clipboard.writeText(i);
+            const f = o.createWithHTML(s, "button", "copy-small", n.text.copySymbolText);
+            f.title = n.text.copyText;
+            f.onclick = () => navigator.clipboard.writeText(l);
             if (b.allowEditing && r) {
-                const e = n.createWithHTML(s, "button", "paste-small", o.text.pasteSymbolText);
-                const r = n.createWithHTML(s, "button", "remove-small", o.text.removeSymbolText);
-                e.title = o.text.pasteText;
-                r.title = o.text.removeText;
-                e.onclick = () => X(t, c, l);
-                r.onclick = () => Y(s, t, l, i);
+                const e = o.createWithHTML(s, "button", "paste-small", n.text.pasteSymbolText);
+                const r = o.createWithHTML(s, "button", "remove-small", n.text.removeSymbolText);
+                e.title = n.text.pasteText;
+                r.title = n.text.removeText;
+                e.onclick = () => Y(t, c, i);
+                r.onclick = () => q(s, t, i, l);
             }
             c.type = "text";
-            c.value = i;
-            S[l] = i;
+            c.value = l;
+            w[i] = l;
             E++;
             if (!b.allowEditing || !r) {
                 c.readOnly = true;
             } else {
-                c.onkeyup = e => q(e, l, c, t);
+                c.onkeyup = e => Q(e, i, c, t);
             }
         }
     }
-    function X(e, t, n) {
-        navigator.clipboard.readText().then((o => {
-            t.value = o;
-            Q(e, n, t);
+    function Y(e, t, o) {
+        navigator.clipboard.readText().then((n => {
+            t.value = n;
+            Z(e, o, t);
         }));
     }
-    function Y(e, t, n, o) {
+    function q(e, t, o, n) {
         if (b.mode === 1) {
-            t.style.removeProperty(n);
+            t.style.removeProperty(o);
             e.parentNode.removeChild(e);
         } else if (b.mode === 2) {
-            t.removeAttribute(n);
+            t.removeAttribute(o);
             e.parentNode.removeChild(e);
         } else if (b.mode === 4) {
-            t.classList.remove(o);
+            t.classList.remove(n);
             e.parentNode.removeChild(e);
         }
     }
-    function q(e, t, n, o) {
+    function Q(e, t, o, n) {
         if (e.code === "Enter") {
-            Q(o, t, n);
+            Z(n, t, o);
         }
     }
-    function Q(t, n, o) {
+    function Z(t, o, n) {
         if (b.mode === 1) {
-            t.style.setProperty(n, o.value);
+            t.style.setProperty(o, n.value);
         } else if (b.mode === 2) {
-            t.setAttribute(n, o.value);
+            t.setAttribute(o, n.value);
         } else if (b.mode === 4) {
-            t.classList.replace(t.classList[parseInt(n) - 1], o.value);
+            t.classList.replace(t.classList[parseInt(o) - 1], n.value);
         }
-        S[n] = o.value;
-        if (e.hexColor(o.value) || e.isRgbColor(o.value)) {
-            o.classList.add("property-value-color");
-            o.style.borderLeftColor = o.value;
+        w[o] = n.value;
+        if (e.hexColor(n.value) || e.isRgbColor(n.value)) {
+            n.classList.add("property-value-color");
+            n.style.borderLeftColor = n.value;
         } else {
-            o.classList.remove("property-value-color");
+            n.classList.remove("property-value-color");
         }
-    }
-    function Z(e) {
-        return b.showOnly.length === 0 || b.showOnly.indexOf(e) > -1;
     }
     function ee(e) {
+        return b.showOnly.length === 0 || b.showOnly.indexOf(e) > -1;
+    }
+    function te(e) {
         return b.ignoreValues.length === 0 || b.ignoreValues.indexOf(e) <= -1;
     }
-    function te() {
+    function oe() {
         const e = b.nodeType;
-        L = e.length;
-        for (let t = 0; t < L; t++) {
-            const n = document.getElementsByTagName(e[t]);
-            const o = [].slice.call(n);
-            const l = o.length;
-            for (let e = 0; e < l; e++) {
-                ne(o[e]);
+        N = e.length;
+        for (let t = 0; t < N; t++) {
+            const o = document.getElementsByTagName(e[t]);
+            const n = [].slice.call(o);
+            const i = n.length;
+            for (let e = 0; e < i; e++) {
+                ne(n[e]);
             }
         }
-        window.addEventListener("mousemove", ie);
+        window.addEventListener("mousemove", re);
     }
-    function ne(n) {
-        const o = n.getAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE);
-        if (!e.definedString(o) && o !== "ignore") {
-            n.addEventListener("mousemove", (e => {
-                le(e, n);
+    function ne(o) {
+        const n = o.getAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE);
+        if (!e.definedString(n) && n !== "ignore") {
+            o.addEventListener("mousemove", (e => {
+                le(e, o);
             }));
-            h.push(n);
+            S.push(o);
         }
     }
-    function oe() {
-        const e = h.length;
+    function ie() {
+        const e = S.length;
         for (let t = 0; t < e; t++) {
-            const e = h[t];
+            const e = S[t];
             e.removeEventListener("mousemove", (t => {
                 le(t, e);
             }));
         }
-        h = [];
-        window.removeEventListener("mousemove", ie);
-        D();
+        S = [];
+        window.removeEventListener("mousemove", re);
+        I();
     }
-    function le(t, l) {
-        if (!w && e.defined(b)) {
-            n.cancelBubble(t);
-            re();
-            v = setTimeout((() => {
-                V(l);
-                n.showElementAtMousePosition(t, r);
-            }), o.dialogDisplayDelay);
-        }
-    }
-    function ie() {
-        if (!w) {
-            re();
-            D();
+    function le(t, i) {
+        if (!L && e.defined(b)) {
+            o.cancelBubble(t);
+            se();
+            h = setTimeout((() => {
+                F(i);
+                ae();
+                o.showElementAtMousePosition(t, r, b.dialogOffset);
+            }), n.dialogShowDelay);
         }
     }
     function re() {
+        if (!L) {
+            se();
+            I(true);
+        }
+    }
+    function se() {
+        if (h !== 0) {
+            clearTimeout(h);
+            h = 0;
+        }
+    }
+    function ae() {
         if (v !== 0) {
             clearTimeout(v);
             v = 0;
         }
     }
-    function se(e, t) {
+    function ce(e, t) {
         e.onmousedown = e => {
-            ae(e, t);
+            fe(e, t);
         };
         t.onmousemove = e => {
-            fe(e, true);
+            de(e, true);
         };
         e.onmouseup = () => {
-            ce();
+            ue();
         };
         e.oncontextmenu = () => {
-            ce();
+            ue();
         };
-        document.addEventListener("mousemove", fe);
-        document.addEventListener("mouseleave", ue);
+        document.addEventListener("mousemove", de);
+        document.addEventListener("mouseleave", pe);
     }
-    function ae(e, t) {
-        if (!H) {
-            N = t;
-            H = true;
-            P = e.pageX - N.offsetLeft;
-            k = e.pageY - N.offsetTop;
-            O = N.offsetLeft;
-            M = N.offsetTop;
-        }
-    }
-    function ce() {
-        if (H) {
-            H = false;
-            N = null;
-            O = 0;
-            M = 0;
-        }
-    }
-    function fe(e, t = false) {
-        if (t) {
-            n.cancelBubble(e);
-        }
-        if (H) {
-            B();
-            N.style.left = `${e.pageX - P}px`;
-            N.style.top = `${e.pageY - k}px`;
+    function fe(e, t) {
+        if (!P) {
+            O = t;
+            P = true;
+            C = e.pageX - O.offsetLeft;
+            k = e.pageY - O.offsetTop;
+            H = O.offsetLeft;
+            M = O.offsetTop;
         }
     }
     function ue() {
-        if (H) {
-            N.style.left = `${O}px`;
-            N.style.top = `${M}px`;
-            H = false;
-            N = null;
-            O = 0;
+        if (P) {
+            P = false;
+            O = null;
+            H = 0;
             M = 0;
         }
     }
-    const de = {
+    function de(e, t = false) {
+        if (t) {
+            o.cancelBubble(e);
+        }
+        if (P) {
+            $();
+            O.style.left = `${e.pageX - C}px`;
+            O.style.top = `${e.pageY - k}px`;
+        }
+    }
+    function pe() {
+        if (P) {
+            O.style.left = `${H}px`;
+            O.style.top = `${M}px`;
+            P = false;
+            O = null;
+            H = 0;
+            M = 0;
+        }
+    }
+    const xe = {
         start: function(t) {
             if (!e.definedObject(b)) {
-                b = i.Options.get(t);
-                W();
-                te();
+                b = l.Options.get(t);
+                B();
+                oe();
             }
-            return de;
+            return xe;
         },
         stop: function() {
             if (e.definedObject(b)) {
                 b = null;
-                re();
-                oe();
+                se();
+                ie();
             }
-            return de;
+            return xe;
         },
         close: function() {
-            D();
-            return de;
+            I();
+            return xe;
         },
         setConfiguration: function(t) {
             if (e.definedObject(t)) {
-                let n = false;
-                const i = o;
+                let o = false;
+                const l = n;
                 for (let e in t) {
-                    if (t.hasOwnProperty(e) && o.hasOwnProperty(e) && i[e] !== t[e]) {
-                        i[e] = t[e];
-                        n = true;
+                    if (t.hasOwnProperty(e) && n.hasOwnProperty(e) && l[e] !== t[e]) {
+                        l[e] = t[e];
+                        o = true;
                     }
                 }
-                if (n) {
-                    o = l.Options.get(i);
-                    C();
+                if (o) {
+                    n = i.Options.get(l);
+                    W();
                     if (e.definedObject(b)) {
-                        W();
+                        B();
                     }
                 }
             }
-            return de;
+            return xe;
         },
         getVersion: function() {
-            return "1.7.0";
+            return "1.8.0";
         }
     };
     (() => {
-        o = l.Options.get();
+        n = i.Options.get();
         document.addEventListener("DOMContentLoaded", (() => {
-            C();
+            W();
         }));
         if (!e.defined(window.$peek)) {
-            window.$peek = de;
+            window.$peek = xe;
         }
     })();
 })();//# sourceMappingURL=peek.js.map
