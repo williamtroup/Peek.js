@@ -7,14 +7,14 @@ var e;
         return e !== null && e !== void 0 && e.toString() !== "";
     }
     e.defined = t;
-    function n(e) {
+    function o(e) {
         return t(e) && typeof e === "object";
     }
-    e.definedObject = n;
-    function o(e) {
+    e.definedObject = o;
+    function n(e) {
         return t(e) && typeof e === "boolean";
     }
-    e.definedBoolean = o;
+    e.definedBoolean = n;
     function i(e) {
         return t(e) && typeof e === "string";
     }
@@ -28,11 +28,11 @@ var e;
     }
     e.definedNumber = r;
     function s(e) {
-        return n(e) && e instanceof Array;
+        return o(e) && e instanceof Array;
     }
     e.definedArray = s;
     function a(e) {
-        return n(e) && e instanceof Date;
+        return o(e) && e instanceof Date;
     }
     e.definedDate = a;
     function c(e, t = 1) {
@@ -61,11 +61,11 @@ var t;
     e.PEEK_JS_IGNORE_STATE_ATTRIBUTE = "data-peek-js-ignore-state";
 })(t || (t = {}));
 
-var n;
+var o;
 
-(n => {
-    function o(n, o, i = "", l = false) {
-        const r = o.toLowerCase();
+(o => {
+    function n(o, n, i = "", l = false) {
+        const r = n.toLowerCase();
         const s = r === "text";
         let a = s ? document.createTextNode("") : document.createElement(r);
         a.setAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE, "ignore");
@@ -73,25 +73,25 @@ var n;
             a.className = i;
         }
         if (!l) {
-            n.appendChild(a);
+            o.appendChild(a);
         } else {
-            n.insertBefore(a, n.children[0]);
+            o.insertBefore(a, o.children[0]);
         }
         return a;
     }
-    n.create = o;
-    function i(e, n, i, l, r = false) {
-        const s = o(e, n, i, r);
+    o.create = n;
+    function i(e, o, i, l, r = false) {
+        const s = n(e, o, i, r);
         s.innerHTML = l;
         s.setAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE, "ignore");
         return s;
     }
-    n.createWithHTML = i;
+    o.createWithHTML = i;
     function l(e) {
         e.preventDefault();
         e.stopPropagation();
     }
-    n.cancelBubble = l;
+    o.cancelBubble = l;
     function r() {
         const e = document.documentElement;
         const t = {
@@ -100,36 +100,36 @@ var n;
         };
         return t;
     }
-    n.getScrollPosition = r;
-    function s(e, t, n) {
+    o.getScrollPosition = r;
+    function s(e, t, o) {
         if (t.style.display !== "block") {
-            let o = e.pageX;
+            let n = e.pageX;
             let i = e.pageY;
             const l = r();
             t.style.display = "block";
-            if (o + t.offsetWidth > window.innerWidth) {
-                o -= t.offsetWidth + n;
+            if (n + t.offsetWidth > window.innerWidth) {
+                n -= t.offsetWidth + o;
             } else {
-                o++;
-                o += n;
+                n++;
+                n += o;
             }
             if (i + t.offsetHeight > window.innerHeight) {
-                i -= t.offsetHeight + n;
+                i -= t.offsetHeight + o;
             } else {
                 i++;
-                i += n;
+                i += o;
             }
-            if (o < l.left) {
-                o = e.pageX + 1;
+            if (n < l.left) {
+                n = e.pageX + 1;
             }
             if (i < l.top) {
                 i = e.pageY + 1;
             }
-            t.style.left = `${o}px`;
+            t.style.left = `${n}px`;
             t.style.top = `${i}px`;
         }
     }
-    n.showElementAtMousePosition = s;
+    o.showElementAtMousePosition = s;
     function a(e) {
         const t = {
             left: 0,
@@ -142,52 +142,52 @@ var n;
         }
         return t;
     }
-    n.getOffset = a;
-})(n || (n = {}));
+    o.getOffset = a;
+})(o || (o = {}));
 
-var o;
+var n;
 
 (t => {
-    function n(e, t) {
+    function o(e, t) {
         return typeof e === "string" ? e : t;
     }
-    t.getAnyString = n;
-    function o(t, n) {
-        return e.definedString(t) ? t : n;
+    t.getAnyString = o;
+    function n(t, o) {
+        return e.definedString(t) ? t : o;
     }
-    t.getString = o;
-    function i(t, n) {
-        return e.definedBoolean(t) ? t : n;
+    t.getString = n;
+    function i(t, o) {
+        return e.definedBoolean(t) ? t : o;
     }
     t.getBoolean = i;
-    function l(t, n) {
-        return e.definedNumber(t) ? t : n;
+    function l(t, o) {
+        return e.definedNumber(t) ? t : o;
     }
     t.getNumber = l;
-    function r(t, n) {
-        return e.definedArray(t) ? t : n;
+    function r(t, o) {
+        return e.definedArray(t) ? t : o;
     }
     t.getArray = r;
-    function s(t, n) {
-        return e.definedObject(t) ? t : n;
+    function s(t, o) {
+        return e.definedObject(t) ? t : o;
     }
     t.getObject = s;
-    function a(t, n) {
-        let o = n;
+    function a(t, o) {
+        let n = o;
         if (e.definedString(t)) {
             const e = t.toString().split(" ");
             if (e.length === 0) {
-                t = n;
+                t = o;
             } else {
-                o = e;
+                n = e;
             }
         } else {
-            o = r(t, n);
+            n = r(t, o);
         }
-        return o;
+        return n;
     }
     t.getStringOrArray = a;
-})(o || (o = {}));
+})(n || (n = {}));
 
 var i;
 
@@ -195,43 +195,43 @@ var i;
     let t;
     (e => {
         function t(e = null) {
-            let t = o.getObject(e, {});
-            t.dialogShowDelay = o.getNumber(t.dialogShowDelay, 1e3);
-            t.dialogHideDelay = o.getNumber(t.dialogHideDelay, 500);
-            t.searchDelay = o.getNumber(t.searchDelay, 500);
-            t = n(t);
+            let t = n.getObject(e, {});
+            t.dialogShowDelay = n.getNumber(t.dialogShowDelay, 1e3);
+            t.dialogHideDelay = n.getNumber(t.dialogHideDelay, 500);
+            t.searchDelay = n.getNumber(t.searchDelay, 500);
+            t = o(t);
             return t;
         }
         e.get = t;
-        function n(e) {
-            e.text = o.getObject(e.text, {});
-            e.text.cssText = o.getAnyString(e.text.cssText, "CSS");
-            e.text.attributesText = o.getAnyString(e.text.attributesText, "Attributes");
-            e.text.sizeText = o.getAnyString(e.text.sizeText, "Size");
-            e.text.classesText = o.getAnyString(e.text.classesText, "Classes");
-            e.text.noAttributesAvailableText = o.getAnyString(e.text.noAttributesAvailableText, "No attributes are available.");
-            e.text.closeText = o.getAnyString(e.text.closeText, "Close");
-            e.text.copyText = o.getAnyString(e.text.copyText, "Copy");
-            e.text.copySymbolText = o.getAnyString(e.text.copySymbolText, "❐");
-            e.text.pasteText = o.getAnyString(e.text.pasteText, "Paste");
-            e.text.pasteSymbolText = o.getAnyString(e.text.pasteSymbolText, "☐");
-            e.text.removeText = o.getAnyString(e.text.removeText, "Remove");
-            e.text.removeSymbolText = o.getAnyString(e.text.removeSymbolText, "✕");
-            e.text.noClassesAvailableText = o.getAnyString(e.text.noClassesAvailableText, "No classes are available.");
-            e.text.searchPropertiesPlaceHolderText = o.getAnyString(e.text.searchPropertiesPlaceHolderText, "Search properties...");
-            e.text.clearText = o.getAnyString(e.text.clearText, "Clear");
-            e.text.clearSymbolText = o.getAnyString(e.text.clearSymbolText, "✕");
-            e.text.noPropertiesFoundForSearchText = o.getAnyString(e.text.noPropertiesFoundForSearchText, "No properties were found for your search.");
-            e.text.dialogMovedSymbolText = o.getAnyString(e.text.dialogMovedSymbolText, "✸");
-            e.text.propertyValuePlaceHolderText = o.getAnyString(e.text.propertyValuePlaceHolderText, "Enter value...");
-            e.text.modeNotSupportedText = o.getAnyString(e.text.modeNotSupportedText, "The mode you have specified is not supported.");
-            e.text.unknownModeText = o.getAnyString(e.text.unknownModeText, "Unknown Mode");
-            e.text.moveUpText = o.getAnyString(e.text.moveUpText, "Move Up");
-            e.text.moveUpSymbolText = o.getAnyString(e.text.moveUpSymbolText, "↑");
-            e.text.moveDownText = o.getAnyString(e.text.moveDownText, "Move Down");
-            e.text.moveDownSymbolText = o.getAnyString(e.text.moveDownSymbolText, "↓");
-            e.text.removeElementSymbolText = o.getAnyString(e.text.removeElementSymbolText, "⌫");
-            e.text.lockText = o.getAnyString(e.text.lockText, "Lock");
+        function o(e) {
+            e.text = n.getObject(e.text, {});
+            e.text.cssText = n.getAnyString(e.text.cssText, "CSS");
+            e.text.attributesText = n.getAnyString(e.text.attributesText, "Attributes");
+            e.text.sizeText = n.getAnyString(e.text.sizeText, "Size");
+            e.text.classesText = n.getAnyString(e.text.classesText, "Classes");
+            e.text.noAttributesAvailableText = n.getAnyString(e.text.noAttributesAvailableText, "No attributes are available.");
+            e.text.closeText = n.getAnyString(e.text.closeText, "Close");
+            e.text.copyText = n.getAnyString(e.text.copyText, "Copy");
+            e.text.copySymbolText = n.getAnyString(e.text.copySymbolText, "❐");
+            e.text.pasteText = n.getAnyString(e.text.pasteText, "Paste");
+            e.text.pasteSymbolText = n.getAnyString(e.text.pasteSymbolText, "☐");
+            e.text.removeText = n.getAnyString(e.text.removeText, "Remove");
+            e.text.removeSymbolText = n.getAnyString(e.text.removeSymbolText, "✕");
+            e.text.noClassesAvailableText = n.getAnyString(e.text.noClassesAvailableText, "No classes are available.");
+            e.text.searchPropertiesPlaceHolderText = n.getAnyString(e.text.searchPropertiesPlaceHolderText, "Search properties...");
+            e.text.clearText = n.getAnyString(e.text.clearText, "Clear");
+            e.text.clearSymbolText = n.getAnyString(e.text.clearSymbolText, "✕");
+            e.text.noPropertiesFoundForSearchText = n.getAnyString(e.text.noPropertiesFoundForSearchText, "No properties were found for your search.");
+            e.text.dialogMovedSymbolText = n.getAnyString(e.text.dialogMovedSymbolText, "✸");
+            e.text.propertyValuePlaceHolderText = n.getAnyString(e.text.propertyValuePlaceHolderText, "Enter value...");
+            e.text.modeNotSupportedText = n.getAnyString(e.text.modeNotSupportedText, "The mode you have specified is not supported.");
+            e.text.unknownModeText = n.getAnyString(e.text.unknownModeText, "Unknown Mode");
+            e.text.moveUpText = n.getAnyString(e.text.moveUpText, "Move Up");
+            e.text.moveUpSymbolText = n.getAnyString(e.text.moveUpSymbolText, "↑");
+            e.text.moveDownText = n.getAnyString(e.text.moveDownText, "Move Down");
+            e.text.moveDownSymbolText = n.getAnyString(e.text.moveDownSymbolText, "↓");
+            e.text.removeElementSymbolText = n.getAnyString(e.text.removeElementSymbolText, "⌫");
+            e.text.lockText = n.getAnyString(e.text.lockText, "Lock");
             return e;
         }
     })(t = e.Options || (e.Options = {}));
@@ -243,17 +243,19 @@ var l;
     let t;
     (e => {
         function t(e) {
-            let t = o.getObject(e, {});
-            t.nodeType = o.getStringOrArray(t.nodeType, []);
-            t.mode = o.getNumber(t.mode, 1);
-            t.titleText = o.getString(t.titleText, "");
-            t.showOnly = o.getStringOrArray(t.showOnly, []);
-            t.allowEditing = o.getBoolean(t.allowEditing, false);
-            t.showIdOrNameInTitle = o.getBoolean(t.showIdOrNameInTitle, true);
-            t.showNodeNameInTitle = o.getBoolean(t.showNodeNameInTitle, false);
-            t.ignoreValues = o.getStringOrArray(t.ignoreValues, []);
-            t.showLockButtonInTitle = o.getBoolean(t.showLockButtonInTitle, true);
-            t.dialogOffset = o.getNumber(t.dialogOffset, 0);
+            let t = n.getObject(e, {});
+            t.nodeType = n.getStringOrArray(t.nodeType, []);
+            t.mode = n.getNumber(t.mode, 1);
+            t.titleText = n.getString(t.titleText, "");
+            t.showOnly = n.getStringOrArray(t.showOnly, []);
+            t.allowEditing = n.getBoolean(t.allowEditing, false);
+            t.showIdOrNameInTitle = n.getBoolean(t.showIdOrNameInTitle, true);
+            t.showNodeNameInTitle = n.getBoolean(t.showNodeNameInTitle, false);
+            t.ignoreValues = n.getStringOrArray(t.ignoreValues, []);
+            t.showLockButtonInTitle = n.getBoolean(t.showLockButtonInTitle, true);
+            t.dialogOffset = n.getNumber(t.dialogOffset, 0);
+            t.showSearch = n.getBoolean(t.showSearch, true);
+            t.showSearchPropertyCount = n.getNumber(t.showSearchPropertyCount, 15);
             return t;
         }
         e.get = t;
@@ -261,7 +263,7 @@ var l;
 })(l || (l = {}));
 
 (() => {
-    let o = {};
+    let n = {};
     let r = null;
     let s = null;
     let a = null;
@@ -275,9 +277,9 @@ var l;
     let m = null;
     let y = null;
     let T = null;
+    let h = 0;
     let v = 0;
-    let b = 0;
-    let h = null;
+    let b = null;
     let S = [];
     let w = {};
     let A = null;
@@ -288,87 +290,87 @@ var l;
     let H = 0;
     let M = 0;
     let P = false;
-    let k = 0;
     let C = 0;
+    let k = 0;
     function W() {
         if (e.definedObject(r)) {
             I();
             document.body.removeChild(r);
             r = null;
         }
-        r = n.create(document.body, "div", "peek-js");
-        r.onmousemove = n.cancelBubble;
-        s = n.create(r, "div", "dialog-title-bar");
-        c = n.create(r, "div", "dialog-search");
-        d = n.create(r, "div", "dialog-contents");
-        x = n.create(r, "div", "dialog-buttons");
-        g = n.createWithHTML(x, "button", "copy", o.text.copyText);
+        r = o.create(document.body, "div", "peek-js");
+        r.onmousemove = o.cancelBubble;
+        s = o.create(r, "div", "dialog-title-bar");
+        c = o.create(r, "div", "dialog-search");
+        d = o.create(r, "div", "dialog-contents");
+        x = o.create(r, "div", "dialog-buttons");
+        g = o.createWithHTML(x, "button", "copy", n.text.copyText);
         g.onclick = D;
-        f = n.create(c, "input");
-        f.placeholder = o.text.searchPropertiesPlaceHolderText;
+        f = o.create(c, "input");
+        f.placeholder = n.text.searchPropertiesPlaceHolderText;
         f.type = "text";
         f.onkeyup = _;
         f.onpaste = _;
         f.onfocus = () => f.select();
-        const t = n.createWithHTML(c, "button", "clear-small", o.text.clearSymbolText);
-        t.title = o.text.clearText;
+        const t = o.createWithHTML(c, "button", "clear-small", n.text.clearSymbolText);
+        t.title = n.text.clearText;
         t.onclick = R;
-        const i = n.createWithHTML(x, "button", "close", o.text.closeText);
+        const i = o.createWithHTML(x, "button", "close", n.text.closeText);
         i.onclick = () => I();
-        m = n.createWithHTML(x, "button", "remove", o.text.removeElementSymbolText);
+        m = o.createWithHTML(x, "button", "remove", n.text.removeElementSymbolText);
         m.onclick = j;
-        m.title = o.text.removeText;
-        y = n.createWithHTML(x, "button", "move-up", o.text.moveUpSymbolText);
+        m.title = n.text.removeText;
+        y = o.createWithHTML(x, "button", "move-up", n.text.moveUpSymbolText);
         y.onclick = U;
-        y.title = o.text.moveUpText;
-        T = n.createWithHTML(x, "button", "move-down", o.text.moveDownSymbolText);
+        y.title = n.text.moveUpText;
+        T = o.createWithHTML(x, "button", "move-down", n.text.moveDownSymbolText);
         T.onclick = V;
-        T.title = o.text.moveDownText;
+        T.title = n.text.moveDownText;
         ce(s, r);
     }
     function B(t = null) {
-        if (!L && e.defined(h)) {
-            let i = h.titleText;
+        if (!L && e.defined(b)) {
+            let i = b.titleText;
             s.innerHTML = "";
             if (!e.definedString(i)) {
-                if (h.mode === 1) {
-                    i = o.text.cssText;
-                } else if (h.mode === 2) {
-                    i = o.text.attributesText;
-                } else if (h.mode === 3) {
-                    i = o.text.sizeText;
-                } else if (h.mode === 4) {
-                    i = o.text.classesText;
+                if (b.mode === 1) {
+                    i = n.text.cssText;
+                } else if (b.mode === 2) {
+                    i = n.text.attributesText;
+                } else if (b.mode === 3) {
+                    i = n.text.sizeText;
+                } else if (b.mode === 4) {
+                    i = n.text.classesText;
                 } else {
-                    i = o.text.unknownModeText;
+                    i = n.text.unknownModeText;
                 }
             }
-            n.createWithHTML(s, "span", "title", i);
-            if (N > 1 && h.showNodeNameInTitle) {
-                n.createWithHTML(s, "span", "dash", " - ");
-                n.createWithHTML(s, "span", "node-name", `[${t.nodeName.toLowerCase()}]`);
+            o.createWithHTML(s, "span", "title", i);
+            if (N > 1 && b.showNodeNameInTitle) {
+                o.createWithHTML(s, "span", "dash", " - ");
+                o.createWithHTML(s, "span", "node-name", `[${t.nodeName.toLowerCase()}]`);
             }
-            if (h.showIdOrNameInTitle && e.defined(t)) {
-                const o = t.getAttribute("id");
+            if (b.showIdOrNameInTitle && e.defined(t)) {
+                const n = t.getAttribute("id");
                 const i = t.getAttribute("name");
-                if (e.definedString(o)) {
-                    n.createWithHTML(s, "span", "dash", " - ");
-                    n.createWithHTML(s, "span", "id-or-name", o);
+                if (e.definedString(n)) {
+                    o.createWithHTML(s, "span", "dash", " - ");
+                    o.createWithHTML(s, "span", "id-or-name", n);
                 } else if (e.definedString(i)) {
-                    n.createWithHTML(s, "span", "dash", " - ");
-                    n.createWithHTML(s, "span", "id-or-name", i);
+                    o.createWithHTML(s, "span", "dash", " - ");
+                    o.createWithHTML(s, "span", "id-or-name", i);
                 }
             }
-            if (h.showLockButtonInTitle) {
-                a = n.createWithHTML(s, "button", "lock", o.text.dialogMovedSymbolText);
-                a.title = o.text.lockText;
+            if (b.showLockButtonInTitle) {
+                a = o.createWithHTML(s, "button", "lock", n.text.dialogMovedSymbolText);
+                a.title = n.text.lockText;
                 a.onclick = () => $();
             }
         }
     }
     function $() {
         if (!L) {
-            n.createWithHTML(s, "span", "locked", `${o.text.dialogMovedSymbolText}${" "}`, true);
+            o.createWithHTML(s, "span", "locked", `${n.text.dialogMovedSymbolText}${" "}`, true);
             if (e.defined(a)) {
                 a.parentNode.removeChild(a);
                 a = null;
@@ -385,11 +387,11 @@ var l;
                 ae();
             };
             if (e) {
-                if (b === 0) {
+                if (v === 0) {
                     se();
-                    b = setTimeout((() => {
+                    v = setTimeout((() => {
                         t();
-                    }), o.dialogHideDelay);
+                    }), n.dialogHideDelay);
                 }
             } else {
                 t();
@@ -400,18 +402,18 @@ var l;
         const e = [];
         for (let t in w) {
             if (w.hasOwnProperty(t)) {
-                if (h.mode === 1) {
+                if (b.mode === 1) {
                     e.push(`${t}: ${w[t]};`);
-                } else if (h.mode === 2) {
+                } else if (b.mode === 2) {
                     e.push(`${t}="${w[t]}"`);
-                } else if (h.mode === 4) {
+                } else if (b.mode === 4) {
                     e.push(w[t]);
                 }
             }
         }
-        if (h.mode === 1) {
+        if (b.mode === 1) {
             navigator.clipboard.writeText(`${A.nodeName.toLowerCase()} { ${"\n"} ${e.join("\n")} ${"\n"} }`);
-        } else if (h.mode === 2 || h.mode === 4) {
+        } else if (b.mode === 2 || b.mode === 4) {
             navigator.clipboard.writeText(e.join(" "));
         }
     }
@@ -426,23 +428,23 @@ var l;
         }
         u = setTimeout((() => {
             const t = d.getElementsByClassName("property-name");
-            const n = [].slice.call(t);
-            const o = n.length;
+            const o = [].slice.call(t);
+            const n = o.length;
             const i = f.value.toLowerCase();
             let l = 0;
-            for (let t = 0; t < o; t++) {
-                const o = n[t].parentNode;
-                if (e.defined(o)) {
+            for (let t = 0; t < n; t++) {
+                const n = o[t].parentNode;
+                if (e.defined(n)) {
                     if (f.value.trim() === "") {
-                        o.style.removeProperty("display");
+                        n.style.removeProperty("display");
                         l++;
                     } else {
-                        const e = n[t].innerText;
+                        const e = o[t].innerText;
                         if (e.toLowerCase().indexOf(i) > -1) {
-                            o.style.removeProperty("display");
+                            n.style.removeProperty("display");
                             l++;
                         } else {
-                            o.style.display = "none";
+                            n.style.display = "none";
                         }
                     }
                 }
@@ -452,7 +454,7 @@ var l;
             } else {
                 p.style.removeProperty("display");
             }
-        }), o.searchDelay);
+        }), n.searchDelay);
     }
     function R() {
         f.value = "";
@@ -470,19 +472,19 @@ var l;
         }
     }
     function F(t) {
-        if (e.defined(h)) {
+        if (e.defined(b)) {
             d.innerHTML = "";
             d.scrollTop = 0;
             w = {};
             E = 0;
             A = t;
             B(t);
-            if (h.mode === 1 || h.mode === 4 || h.mode === 2) {
+            if (b.mode === 1 || b.mode === 4 || b.mode === 2) {
                 g.style.removeProperty("display");
             } else {
                 g.style.display = "none";
             }
-            if (!h.allowEditing) {
+            if (!b.allowEditing) {
                 m.style.display = "none";
                 y.style.display = "none";
                 T.style.display = "none";
@@ -491,19 +493,19 @@ var l;
                 y.style.removeProperty("display");
                 T.style.removeProperty("display");
             }
-            p = n.createWithHTML(d, "span", "no-search-results", o.text.noPropertiesFoundForSearchText);
-            if (h.mode === 1) {
+            p = o.createWithHTML(d, "span", "no-search-results", n.text.noPropertiesFoundForSearchText);
+            if (b.mode === 1) {
                 z(t);
-            } else if (h.mode === 2) {
+            } else if (b.mode === 2) {
                 G(t);
-            } else if (h.mode === 3) {
+            } else if (b.mode === 3) {
                 J(t);
-            } else if (h.mode === 4) {
+            } else if (b.mode === 4) {
                 K(t);
             } else {
-                n.createWithHTML(d, "span", "warning", o.text.modeNotSupportedText);
+                o.createWithHTML(d, "span", "warning", n.text.modeNotSupportedText);
             }
-            if (E <= 15) {
+            if (E <= b.showSearchPropertyCount || !b.showSearch) {
                 c.style.display = "none";
             } else {
                 c.style.removeProperty("display");
@@ -512,9 +514,9 @@ var l;
     }
     function z(e) {
         const t = getComputedStyle(e);
-        const n = t.length;
-        for (let o = 0; o < n; o++) {
-            X(e, t[o], t.getPropertyValue(t[o]));
+        const o = t.length;
+        for (let n = 0; n < o; n++) {
+            X(e, t[n], t.getPropertyValue(t[n]));
         }
     }
     function G(e) {
@@ -524,11 +526,11 @@ var l;
             }
         } else {
             d.innerHTML = "";
-            n.createWithHTML(d, "span", "warning", o.text.noAttributesAvailableText);
+            o.createWithHTML(d, "span", "warning", n.text.noAttributesAvailableText);
         }
     }
     function J(e) {
-        const t = n.getOffset(e);
+        const t = o.getOffset(e);
         X(e, "left", `${t.left.toString()}px`, false);
         X(e, "top", `${t.top.toString()}px`, false);
         X(e, "width", `${e.offsetWidth.toString()}px`, false);
@@ -537,35 +539,35 @@ var l;
     function K(e) {
         if (e.classList.length > 0) {
             let t = 1;
-            for (let n of e.classList) {
-                X(e, t.toString(), n);
+            for (let o of e.classList) {
+                X(e, t.toString(), o);
                 t++;
             }
         } else {
             d.innerHTML = "";
-            n.createWithHTML(d, "span", "warning", o.text.noClassesAvailableText);
+            o.createWithHTML(d, "span", "warning", n.text.noClassesAvailableText);
         }
     }
     function X(t, i, l, r = true) {
         if (ee(i) && te(l)) {
-            const s = n.create(d, "div", "property-row");
-            n.createWithHTML(s, "div", "property-name", i);
-            const a = n.create(s, "div", "property-value");
-            const c = n.create(a, "input");
+            const s = o.create(d, "div", "property-row");
+            o.createWithHTML(s, "div", "property-name", i);
+            const a = o.create(s, "div", "property-value");
+            const c = o.create(a, "input");
             if (e.hexColor(l) || e.isRgbColor(l)) {
                 c.classList.add("property-value-color");
                 c.style.borderLeftColor = l;
             }
-            c.placeholder = o.text.propertyValuePlaceHolderText;
+            c.placeholder = n.text.propertyValuePlaceHolderText;
             c.onfocus = () => c.select();
-            const f = n.createWithHTML(s, "button", "copy-small", o.text.copySymbolText);
-            f.title = o.text.copyText;
+            const f = o.createWithHTML(s, "button", "copy-small", n.text.copySymbolText);
+            f.title = n.text.copyText;
             f.onclick = () => navigator.clipboard.writeText(l);
-            if (h.allowEditing && r) {
-                const e = n.createWithHTML(s, "button", "paste-small", o.text.pasteSymbolText);
-                const r = n.createWithHTML(s, "button", "remove-small", o.text.removeSymbolText);
-                e.title = o.text.pasteText;
-                r.title = o.text.removeText;
+            if (b.allowEditing && r) {
+                const e = o.createWithHTML(s, "button", "paste-small", n.text.pasteSymbolText);
+                const r = o.createWithHTML(s, "button", "remove-small", n.text.removeSymbolText);
+                e.title = n.text.pasteText;
+                r.title = n.text.removeText;
                 e.onclick = () => Y(t, c, i);
                 r.onclick = () => q(s, t, i, l);
             }
@@ -573,78 +575,78 @@ var l;
             c.value = l;
             w[i] = l;
             E++;
-            if (!h.allowEditing || !r) {
+            if (!b.allowEditing || !r) {
                 c.readOnly = true;
             } else {
                 c.onkeyup = e => Q(e, i, c, t);
             }
         }
     }
-    function Y(e, t, n) {
-        navigator.clipboard.readText().then((o => {
-            t.value = o;
-            Z(e, n, t);
+    function Y(e, t, o) {
+        navigator.clipboard.readText().then((n => {
+            t.value = n;
+            Z(e, o, t);
         }));
     }
-    function q(e, t, n, o) {
-        if (h.mode === 1) {
-            t.style.removeProperty(n);
+    function q(e, t, o, n) {
+        if (b.mode === 1) {
+            t.style.removeProperty(o);
             e.parentNode.removeChild(e);
-        } else if (h.mode === 2) {
-            t.removeAttribute(n);
+        } else if (b.mode === 2) {
+            t.removeAttribute(o);
             e.parentNode.removeChild(e);
-        } else if (h.mode === 4) {
-            t.classList.remove(o);
+        } else if (b.mode === 4) {
+            t.classList.remove(n);
             e.parentNode.removeChild(e);
         }
     }
-    function Q(e, t, n, o) {
+    function Q(e, t, o, n) {
         if (e.code === "Enter") {
-            Z(o, t, n);
+            Z(n, t, o);
         }
     }
-    function Z(t, n, o) {
-        if (h.mode === 1) {
-            t.style.setProperty(n, o.value);
-        } else if (h.mode === 2) {
-            t.setAttribute(n, o.value);
-        } else if (h.mode === 4) {
-            t.classList.replace(t.classList[parseInt(n) - 1], o.value);
+    function Z(t, o, n) {
+        if (b.mode === 1) {
+            t.style.setProperty(o, n.value);
+        } else if (b.mode === 2) {
+            t.setAttribute(o, n.value);
+        } else if (b.mode === 4) {
+            t.classList.replace(t.classList[parseInt(o) - 1], n.value);
         }
-        w[n] = o.value;
-        if (e.hexColor(o.value) || e.isRgbColor(o.value)) {
-            o.classList.add("property-value-color");
-            o.style.borderLeftColor = o.value;
+        w[o] = n.value;
+        if (e.hexColor(n.value) || e.isRgbColor(n.value)) {
+            n.classList.add("property-value-color");
+            n.style.borderLeftColor = n.value;
         } else {
-            o.classList.remove("property-value-color");
+            n.classList.remove("property-value-color");
         }
     }
     function ee(e) {
-        return h.showOnly.length === 0 || h.showOnly.indexOf(e) > -1;
+        return b.showOnly.length === 0 || b.showOnly.indexOf(e) > -1;
     }
     function te(e) {
-        return h.ignoreValues.length === 0 || h.ignoreValues.indexOf(e) <= -1;
+        return b.ignoreValues.length === 0 || b.ignoreValues.indexOf(e) <= -1;
     }
-    function ne() {
-        const e = h.nodeType;
+    function oe() {
+        const e = b.nodeType;
         N = e.length;
         for (let t = 0; t < N; t++) {
-            const n = document.getElementsByTagName(e[t]);
-            const o = [].slice.call(n);
-            const i = o.length;
+            const o = document.getElementsByTagName(e[t]);
+            const n = [].slice.call(o);
+            const i = n.length;
             for (let e = 0; e < i; e++) {
-                oe(o[e]);
+                ne(n[e]);
             }
         }
         window.addEventListener("mousemove", re);
     }
-    function oe(n) {
-        const o = n.getAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE);
-        if (!e.definedString(o) && o !== "ignore") {
-            n.addEventListener("mousemove", (e => {
-                le(e, n);
+    function ne(o) {
+        const n = o.getAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE);
+        if (!e.definedString(n) && n !== "ignore") {
+            o.addEventListener("mousemove", (e => {
+                le(e, o);
             }));
-            S.push(n);
+            S.push(o);
         }
     }
     function ie() {
@@ -660,14 +662,14 @@ var l;
         I();
     }
     function le(t, i) {
-        if (!L && e.defined(h)) {
-            n.cancelBubble(t);
+        if (!L && e.defined(b)) {
+            o.cancelBubble(t);
             se();
-            v = setTimeout((() => {
+            h = setTimeout((() => {
                 F(i);
                 ae();
-                n.showElementAtMousePosition(t, r, h.dialogOffset);
-            }), o.dialogShowDelay);
+                o.showElementAtMousePosition(t, r, b.dialogOffset);
+            }), n.dialogShowDelay);
         }
     }
     function re() {
@@ -677,15 +679,15 @@ var l;
         }
     }
     function se() {
-        if (v !== 0) {
-            clearTimeout(v);
-            v = 0;
+        if (h !== 0) {
+            clearTimeout(h);
+            h = 0;
         }
     }
     function ae() {
-        if (b !== 0) {
-            clearTimeout(b);
-            b = 0;
+        if (v !== 0) {
+            clearTimeout(v);
+            v = 0;
         }
     }
     function ce(e, t) {
@@ -708,8 +710,8 @@ var l;
         if (!P) {
             O = t;
             P = true;
-            k = e.pageX - O.offsetLeft;
-            C = e.pageY - O.offsetTop;
+            C = e.pageX - O.offsetLeft;
+            k = e.pageY - O.offsetTop;
             H = O.offsetLeft;
             M = O.offsetTop;
         }
@@ -724,12 +726,12 @@ var l;
     }
     function de(e, t = false) {
         if (t) {
-            n.cancelBubble(e);
+            o.cancelBubble(e);
         }
         if (P) {
             $();
-            O.style.left = `${e.pageX - k}px`;
-            O.style.top = `${e.pageY - C}px`;
+            O.style.left = `${e.pageX - C}px`;
+            O.style.top = `${e.pageY - k}px`;
         }
     }
     function pe() {
@@ -744,16 +746,16 @@ var l;
     }
     const xe = {
         start: function(t) {
-            if (!e.definedObject(h)) {
-                h = l.Options.get(t);
+            if (!e.definedObject(b)) {
+                b = l.Options.get(t);
                 B();
-                ne();
+                oe();
             }
             return xe;
         },
         stop: function() {
-            if (e.definedObject(h)) {
-                h = null;
+            if (e.definedObject(b)) {
+                b = null;
                 se();
                 ie();
             }
@@ -765,18 +767,18 @@ var l;
         },
         setConfiguration: function(t) {
             if (e.definedObject(t)) {
-                let n = false;
-                const l = o;
+                let o = false;
+                const l = n;
                 for (let e in t) {
-                    if (t.hasOwnProperty(e) && o.hasOwnProperty(e) && l[e] !== t[e]) {
+                    if (t.hasOwnProperty(e) && n.hasOwnProperty(e) && l[e] !== t[e]) {
                         l[e] = t[e];
-                        n = true;
+                        o = true;
                     }
                 }
-                if (n) {
-                    o = i.Options.get(l);
+                if (o) {
+                    n = i.Options.get(l);
                     W();
-                    if (e.definedObject(h)) {
+                    if (e.definedObject(b)) {
                         B();
                     }
                 }
@@ -788,7 +790,7 @@ var l;
         }
     };
     (() => {
-        o = i.Options.get();
+        n = i.Options.get();
         document.addEventListener("DOMContentLoaded", (() => {
             W();
         }));

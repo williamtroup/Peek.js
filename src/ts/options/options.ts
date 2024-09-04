@@ -30,6 +30,8 @@ export namespace Start {
             options.ignoreValues = Default.getStringOrArray( options.ignoreValues, [] );
             options.showLockButtonInTitle = Default.getBoolean( options.showLockButtonInTitle, true );
             options.dialogOffset = Default.getNumber( options.dialogOffset, 0 );
+            options.showSearch = Default.getBoolean( options.showSearch, true );
+            options.showSearchPropertyCount = Default.getNumber( options.showSearchPropertyCount, 15 );
 
             return options;
         }

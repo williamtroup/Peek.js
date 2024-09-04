@@ -344,7 +344,7 @@ type DialogProperties = Record<string, string>;
                 DomElement.createWithHTML( _dialog_Contents, "span", "warning", _configuration.text!.modeNotSupportedText! );
             }
     
-            if ( _current_Process_Properties_Count <= 15 ) {
+            if ( _current_Process_Properties_Count <= _current_Process_Options.showSearchPropertyCount! || !_current_Process_Options.showSearch ) {
                 _dialog_Search.style.display = "none";
             } else {
                 _dialog_Search.style.removeProperty( "display" );

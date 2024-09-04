@@ -64,4 +64,6 @@ export type StartOptions = {
     ignoreValues?: string[] | string;
     showLockButtonInTitle?: boolean;
     dialogOffset?: number;
+    showSearch?: boolean;
+    showSearchPropertyCount?: number;
 };
