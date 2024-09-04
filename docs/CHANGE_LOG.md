@@ -17,7 +17,7 @@
 ## Version 1.7.0:
 
 #### **Start Options:**
-- Added a start option "ignore" (defaults to "[]"), which states the property values that only should be ignored.
+- Added a start option "ignoreValues" (defaults to "[]"), which states the property values that only should be ignored.
 - Added start option "showLockButtonInTitle" (defaults to true), which states if the lock button should be shown in the title bar.
 
 #### **Configuration Options:**
