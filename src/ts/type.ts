@@ -18,6 +18,7 @@ export type Position = {
 
 export type Configuration = {
 	dialogShowDelay?: number;
+    dialogHideDelay?: number;
     searchDelay?: number;
     text?: ConfigurationText;
 };

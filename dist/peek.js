@@ -197,6 +197,7 @@ var i;
         function t(e = null) {
             let t = o.getObject(e, {});
             t.dialogShowDelay = o.getNumber(t.dialogShowDelay, 1e3);
+            t.dialogHideDelay = o.getNumber(t.dialogHideDelay, 500);
             t.searchDelay = o.getNumber(t.searchDelay, 500);
             t = n(t);
             return t;
@@ -275,22 +276,23 @@ var l;
     let y = null;
     let T = null;
     let v = 0;
-    let b = null;
-    let h = [];
-    let S = {};
-    let w = null;
-    let A = false;
-    let L = 0;
+    let b = 0;
+    let h = null;
+    let S = [];
+    let w = {};
+    let A = null;
+    let L = false;
     let N = 0;
-    let E = null;
-    let O = 0;
+    let E = 0;
+    let O = null;
+    let H = 0;
     let M = 0;
-    let H = false;
-    let P = 0;
+    let P = false;
     let k = 0;
-    function C() {
+    let C = 0;
+    function W() {
         if (e.definedObject(r)) {
-            $();
+            I();
             document.body.removeChild(r);
             r = null;
         }
@@ -301,52 +303,52 @@ var l;
         d = n.create(r, "div", "dialog-contents");
         x = n.create(r, "div", "dialog-buttons");
         g = n.createWithHTML(x, "button", "copy", o.text.copyText);
-        g.onclick = I;
+        g.onclick = D;
         f = n.create(c, "input");
         f.placeholder = o.text.searchPropertiesPlaceHolderText;
         f.type = "text";
-        f.onkeyup = j;
-        f.onpaste = j;
+        f.onkeyup = _;
+        f.onpaste = _;
         f.onfocus = () => f.select();
         const t = n.createWithHTML(c, "button", "clear-small", o.text.clearSymbolText);
         t.title = o.text.clearText;
-        t.onclick = _;
+        t.onclick = R;
         const i = n.createWithHTML(x, "button", "close", o.text.closeText);
-        i.onclick = $;
+        i.onclick = () => I();
         m = n.createWithHTML(x, "button", "remove", o.text.removeElementSymbolText);
-        m.onclick = D;
+        m.onclick = j;
         m.title = o.text.removeText;
         y = n.createWithHTML(x, "button", "move-up", o.text.moveUpSymbolText);
-        y.onclick = R;
+        y.onclick = U;
         y.title = o.text.moveUpText;
         T = n.createWithHTML(x, "button", "move-down", o.text.moveDownSymbolText);
-        T.onclick = U;
+        T.onclick = V;
         T.title = o.text.moveDownText;
-        se(s, r);
+        ce(s, r);
     }
-    function W(t = null) {
-        if (!A && e.defined(b)) {
-            let i = b.titleText;
+    function B(t = null) {
+        if (!L && e.defined(h)) {
+            let i = h.titleText;
             s.innerHTML = "";
             if (!e.definedString(i)) {
-                if (b.mode === 1) {
+                if (h.mode === 1) {
                     i = o.text.cssText;
-                } else if (b.mode === 2) {
+                } else if (h.mode === 2) {
                     i = o.text.attributesText;
-                } else if (b.mode === 3) {
+                } else if (h.mode === 3) {
                     i = o.text.sizeText;
-                } else if (b.mode === 4) {
+                } else if (h.mode === 4) {
                     i = o.text.classesText;
                 } else {
                     i = o.text.unknownModeText;
                 }
             }
             n.createWithHTML(s, "span", "title", i);
-            if (L > 1 && b.showNodeNameInTitle) {
+            if (N > 1 && h.showNodeNameInTitle) {
                 n.createWithHTML(s, "span", "dash", " - ");
                 n.createWithHTML(s, "span", "node-name", `[${t.nodeName.toLowerCase()}]`);
             }
-            if (b.showIdOrNameInTitle && e.defined(t)) {
+            if (h.showIdOrNameInTitle && e.defined(t)) {
                 const o = t.getAttribute("id");
                 const i = t.getAttribute("name");
                 if (e.definedString(o)) {
@@ -357,52 +359,67 @@ var l;
                     n.createWithHTML(s, "span", "id-or-name", i);
                 }
             }
-            if (b.showLockButtonInTitle) {
+            if (h.showLockButtonInTitle) {
                 a = n.createWithHTML(s, "button", "lock", o.text.dialogMovedSymbolText);
                 a.title = o.text.lockText;
-                a.onclick = () => B();
+                a.onclick = () => $();
             }
         }
     }
-    function B() {
-        if (!A) {
+    function $() {
+        if (!L) {
             n.createWithHTML(s, "span", "locked", `${o.text.dialogMovedSymbolText}${" "}`, true);
             if (e.defined(a)) {
                 a.parentNode.removeChild(a);
                 a = null;
             }
-            A = true;
+            L = true;
         }
     }
-    function $() {
-        r.style.display = "none";
-        A = false;
-        f.value = "";
-    }
-    function I() {
-        const e = [];
-        for (let t in S) {
-            if (S.hasOwnProperty(t)) {
-                if (b.mode === 1) {
-                    e.push(`${t}: ${S[t]};`);
-                } else if (b.mode === 2) {
-                    e.push(`${t}="${S[t]}"`);
-                } else if (b.mode === 4) {
-                    e.push(S[t]);
+    function I(e = false) {
+        if (r.style.display !== "none") {
+            const t = () => {
+                r.style.display = "none";
+                L = false;
+                f.value = "";
+                ae();
+            };
+            if (e) {
+                if (b === 0) {
+                    se();
+                    b = setTimeout((() => {
+                        t();
+                    }), o.dialogHideDelay);
                 }
+            } else {
+                t();
             }
-        }
-        if (b.mode === 1) {
-            navigator.clipboard.writeText(`${w.nodeName.toLowerCase()} { ${"\n"} ${e.join("\n")} ${"\n"} }`);
-        } else if (b.mode === 2 || b.mode === 4) {
-            navigator.clipboard.writeText(e.join(" "));
         }
     }
     function D() {
-        w.parentNode.removeChild(w);
-        $();
+        const e = [];
+        for (let t in w) {
+            if (w.hasOwnProperty(t)) {
+                if (h.mode === 1) {
+                    e.push(`${t}: ${w[t]};`);
+                } else if (h.mode === 2) {
+                    e.push(`${t}="${w[t]}"`);
+                } else if (h.mode === 4) {
+                    e.push(w[t]);
+                }
+            }
+        }
+        if (h.mode === 1) {
+            navigator.clipboard.writeText(`${A.nodeName.toLowerCase()} { ${"\n"} ${e.join("\n")} ${"\n"} }`);
+        } else if (h.mode === 2 || h.mode === 4) {
+            navigator.clipboard.writeText(e.join(" "));
+        }
     }
     function j() {
+        A.parentNode.removeChild(A);
+        I();
+    }
+    function _() {
         if (u !== 0) {
             clearTimeout(u);
             u = 0;
@@ -437,35 +454,35 @@ var l;
             }
         }), o.searchDelay);
     }
-    function _() {
+    function R() {
         f.value = "";
         f.focus();
-        j();
-    }
-    function R() {
-        if (w.parentNode !== null && w.previousElementSibling !== null) {
-            w.parentNode.insertBefore(w, w.previousElementSibling);
-        }
+        _();
     }
     function U() {
-        if (w.parentNode !== null && w.nextElementSibling !== null) {
-            w.parentNode.insertBefore(w.nextElementSibling, w);
+        if (A.parentNode !== null && A.previousElementSibling !== null) {
+            A.parentNode.insertBefore(A, A.previousElementSibling);
         }
     }
-    function V(t) {
-        if (e.defined(b)) {
+    function V() {
+        if (A.parentNode !== null && A.nextElementSibling !== null) {
+            A.parentNode.insertBefore(A.nextElementSibling, A);
+        }
+    }
+    function F(t) {
+        if (e.defined(h)) {
             d.innerHTML = "";
             d.scrollTop = 0;
-            S = {};
-            N = 0;
-            w = t;
-            W(t);
-            if (b.mode === 1 || b.mode === 4 || b.mode === 2) {
+            w = {};
+            E = 0;
+            A = t;
+            B(t);
+            if (h.mode === 1 || h.mode === 4 || h.mode === 2) {
                 g.style.removeProperty("display");
             } else {
                 g.style.display = "none";
             }
-            if (!b.allowEditing) {
+            if (!h.allowEditing) {
                 m.style.display = "none";
                 y.style.display = "none";
                 T.style.display = "none";
@@ -475,53 +492,53 @@ var l;
                 T.style.removeProperty("display");
             }
             p = n.createWithHTML(d, "span", "no-search-results", o.text.noPropertiesFoundForSearchText);
-            if (b.mode === 1) {
-                F(t);
-            } else if (b.mode === 2) {
+            if (h.mode === 1) {
                 z(t);
-            } else if (b.mode === 3) {
+            } else if (h.mode === 2) {
                 G(t);
-            } else if (b.mode === 4) {
+            } else if (h.mode === 3) {
                 J(t);
+            } else if (h.mode === 4) {
+                K(t);
             } else {
                 n.createWithHTML(d, "span", "warning", o.text.modeNotSupportedText);
             }
-            if (N <= 15) {
+            if (E <= 15) {
                 c.style.display = "none";
             } else {
                 c.style.removeProperty("display");
             }
         }
     }
-    function F(e) {
+    function z(e) {
         const t = getComputedStyle(e);
         const n = t.length;
         for (let o = 0; o < n; o++) {
-            K(e, t[o], t.getPropertyValue(t[o]));
+            X(e, t[o], t.getPropertyValue(t[o]));
         }
     }
-    function z(e) {
+    function G(e) {
         if (e.hasAttributes()) {
             for (let t of e.attributes) {
-                K(e, t.name, t.value);
+                X(e, t.name, t.value);
             }
         } else {
             d.innerHTML = "";
             n.createWithHTML(d, "span", "warning", o.text.noAttributesAvailableText);
         }
     }
-    function G(e) {
-        const t = n.getOffset(e);
-        K(e, "left", `${t.left.toString()}px`, false);
-        K(e, "top", `${t.top.toString()}px`, false);
-        K(e, "width", `${e.offsetWidth.toString()}px`, false);
-        K(e, "height", `${e.offsetHeight.toString()}px`, false);
-    }
     function J(e) {
+        const t = n.getOffset(e);
+        X(e, "left", `${t.left.toString()}px`, false);
+        X(e, "top", `${t.top.toString()}px`, false);
+        X(e, "width", `${e.offsetWidth.toString()}px`, false);
+        X(e, "height", `${e.offsetHeight.toString()}px`, false);
+    }
+    function K(e) {
         if (e.classList.length > 0) {
             let t = 1;
             for (let n of e.classList) {
-                K(e, t.toString(), n);
+                X(e, t.toString(), n);
                 t++;
             }
         } else {
@@ -529,8 +546,8 @@ var l;
             n.createWithHTML(d, "span", "warning", o.text.noClassesAvailableText);
         }
     }
-    function K(t, i, l, r = true) {
-        if (Z(i) && ee(l)) {
+    function X(t, i, l, r = true) {
+        if (ee(i) && te(l)) {
             const s = n.create(d, "div", "property-row");
             n.createWithHTML(s, "div", "property-name", i);
             const a = n.create(s, "div", "property-value");
@@ -544,57 +561,57 @@ var l;
             const f = n.createWithHTML(s, "button", "copy-small", o.text.copySymbolText);
             f.title = o.text.copyText;
             f.onclick = () => navigator.clipboard.writeText(l);
-            if (b.allowEditing && r) {
+            if (h.allowEditing && r) {
                 const e = n.createWithHTML(s, "button", "paste-small", o.text.pasteSymbolText);
                 const r = n.createWithHTML(s, "button", "remove-small", o.text.removeSymbolText);
                 e.title = o.text.pasteText;
                 r.title = o.text.removeText;
-                e.onclick = () => X(t, c, i);
-                r.onclick = () => Y(s, t, i, l);
+                e.onclick = () => Y(t, c, i);
+                r.onclick = () => q(s, t, i, l);
             }
             c.type = "text";
             c.value = l;
-            S[i] = l;
-            N++;
-            if (!b.allowEditing || !r) {
+            w[i] = l;
+            E++;
+            if (!h.allowEditing || !r) {
                 c.readOnly = true;
             } else {
-                c.onkeyup = e => q(e, i, c, t);
+                c.onkeyup = e => Q(e, i, c, t);
             }
         }
     }
-    function X(e, t, n) {
+    function Y(e, t, n) {
         navigator.clipboard.readText().then((o => {
             t.value = o;
-            Q(e, n, t);
+            Z(e, n, t);
         }));
     }
-    function Y(e, t, n, o) {
-        if (b.mode === 1) {
+    function q(e, t, n, o) {
+        if (h.mode === 1) {
             t.style.removeProperty(n);
             e.parentNode.removeChild(e);
-        } else if (b.mode === 2) {
+        } else if (h.mode === 2) {
             t.removeAttribute(n);
             e.parentNode.removeChild(e);
-        } else if (b.mode === 4) {
+        } else if (h.mode === 4) {
             t.classList.remove(o);
             e.parentNode.removeChild(e);
         }
     }
-    function q(e, t, n, o) {
+    function Q(e, t, n, o) {
         if (e.code === "Enter") {
-            Q(o, t, n);
+            Z(o, t, n);
         }
     }
-    function Q(t, n, o) {
-        if (b.mode === 1) {
+    function Z(t, n, o) {
+        if (h.mode === 1) {
             t.style.setProperty(n, o.value);
-        } else if (b.mode === 2) {
+        } else if (h.mode === 2) {
             t.setAttribute(n, o.value);
-        } else if (b.mode === 4) {
+        } else if (h.mode === 4) {
             t.classList.replace(t.classList[parseInt(n) - 1], o.value);
         }
-        S[n] = o.value;
+        w[n] = o.value;
         if (e.hexColor(o.value) || e.isRgbColor(o.value)) {
             o.classList.add("property-value-color");
             o.style.borderLeftColor = o.value;
@@ -602,142 +619,149 @@ var l;
             o.classList.remove("property-value-color");
         }
     }
-    function Z(e) {
-        return b.showOnly.length === 0 || b.showOnly.indexOf(e) > -1;
-    }
     function ee(e) {
-        return b.ignoreValues.length === 0 || b.ignoreValues.indexOf(e) <= -1;
+        return h.showOnly.length === 0 || h.showOnly.indexOf(e) > -1;
     }
-    function te() {
-        const e = b.nodeType;
-        L = e.length;
-        for (let t = 0; t < L; t++) {
+    function te(e) {
+        return h.ignoreValues.length === 0 || h.ignoreValues.indexOf(e) <= -1;
+    }
+    function ne() {
+        const e = h.nodeType;
+        N = e.length;
+        for (let t = 0; t < N; t++) {
             const n = document.getElementsByTagName(e[t]);
             const o = [].slice.call(n);
             const i = o.length;
             for (let e = 0; e < i; e++) {
-                ne(o[e]);
+                oe(o[e]);
             }
         }
-        window.addEventListener("mousemove", le);
+        window.addEventListener("mousemove", re);
     }
-    function ne(n) {
+    function oe(n) {
         const o = n.getAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE);
         if (!e.definedString(o) && o !== "ignore") {
             n.addEventListener("mousemove", (e => {
-                ie(e, n);
+                le(e, n);
             }));
-            h.push(n);
+            S.push(n);
         }
     }
-    function oe() {
-        const e = h.length;
+    function ie() {
+        const e = S.length;
         for (let t = 0; t < e; t++) {
-            const e = h[t];
+            const e = S[t];
             e.removeEventListener("mousemove", (t => {
-                ie(t, e);
+                le(t, e);
             }));
         }
-        h = [];
-        window.removeEventListener("mousemove", le);
-        $();
+        S = [];
+        window.removeEventListener("mousemove", re);
+        I();
     }
-    function ie(t, i) {
-        if (!A && e.defined(b)) {
+    function le(t, i) {
+        if (!L && e.defined(h)) {
             n.cancelBubble(t);
-            re();
+            se();
             v = setTimeout((() => {
-                V(i);
-                n.showElementAtMousePosition(t, r, b.dialogOffset);
+                F(i);
+                ae();
+                n.showElementAtMousePosition(t, r, h.dialogOffset);
             }), o.dialogShowDelay);
         }
     }
-    function le() {
-        if (!A) {
-            re();
-            $();
+    function re() {
+        if (!L) {
+            se();
+            I(true);
         }
     }
-    function re() {
+    function se() {
         if (v !== 0) {
             clearTimeout(v);
             v = 0;
         }
     }
-    function se(e, t) {
+    function ae() {
+        if (b !== 0) {
+            clearTimeout(b);
+            b = 0;
+        }
+    }
+    function ce(e, t) {
         e.onmousedown = e => {
-            ae(e, t);
+            fe(e, t);
         };
         t.onmousemove = e => {
-            fe(e, true);
+            de(e, true);
         };
         e.onmouseup = () => {
-            ce();
+            ue();
         };
         e.oncontextmenu = () => {
-            ce();
+            ue();
         };
-        document.addEventListener("mousemove", fe);
-        document.addEventListener("mouseleave", ue);
+        document.addEventListener("mousemove", de);
+        document.addEventListener("mouseleave", pe);
     }
-    function ae(e, t) {
-        if (!H) {
-            E = t;
-            H = true;
-            P = e.pageX - E.offsetLeft;
-            k = e.pageY - E.offsetTop;
-            O = E.offsetLeft;
-            M = E.offsetTop;
-        }
-    }
-    function ce() {
-        if (H) {
-            H = false;
-            E = null;
-            O = 0;
-            M = 0;
-        }
-    }
-    function fe(e, t = false) {
-        if (t) {
-            n.cancelBubble(e);
-        }
-        if (H) {
-            B();
-            E.style.left = `${e.pageX - P}px`;
-            E.style.top = `${e.pageY - k}px`;
+    function fe(e, t) {
+        if (!P) {
+            O = t;
+            P = true;
+            k = e.pageX - O.offsetLeft;
+            C = e.pageY - O.offsetTop;
+            H = O.offsetLeft;
+            M = O.offsetTop;
         }
     }
     function ue() {
-        if (H) {
-            E.style.left = `${O}px`;
-            E.style.top = `${M}px`;
-            H = false;
-            E = null;
-            O = 0;
+        if (P) {
+            P = false;
+            O = null;
+            H = 0;
             M = 0;
         }
     }
-    const de = {
+    function de(e, t = false) {
+        if (t) {
+            n.cancelBubble(e);
+        }
+        if (P) {
+            $();
+            O.style.left = `${e.pageX - k}px`;
+            O.style.top = `${e.pageY - C}px`;
+        }
+    }
+    function pe() {
+        if (P) {
+            O.style.left = `${H}px`;
+            O.style.top = `${M}px`;
+            P = false;
+            O = null;
+            H = 0;
+            M = 0;
+        }
+    }
+    const xe = {
         start: function(t) {
-            if (!e.definedObject(b)) {
-                b = l.Options.get(t);
-                W();
-                te();
+            if (!e.definedObject(h)) {
+                h = l.Options.get(t);
+                B();
+                ne();
             }
-            return de;
+            return xe;
         },
         stop: function() {
-            if (e.definedObject(b)) {
-                b = null;
-                re();
-                oe();
+            if (e.definedObject(h)) {
+                h = null;
+                se();
+                ie();
             }
-            return de;
+            return xe;
         },
         close: function() {
-            $();
-            return de;
+            I();
+            return xe;
         },
         setConfiguration: function(t) {
             if (e.definedObject(t)) {
@@ -751,13 +775,13 @@ var l;
                 }
                 if (n) {
                     o = i.Options.get(l);
-                    C();
-                    if (e.definedObject(b)) {
-                        W();
+                    W();
+                    if (e.definedObject(h)) {
+                        B();
                     }
                 }
             }
-            return de;
+            return xe;
         },
         getVersion: function() {
             return "1.8.0";
@@ -766,10 +790,10 @@ var l;
     (() => {
         o = i.Options.get();
         document.addEventListener("DOMContentLoaded", (() => {
-            C();
+            W();
         }));
         if (!e.defined(window.$peek)) {
-            window.$peek = de;
+            window.$peek = xe;
         }
     })();
 })();//# sourceMappingURL=peek.js.map

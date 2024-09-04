@@ -20,6 +20,7 @@ export namespace Config {
         export function get( newConfiguration: Configuration = null! ) : Configuration {
             let configuration: Configuration = Default.getObject( newConfiguration, {} as Configuration );
             configuration.dialogShowDelay = Default.getNumber( configuration.dialogShowDelay, 1000 );
+            configuration.dialogHideDelay = Default.getNumber( configuration.dialogHideDelay, 500 );
             configuration.searchDelay = Default.getNumber( configuration.searchDelay, 500 );
     
             configuration = getText( configuration );

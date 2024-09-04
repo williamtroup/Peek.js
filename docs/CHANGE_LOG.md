@@ -8,6 +8,7 @@
 #### **Configuration Options:**
 - BREAKING: Renamed the configuration option "dialogDisplayDelay" to "dialogShowDelay".
 - BREAKING: Renamed the configuration option "searchDelayDelay" to "searchDelay".
+- Added a new configuration option called "dialogHideDelay" (default to 0 milliseconds), which states the delay that should be used before hiding the dialog when moving away from an element.
 
 #### **Adjustments:**
 - Moved from ES2016 to ES2020.
