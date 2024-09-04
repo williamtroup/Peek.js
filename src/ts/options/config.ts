@@ -19,8 +19,8 @@ export namespace Config {
     export namespace Options {
         export function get( newConfiguration: Configuration = null! ) : Configuration {
             let configuration: Configuration = Default.getObject( newConfiguration, {} as Configuration );
-            configuration.dialogDisplayDelay = Default.getNumber( configuration.dialogDisplayDelay, 1000 );
-            configuration.searchDelayDelay = Default.getNumber( configuration.searchDelayDelay, 500 );
+            configuration.dialogShowDelay = Default.getNumber( configuration.dialogShowDelay, 1000 );
+            configuration.searchDelay = Default.getNumber( configuration.searchDelay, 500 );
     
             configuration = getText( configuration );
 

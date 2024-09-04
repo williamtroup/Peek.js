@@ -15,14 +15,14 @@ var e;
         return t(e) && typeof e === "boolean";
     }
     e.definedBoolean = o;
-    function l(e) {
+    function i(e) {
         return t(e) && typeof e === "string";
     }
-    e.definedString = l;
-    function i(e) {
+    e.definedString = i;
+    function l(e) {
         return t(e) && typeof e === "function";
     }
-    e.definedFunction = i;
+    e.definedFunction = l;
     function r(e) {
         return t(e) && typeof e === "number";
     }
@@ -64,15 +64,15 @@ var t;
 var n;
 
 (n => {
-    function o(n, o, l = "", i = false) {
+    function o(n, o, i = "", l = false) {
         const r = o.toLowerCase();
         const s = r === "text";
         let a = s ? document.createTextNode("") : document.createElement(r);
         a.setAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE, "ignore");
-        if (e.definedString(l)) {
-            a.className = l;
+        if (e.definedString(i)) {
+            a.className = i;
         }
-        if (!i) {
+        if (!l) {
             n.appendChild(a);
         } else {
             n.insertBefore(a, n.children[0]);
@@ -80,18 +80,18 @@ var n;
         return a;
     }
     n.create = o;
-    function l(e, n, l, i, r = false) {
-        const s = o(e, n, l, r);
-        s.innerHTML = i;
+    function i(e, n, i, l, r = false) {
+        const s = o(e, n, i, r);
+        s.innerHTML = l;
         s.setAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE, "ignore");
         return s;
     }
-    n.createWithHTML = l;
-    function i(e) {
+    n.createWithHTML = i;
+    function l(e) {
         e.preventDefault();
         e.stopPropagation();
     }
-    n.cancelBubble = i;
+    n.cancelBubble = l;
     function r() {
         const e = document.documentElement;
         const t = {
@@ -104,8 +104,8 @@ var n;
     function s(e, t, n) {
         if (t.style.display !== "block") {
             let o = e.pageX;
-            let l = e.pageY;
-            const i = r();
+            let i = e.pageY;
+            const l = r();
             t.style.display = "block";
             if (o + t.offsetWidth > window.innerWidth) {
                 o -= t.offsetWidth + n;
@@ -113,20 +113,20 @@ var n;
                 o++;
                 o += n;
             }
-            if (l + t.offsetHeight > window.innerHeight) {
-                l -= t.offsetHeight + n;
+            if (i + t.offsetHeight > window.innerHeight) {
+                i -= t.offsetHeight + n;
             } else {
-                l++;
-                l += n;
+                i++;
+                i += n;
             }
-            if (o < i.left) {
+            if (o < l.left) {
                 o = e.pageX + 1;
             }
-            if (l < i.top) {
-                l = e.pageY + 1;
+            if (i < l.top) {
+                i = e.pageY + 1;
             }
             t.style.left = `${o}px`;
-            t.style.top = `${l}px`;
+            t.style.top = `${i}px`;
         }
     }
     n.showElementAtMousePosition = s;
@@ -156,14 +156,14 @@ var o;
         return e.definedString(t) ? t : n;
     }
     t.getString = o;
-    function l(t, n) {
+    function i(t, n) {
         return e.definedBoolean(t) ? t : n;
     }
-    t.getBoolean = l;
-    function i(t, n) {
+    t.getBoolean = i;
+    function l(t, n) {
         return e.definedNumber(t) ? t : n;
     }
-    t.getNumber = i;
+    t.getNumber = l;
     function r(t, n) {
         return e.definedArray(t) ? t : n;
     }
@@ -189,15 +189,15 @@ var o;
     t.getStringOrArray = a;
 })(o || (o = {}));
 
-var l;
+var i;
 
 (e => {
     let t;
     (e => {
         function t(e = null) {
             let t = o.getObject(e, {});
-            t.dialogDisplayDelay = o.getNumber(t.dialogDisplayDelay, 1e3);
-            t.searchDelayDelay = o.getNumber(t.searchDelayDelay, 500);
+            t.dialogShowDelay = o.getNumber(t.dialogShowDelay, 1e3);
+            t.searchDelay = o.getNumber(t.searchDelay, 500);
             t = n(t);
             return t;
         }
@@ -234,9 +234,9 @@ var l;
             return e;
         }
     })(t = e.Options || (e.Options = {}));
-})(l || (l = {}));
+})(i || (i = {}));
 
-var i;
+var l;
 
 (e => {
     let t;
@@ -257,7 +257,7 @@ var i;
         }
         e.get = t;
     })(t = e.Options || (e.Options = {}));
-})(i || (i = {}));
+})(l || (l = {}));
 
 (() => {
     let o = {};
@@ -271,15 +271,15 @@ var i;
     let p = null;
     let x = null;
     let g = null;
-    let y = null;
     let m = null;
+    let y = null;
     let T = null;
     let v = 0;
     let b = null;
     let h = [];
     let S = {};
-    let A = null;
-    let w = false;
+    let w = null;
+    let A = false;
     let L = 0;
     let N = 0;
     let E = null;
@@ -290,7 +290,7 @@ var i;
     let k = 0;
     function C() {
         if (e.definedObject(r)) {
-            D();
+            $();
             document.body.removeChild(r);
             r = null;
         }
@@ -301,7 +301,7 @@ var i;
         d = n.create(r, "div", "dialog-contents");
         x = n.create(r, "div", "dialog-buttons");
         g = n.createWithHTML(x, "button", "copy", o.text.copyText);
-        g.onclick = $;
+        g.onclick = I;
         f = n.create(c, "input");
         f.placeholder = o.text.searchPropertiesPlaceHolderText;
         f.type = "text";
@@ -311,50 +311,50 @@ var i;
         const t = n.createWithHTML(c, "button", "clear-small", o.text.clearSymbolText);
         t.title = o.text.clearText;
         t.onclick = _;
-        const l = n.createWithHTML(x, "button", "close", o.text.closeText);
-        l.onclick = D;
-        y = n.createWithHTML(x, "button", "remove", o.text.removeElementSymbolText);
-        y.onclick = I;
-        y.title = o.text.removeText;
-        m = n.createWithHTML(x, "button", "move-up", o.text.moveUpSymbolText);
-        m.onclick = R;
-        m.title = o.text.moveUpText;
+        const i = n.createWithHTML(x, "button", "close", o.text.closeText);
+        i.onclick = $;
+        m = n.createWithHTML(x, "button", "remove", o.text.removeElementSymbolText);
+        m.onclick = D;
+        m.title = o.text.removeText;
+        y = n.createWithHTML(x, "button", "move-up", o.text.moveUpSymbolText);
+        y.onclick = R;
+        y.title = o.text.moveUpText;
         T = n.createWithHTML(x, "button", "move-down", o.text.moveDownSymbolText);
         T.onclick = U;
         T.title = o.text.moveDownText;
         se(s, r);
     }
     function W(t = null) {
-        if (!w && e.defined(b)) {
-            let l = b.titleText;
+        if (!A && e.defined(b)) {
+            let i = b.titleText;
             s.innerHTML = "";
-            if (!e.definedString(l)) {
+            if (!e.definedString(i)) {
                 if (b.mode === 1) {
-                    l = o.text.cssText;
+                    i = o.text.cssText;
                 } else if (b.mode === 2) {
-                    l = o.text.attributesText;
+                    i = o.text.attributesText;
                 } else if (b.mode === 3) {
-                    l = o.text.sizeText;
+                    i = o.text.sizeText;
                 } else if (b.mode === 4) {
-                    l = o.text.classesText;
+                    i = o.text.classesText;
                 } else {
-                    l = o.text.unknownModeText;
+                    i = o.text.unknownModeText;
                 }
             }
-            n.createWithHTML(s, "span", "title", l);
+            n.createWithHTML(s, "span", "title", i);
             if (L > 1 && b.showNodeNameInTitle) {
                 n.createWithHTML(s, "span", "dash", " - ");
                 n.createWithHTML(s, "span", "node-name", `[${t.nodeName.toLowerCase()}]`);
             }
             if (b.showIdOrNameInTitle && e.defined(t)) {
                 const o = t.getAttribute("id");
-                const l = t.getAttribute("name");
+                const i = t.getAttribute("name");
                 if (e.definedString(o)) {
                     n.createWithHTML(s, "span", "dash", " - ");
                     n.createWithHTML(s, "span", "id-or-name", o);
-                } else if (e.definedString(l)) {
+                } else if (e.definedString(i)) {
                     n.createWithHTML(s, "span", "dash", " - ");
-                    n.createWithHTML(s, "span", "id-or-name", l);
+                    n.createWithHTML(s, "span", "id-or-name", i);
                 }
             }
             if (b.showLockButtonInTitle) {
@@ -365,21 +365,21 @@ var i;
         }
     }
     function B() {
-        if (!w) {
+        if (!A) {
             n.createWithHTML(s, "span", "locked", `${o.text.dialogMovedSymbolText}${" "}`, true);
             if (e.defined(a)) {
                 a.parentNode.removeChild(a);
                 a = null;
             }
-            w = true;
+            A = true;
         }
     }
-    function D() {
+    function $() {
         r.style.display = "none";
-        w = false;
+        A = false;
         f.value = "";
     }
-    function $() {
+    function I() {
         const e = [];
         for (let t in S) {
             if (S.hasOwnProperty(t)) {
@@ -393,14 +393,14 @@ var i;
             }
         }
         if (b.mode === 1) {
-            navigator.clipboard.writeText(`${A.nodeName.toLowerCase()} { ${"\n"} ${e.join("\n")} ${"\n"} }`);
+            navigator.clipboard.writeText(`${w.nodeName.toLowerCase()} { ${"\n"} ${e.join("\n")} ${"\n"} }`);
         } else if (b.mode === 2 || b.mode === 4) {
             navigator.clipboard.writeText(e.join(" "));
         }
     }
-    function I() {
-        A.parentNode.removeChild(A);
-        D();
+    function D() {
+        w.parentNode.removeChild(w);
+        $();
     }
     function j() {
         if (u !== 0) {
@@ -411,31 +411,31 @@ var i;
             const t = d.getElementsByClassName("property-name");
             const n = [].slice.call(t);
             const o = n.length;
-            const l = f.value.toLowerCase();
-            let i = 0;
+            const i = f.value.toLowerCase();
+            let l = 0;
             for (let t = 0; t < o; t++) {
                 const o = n[t].parentNode;
                 if (e.defined(o)) {
                     if (f.value.trim() === "") {
                         o.style.removeProperty("display");
-                        i++;
+                        l++;
                     } else {
                         const e = n[t].innerText;
-                        if (e.toLowerCase().indexOf(l) > -1) {
+                        if (e.toLowerCase().indexOf(i) > -1) {
                             o.style.removeProperty("display");
-                            i++;
+                            l++;
                         } else {
                             o.style.display = "none";
                         }
                     }
                 }
             }
-            if (i === 0) {
+            if (l === 0) {
                 p.style.display = "block";
             } else {
                 p.style.removeProperty("display");
             }
-        }), o.searchDelayDelay);
+        }), o.searchDelay);
     }
     function _() {
         f.value = "";
@@ -443,13 +443,13 @@ var i;
         j();
     }
     function R() {
-        if (A.parentNode !== null && A.previousElementSibling !== null) {
-            A.parentNode.insertBefore(A, A.previousElementSibling);
+        if (w.parentNode !== null && w.previousElementSibling !== null) {
+            w.parentNode.insertBefore(w, w.previousElementSibling);
         }
     }
     function U() {
-        if (A.parentNode !== null && A.nextElementSibling !== null) {
-            A.parentNode.insertBefore(A.nextElementSibling, A);
+        if (w.parentNode !== null && w.nextElementSibling !== null) {
+            w.parentNode.insertBefore(w.nextElementSibling, w);
         }
     }
     function V(t) {
@@ -458,7 +458,7 @@ var i;
             d.scrollTop = 0;
             S = {};
             N = 0;
-            A = t;
+            w = t;
             W(t);
             if (b.mode === 1 || b.mode === 4 || b.mode === 2) {
                 g.style.removeProperty("display");
@@ -466,12 +466,12 @@ var i;
                 g.style.display = "none";
             }
             if (!b.allowEditing) {
-                y.style.display = "none";
                 m.style.display = "none";
+                y.style.display = "none";
                 T.style.display = "none";
             } else {
-                y.style.removeProperty("display");
                 m.style.removeProperty("display");
+                y.style.removeProperty("display");
                 T.style.removeProperty("display");
             }
             p = n.createWithHTML(d, "span", "no-search-results", o.text.noPropertiesFoundForSearchText);
@@ -529,37 +529,37 @@ var i;
             n.createWithHTML(d, "span", "warning", o.text.noClassesAvailableText);
         }
     }
-    function K(t, l, i, r = true) {
-        if (Z(l) && ee(i)) {
+    function K(t, i, l, r = true) {
+        if (Z(i) && ee(l)) {
             const s = n.create(d, "div", "property-row");
-            n.createWithHTML(s, "div", "property-name", l);
+            n.createWithHTML(s, "div", "property-name", i);
             const a = n.create(s, "div", "property-value");
             const c = n.create(a, "input");
-            if (e.hexColor(i) || e.isRgbColor(i)) {
+            if (e.hexColor(l) || e.isRgbColor(l)) {
                 c.classList.add("property-value-color");
-                c.style.borderLeftColor = i;
+                c.style.borderLeftColor = l;
             }
             c.placeholder = o.text.propertyValuePlaceHolderText;
             c.onfocus = () => c.select();
             const f = n.createWithHTML(s, "button", "copy-small", o.text.copySymbolText);
             f.title = o.text.copyText;
-            f.onclick = () => navigator.clipboard.writeText(i);
+            f.onclick = () => navigator.clipboard.writeText(l);
             if (b.allowEditing && r) {
                 const e = n.createWithHTML(s, "button", "paste-small", o.text.pasteSymbolText);
                 const r = n.createWithHTML(s, "button", "remove-small", o.text.removeSymbolText);
                 e.title = o.text.pasteText;
                 r.title = o.text.removeText;
-                e.onclick = () => X(t, c, l);
-                r.onclick = () => Y(s, t, l, i);
+                e.onclick = () => X(t, c, i);
+                r.onclick = () => Y(s, t, i, l);
             }
             c.type = "text";
-            c.value = i;
-            S[l] = i;
+            c.value = l;
+            S[i] = l;
             N++;
             if (!b.allowEditing || !r) {
                 c.readOnly = true;
             } else {
-                c.onkeyup = e => q(e, l, c, t);
+                c.onkeyup = e => q(e, i, c, t);
             }
         }
     }
@@ -614,18 +614,18 @@ var i;
         for (let t = 0; t < L; t++) {
             const n = document.getElementsByTagName(e[t]);
             const o = [].slice.call(n);
-            const l = o.length;
-            for (let e = 0; e < l; e++) {
+            const i = o.length;
+            for (let e = 0; e < i; e++) {
                 ne(o[e]);
             }
         }
-        window.addEventListener("mousemove", ie);
+        window.addEventListener("mousemove", le);
     }
     function ne(n) {
         const o = n.getAttribute(t.PEEK_JS_IGNORE_STATE_ATTRIBUTE);
         if (!e.definedString(o) && o !== "ignore") {
             n.addEventListener("mousemove", (e => {
-                le(e, n);
+                ie(e, n);
             }));
             h.push(n);
         }
@@ -635,27 +635,27 @@ var i;
         for (let t = 0; t < e; t++) {
             const e = h[t];
             e.removeEventListener("mousemove", (t => {
-                le(t, e);
+                ie(t, e);
             }));
         }
         h = [];
-        window.removeEventListener("mousemove", ie);
-        D();
+        window.removeEventListener("mousemove", le);
+        $();
     }
-    function le(t, l) {
-        if (!w && e.defined(b)) {
+    function ie(t, i) {
+        if (!A && e.defined(b)) {
             n.cancelBubble(t);
             re();
             v = setTimeout((() => {
-                V(l);
+                V(i);
                 n.showElementAtMousePosition(t, r, b.dialogOffset);
-            }), o.dialogDisplayDelay);
+            }), o.dialogShowDelay);
         }
     }
-    function ie() {
-        if (!w) {
+    function le() {
+        if (!A) {
             re();
-            D();
+            $();
         }
     }
     function re() {
@@ -721,7 +721,7 @@ var i;
     const de = {
         start: function(t) {
             if (!e.definedObject(b)) {
-                b = i.Options.get(t);
+                b = l.Options.get(t);
                 W();
                 te();
             }
@@ -736,21 +736,21 @@ var i;
             return de;
         },
         close: function() {
-            D();
+            $();
             return de;
         },
         setConfiguration: function(t) {
             if (e.definedObject(t)) {
                 let n = false;
-                const i = o;
+                const l = o;
                 for (let e in t) {
-                    if (t.hasOwnProperty(e) && o.hasOwnProperty(e) && i[e] !== t[e]) {
-                        i[e] = t[e];
+                    if (t.hasOwnProperty(e) && o.hasOwnProperty(e) && l[e] !== t[e]) {
+                        l[e] = t[e];
                         n = true;
                     }
                 }
                 if (n) {
-                    o = l.Options.get(i);
+                    o = i.Options.get(l);
                     C();
                     if (e.definedObject(b)) {
                         W();
@@ -764,7 +764,7 @@ var i;
         }
     };
     (() => {
-        o = l.Options.get();
+        o = i.Options.get();
         document.addEventListener("DOMContentLoaded", (() => {
             C();
         }));

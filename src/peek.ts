@@ -255,7 +255,7 @@ type DialogProperties = Record<string, string>;
                 _dialog_Contents_NoSearchResultsText.style.removeProperty( "display" );
             }
             
-        }, _configuration.searchDelayDelay );
+        }, _configuration.searchDelay );
     }
 
     function onSearchPropertiesClear() : void {
@@ -546,7 +546,7 @@ type DialogProperties = Record<string, string>;
                 buildDialogContent( element );
     
                 DomElement.showElementAtMousePosition( e, _dialog, _current_Process_Options.dialogOffset! );
-            }, _configuration.dialogDisplayDelay );
+            }, _configuration.dialogShowDelay );
         }
     }
 

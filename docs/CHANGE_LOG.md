@@ -5,6 +5,10 @@
 #### **Start Options:**
 - Added a start option "offset" (defaults to 0), which states the additional offset to use for the dialogs position.
 
+#### **Configuration Options:**
+- BREAKING: Renamed the configuration option "dialogDisplayDelay" to "dialogShowDelay".
+- BREAKING: Renamed the configuration option "searchDelayDelay" to "searchDelay".
+
 #### **Adjustments:**
 - Moved from ES2016 to ES2020.
 - Updated to the latest NPM packages.
