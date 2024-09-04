@@ -19,7 +19,7 @@
 - Renamed some of the documentation.
 
 #### **Fixes:**
-- Fixed missing documentation in the "options/OPTIONS.md".
+- Fixed some missing documentation in the "options/OPTIONS.md".
 
 
 ## Version 1.7.0:
