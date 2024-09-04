@@ -1,4 +1,4 @@
-# Peek.js - Options:
+# Peek.js - Start Options:
 
 Below are all the options that can be passed to the "start()" public function.
 <br>

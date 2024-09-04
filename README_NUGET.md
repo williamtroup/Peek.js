@@ -81,7 +81,7 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 </script>
 ```
 
-To see a list of all the available binding options you can use, click [here](docs/options/OPTIONS.md).
+To see a list of all the available binding options you can use, click [here](docs/options/START_OPTIONS.md).
 
 ### 4. Finishing Up:
 
