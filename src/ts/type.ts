@@ -62,4 +62,5 @@ export type StartOptions = {
     showNodeNameInTitle?: boolean;
     ignoreValues?: string[] | string;
     showLockButtonInTitle?: boolean;
+    dialogOffset?: number;
 };

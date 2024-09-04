@@ -99,30 +99,32 @@ var n;
         return t;
     }
     n.getScrollPosition = r;
-    function s(e, t) {
+    function s(e, t, n) {
         if (t.style.display !== "block") {
-            let n = e.pageX;
-            let o = e.pageY;
-            const l = r();
+            let o = e.pageX;
+            let l = e.pageY;
+            const i = r();
             t.style.display = "block";
-            if (n + t.offsetWidth > window.innerWidth) {
-                n -= t.offsetWidth;
-            } else {
-                n++;
-            }
-            if (o + t.offsetHeight > window.innerHeight) {
-                o -= t.offsetHeight;
+            if (o + t.offsetWidth > window.innerWidth) {
+                o -= t.offsetWidth + n;
             } else {
                 o++;
+                o += n;
             }
-            if (n < l.left) {
-                n = e.pageX + 1;
+            if (l + t.offsetHeight > window.innerHeight) {
+                l -= t.offsetHeight + n;
+            } else {
+                l++;
+                l += n;
             }
-            if (o < l.top) {
-                o = e.pageY + 1;
+            if (o < i.left) {
+                o = e.pageX + 1;
             }
-            t.style.left = `${n}px`;
-            t.style.top = `${o}px`;
+            if (l < i.top) {
+                l = e.pageY + 1;
+            }
+            t.style.left = `${o}px`;
+            t.style.top = `${l}px`;
         }
     }
     n.showElementAtMousePosition = s;
@@ -248,6 +250,7 @@ var i;
             t.showNodeNameInTitle = o.getBoolean(t.showNodeNameInTitle, false);
             t.ignoreValues = o.getStringOrArray(t.ignoreValues, []);
             t.showLockButtonInTitle = o.getBoolean(t.showLockButtonInTitle, true);
+            t.dialogOffset = o.getNumber(t.dialogOffset, 0);
             return t;
         }
         e.get = t;
@@ -276,8 +279,8 @@ var i;
     let A = null;
     let w = false;
     let L = 0;
-    let E = 0;
-    let N = null;
+    let N = 0;
+    let E = null;
     let O = 0;
     let M = 0;
     let H = false;
@@ -452,7 +455,7 @@ var i;
             d.innerHTML = "";
             d.scrollTop = 0;
             S = {};
-            E = 0;
+            N = 0;
             A = t;
             W(t);
             if (b.mode === 1 || b.mode === 4 || b.mode === 2) {
@@ -481,7 +484,7 @@ var i;
             } else {
                 n.createWithHTML(d, "span", "warning", o.text.modeNotSupportedText);
             }
-            if (E <= 15) {
+            if (N <= 15) {
                 c.style.display = "none";
             } else {
                 c.style.removeProperty("display");
@@ -550,7 +553,7 @@ var i;
             c.type = "text";
             c.value = i;
             S[l] = i;
-            E++;
+            N++;
             if (!b.allowEditing || !r) {
                 c.readOnly = true;
             } else {
@@ -643,7 +646,7 @@ var i;
             re();
             v = setTimeout((() => {
                 V(l);
-                n.showElementAtMousePosition(t, r);
+                n.showElementAtMousePosition(t, r, b.dialogOffset);
             }), o.dialogDisplayDelay);
         }
     }
@@ -677,18 +680,18 @@ var i;
     }
     function ae(e, t) {
         if (!H) {
-            N = t;
+            E = t;
             H = true;
-            P = e.pageX - N.offsetLeft;
-            k = e.pageY - N.offsetTop;
-            O = N.offsetLeft;
-            M = N.offsetTop;
+            P = e.pageX - E.offsetLeft;
+            k = e.pageY - E.offsetTop;
+            O = E.offsetLeft;
+            M = E.offsetTop;
         }
     }
     function ce() {
         if (H) {
             H = false;
-            N = null;
+            E = null;
             O = 0;
             M = 0;
         }
@@ -699,16 +702,16 @@ var i;
         }
         if (H) {
             B();
-            N.style.left = `${e.pageX - P}px`;
-            N.style.top = `${e.pageY - k}px`;
+            E.style.left = `${e.pageX - P}px`;
+            E.style.top = `${e.pageY - k}px`;
         }
     }
     function ue() {
         if (H) {
-            N.style.left = `${O}px`;
-            N.style.top = `${M}px`;
+            E.style.left = `${O}px`;
+            E.style.top = `${M}px`;
             H = false;
-            N = null;
+            E = null;
             O = 0;
             M = 0;
         }

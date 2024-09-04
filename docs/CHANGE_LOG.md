@@ -2,10 +2,16 @@
 
 ## Version 1.8.0:
 
+#### **Start Options:**
+- Added a start option "offset" (defaults to 0), which states the additional offset to use for the dialogs position.
+
 #### **Adjustments:**
 - Moved from ES2016 to ES2020.
 - Updated to the latest NPM packages.
 - Added an ignore path for ".DS_Store" files when packing the NuGet package.
+
+#### **Fixes:**
+- Fixed missing documentation in the "options/OPTIONS.md".
 
 
 ## Version 1.7.0:

@@ -545,7 +545,7 @@ type DialogProperties = Record<string, string>;
             _dialog_TimerId = setTimeout( () => {
                 buildDialogContent( element );
     
-                DomElement.showElementAtMousePosition( e, _dialog );
+                DomElement.showElementAtMousePosition( e, _dialog, _current_Process_Options.dialogOffset! );
             }, _configuration.dialogDisplayDelay );
         }
     }
