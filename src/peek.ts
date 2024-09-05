@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that attaches a viewer to a specific node type, allowing you to view the CSS properties, attributes, and size/position.
  * 
  * @file        peek.ts
- * @version     v1.8.0
+ * @version     v1.8.1
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -747,7 +747,7 @@ type DialogProperties = Record<string, string>;
          */
 
         getVersion: function () : string {
-            return "1.8.0";
+            return "1.8.1";
         }
     };
 

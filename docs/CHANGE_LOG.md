@@ -1,6 +1,6 @@
 # Peek.js - Change Log:
 
-## Version 1.8.0:
+## Version 1.8.1:
 
 #### **Start Options:**
 - Added a start option "dialogOffset" (defaults to 0), which states the additional offset to use for the dialogs position.
