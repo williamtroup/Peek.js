@@ -1,8 +1,8 @@
-# Peek.js v1.8.0
+# Peek.js v1.8.1
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Peek.js%2C%20a%20free%20JavaScript%json%20converter&url=https://github.com/williamtroup/Peek.js&hashtags=javascript,element,property,viewer)
-[![npm](https://img.shields.io/badge/npmjs-v1.8.0-blue)](https://www.npmjs.com/package/jpeek.js)
-[![nuget](https://img.shields.io/badge/nuget-v1.8.0-purple)](https://www.nuget.org/packages/Peek.js/)
+[![npm](https://img.shields.io/badge/npmjs-v1.8.1-blue)](https://www.npmjs.com/package/jpeek.js)
+[![nuget](https://img.shields.io/badge/nuget-v1.8.1-purple)](https://www.nuget.org/packages/Peek.js/)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://github.com/williamtroup/Peek.js/blob/main/LICENSE.txt)
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/Peek.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://william-troup.com/)
@@ -33,7 +33,7 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 
 ## What are the most recent changes?
 
-To see a list of all the most recent changes, click [here](docs/CHANGE_LOG.md).
+To see a list of all the most recent changes, click [here](https://www.william-troup.com/peek-js/documentation/recent-changes.html).
 
 
 ## How do I install Peek.js?
@@ -44,11 +44,13 @@ You can install the library with npm into your local modules directory using the
 npm install jpeek.js
 ```
 
-You can also use the following CDN links:
+Or, you can download the latest zipped up version [here](https://www.william-troup.com/peek-js/download.html).
+
+Or, you can also use the following CDN links:
 
 ```markdown
-https://cdn.jsdelivr.net/gh/williamtroup/Peek.js@1.8.0/dist/peek.min.js
-https://cdn.jsdelivr.net/gh/williamtroup/Peek.js@1.8.0/dist/peek.js.min.css
+https://cdn.jsdelivr.net/gh/williamtroup/Peek.js@1.8.1/dist/peek.min.js
+https://cdn.jsdelivr.net/gh/williamtroup/Peek.js@1.8.1/dist/peek.js.min.css
 ```
 
 
@@ -81,7 +83,7 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 </script>
 ```
 
-To see a list of all the available binding options you can use, click [here](docs/options/START_OPTIONS.md).
+To see a list of all the available binding options you can use, click [here](https://www.william-troup.com/peek-js/documentation/start-options.html).
 
 ### 4. Finishing Up:
 
@@ -95,7 +97,7 @@ To customize, and get more out of Peek.js, please read through the following doc
 
 ### 1. Public Functions:
 
-To see a list of all the public functions available, click [here](docs/PUBLIC_FUNCTIONS.md).
+To see a list of all the public functions available, click [here](https://www.william-troup.com/peek-js/documentation/public-functions.html).
 
 
 ### 2. Configuration:
@@ -113,4 +115,4 @@ Configuration options allow you to customize how Peek.js will function.  You can
 </script>
 ```
 
-To see a list of all the available configuration options you can use, click [here](docs/configuration/OPTIONS.md).
+To see a list of all the available configuration options you can use, click [here](https://www.william-troup.com/peek-js/documentation/options.html).

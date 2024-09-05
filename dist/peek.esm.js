@@ -784,7 +784,7 @@ var l;
             return xe;
         },
         getVersion: function() {
-            return "1.8.0";
+            return "1.8.1";
         }
     };
     (() => {
