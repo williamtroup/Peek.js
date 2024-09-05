@@ -33,7 +33,7 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 
 ## What are the most recent changes?
 
-To see a list of all the most recent changes, click [here](docs/CHANGE_LOG.md).
+To see a list of all the most recent changes, click [here](https://www.william-troup.com/peek-js/documentation/recent-changes.html).
 
 
 ## How do I install Peek.js?
