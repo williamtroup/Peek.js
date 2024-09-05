@@ -44,7 +44,9 @@ You can install the library with npm into your local modules directory using the
 npm install jpeek.js
 ```
 
-You can also use the following CDN links:
+Or, you can download the latest zipped up version [here](https://www.william-troup.com/peek-js/download.html).
+
+Or, you can also use the following CDN links:
 
 ```markdown
 https://cdn.jsdelivr.net/gh/williamtroup/Peek.js@1.8.1/dist/peek.min.js
@@ -81,7 +83,7 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 </script>
 ```
 
-To see a list of all the available binding options you can use, click [here](docs/options/START_OPTIONS.md).
+To see a list of all the available binding options you can use, click [here](https://www.william-troup.com/peek-js/documentation/start-options.html).
 
 ### 4. Finishing Up:
 
@@ -95,7 +97,7 @@ To customize, and get more out of Peek.js, please read through the following doc
 
 ### 1. Public Functions:
 
-To see a list of all the public functions available, click [here](docs/PUBLIC_FUNCTIONS.md).
+To see a list of all the public functions available, click [here](https://www.william-troup.com/peek-js/documentation/public-functions.html).
 
 
 ### 2. Configuration:
@@ -113,4 +115,4 @@ Configuration options allow you to customize how Peek.js will function.  You can
 </script>
 ```
 
-To see a list of all the available configuration options you can use, click [here](docs/configuration/OPTIONS.md).
+To see a list of all the available configuration options you can use, click [here](https://www.william-troup.com/peek-js/documentation/options.html).
